@@ -14,7 +14,7 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
 
 export function SiteHeader() {
 	return (
-		<header className="sticky top-0 z-40 border-b-2 border-ink bg-crust">
+		<header className="sticky top-0 z-40 bg-crust">
 			<div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 sm:h-16 sm:flex-nowrap sm:gap-10 sm:px-5 sm:py-0">
 				<NavLink
 					to="/"
@@ -47,9 +47,12 @@ export function SiteHeader() {
 					<ThemeToggle />
 				</span>
 			</div>
-			{/* The reading bar rides the header's bottom rule, so it moves with
-			    the two-row mobile header instead of crossing it. */}
-			<ScrollProgress className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[3px] bg-mauve" />
+			{/* The reading bar is the header's bottom rule: mauve behind you,
+			    ink ahead. It moves with the two-row mobile header instead of
+			    crossing it. */}
+			<div className="relative h-[2px] bg-ink">
+				<ScrollProgress className="pointer-events-none absolute inset-0 bg-mauve" />
+			</div>
 		</header>
 	);
 }

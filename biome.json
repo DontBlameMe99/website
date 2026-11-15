@@ -46,6 +46,16 @@
 					}
 				}
 			}
+		},
+		{
+			"includes": ["app/content/posts/**/*.tsx"],
+			"linter": {
+				"rules": {
+					"a11y": {
+						"noAmbiguousAnchorText": "off"
+					}
+				}
+			}
 		}
 	]
 }

@@ -2,7 +2,6 @@ import { ArrowLeftRight, Hand, Keyboard } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import { Chip, Panel, Range, Stat, Switch } from "~/components/post/kit";
-import type { PostExperience } from "~/lib/experiences";
 import { cn } from "~/lib/utils";
 
 const ACCENT = "var(--mauve)";
@@ -41,7 +40,7 @@ function Half({ side }: { side: "left" | "right" }) {
 	);
 }
 
-function Stance() {
+export function Stance() {
 	const reduced = useReducedMotion();
 	const [stance, setStance] = useState(78);
 	const [seen, setSeen] = useState(false);
@@ -234,7 +233,7 @@ function Plate({ x, side }: { x: number; side: "left" | "right" }) {
 	);
 }
 
-function MoonlanderFigure() {
+export function MoonlanderFigure() {
 	const reduced = useReducedMotion();
 	const [activeId, setActiveId] = useState(HOTSPOTS[0].id);
 	const active =
@@ -385,7 +384,7 @@ const RAISE_KEYCAPS = [
 	")",
 ];
 
-function LayersFigure() {
+export function LayersFigure() {
 	const reduced = useReducedMotion();
 
 	return (
@@ -557,7 +556,7 @@ function Posture({ relax, reduced }: { relax: number; reduced: boolean }) {
 	);
 }
 
-function AdaptationFigure() {
+export function AdaptationFigure() {
 	const reduced = useReducedMotion();
 	const [hours, setHours] = useState(3);
 	const [seen, setSeen] = useState(false);
@@ -627,14 +626,3 @@ function AdaptationFigure() {
 		</Panel>
 	);
 }
-
-const experience: PostExperience = {
-	hero: Stance,
-	visuals: {
-		"the-zsa-moonlander": MoonlanderFigure,
-		"learning-experience": LayersFigure,
-		"time-taken-to-learn": AdaptationFigure,
-	},
-};
-
-export default experience;

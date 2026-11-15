@@ -28,7 +28,6 @@ import {
 	Panel,
 	Range,
 } from "~/components/post/kit";
-import type { PostExperience } from "~/lib/experiences";
 import { cn } from "~/lib/utils";
 
 /* Four figures for the backups post. Each one owns its state and never touches
@@ -146,7 +145,7 @@ const SORTER: SortItem[] = [
 	},
 ];
 
-function BackupSorter() {
+export function BackupSorter() {
 	const reduced = useReducedMotion();
 	const [at, setAt] = useState(0);
 	const [pick, setPick] = useState<boolean | null>(null);
@@ -334,7 +333,7 @@ const copyHint = (kind: CopyKind) =>
 const copyAccent = (kind: CopyKind) =>
 	kind === "live" ? MAUVE : kind === "local" ? TEAL : BLUE;
 
-function ThreeTwoOne() {
+export function ThreeTwoOne() {
 	const reduced = useReducedMotion();
 	const [total, setTotal] = useState(3);
 	const [local, setLocalCount] = useState(2);
@@ -581,7 +580,7 @@ const REPOS: {
 	{ name: "cloud box", icon: Cloud, chip: "remote location", accent: MAUVE },
 ];
 
-function RetentionBoard() {
+export function RetentionBoard() {
 	return (
 		<Panel
 			title="borgmatic --list"
@@ -670,7 +669,7 @@ const CHAIN: ChainLink[] = [
 	},
 ];
 
-function RecoveryChain() {
+export function RecoveryChain() {
 	const reduced = useReducedMotion();
 	const [broken, setBroken] = useState<string[]>([]);
 
@@ -794,14 +793,3 @@ function RecoveryChain() {
 		</Panel>
 	);
 }
-
-const experience: PostExperience = {
-	visuals: {
-		"what-are-backups": BackupSorter,
-		"3-2-1-rule": ThreeTwoOne,
-		"my-new-setup": RetentionBoard,
-		"is-the-remote-backup-encrypted-though": RecoveryChain,
-	},
-};
-
-export default experience;

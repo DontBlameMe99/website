@@ -2,7 +2,6 @@ import { FileText, Folder, Waypoints } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import { Chip, Panel, Range, Stat, Switch } from "~/components/post/kit";
-import type { PostExperience } from "~/lib/experiences";
 import { cn } from "~/lib/utils";
 
 /* Figures for the Logseq post. The article keeps its own prose: every number
@@ -63,7 +62,7 @@ const PROBLEMS: Problem[] = [
 	},
 ];
 
-function ProblemsFigure() {
+export function ProblemsFigure() {
 	const reduced = useReducedMotion();
 
 	return (
@@ -157,7 +156,7 @@ function degree(id: string) {
 	);
 }
 
-function GraphFigure() {
+export function GraphFigure() {
 	const reduced = useReducedMotion();
 	const [hovered, setHovered] = useState<string | null>(null);
 
@@ -306,7 +305,7 @@ const FILE_NAMES = [
 	"inbox",
 ];
 
-function FilesFigure() {
+export function FilesFigure() {
 	const reduced = useReducedMotion();
 	const [notes, setNotes] = useState(412);
 	const shown = Math.min(notes, 24);
@@ -403,13 +402,3 @@ function FilesFigure() {
 		</figure>
 	);
 }
-
-const experience: PostExperience = {
-	visuals: {
-		"problems-of-logseq": ProblemsFigure,
-		"how-does-your-graph-look": GraphFigure,
-		"how-many-files-do-you-have-now": FilesFigure,
-	},
-};
-
-export default experience;

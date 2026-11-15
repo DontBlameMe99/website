@@ -1,5 +1,5 @@
 import type { Config } from "@react-router/dev/config";
-import { posts } from "./app/lib/posts";
+import { postSlugs } from "./app/content/posts/slugs";
 
 export default {
 	ssr: false,
@@ -10,7 +10,7 @@ export default {
 			"/projects",
 			"/contact",
 			"/404",
-			...posts.map((post) => `/blog/${post.slug}`),
+			...postSlugs.map((slug) => `/blog/${slug}`),
 		];
 	},
 } satisfies Config;

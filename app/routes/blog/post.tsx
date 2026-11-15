@@ -1,9 +1,7 @@
 import { ArrowLeft, ArrowRight, Clock, Hash } from "lucide-react";
 import { Link, useParams } from "react-router";
-import { Article } from "~/components/post/article";
 import { Tile } from "~/components/wm/tile";
 import { useActiveHeading } from "~/hooks/use_active_heading";
-import { getExperience } from "~/lib/experiences";
 import { accentVar, formatDate, getPost, neighbours } from "~/lib/posts";
 import { seo } from "~/lib/seo";
 import { cn } from "~/lib/utils";
@@ -26,17 +24,20 @@ function PostNav({
 	next?: { slug: string; title: string };
 }) {
 	return (
-		<div className="mt-8 grid gap-2 border-t border-border pt-4 sm:grid-cols-2">
+		<nav
+			aria-label="More posts"
+			className="mt-10 grid gap-2 border-t border-border pt-4 sm:grid-cols-2"
+		>
 			{previous ? (
 				<Link
 					to={`/blog/${previous.slug}`}
-					className="group flex flex-col gap-0.5 rounded-[2px] border border-border p-2 transition-colors hover:border-mauve/40"
+					className="group flex flex-col gap-1 rounded-[2px] border border-border p-2.5 transition-colors hover:border-mauve/40"
 				>
 					<span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.16em] text-overlay1">
 						<ArrowLeft className="size-3 transition-transform group-hover:-translate-x-0.5" />
 						older
 					</span>
-					<span className="text-xs text-text group-hover:text-mauve">
+					<span className="text-xs leading-snug text-text group-hover:text-mauve">
 						{previous.title}
 					</span>
 				</Link>
@@ -46,18 +47,18 @@ function PostNav({
 			{next ? (
 				<Link
 					to={`/blog/${next.slug}`}
-					className="group flex flex-col items-end gap-0.5 rounded-[2px] border border-border p-2 text-right transition-colors hover:border-mauve/40"
+					className="group flex flex-col items-end gap-1 rounded-[2px] border border-border p-2.5 text-right transition-colors hover:border-mauve/40"
 				>
 					<span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.16em] text-overlay1">
 						newer
 						<ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
 					</span>
-					<span className="text-xs text-text group-hover:text-mauve">
+					<span className="text-xs leading-snug text-text group-hover:text-mauve">
 						{next.title}
 					</span>
 				</Link>
 			) : null}
-		</div>
+		</nav>
 	);
 }
 
@@ -67,13 +68,12 @@ export default function PostPage() {
 
 	if (!post) return <NotFound status={404} />;
 
-	const experience = getExperience(post.slug);
-	const Hero = experience?.hero;
+	const PostBody = post.Component;
 	const { previous, next } = neighbours(post.slug);
-	const active = useActiveHeading(post.headings.map((heading) => heading.id));
+	const active = useActiveHeading(post.sections.map((section) => section.id));
 
 	return (
-		<div className="grid items-start gap-2 lg:grid-cols-[minmax(0,1fr)_17rem]">
+		<div className="grid items-start gap-2 lg:grid-cols-[minmax(0,1fr)_16rem]">
 			<Tile
 				title={`~/blog/${post.slug}`}
 				label={post.title}
@@ -81,7 +81,7 @@ export default function PostPage() {
 				progress
 				aside={`${post.minutes} min`}
 			>
-				<article className="min-w-0 px-4 py-5 sm:px-6">
+				<article className="min-w-0 px-4 py-6 sm:px-7">
 					<Link
 						to="/blog"
 						className="inline-flex items-center gap-1.5 text-[11px] text-overlay1 transition-colors hover:text-mauve"
@@ -99,14 +99,12 @@ export default function PostPage() {
 							</span>
 							<span>{post.words} words</span>
 						</div>
-						<h1 className="mt-2 text-fluid-3xl leading-[1.15] text-mauve">
+						<h1 className="mt-2 max-w-[24ch] text-fluid-3xl text-mauve">
 							{post.title}
 						</h1>
-						{post.summary ? (
-							<p className="mt-3 max-w-prose border-l-2 border-post-accent pl-3 text-fluid-sm italic leading-relaxed text-subtext0">
-								{post.summary}
-							</p>
-						) : null}
+						<p className="mt-3 max-w-prose border-l-2 border-post-accent pl-3 text-fluid-sm leading-relaxed text-subtext0">
+							{post.summary}
+						</p>
 						<div className="mt-3 flex flex-wrap gap-1.5">
 							{post.tags.map((tag) => (
 								<Link
@@ -121,14 +119,8 @@ export default function PostPage() {
 						</div>
 					</header>
 
-					{Hero ? (
-						<div className="mt-6">
-							<Hero />
-						</div>
-					) : null}
-
-					<div className="mt-6">
-						<Article post={post} experience={experience} />
+					<div className="mt-7">
+						<PostBody />
 					</div>
 
 					<PostNav previous={previous} next={next} />
@@ -146,19 +138,19 @@ export default function PostPage() {
 						className="max-h-[60vh] overflow-y-auto p-2"
 					>
 						<ul className="space-y-0.5">
-							{post.headings.map((heading) => (
-								<li key={heading.id}>
+							{post.sections.map((section) => (
+								<li key={section.id}>
 									<a
-										href={`#${heading.id}`}
+										href={`#${section.id}`}
 										className={cn(
 											"block border-l-2 py-0.5 pl-2 text-[11px] leading-relaxed transition-colors",
-											heading.level >= 3 && "pl-4 text-[10px]",
-											active === heading.id
+											section.level >= 3 && "pl-4 text-[10px]",
+											active === section.id
 												? "border-mauve text-text"
 												: "border-transparent text-overlay1 hover:text-subtext0",
 										)}
 									>
-										{heading.text}
+										{section.text}
 									</a>
 								</li>
 							))}

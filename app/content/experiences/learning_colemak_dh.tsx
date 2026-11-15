@@ -3,7 +3,6 @@ import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import { Chip, Panel, Range, Stat, Switch } from "~/components/post/kit";
 import { BlurFade } from "~/components/ui/blur_fade";
-import type { PostExperience } from "~/lib/experiences";
 import { cn } from "~/lib/utils";
 
 const ACCENT = "var(--post-accent)";
@@ -518,13 +517,3 @@ export function LearningCurve() {
 		</Panel>
 	);
 }
-
-const experience: PostExperience = {
-	hero: Hero,
-	visuals: {
-		"what-is-colemak-dh": LayoutFigure,
-		"how-was-the-learning-process": LearningCurve,
-	},
-};
-
-export default experience;

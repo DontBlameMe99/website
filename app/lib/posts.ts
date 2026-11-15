@@ -1,79 +1,22 @@
-import {
-	type Block,
-	type Frontmatter,
-	parseMarkdown,
-	plainText,
-	splitFrontmatter,
-} from "./markdown";
+import type { ComponentType } from "react";
+import { postModules } from "~/content/posts";
+import type { PostMeta, Section } from "./post_types";
 
-export type Post = Frontmatter & {
+export type Post = PostMeta & {
 	slug: string;
-	blocks: Block[];
-	headings: { id: string; text: string; level: number }[];
-	words: number;
-	minutes: number;
+	sections: Section[];
 	order: number;
+	Component: ComponentType;
 };
 
-const raw = import.meta.glob<string>("../content/posts/*.md", {
-	query: "?raw",
-	import: "default",
-	eager: true,
-});
-
-function build(path: string, source: string): Post {
-	const slug = path.split("/").pop()?.replace(/\.md$/, "") ?? path;
-	const { meta, body } = splitFrontmatter(source);
-	const blocks = parseMarkdown(body);
-	const headings = blocks
-		.filter(
-			(block): block is Extract<Block, { type: "heading" }> =>
-				block.type === "heading",
-		)
-		.map((block) => ({
-			id: block.id,
-			text: plainText(block.content),
-			level: block.level,
-		}));
-	const words = blocks.reduce((total, block) => {
-		if (block.type === "paragraph" || block.type === "quote") {
-			return (
-				total + plainText(block.content).split(/\s+/).filter(Boolean).length
-			);
-		}
-		if (block.type === "list") {
-			return (
-				total +
-				block.items.reduce(
-					(sum, item) =>
-						sum + plainText(item.content).split(/\s+/).filter(Boolean).length,
-					0,
-				)
-			);
-		}
-		return total;
-	}, 0);
-
-	return {
+export const posts: Post[] = Object.entries(postModules)
+	.map(([slug, module]) => ({
+		...module.meta,
 		slug,
-		title: meta.title ?? slug,
-		date: meta.date ?? "",
-		summary: meta.summary ?? "",
-		tags: (meta.tags ?? "")
-			.split(",")
-			.map((tag) => tag.trim())
-			.filter(Boolean),
-		accent: meta.accent ?? "mauve",
-		blocks,
-		headings,
-		words,
-		minutes: Math.max(1, Math.round(words / 220)),
-		order: Date.parse(meta.date ?? "") || 0,
-	};
-}
-
-export const posts: Post[] = Object.entries(raw)
-	.map(([path, source]) => build(path, source))
+		sections: module.sections,
+		order: Date.parse(module.meta.date) || 0,
+		Component: module.Component,
+	}))
 	.sort((a, b) => b.order - a.order);
 
 export const postSlugs = posts.map((post) => post.slug);

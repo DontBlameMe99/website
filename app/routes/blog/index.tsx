@@ -1,12 +1,12 @@
 import {
 	ArrowDownWideNarrow,
 	ArrowUpNarrowWide,
+	ArrowUpRight,
 	Search,
 	X,
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router";
-import { Stagger, StaggerItem } from "~/components/ui/blur_fade";
 import { Tile } from "~/components/wm/tile";
 import { allTags, formatDate, posts } from "~/lib/posts";
 import { seo } from "~/lib/seo";
@@ -40,7 +40,7 @@ export default function BlogIndex() {
 	}, [query, tag, newestFirst]);
 
 	return (
-		<div className="grid items-start gap-2 lg:grid-cols-[17rem_minmax(0,1fr)]">
+		<div className="grid items-start gap-2 lg:grid-cols-[15rem_minmax(0,1fr)]">
 			<Tile
 				title="~/blog/filters"
 				label="filters"
@@ -56,7 +56,7 @@ export default function BlogIndex() {
 							onChange={(event) => setQuery(event.target.value)}
 							placeholder="grep the blog"
 							aria-label="Search posts"
-							className="w-full rounded-[2px] border border-border bg-crust px-2 py-1.5 pl-7 pr-7 text-xs text-text placeholder:text-overlay0 focus:border-mauve/50 focus:outline-none"
+							className="w-full rounded-[2px] border border-border bg-crust px-2 py-1.5 pl-7 pr-7 text-xs text-text placeholder:text-overlay0 focus:border-mauve/60 focus:outline-none"
 						/>
 						{query ? (
 							<button
@@ -70,18 +70,23 @@ export default function BlogIndex() {
 						) : null}
 					</label>
 
-					<button
-						type="button"
-						onClick={() => setNewestFirst((value) => !value)}
-						className="inline-flex w-full items-center justify-center gap-1.5 rounded-[2px] border border-border px-2 py-1.5 text-[11px] text-subtext0 transition-colors hover:border-mauve/40 hover:text-mauve"
-					>
-						{newestFirst ? (
-							<ArrowDownWideNarrow className="size-3.5" />
-						) : (
-							<ArrowUpNarrowWide className="size-3.5" />
-						)}
-						{newestFirst ? "newest first" : "oldest first"}
-					</button>
+					<div className="flex items-center justify-between text-[10px] text-overlay1">
+						<span>
+							{filtered.length} of {posts.length}
+						</span>
+						<button
+							type="button"
+							onClick={() => setNewestFirst((value) => !value)}
+							className="inline-flex items-center gap-1 rounded-[2px] px-1 py-0.5 transition-colors hover:bg-surface0 hover:text-text"
+						>
+							{newestFirst ? (
+								<ArrowDownWideNarrow className="size-3" />
+							) : (
+								<ArrowUpNarrowWide className="size-3" />
+							)}
+							{newestFirst ? "newest" : "oldest"}
+						</button>
+					</div>
 
 					<div className="flex flex-wrap gap-1 border-t border-border pt-3">
 						<button
@@ -119,51 +124,48 @@ export default function BlogIndex() {
 				title="~/blog"
 				label={`blog — ${posts.length} posts`}
 				accent="var(--teal)"
-				aside={`${filtered.length} shown`}
 			>
 				{filtered.length ? (
-					<Stagger step={0.03}>
-						<ul className="divide-y divide-border">
-							{filtered.map((post) => (
-								<StaggerItem key={post.slug}>
-									<Link
-										to={`/blog/${post.slug}`}
-										className="group flex items-start gap-3 px-3 py-3 transition-colors hover:bg-surface0/25"
-									>
-										<span
-											aria-hidden="true"
-											className="mt-2 size-1.5 shrink-0 rounded-full"
-											style={{
-												background: `var(--${post.accent}, var(--mauve))`,
-											}}
-										/>
-										<span className="min-w-0 flex-1">
-											<span className="block text-sm font-semibold leading-snug text-text transition-colors group-hover:text-mauve">
-												{post.title}
-											</span>
-											<span className="mt-1 block text-xs leading-relaxed text-overlay1">
-												{post.summary}
-											</span>
-											<span className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] text-overlay0">
-												{post.tags.map((value) => (
-													<span key={value}>#{value}</span>
-												))}
-												<span>·</span>
-												<span>{post.words} words</span>
-											</span>
+					<ul className="grid gap-2 p-3 sm:grid-cols-2">
+						{filtered.map((post) => (
+							<li key={post.slug} className="flex">
+								<Link
+									to={`/blog/${post.slug}`}
+									style={
+										{
+											"--post-accent": `var(--${post.accent}, var(--mauve))`,
+										} as React.CSSProperties
+									}
+									className="group flex w-full flex-col gap-3 rounded-[2px] border border-border bg-base/40 p-3.5 transition-colors hover:border-[color-mix(in_srgb,var(--post-accent)_50%,transparent)] hover:bg-surface0/20 focus-visible:border-[color-mix(in_srgb,var(--post-accent)_60%,transparent)]"
+								>
+									<div className="flex items-center justify-between text-[10px] text-overlay1">
+										<time dateTime={post.date}>{formatDate(post.date)}</time>
+										<span>{post.minutes} min read</span>
+									</div>
+
+									<h2 className="text-[15px] font-semibold leading-snug text-text transition-colors group-hover:text-post-accent">
+										{post.title}
+									</h2>
+
+									<p className="line-clamp-3 text-xs leading-relaxed text-overlay1">
+										{post.summary}
+									</p>
+
+									<div className="mt-auto flex items-center justify-between gap-2 border-t border-border/70 pt-2.5">
+										<span className="flex flex-wrap gap-x-2 gap-y-0.5 text-[10px] text-overlay0">
+											{post.tags.map((value) => (
+												<span key={value}>#{value}</span>
+											))}
 										</span>
-										<span className="flex shrink-0 flex-col items-end gap-1 text-[10px] text-overlay1">
-											<time dateTime={post.date}>{formatDate(post.date)}</time>
-											<span>{post.minutes} min</span>
-										</span>
-									</Link>
-								</StaggerItem>
-							))}
-						</ul>
-					</Stagger>
+										<ArrowUpRight className="size-3.5 shrink-0 text-overlay1 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-post-accent" />
+									</div>
+								</Link>
+							</li>
+						))}
+					</ul>
 				) : (
 					<div className="grid place-items-center gap-2 px-6 py-16 text-center">
-						<p className="text-xs text-subtext0">no posts match that.</p>
+						<p className="text-xs text-subtext0">No posts match that.</p>
 						<button
 							type="button"
 							onClick={() => {
@@ -172,14 +174,10 @@ export default function BlogIndex() {
 							}}
 							className="text-[11px] text-mauve underline underline-offset-4"
 						>
-							reset the filter
+							Reset the filter
 						</button>
 					</div>
 				)}
-				<div className="border-t border-border px-3 py-1.5 text-[10px] text-overlay1">
-					{posts.length} posts, {allTags.length} tags. The text is the author's,
-					the figures are extra.
-				</div>
 			</Tile>
 		</div>
 	);

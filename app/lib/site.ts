@@ -5,13 +5,6 @@ export const SITE = {
 	url: "https://dontblameme.dev",
 	description:
 		"Personal site and blog of DontBlameMe: self-taught developer writing about privacy, Linux, NixOS, note taking and whatever else survives the tinkering.",
-	roles: [
-		"self-taught developer",
-		"privacy enjoyer",
-		"nixos ricing victim",
-		"typst maximalist",
-		"keyboard nerd",
-	],
 };
 
 export const SOCIALS = [

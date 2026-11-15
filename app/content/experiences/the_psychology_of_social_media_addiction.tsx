@@ -36,8 +36,6 @@ import {
 	Stat,
 	Switch,
 } from "~/components/post/kit";
-import type { PostExperience } from "~/lib/experiences";
-import { slugify } from "~/lib/markdown";
 
 /* A window chrome keeps the hero in the same family as the site's desktop
    surfaces, without borrowing the interactive Window (no document writes). */
@@ -123,7 +121,7 @@ const LOOP_SLOT = [
 	"col-start-1 row-start-3",
 ];
 
-function RewardLoop() {
+export function RewardLoop() {
 	const reduced = useReducedMotion();
 	const [active, setActive] = useState(0);
 	const step = LOOP_STEPS[active];
@@ -258,7 +256,7 @@ const REEL_COLORS = [
 	"var(--peach)",
 ];
 
-function SlotMachine() {
+export function SlotMachine() {
 	const reduced = useReducedMotion();
 	const [reels, setReels] = useState([1, 3, 0]);
 	const [spinning, setSpinning] = useState(false);
@@ -415,7 +413,7 @@ function formatHours(value: number) {
 	return minutes === 0 ? `${whole}h` : `${whole}h ${minutes}m`;
 }
 
-function DayInPhone() {
+export function DayInPhone() {
 	const reduced = useReducedMotion();
 	const [hours, setHours] = useState(6);
 	const left = 24 - hours;
@@ -531,7 +529,7 @@ const MINIMAL_APPS = [
 	{ name: "calendar", icon: <Calendar className="size-4" aria-hidden /> },
 ];
 
-function MinimalPhone() {
+export function MinimalPhone() {
 	const reduced = useReducedMotion();
 
 	return (
@@ -606,14 +604,3 @@ function MinimalPhone() {
 		</Switch>
 	);
 }
-
-const experience: PostExperience = {
-	hero: RewardLoop,
-	visuals: {
-		[slugify("But Why Is Social Media So Addictive?")]: SlotMachine,
-		[slugify("Personal Opinion: Wasted Time")]: DayInPhone,
-		[slugify("But What Can I Do About It?")]: MinimalPhone,
-	},
-};
-
-export default experience;

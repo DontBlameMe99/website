@@ -10,7 +10,6 @@ import {
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import { Chip, Panel, Range, Stat } from "~/components/post/kit";
-import type { PostExperience } from "~/lib/experiences";
 import { cn } from "~/lib/utils";
 
 /* Each figure owns its state and never touches the document, so the post still
@@ -34,7 +33,7 @@ function WindowDots() {
 
 const HOURS_PER_YEAR = 365;
 
-function HourAccumulator() {
+export function HourAccumulator() {
 	const [minutes, setMinutes] = useState(60);
 	const reduced = useReducedMotion();
 	const hours = Math.round((minutes * HOURS_PER_YEAR) / 60);
@@ -174,7 +173,7 @@ function samplePath(
 	return points.join(" ");
 }
 
-function SpacedRepetitionCurve() {
+function _SpacedRepetitionCurve() {
 	const [completed, setCompleted] = useState(0);
 	const reduced = useReducedMotion();
 	const tail = tailWindow(completed);
@@ -326,7 +325,7 @@ const MOMENTUM = [
 	"full momentum",
 ];
 
-function MomentumTracker() {
+export function MomentumTracker() {
 	const [on, setOn] = useState<Record<string, boolean>>({});
 	const reduced = useReducedMotion();
 	const count = TIPS.filter((tip) => on[tip.id]).length;
@@ -423,13 +422,3 @@ function MomentumTracker() {
 		</Panel>
 	);
 }
-
-const experience: PostExperience = {
-	visuals: {
-		"how-much-time-do-i-need-to-learn-new-things": HourAccumulator,
-		anki: SpacedRepetitionCurve,
-		"how-to-stay-motivated": MomentumTracker,
-	},
-};
-
-export default experience;

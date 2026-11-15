@@ -8,7 +8,6 @@ import {
 import type { CSSProperties, ReactNode } from "react";
 import { useEffect, useId, useRef, useState } from "react";
 import { Bars, Chip, Panel, Stat, Tabs } from "~/components/post/kit";
-import type { PostExperience } from "~/lib/experiences";
 import { cn } from "~/lib/utils";
 
 const MAUVE = "var(--mauve)";
@@ -166,7 +165,7 @@ function TypstPane() {
 	);
 }
 
-function HeroWindow() {
+export function HeroWindow() {
 	const [active, setActive] = useState(0);
 	const reduced = useReducedMotion();
 	const id = useId();
@@ -346,7 +345,7 @@ const NOTE_TABS = [
 	},
 ];
 
-function NoteSyntaxSwitcher() {
+export function NoteSyntaxSwitcher() {
 	return (
 		<div className="not-prose">
 			<Tabs tabs={NOTE_TABS} />
@@ -361,7 +360,7 @@ function NoteSyntaxSwitcher() {
 	);
 }
 
-function CompileSketch() {
+function _CompileSketch() {
 	return (
 		<Panel
 			title="compile · sketch"
@@ -471,7 +470,7 @@ function ChordRow({
 	);
 }
 
-function KeyCheatStrip() {
+export function KeyCheatStrip() {
 	const reduced = useReducedMotion();
 	const [step, setStep] = useState(0);
 	const ref = useRef<HTMLDivElement>(null);
@@ -511,14 +510,3 @@ function KeyCheatStrip() {
 		</div>
 	);
 }
-
-const experience: PostExperience = {
-	hero: HeroWindow,
-	visuals: {
-		"inconsistent-syntax": NoteSyntaxSwitcher,
-		speed: CompileSketch,
-		"neovim-configuration": KeyCheatStrip,
-	},
-};
-
-export default experience;

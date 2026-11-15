@@ -1,113 +1,66 @@
 import { describe, expect, test } from "bun:test";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import {
-	parseInline,
-	parseMarkdown,
-	plainText,
-	slugify,
-	splitFrontmatter,
-} from "../lib/markdown";
+import { postModules } from "../content/posts";
+import { postSlugs } from "../content/posts/slugs";
+import { slugify } from "../lib/slug";
 
 const dir = join(import.meta.dir, "../content/posts");
-const files = readdirSync(dir).filter((file) => file.endsWith(".md"));
-const posts = files.map((file) => {
-	const { meta, body } = splitFrontmatter(
-		readFileSync(join(dir, file), "utf8"),
-	);
-	return {
-		slug: file.replace(/\.md$/, ""),
-		meta,
-		blocks: parseMarkdown(body),
-	};
-});
+const files = readdirSync(dir).filter((file) => file.endsWith(".tsx"));
 
-describe("markdown", () => {
-	test("parses headings with stable ids", () => {
-		const blocks = parseMarkdown("## What Is This?\n\n### Second Step");
-		expect(blocks).toHaveLength(2);
-		expect(blocks[0]).toMatchObject({
-			type: "heading",
-			level: 2,
-			id: "what-is-this",
-		});
-		expect(blocks[1]).toMatchObject({
-			type: "heading",
-			level: 3,
-			id: "second-step",
-		});
-	});
-
-	test("keeps fenced code untouched", () => {
-		const blocks = parseMarkdown(
-			"```nix\n# not a heading\nprograms.foo = true;\n```",
-		);
-		expect(blocks[0]).toMatchObject({
-			type: "code",
-			lang: "nix",
-			code: "# not a heading\nprograms.foo = true;",
-		});
-	});
-
-	test("splits inline marks", () => {
-		const nodes = parseInline(
-			"a **bold** and *em* and `code` and [link](https://x.dev)",
-		);
-		expect(nodes.map((node) => node.type)).toEqual([
-			"text",
-			"strong",
-			"text",
-			"em",
-			"text",
-			"code",
-			"text",
-			"link",
-		]);
-		expect(plainText(nodes)).toContain("link");
-	});
-
-	test("heading ids survive links and code spans", () => {
-		const heading = parseInline(
-			"What Is [Borgmatic](https://torsion.org/borgmatic/)?",
-		);
-		expect(slugify(plainText(heading))).toBe("what-is-borgmatic");
-	});
-});
-
-describe("content", () => {
-	test("every post has metadata and renderable blocks", () => {
-		expect(posts.length).toBe(12);
-		for (const post of posts) {
-			expect(post.meta.title?.length ?? 0).toBeGreaterThan(0);
-			expect(post.meta.date ?? "").toMatch(/^\d{4}-\d{2}-\d{2}$/);
-			expect((post.meta.summary ?? "").length).toBeGreaterThan(20);
-			expect((post.meta.tags ?? "").length).toBeGreaterThan(0);
-			expect(post.blocks.length).toBeGreaterThan(5);
+describe("post registry", () => {
+	test("every post has metadata and sections", () => {
+		expect(Object.keys(postModules).length).toBe(12);
+		for (const [slug, module] of Object.entries(postModules)) {
+			expect(slug).toMatch(/^[a-z0-9_]+$/);
+			expect(module.meta.title.length).toBeGreaterThan(0);
+			expect(module.meta.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+			expect(module.meta.summary.length).toBeGreaterThan(20);
+			expect(module.meta.tags.length).toBeGreaterThan(0);
+			expect(module.meta.words).toBeGreaterThan(200);
+			expect(module.meta.minutes).toBeGreaterThanOrEqual(1);
+			expect(module.sections.length).toBeGreaterThan(0);
+			expect(typeof module.Component).toBe("function");
 		}
 	});
 
-	test("no unconverted typst markup leaks into the prose", () => {
-		for (const post of posts) {
-			const text = JSON.stringify(post.blocks);
-			expect(text).not.toContain("#link(");
-			expect(text).not.toContain("#image(");
-			expect(text).not.toContain("#quote[");
-			expect(text).not.toContain("#frontmatter");
+	test("section ids are unique and stable", () => {
+		for (const module of Object.values(postModules)) {
+			const ids = module.sections.map((section) => section.id);
+			expect(new Set(ids).size).toBe(ids.length);
+			for (const section of module.sections) {
+				expect(section.id).toBe(slugify(section.id));
+				expect([2, 3, 4]).toContain(section.level);
+			}
 		}
 	});
 
-	test("post images exist on disk", () => {
-		const sources = posts.flatMap((post) =>
-			post.blocks.flatMap((block) => {
-				if (block.type === "image") return [block.src];
-				if (block.type === "paragraph") {
-					return block.content
-						.filter((node) => node.type === "image")
-						.map((node) => node.src);
-				}
-				return [];
-			}),
-		);
+	test("the pretender list and the registry agree", () => {
+		expect([...postSlugs].sort()).toEqual(Object.keys(postModules).sort());
+	});
+});
+
+describe("post sources", () => {
+	test("posts are React components, not markdown", () => {
+		expect(files.length).toBe(12);
+		for (const file of files) {
+			const source = readFileSync(join(dir, file), "utf8");
+			expect(source).toContain("export default function Post()");
+			expect(source).toContain("export const meta =");
+			expect(source).toContain("export const sections");
+			expect(source).not.toMatch(/^#{1,4} /m);
+			expect(source).not.toContain("#link(");
+			expect(source).not.toContain("#image(");
+			expect(source).not.toContain("window-shadow");
+		}
+	});
+
+	test("local images point at files that exist", () => {
+		const sources = files
+			.map((file) => readFileSync(join(dir, file), "utf8"))
+			.flatMap((source) =>
+				[...source.matchAll(/src="(\/posts\/[^"]+)"/g)].map((m) => m[1]),
+			);
 		expect(sources.length).toBeGreaterThan(0);
 		for (const src of sources) {
 			const file = Bun.file(

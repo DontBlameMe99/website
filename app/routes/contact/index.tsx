@@ -1,7 +1,6 @@
 import { ArrowUpRight, Copy, Mail, MessagesSquare } from "lucide-react";
 import { useState } from "react";
 import { socialIcon } from "~/components/shared/social_icons";
-import { Stagger, StaggerItem } from "~/components/ui/blur_fade";
 import { Tile } from "~/components/wm/tile";
 import { seo } from "~/lib/seo";
 import { CONTACT, SOCIALS } from "~/lib/site";
@@ -88,34 +87,30 @@ export default function ContactPage() {
 			</div>
 
 			<Tile title="~/elsewhere" label="elsewhere" accent="var(--blue)">
-				<Stagger>
-					<ul className="divide-y divide-border">
-						{ELSEWHERE.map((social) => {
-							const Icon = socialIcon(social.icon);
-							return (
-								<StaggerItem key={social.label}>
-									<a
-										href={social.href}
-										target="_blank"
-										rel="noopener noreferrer"
-										className="group flex items-center gap-3 px-3 py-2 transition-colors hover:bg-surface0/25"
-									>
-										<Icon className="size-3.5 text-overlay1 transition-colors group-hover:text-mauve" />
-										<span className="text-xs text-subtext0 group-hover:text-text">
-											{social.label}
-										</span>
-										<span className="ml-auto truncate text-[10px] text-overlay0">
-											{social.href
-												.replace(/^https?:\/\//, "")
-												.replace(/\/$/, "")}
-										</span>
-										<ArrowUpRight className="size-3.5 shrink-0 text-overlay1 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-mauve" />
-									</a>
-								</StaggerItem>
-							);
-						})}
-					</ul>
-				</Stagger>
+				<ul className="divide-y divide-border">
+					{ELSEWHERE.map((social) => {
+						const Icon = socialIcon(social.icon);
+						return (
+							<li key={social.label}>
+								<a
+									href={social.href}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="group flex items-center gap-3 px-3 py-2 transition-colors hover:bg-surface0/25"
+								>
+									<Icon className="size-3.5 text-overlay1 transition-colors group-hover:text-mauve" />
+									<span className="text-xs text-subtext0 group-hover:text-text">
+										{social.label}
+									</span>
+									<span className="ml-auto truncate text-[10px] text-overlay0">
+										{social.href.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+									</span>
+									<ArrowUpRight className="size-3.5 shrink-0 text-overlay1 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-mauve" />
+								</a>
+							</li>
+						);
+					})}
+				</ul>
 			</Tile>
 		</div>
 	);

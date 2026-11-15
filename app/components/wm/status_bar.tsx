@@ -1,5 +1,4 @@
 import { Wifi } from "lucide-react";
-import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { Logo } from "~/components/wm/logo";
@@ -36,7 +35,7 @@ export function StatusBar() {
 	const { workspace, title } = describePath(location.pathname);
 
 	return (
-		<header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-mantle/95 backdrop-blur-sm">
+		<header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-mantle">
 			<div className="mx-auto flex h-8 max-w-[1800px] items-center gap-2 px-2">
 				<Link
 					to="/"
@@ -61,7 +60,7 @@ export function StatusBar() {
 								aria-current={active ? "page" : undefined}
 								title={`${item.label} (alt+${item.index})`}
 								className={cn(
-									"relative flex items-center gap-1.5 rounded-[2px] border px-1.5 py-0.5 text-[11px] leading-4 transition-colors",
+									"relative flex min-w-7 items-center justify-center gap-1.5 rounded-[2px] border px-1.5 py-1 text-[11px] leading-4 transition-colors sm:min-w-0 sm:py-0.5",
 									active
 										? "border-mauve/45 bg-surface0 text-text"
 										: "border-transparent text-overlay1 hover:bg-surface0/60 hover:text-text",
@@ -91,14 +90,10 @@ export function StatusBar() {
 					<span className="hidden text-[10px] uppercase tracking-[0.12em] text-overlay0 sm:inline">
 						{posts.length} posts
 					</span>
-					<motion.span
+					<Wifi
 						aria-hidden="true"
-						className="hidden text-green sm:block"
-						animate={{ opacity: [1, 0.35, 1] }}
-						transition={{ duration: 2.4, repeat: Number.POSITIVE_INFINITY }}
-					>
-						<Wifi className="size-3" />
-					</motion.span>
+						className="hidden size-3 text-overlay1 sm:block"
+					/>
 					<Clock />
 					<ThemeToggle />
 				</div>

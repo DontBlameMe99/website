@@ -19,7 +19,6 @@ import {
 	Stat,
 	Switch,
 } from "~/components/post/kit";
-import type { PostExperience } from "~/lib/experiences";
 import { cn } from "~/lib/utils";
 
 /* Figure 1: a boot menu you can click. */
@@ -42,7 +41,7 @@ const GENERATIONS = [
 	},
 ];
 
-function GenerationHero() {
+export function GenerationHero() {
 	const reduced = useReducedMotion();
 	const [active, setActive] = useState(0);
 
@@ -256,7 +255,7 @@ function ConfigFile({ on }: { on: boolean }) {
 	);
 }
 
-function ConfigDiff() {
+export function ConfigDiff() {
 	return (
 		<>
 			<Switch on="obs-studio enabled" off="obs-studio off" initial={false}>
@@ -308,7 +307,7 @@ const VERDICT: Record<number, string> = {
 	5: "All five match. The next step is a test install, not a wipe.",
 };
 
-function FitScoreboard() {
+export function FitScoreboard() {
 	const reduced = useReducedMotion();
 	const [picked, setPicked] = useState<Record<string, boolean>>({});
 	const count = CLAIMS.filter((claim) => picked[claim.id]).length;
@@ -461,21 +460,10 @@ function SpiralChart({ spiral }: { spiral: boolean }) {
 	);
 }
 
-function RiceSpiral() {
+export function RiceSpiral() {
 	return (
 		<Switch on="spiral: on" off="spiral: off" initial={false}>
 			{(spiral) => <SpiralChart spiral={spiral} />}
 		</Switch>
 	);
 }
-
-const experience: PostExperience = {
-	hero: GenerationHero,
-	visuals: {
-		"what-even-is-nixos": ConfigDiff,
-		"why-should-i-care": FitScoreboard,
-		"danger-of-seeking-perfection": RiceSpiral,
-	},
-};
-
-export default experience;

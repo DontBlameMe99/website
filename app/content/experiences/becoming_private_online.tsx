@@ -25,7 +25,6 @@ import {
 	Switch,
 	Tabs,
 } from "~/components/post/kit";
-import type { PostExperience } from "~/lib/experiences";
 import { cn } from "~/lib/utils";
 
 /* Interactive figures for "Becoming private online". Every label below is
@@ -80,7 +79,7 @@ const STEPS: { label: string; moves: string[] }[] = [
 	},
 ];
 
-function PrivacyMeter() {
+export function PrivacyMeter() {
 	const reduced = useReducedMotion();
 	const [taken, setTaken] = useState(0);
 	const next = STEPS[taken];
@@ -211,7 +210,7 @@ const FIRST_STEPS: { label: string; icon: LucideIcon }[] = [
 	{ label: "Be Careful with VPNs", icon: ServerOff },
 ];
 
-function FirstStepsChecklist() {
+export function FirstStepsChecklist() {
 	const reduced = useReducedMotion();
 	const [ticked, setTicked] = useState<string[]>([]);
 	const total = FIRST_STEPS.length;
@@ -322,7 +321,7 @@ function FirstStepsChecklist() {
 
 const SITES = ["site 01", "site 02", "site 03", "site 04", "site 05"];
 
-function IdentitySplit() {
+export function IdentitySplit() {
 	const reduced = useReducedMotion();
 
 	return (
@@ -461,7 +460,7 @@ function Exposure({ flagged }: { flagged: boolean }) {
 	);
 }
 
-function NothingToHide() {
+export function NothingToHide() {
 	return (
 		<div>
 			<Tabs
@@ -485,14 +484,3 @@ function NothingToHide() {
 		</div>
 	);
 }
-
-const experience: PostExperience = {
-	hero: PrivacyMeter,
-	visuals: {
-		"first-steps": FirstStepsChecklist,
-		"don-t-create-an-account-on-every-website": IdentitySplit,
-	},
-	outro: NothingToHide,
-};
-
-export default experience;

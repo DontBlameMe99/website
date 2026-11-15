@@ -21,7 +21,7 @@ export function KeyBar() {
 	const codeberg = SOCIALS[0];
 
 	return (
-		<footer className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-mantle/95 backdrop-blur-sm">
+		<footer className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-mantle">
 			<div className="mx-auto flex h-7 max-w-[1800px] items-center gap-3 px-2">
 				<div className="flex items-center gap-2 overflow-hidden">
 					<span className="hidden items-center gap-1.5 sm:flex">

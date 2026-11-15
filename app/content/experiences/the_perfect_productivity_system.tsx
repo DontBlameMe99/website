@@ -10,7 +10,6 @@ import {
 	Stat,
 	Tabs,
 } from "~/components/post/kit";
-import type { PostExperience } from "~/lib/experiences";
 import { cn } from "~/lib/utils";
 
 /* Three little tiled panes and one test harness, all built from the post's
@@ -67,7 +66,7 @@ const LINKS = [
 	"M109 120 V86 M105 90 L109 84 L113 90",
 ] as const;
 
-function SystemFlow() {
+export function SystemFlow() {
 	const reduced = useReducedMotion();
 	const [hovered, setHovered] = useState<number | null>(null);
 
@@ -235,7 +234,7 @@ const APP_ACCENTS = [
 	"var(--red)",
 ];
 
-function ToolChurn() {
+export function ToolChurn() {
 	const reduced = useReducedMotion();
 	const [count, setCount] = useState(1);
 	const tuned = 20 + (count - 1) * 2;
@@ -367,7 +366,7 @@ const DAY = [
 const DAY_START = 6;
 const DAY_END = 23;
 
-function DayStrip() {
+export function DayStrip() {
 	const reduced = useReducedMotion();
 	const [hour, setHour] = useState(7);
 	const index = hour < 9 ? 0 : hour < 19 ? 1 : hour < 22 ? 2 : 3;
@@ -569,7 +568,7 @@ const TEST_TABS = [
 	},
 ];
 
-function WeekTest() {
+export function WeekTest() {
 	return (
 		<>
 			<div className="not-prose mt-5 flex flex-wrap items-center gap-2">
@@ -582,14 +581,3 @@ function WeekTest() {
 		</>
 	);
 }
-
-const experience: PostExperience = {
-	hero: SystemFlow,
-	visuals: {
-		"the-productivity-system-treadmill": ToolChurn,
-		"what-do-you-need": DayStrip,
-		"but-when-do-i-actually-need-a-new-setup-plugin": WeekTest,
-	},
-};
-
-export default experience;

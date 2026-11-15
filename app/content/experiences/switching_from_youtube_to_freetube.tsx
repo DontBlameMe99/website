@@ -16,7 +16,6 @@ import {
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useId, useState } from "react";
 import { Callout, Chip, Panel, Stat, Switch } from "~/components/post/kit";
-import type { PostExperience } from "~/lib/experiences";
 import { cn } from "~/lib/utils";
 
 const MAUVE = "var(--mauve)";
@@ -44,7 +43,7 @@ const BEACONS = [
 
 const RAILS = ["up next", "for you", "trending"];
 
-function VideoPageMockup() {
+export function VideoPageMockup() {
 	const id = useId();
 	const reduced = useReducedMotion();
 	const [free, setFree] = useState(false);
@@ -330,7 +329,7 @@ const DESTINATIONS = [
 	{ label: "ads", note: "partners" },
 ];
 
-function WhatFollowsYou() {
+export function WhatFollowsYou() {
 	const reduced = useReducedMotion();
 
 	return (
@@ -457,7 +456,7 @@ const MIGRATION = [
 	},
 ];
 
-function MigrationChecklist() {
+export function MigrationChecklist() {
 	const reduced = useReducedMotion();
 	const [ticked, setTicked] = useState<Record<string, boolean>>({});
 	const done = MIGRATION.filter((item) => ticked[item.id]).length;
@@ -677,7 +676,7 @@ function VideoFrame() {
 	);
 }
 
-function ThumbnailPreference() {
+export function ThumbnailPreference() {
 	return (
 		<Switch on="frame thumbnails" off="clickbait thumbnails">
 			{(frames) => (
@@ -712,14 +711,3 @@ function ThumbnailPreference() {
 		</Switch>
 	);
 }
-
-const experience: PostExperience = {
-	hero: VideoPageMockup,
-	visuals: {
-		"why-would-you-switch-away-from-youtube": WhatFollowsYou,
-		"how-did-the-transition-feel": MigrationChecklist,
-		"special-features-i-love-about-freetube": ThumbnailPreference,
-	},
-};
-
-export default experience;

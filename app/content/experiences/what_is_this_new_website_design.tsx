@@ -2,7 +2,6 @@ import { ArrowRight, Plus, RotateCcw, Route, Waypoints } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import { Chip, Panel, Switch } from "~/components/post/kit";
-import type { PostExperience } from "~/lib/experiences";
 import { cn } from "~/lib/utils";
 
 const SPRING = { type: "spring" as const, stiffness: 340, damping: 30 };
@@ -208,7 +207,7 @@ function MiniLayout({ fresh, reduced }: { fresh: boolean; reduced: boolean }) {
 	);
 }
 
-function HeroFigure() {
+export function HeroFigure() {
 	const reduced = useReducedMotion();
 
 	return (
@@ -287,7 +286,7 @@ const hexId = (index: number) =>
 	`#${(0x3f0 + index * 0x47).toString(16).padStart(4, "0")}`;
 const edgeKey = ([a, b]: Edge) => `${a}-${b}`;
 
-function NoteGraphFigure() {
+export function NoteGraphFigure() {
 	const reduced = useReducedMotion();
 	const [extra, setExtra] = useState<Edge[]>([]);
 	const [active, setActive] = useState<number | null>(null);
@@ -490,7 +489,7 @@ const REDIRECTS = [
 	},
 ];
 
-function RedirectFigure() {
+export function RedirectFigure() {
 	const reduced = useReducedMotion();
 	const [selected, setSelected] = useState(REDIRECTS[0].id);
 	const current =
@@ -585,13 +584,3 @@ function RedirectFigure() {
 		</Panel>
 	);
 }
-
-const experience: PostExperience = {
-	hero: HeroFigure,
-	visuals: {
-		"what-is-different-now": NoteGraphFigure,
-		"old-links": RedirectFigure,
-	},
-};
-
-export default experience;

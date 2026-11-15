@@ -43,7 +43,7 @@ function TypingStrip() {
 			};
 
 	return (
-		<Panel title="typing · colemak dh" icon={<Keyboard className="size-3" />}>
+		<Panel title="typing / colemak dh" icon={<Keyboard className="size-3" />}>
 			<div className="flex flex-wrap items-baseline gap-x-2 gap-y-1  text-sm">
 				<span className="text-overlay1">$</span>
 				<span className="text-text">
@@ -318,7 +318,7 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 				<div className="text-[11px] leading-relaxed text-overlay1">
 					{moveWords(dr, dc)}
 					{dr !== 0 || dc !== 0
-						? ` · ${travel.toFixed(1)} key widths, center to center`
+						? `, ${travel.toFixed(1)} key widths, center to center`
 						: ""}
 				</div>
 				<div className="text-[11px] leading-relaxed text-overlay1">
@@ -427,7 +427,7 @@ export function LearningCurve() {
 
 	return (
 		<Panel
-			title="learning · first six weeks"
+			title="learning / first six weeks"
 			icon={<Activity className="size-3" />}
 			footer="illustrative. the shape follows the post's six-week claim, the numbers are a toy."
 		>

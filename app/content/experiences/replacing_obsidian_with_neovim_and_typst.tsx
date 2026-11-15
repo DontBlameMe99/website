@@ -155,7 +155,7 @@ function ChordRow({
 						done || active ? "text-text" : "text-overlay1",
 					)}
 				>
-					{text}
+					{text || "\u200b"}
 				</span>
 				{active ? (
 					<motion.span
@@ -194,7 +194,7 @@ export function KeyCheatStrip() {
 	return (
 		<div ref={ref}>
 			<Panel
-				title="keys · typed demo"
+				title="keys / typed demo"
 				icon={<Keyboard className="size-3.5" />}
 				footer="Generic Neovim chords, not the author's exact keymap."
 			>

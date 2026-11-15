@@ -232,28 +232,30 @@ export default function Post() {
 				This is something which bothers me personally. Imagine yourself like
 				this:
 			</p>
-			<table>
-				<thead>
-					<tr>
-						<th>Where</th>
-						<th>Doing what</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>At Home</td>
-						<td>Using social media / your phone</td>
-					</tr>
-					<tr>
-						<td>In the bus / car</td>
-						<td>Using social media / your phone</td>
-					</tr>
-					<tr>
-						<td>Before / after sleeping</td>
-						<td>Using social media / your phone</td>
-					</tr>
-				</tbody>
-			</table>
+			<div className="table-wrap">
+				<table>
+					<thead>
+						<tr>
+							<th>Where</th>
+							<th>Doing what</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>At Home</td>
+							<td>Using social media / your phone</td>
+						</tr>
+						<tr>
+							<td>In the bus / car</td>
+							<td>Using social media / your phone</td>
+						</tr>
+						<tr>
+							<td>Before / after sleeping</td>
+							<td>Using social media / your phone</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 			<p>
 				And maybe sometimes you even sit with others and instead of talking you
 				use your phone.

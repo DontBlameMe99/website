@@ -95,7 +95,7 @@ export function GenerationHero() {
 									) : null}
 								</span>
 								<span className="mt-0.5 block  text-[11px] leading-relaxed text-overlay1">
-									{generation.changes.join(" · ")}
+									{generation.changes.join(", ")}
 								</span>
 							</span>
 							{selected ? (
@@ -196,8 +196,8 @@ function ConfigFile({ on }: { on: boolean }) {
 								<span className="w-4 shrink-0 select-none text-right text-overlay1">
 									{index + 1}
 								</span>
-								<span className="w-2 shrink-0 select-none text-transparent">
-									·
+								<span className="w-2 shrink-0 select-none whitespace-pre">
+									{"  "}
 								</span>
 								<span className="whitespace-pre text-subtext0">{line}</span>
 							</div>
@@ -238,8 +238,8 @@ function ConfigFile({ on }: { on: boolean }) {
 								<span className="w-4 shrink-0 select-none text-right text-overlay1">
 									{tailNumber}
 								</span>
-								<span className="w-2 shrink-0 select-none text-transparent">
-									·
+								<span className="w-2 shrink-0 select-none whitespace-pre">
+									{"  "}
 								</span>
 								<span className="whitespace-pre text-subtext0">{line}</span>
 							</div>

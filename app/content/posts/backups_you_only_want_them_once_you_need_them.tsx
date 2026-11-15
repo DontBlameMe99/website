@@ -1,3 +1,4 @@
+import { CodeBlock } from "~/components/post/code_block";
 import { PostHeading, Prose } from "~/components/post/prose";
 import {
 	BackupSorter,
@@ -273,8 +274,9 @@ export default function Post() {
 				),
 			</p>
 			<p>I have annotated it so you can understand it:</p>
-			<pre tabIndex={0}>
-				<code data-lang="nix">{`
+			<CodeBlock
+				lang="nix"
+				code={`
 programs.borgmatic = { # Everything in here is for the borgmatic program
       enable = true; # Enable borgmatic, this is nix-specific syntax for "installing" a program
 
@@ -310,8 +312,8 @@ programs.borgmatic = { # Everything in here is for the borgmatic program
         };
       };
     };
-				`}</code>
-			</pre>
+				`}
+			/>
 			<p>
 				As you can see, there is no plaintext password inside of the nix code.
 				The password gets supplied directly into borgmatic by using the

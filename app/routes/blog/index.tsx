@@ -43,14 +43,13 @@ export default function BlogIndex() {
 			<PageHeader
 				index="02"
 				label="Writing"
-				meta={`${posts.length} posts`}
 				title="Writing"
 				lead="Long-form notes on privacy, Linux, and the software I break on purpose. No schedule, no newsletter, no tracking."
 			/>
 
 			<div className="mt-12 flex flex-col gap-6">
 				<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-					<label className="nb-input flex w-full items-center gap-2 sm:max-w-sm">
+					<label className="search-field nb-input flex w-full items-center gap-2 sm:max-w-sm">
 						<Search className="size-4 shrink-0 text-subtext0" />
 						<input
 							type="search"

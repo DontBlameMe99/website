@@ -1,7 +1,6 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link, useParams } from "react-router";
 import { SectionLabel } from "~/components/layout/page_header";
-import { ScrollProgress } from "~/components/ui/scroll_progress";
 import { useActiveHeading } from "~/hooks/use_active_heading";
 import { formatDate, getPost, neighbours } from "~/lib/posts";
 import { seo } from "~/lib/seo";
@@ -106,8 +105,6 @@ export default function PostPage() {
 
 	return (
 		<article>
-			<ScrollProgress className="fixed inset-x-0 top-16 z-50 h-[3px] origin-left bg-mauve" />
-
 			<div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_17rem] lg:gap-14">
 				<div className="min-w-0 max-w-[70ch]">
 					<header className="border-t-2 border-ink pt-4">

@@ -1,3 +1,4 @@
+import { CodeBlock } from "~/components/post/code_block";
 import { PostHeading, Prose } from "~/components/post/prose";
 import {
 	ConfigDiff,
@@ -378,8 +379,9 @@ export default function Post() {
 				Yes, this is also possible on other distributions, but on NixOS it is
 				really easy to do:
 			</p>
-			<pre tabIndex={0}>
-				<code data-lang="nix">{`
+			<CodeBlock
+				lang="nix"
+				code={`
 {
   pkgs,
   ...
@@ -396,8 +398,8 @@ in {
     arduino-ide
   ];
 }
-				`}</code>
-			</pre>
+				`}
+			/>
 			<p>
 				This is all that is needed, and it is completely clear to everyone what
 				is going on, this clarity is why I love the declarative nature of NixOS.
@@ -406,8 +408,9 @@ in {
 				Just for good measure, here is the same snippet but using the default
 				channel (which sadly is broken at the moment of writing):
 			</p>
-			<pre tabIndex={0}>
-				<code data-lang="nix">{`
+			<CodeBlock
+				lang="nix"
+				code={`
 {
   pkgs,
   ...
@@ -416,8 +419,8 @@ in {
     arduino-ide
   ];
 }
-				`}</code>
-			</pre>
+				`}
+			/>
 			<PostHeading level={3} id="dev-environment">
 				Dev Environment
 			</PostHeading>
@@ -471,8 +474,9 @@ in {
 				</a>
 				, basically my own assembly-like language):
 			</p>
-			<pre tabIndex={0}>
-				<code data-lang="nix">{`
+			<CodeBlock
+				lang="nix"
+				code={`
 {
   inputs = {
     nixpkgs.url = "Github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -520,8 +524,8 @@ in {
       };
     });
 }
-				`}</code>
-			</pre>
+				`}
+			/>
 			<p>
 				And yes, this is a rather complex setup, but it is also a very powerful
 				one.
@@ -563,8 +567,9 @@ in {
 				</a>
 				, it looks like this:
 			</p>
-			<pre tabIndex={0}>
-				<code data-lang="nix">{`
+			<CodeBlock
+				lang="nix"
+				code={`
 {
   inputs = {
     nixpkgs.url = "Github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -585,8 +590,8 @@ in {
       };
     });
 }
-				`}</code>
-			</pre>
+				`}
+			/>
 			<p>Basically only installing pnpm, nodejs and TypeScript.</p>
 			<PostHeading level={3} id="ability-to-restore">
 				Ability To Restore

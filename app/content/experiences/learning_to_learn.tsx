@@ -41,7 +41,7 @@ export function HourAccumulator() {
 		<Panel
 			title="hours.app"
 			icon={<WindowDots />}
-			footer={`one dot per hour · ${filled} / ${HOURS_PER_YEAR} filled`}
+			footer={`one dot per hour, ${filled} / ${HOURS_PER_YEAR} filled`}
 		>
 			<div className="space-y-4">
 				<div className="flex flex-wrap items-end justify-between gap-2">
@@ -61,11 +61,11 @@ export function HourAccumulator() {
 						<div className="mt-1  text-[11px] text-overlay0">
 							{minutes} min a day, every day
 							{hours > HOURS_PER_YEAR
-								? ` · ${hours - HOURS_PER_YEAR} h past a full year`
+								? `, ${hours - HOURS_PER_YEAR} h past a full year`
 								: ""}
 						</div>
 					</div>
-					<Chip accent="var(--teal)">1 h a day · 365 h a year</Chip>
+					<Chip accent="var(--teal)">1 h a day, 365 h a year</Chip>
 				</div>
 
 				<motion.div
@@ -205,7 +205,7 @@ export function MomentumTracker() {
 					<div className="flex items-baseline justify-between gap-2  text-[11px]">
 						<span className="text-subtext0">momentum</span>
 						<span className="truncate tabular-nums text-overlay1">
-							{count} / {TIPS.length} · {MOMENTUM[count]}
+							{count} / {TIPS.length}, {MOMENTUM[count]}
 						</span>
 					</div>
 					<div className="h-2 overflow-hidden bg-surface0">

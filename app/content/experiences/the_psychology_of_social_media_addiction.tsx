@@ -308,7 +308,7 @@ export function SlotMachine() {
 		<Panel
 			title="slot-machine.app"
 			icon={<Dices className="size-3.5" />}
-			footer="a demo, not a measurement · odds fixed at 1 in 4 · nothing leaves this page"
+			footer="a demo, not a measurement. odds fixed at 1 in 4. nothing leaves this page"
 		>
 			<div className="flex items-center justify-between gap-2">
 				<motion.div

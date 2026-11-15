@@ -1,3 +1,4 @@
+import { CodeBlock } from "~/components/post/code_block";
 import { PostHeading, PostImage, Prose } from "~/components/post/prose";
 import {
 	KeyCheatStrip,
@@ -462,8 +463,9 @@ export default function Post() {
 				This is a simple document that creates a Hello World page, with a
 				centered title:
 			</p>
-			<pre tabIndex={0}>
-				<code data-lang="latex">{`
+			<CodeBlock
+				lang="latex"
+				code={`
 \\documentclass{article}
 
 \\title{My Centered Title}
@@ -477,8 +479,8 @@ export default function Post() {
 Hello, world!
 
 \\end{document}
-				`}</code>
-			</pre>
+				`}
+			/>
 			<p>
 				{"Now, explain this for someone who is new. Why do we need a "}
 				<code>{"\\documentclass"}</code>? Why "article"? I just want a page? Why
@@ -530,15 +532,16 @@ Hello, world!
 				Take a look at the old LaTeX example above and compare it to the Typst
 				version:
 			</p>
-			<pre tabIndex={0}>
-				<code data-lang="typ">{`
+			<CodeBlock
+				lang="typ"
+				code={`
 #align(center)[
   #text(size: 20pt, weight: "bold")[My Centered Title]
 ]
 
 Hello, world!
-				`}</code>
-			</pre>
+				`}
+			/>
 			<p>It is more readable and has less boilerplate.</p>
 			<blockquote>
 				Of course, experienced LaTeX users rarely write this boilerplate
@@ -597,20 +600,22 @@ Hello, world!
 				Just compare these two examples, the first one is LaTeX, and the second
 				one is Typst:
 			</p>
-			<pre tabIndex={0}>
-				<code data-lang="latex">{`
+			<CodeBlock
+				lang="latex"
+				code={`
 \\[
 f(x) = \\frac{\\sum_{i=1}^{n} \\alpha_i x_i^2}{\\sqrt{1 + \\beta^2}} + \\int_0^\\pi \\sin(x)\\,dx
 \\]
-				`}</code>
-			</pre>
-			<pre tabIndex={0}>
-				<code data-lang="typ">{`
+				`}
+			/>
+			<CodeBlock
+				lang="typ"
+				code={`
 $
 f(x) = (sum_(i=1)^n alpha_i x_i^2) / sqrt(1 + beta^2) + integral_0^pi sin(x) dif x
 $
-				`}</code>
-			</pre>
+				`}
+			/>
 			<p>You can instantly see that one is easier to type and understand.</p>
 			<p>
 				{
@@ -813,8 +818,9 @@ $
 				<em>out of the box</em>.
 			</p>
 			<p>Let's take a look at a simple example:</p>
-			<pre tabIndex={0}>
-				<code data-lang="typ">{`
+			<CodeBlock
+				lang="typ"
+				code={`
 // Styles all headings
 // \`#show\` to specify styling
 // \`heading\` to specify styling for headings
@@ -825,8 +831,8 @@ $
     #it.body
   ]
 }
-				`}</code>
-			</pre>
+				`}
+			/>
 			<p>
 				This is the part I like about Typst: customization feels like
 				programming rather than fighting a template system.

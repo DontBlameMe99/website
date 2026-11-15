@@ -242,7 +242,7 @@ export function GraphFigure() {
 									>
 										<motion.span
 											className={cn(
-												"block rounded-full border transition-colors",
+												"block border transition-colors",
 												node.hub ? "size-3" : "size-2",
 											)}
 											style={{
@@ -328,7 +328,7 @@ export function FilesFigure() {
 							onChange={setNotes}
 						/>
 
-						<div className="overflow-hidden rounded-panel border border-border/60 bg-crust/40">
+						<div className="overflow-hidden border border-border/60 bg-crust/40">
 							<div className="flex items-center justify-between gap-2 border-b border-border/60 px-2 py-1.5  text-[10px] text-overlay1">
 								<span className="inline-flex min-w-0 items-center gap-1.5">
 									<Folder className="size-3 shrink-0" />
@@ -361,7 +361,7 @@ export function FilesFigure() {
 											return (
 												<div
 													key={name}
-													className="flex min-w-0 items-center gap-1.5 rounded border border-border/50 bg-surface0/30 px-1.5 py-1"
+													className="flex min-w-0 items-center gap-1.5  border border-border/50 bg-surface0/30 px-1.5 py-1"
 												>
 													<FileText className="size-3 shrink-0 text-overlay0" />
 													<span className="truncate  text-[9px] text-subtext0">
@@ -371,7 +371,7 @@ export function FilesFigure() {
 											);
 										})}
 										{hidden > 0 ? (
-											<div className="flex items-center justify-center rounded border border-dashed border-border px-1.5 py-1  text-[9px] text-overlay0">
+											<div className="flex items-center justify-center  border border-dashed border-border px-1.5 py-1  text-[9px] text-overlay0">
 												+{hidden} more
 											</div>
 										) : null}

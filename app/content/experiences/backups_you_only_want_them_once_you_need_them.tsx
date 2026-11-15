@@ -58,7 +58,7 @@ function WindowDots() {
 			{["--traffic-red", "--traffic-yellow", "--traffic-green"].map((token) => (
 				<span
 					key={token}
-					className="size-2 rounded-full ring-1 ring-black/20"
+					className="size-2 ring-1 ring-black/20"
 					style={{ background: `var(${token})` }}
 				/>
 			))}
@@ -77,7 +77,7 @@ function MiniButton({
 		<button
 			type="button"
 			onClick={onClick}
-			className="inline-flex items-center gap-1 rounded-md border px-2 py-1 text-[10px] transition-colors"
+			className="inline-flex items-center gap-1 border px-2 py-1 text-[10px] transition-colors"
 			style={{
 				borderColor: mix(MAUVE, 40),
 				background: mix(MAUVE, 10),
@@ -218,9 +218,9 @@ export function BackupSorter() {
 					</motion.div>
 				) : item && Icon ? (
 					<motion.div key={`item-${at}`} {...swap} className="space-y-3">
-						<div className="rounded-panel border border-border/70 bg-surface0/25 p-2.5">
+						<div className=" border border-border/70 bg-surface0/25 p-2.5">
 							<div className="flex items-start gap-2.5">
-								<span className="grid size-8 shrink-0 place-items-center rounded-md border border-border/70 bg-base/60 text-mauve">
+								<span className="grid size-8 shrink-0 place-items-center border border-border/70 bg-base/60 text-mauve">
 									<Icon className="size-4" />
 								</span>
 								<div className="min-w-0">
@@ -238,14 +238,14 @@ export function BackupSorter() {
 									<button
 										type="button"
 										onClick={() => choose(true)}
-										className="flex-1 rounded-md border border-border/70 bg-base/60 px-2 py-1.5 text-[10px] text-subtext0 transition-colors hover:border-mauve/60 hover:text-text"
+										className="flex-1 border border-border/70 bg-base/60 px-2 py-1.5 text-[10px] text-subtext0 transition-colors hover:border-mauve/60 hover:text-text"
 									>
 										backup
 									</button>
 									<button
 										type="button"
 										onClick={() => choose(false)}
-										className="flex-1 rounded-md border border-border/70 bg-base/60 px-2 py-1.5 text-[10px] text-subtext0 transition-colors hover:border-mauve/60 hover:text-text"
+										className="flex-1 border border-border/70 bg-base/60 px-2 py-1.5 text-[10px] text-subtext0 transition-colors hover:border-mauve/60 hover:text-text"
 									>
 										not a backup
 									</button>
@@ -404,7 +404,7 @@ export function ThreeTwoOne() {
 									}}
 									exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.8 }}
 									transition={spring(reduced, 380)}
-									className="flex flex-col items-center gap-0.5 rounded-md border px-1 py-1.5"
+									className="flex flex-col items-center gap-0.5 border px-1 py-1.5"
 									style={{
 										borderColor: mix(accent, 45),
 										background: mix(accent, 8),
@@ -492,7 +492,7 @@ export function ThreeTwoOne() {
 								type="button"
 								onClick={() => setDisaster(entry.id)}
 								className={cn(
-									"flex flex-col items-center gap-1 rounded-md border px-1 py-1.5 text-[9px] leading-none transition-colors",
+									"flex flex-col items-center gap-1 border px-1 py-1.5 text-[9px] leading-none transition-colors",
 									on ? "text-red" : "text-subtext0 hover:text-text",
 								)}
 								style={{
@@ -514,7 +514,7 @@ export function ThreeTwoOne() {
 						animate={{ opacity: 1, y: 0 }}
 						exit={reduced ? { opacity: 0 } : { opacity: 0, y: -6 }}
 						transition={{ duration: reduced ? 0 : 0.22 }}
-						className="rounded-panel border p-2.5"
+						className=" border p-2.5"
 						style={{
 							borderColor: disaster
 								? mix(survivors.length ? GREEN : RED, 40)
@@ -600,7 +600,7 @@ export function RetentionBoard() {
 						return (
 							<div
 								key={repo.name}
-								className="flex items-center gap-2 rounded-panel border border-border/60 bg-surface0/25 px-2.5 py-1.5"
+								className="flex items-center gap-2 border border-border/60 bg-surface0/25 px-2.5 py-1.5"
 							>
 								<Icon
 									className="size-3.5 shrink-0"
@@ -706,7 +706,7 @@ export function RecoveryChain() {
 								onClick={() => toggle(link.id)}
 								aria-pressed={cut}
 								whileTap={reduced ? undefined : { scale: 0.985 }}
-								className="flex w-full items-center gap-2 rounded-panel border px-2 py-1.5 text-left transition-colors"
+								className="flex w-full items-center gap-2 border px-2 py-1.5 text-left transition-colors"
 								style={{
 									borderColor: mix(tint, cut ? 50 : 30),
 									background: mix(tint, cut ? 9 : 4),
@@ -714,7 +714,7 @@ export function RecoveryChain() {
 								}}
 							>
 								<span
-									className="grid size-7 shrink-0 place-items-center rounded-md border"
+									className="grid size-7 shrink-0 place-items-center border"
 									style={{ borderColor: mix(tint, 40), color: tint }}
 								>
 									<Icon className="size-3.5" />
@@ -758,7 +758,7 @@ export function RecoveryChain() {
 
 			<div
 				aria-live="polite"
-				className="mt-2.5 rounded-panel border p-2.5"
+				className="mt-2.5 border p-2.5"
 				style={{ borderColor: mix(accent, 40), background: mix(accent, 6) }}
 			>
 				<div className="flex items-center gap-1.5">

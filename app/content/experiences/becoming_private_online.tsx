@@ -41,9 +41,9 @@ function Fill({
 	const reduced = useReducedMotion();
 	const clamped = Math.max(0, Math.min(100, value));
 	return (
-		<div className="h-1.5 overflow-hidden rounded-full bg-surface0" aria-hidden>
+		<div className="h-1.5 overflow-hidden bg-surface0" aria-hidden>
 			<motion.div
-				className="h-full rounded-full"
+				className="h-full"
 				style={{ background: accent }}
 				initial={false}
 				animate={{ width: `${clamped}%` }}
@@ -139,7 +139,7 @@ export function PrivacyMeter() {
 								}
 								whileTap={reduced ? undefined : { scale: 0.985 }}
 								className={cn(
-									"flex w-full items-start gap-2 rounded-md border px-2 py-1.5 text-left transition-colors",
+									"flex w-full items-start gap-2 border px-2 py-1.5 text-left transition-colors",
 									done && "border-mauve/40 bg-mauve/10",
 									current && "border-border bg-surface0/40",
 									!done &&
@@ -149,7 +149,7 @@ export function PrivacyMeter() {
 							>
 								<span
 									className={cn(
-										"mt-0.5 grid size-4 shrink-0 place-items-center rounded border  text-[9px]",
+										"mt-0.5 grid size-4 shrink-0 place-items-center  border  text-[9px]",
 										done
 											? "border-mauve bg-mauve text-crust"
 											: "border-overlay0/60 text-overlay0",
@@ -256,7 +256,7 @@ export function FirstStepsChecklist() {
 									aria-pressed={checked}
 									onClick={() => toggle(step.label)}
 									className={cn(
-										"group flex w-full items-center gap-2 rounded-md border px-2 py-1.5 text-left transition-colors",
+										"group flex w-full items-center gap-2 border px-2 py-1.5 text-left transition-colors",
 										checked
 											? "border-mauve/40 bg-mauve/10"
 											: "border-border/60 hover:bg-surface0/40",
@@ -264,7 +264,7 @@ export function FirstStepsChecklist() {
 								>
 									<span
 										className={cn(
-											"grid size-4 shrink-0 place-items-center rounded-[4px] border",
+											"grid size-4 shrink-0 place-items-center border",
 											checked ? "border-mauve bg-mauve" : "border-overlay0/70",
 										)}
 									>
@@ -355,7 +355,7 @@ export function IdentitySplit() {
 								<motion.li
 									key={site}
 									layout={!reduced}
-									className="flex items-center gap-2 rounded-md border border-border/60 px-2 py-1.5"
+									className="flex items-center gap-2 border border-border/60 px-2 py-1.5"
 								>
 									<Globe className="size-3 shrink-0 text-overlay1" />
 									<span className="shrink-0  text-[11px] text-subtext0">
@@ -428,7 +428,7 @@ function Exposure({ flagged }: { flagged: boolean }) {
 							transition={{ duration: 0.25, delay: reduced ? 0 : index * 0.06 }}
 						>
 							<div
-								className="flex items-center gap-2 rounded-md border px-2 py-1.5"
+								className="flex items-center gap-2 border px-2 py-1.5"
 								style={{
 									borderColor: flagged
 										? "color-mix(in srgb, var(--red) 35%, transparent)"

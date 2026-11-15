@@ -510,7 +510,7 @@ in {
         };
         test = pkgs.writeShellScriptBin "test" ''
           cargo test --workspace
-        '';
+'';
       };
 
       defaultPackage = self.packages.\${system}.bin;

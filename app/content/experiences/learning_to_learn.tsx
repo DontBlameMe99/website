@@ -21,7 +21,7 @@ function WindowDots() {
 			{["--traffic-red", "--traffic-yellow", "--traffic-green"].map((token) => (
 				<span
 					key={token}
-					className="size-2 rounded-full ring-1 ring-black/20"
+					className="size-2 ring-1 ring-black/20"
 					style={{ background: `var(${token})` }}
 				/>
 			))}
@@ -82,7 +82,7 @@ export function HourAccumulator() {
 						<span
 							key={index}
 							className={cn(
-								"size-[5px] rounded-[2px] transition-colors duration-500 motion-reduce:transition-none sm:size-[6px]",
+								"size-[5px] transition-colors duration-500 motion-reduce:transition-none sm:size-[6px]",
 								index < filled ? "bg-mauve" : "bg-surface0",
 							)}
 						/>
@@ -293,7 +293,7 @@ function _SpacedRepetitionCurve() {
 						type="button"
 						onClick={() => setCompleted(done ? 0 : completed + 1)}
 						whileTap={reduced ? undefined : { scale: 0.96 }}
-						className="inline-flex items-center justify-center gap-1.5 rounded-full border border-mauve/50 bg-mauve/15 px-3 py-1.5  text-[11px] text-mauve transition-colors hover:bg-mauve/25"
+						className="inline-flex items-center justify-center gap-1.5 border border-mauve/50 bg-mauve/15 px-3 py-1.5  text-[11px] text-mauve transition-colors hover:bg-mauve/25"
 					>
 						{done ? (
 							<RotateCcw className="size-3.5" />
@@ -345,9 +345,9 @@ export function MomentumTracker() {
 							{count} / {TIPS.length} · {MOMENTUM[count]}
 						</span>
 					</div>
-					<div className="h-2 overflow-hidden rounded-full bg-surface0">
+					<div className="h-2 overflow-hidden bg-surface0">
 						<motion.div
-							className="h-full rounded-full"
+							className="h-full"
 							style={{
 								background: "linear-gradient(90deg, var(--mauve), var(--teal))",
 							}}
@@ -375,7 +375,7 @@ export function MomentumTracker() {
 									setOn((prev) => ({ ...prev, [tip.id]: !prev[tip.id] }))
 								}
 								className={cn(
-									"flex items-center gap-2 rounded-md border px-2.5 py-1.5 text-left  text-[11px] transition-colors",
+									"flex items-center gap-2 border px-2.5 py-1.5 text-left  text-[11px] transition-colors",
 									checked
 										? "border-mauve/45 bg-mauve/10 text-text"
 										: "border-border/70 bg-surface0/25 text-subtext0 hover:border-mauve/30 hover:text-text",
@@ -390,7 +390,7 @@ export function MomentumTracker() {
 								<span className="min-w-0 flex-1 truncate">{tip.label}</span>
 								<span
 									className={cn(
-										"grid size-4 shrink-0 place-items-center rounded-[4px] border transition-colors",
+										"grid size-4 shrink-0 place-items-center border transition-colors",
 										checked
 											? "border-mauve bg-mauve text-crust"
 											: "border-border",

@@ -3,11 +3,10 @@
 Personal site and blog of DontBlameMe. React Router 8 in prerendered SPA mode,
 React 19, TypeScript, Tailwind CSS 4, Bun.
 
-The chrome is a tiling window manager: workspaces in the status bar, hairline
-panes, and real keybindings (`alt+1..4`, `alt+t`, `alt+r`). Panes tile by
-default, detach into a draggable and resizable floating pane, go fullscreen, and
-close and reopen. One typeface (Montserrat) for the whole site, JetBrains Mono
-for code. Catppuccin Mocha and Latte, with Malva (mauve) as the accent.
+Neobrutalist shell: flat surfaces, 2px ink borders, hard offset shadows, square
+corners, one heavy grotesque doing all the typographic work. Catppuccin Mocha
+and Latte with Malva (mauve) as the only accent, used sparingly on links,
+labels and buttons. Montserrat everywhere, JetBrains Mono only inside code.
 
 ## Development
 
@@ -29,15 +28,16 @@ Posts are React components in `app/content/posts/<slug>.tsx`. Each one exports
 `meta` (title, date, summary, tags, accent, words, minutes), `sections` (heading
 ids for the table of contents) and a default `Post` component that renders the
 prose as JSX. There is no markdown or Typst pipeline at runtime, so a post can
-use any component, and its interactive figures live in the flow next to the
-paragraphs they belong to.
+use any component and its figures sit in the flow next to the paragraphs they
+belong to.
 
-Figures for a post live in `app/content/experiences/<slug>.tsx` and are
-imported by that post. Images live in `public/posts/<slug>/`.
+Figures for a post live in `app/content/experiences/<slug>.tsx` and are imported
+by that post. Images live in `public/posts/<slug>/` and are capped by
+`app/app.css` so they fit the reading measure and the viewport.
 
 ## Layout
 
-- `app/components/wm/` status bar, key bar, tile pane, wallpaper
+- `app/components/layout/` header, footer, page masthead, theme toggle
 - `app/components/post/` prose primitives and the shared figure kit
-- `app/routes/` home, blog index, post, projects, contact, 404
-- `app/lib/` post registry view, theme, keybindings, slug helper
+- `app/routes/` index, writing, post, projects, contact, 404
+- `app/lib/` post registry view, theme, slug helper

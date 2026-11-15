@@ -25,8 +25,8 @@ const GREEN = "var(--green)";
 function TileMarks() {
 	return (
 		<span aria-hidden="true" className="flex shrink-0 items-center gap-1">
-			<span className="size-2 rounded-[1px] bg-mauve/70" />
-			<span className="size-2 rounded-[1px] border border-border" />
+			<span className="size-2 bg-mauve/70" />
+			<span className="size-2 border border-border" />
 		</span>
 	);
 }
@@ -54,10 +54,10 @@ export function VideoPageMockup() {
 	const fade = { duration: reduced ? 0 : 0.22 };
 
 	return (
-		<div className="not-prose my-6 overflow-hidden rounded-panel border border-border bg-mantle/80">
+		<div className="not-prose my-6 overflow-hidden border border-border bg-mantle/80">
 			<div className="flex items-center gap-2 border-b border-border/70 px-3 py-2">
 				<TileMarks />
-				<div className="ml-1 flex min-w-0 flex-1 items-center gap-1.5 rounded-full border border-border/60 bg-crust/50 px-2 py-0.5">
+				<div className="ml-1 flex min-w-0 flex-1 items-center gap-1.5 border border-border/60 bg-crust/50 px-2 py-0.5">
 					{free ? (
 						<Lock className="size-2.5 shrink-0 text-green" />
 					) : (
@@ -76,7 +76,7 @@ export function VideoPageMockup() {
 				<div className="flex flex-wrap items-center gap-2">
 					<div
 						aria-label="Front end shown in the mockup"
-						className="relative inline-flex rounded-full border border-border bg-surface0/60 p-1"
+						className="relative inline-flex border border-border bg-surface0/60 p-1"
 					>
 						{(
 							[
@@ -92,14 +92,14 @@ export function VideoPageMockup() {
 									aria-pressed={active}
 									onClick={() => setFree(option.key === "freetube")}
 									className={cn(
-										"relative rounded-full px-3 py-1  text-[11px] transition-colors sm:text-xs",
+										"relative px-3 py-1  text-[11px] transition-colors sm:text-xs",
 										active ? "text-crust" : "text-overlay1 hover:text-text",
 									)}
 								>
 									{active ? (
 										<motion.span
 											layoutId={`${id}-pill`}
-											className="absolute inset-0 rounded-full"
+											className="absolute inset-0"
 											style={{
 												background: option.key === "freetube" ? MAUVE : RED,
 											}}
@@ -116,7 +116,7 @@ export function VideoPageMockup() {
 					</span>
 				</div>
 
-				<div className="relative mt-3 overflow-hidden rounded-lg border border-border/70 bg-crust/60">
+				<div className="relative mt-3 overflow-hidden border border-border/70 bg-crust/60">
 					<div className="relative aspect-video">
 						<AnimatePresence initial={false}>
 							<motion.div
@@ -149,7 +149,7 @@ export function VideoPageMockup() {
 									{BEACONS.map((beacon, index) => (
 										<motion.span
 											key={`${beacon.top}-${beacon.left}`}
-											className="absolute size-1.5 rounded-full"
+											className="absolute size-1.5"
 											style={{
 												top: beacon.top,
 												left: beacon.left,
@@ -201,7 +201,7 @@ export function VideoPageMockup() {
 							className="absolute inset-0 grid place-items-center"
 						>
 							<motion.div
-								className="grid size-11 place-items-center rounded-full border border-border/70 bg-crust/50 backdrop-blur-sm"
+								className="grid size-11 place-items-center border border-border/70 bg-crust/50"
 								whileHover={reduced ? undefined : { scale: 1.06 }}
 							>
 								<Play
@@ -213,10 +213,10 @@ export function VideoPageMockup() {
 							</motion.div>
 						</div>
 
-						<div className="absolute inset-x-0 bottom-0 space-y-1 bg-gradient-to-t from-crust/85 to-transparent px-2 pb-1.5 pt-5">
-							<div className="relative h-1 overflow-hidden rounded-full bg-surface1/60">
+						<div className="absolute inset-x-0 bottom-0 space-y-1 from-crust/85 to-transparent px-2 pb-1.5 pt-5">
+							<div className="relative h-1 overflow-hidden bg-surface1/60">
 								<motion.span
-									className="absolute inset-y-0 left-0 rounded-full"
+									className="absolute inset-y-0 left-0"
 									style={{ background: free ? MAUVE : RED }}
 									initial={reduced ? false : { width: 0 }}
 									animate={{ width: "46%" }}
@@ -230,7 +230,7 @@ export function VideoPageMockup() {
 								<span>12:04 / 24:31</span>
 								<span className="inline-flex items-center gap-1">
 									<span
-										className="size-1.5 rounded-full"
+										className="size-1.5"
 										style={{ background: free ? "var(--surface2)" : GREEN }}
 									/>
 									autoplay {free ? "off" : "on"}
@@ -279,7 +279,7 @@ export function VideoPageMockup() {
 									animate={{ opacity: 1 }}
 									exit={{ opacity: 0 }}
 									transition={fade}
-									className="grid h-[3.25rem] place-items-center rounded-md border border-dashed border-border/70 text-center"
+									className="grid h-[3.25rem] place-items-center border border-dashed border-border/70 text-center"
 								>
 									<Ghost className="size-3.5 text-overlay0" />
 									<span className="text-[9px] leading-tight text-overlay0">
@@ -298,9 +298,9 @@ export function VideoPageMockup() {
 									{RAILS.map((label) => (
 										<div
 											key={label}
-											className="flex items-center gap-1.5 rounded-md border border-border/60 bg-base/40 px-1.5 py-1"
+											className="flex items-center gap-1.5 border border-border/60 bg-base/40 px-1.5 py-1"
 										>
-											<span className="size-4 shrink-0 rounded bg-surface1/70" />
+											<span className="size-4 shrink-0  bg-surface1/70" />
 											<span className="truncate  text-[9px] text-overlay0">
 												{label}
 											</span>
@@ -338,7 +338,7 @@ export function WhatFollowsYou() {
 			icon={<Fingerprint className="size-3" />}
 			footer="Illustrative mockup. The direction of travel matters here, not the number of sites."
 		>
-			<div className="flex items-center gap-2 rounded-md border border-border/70 bg-surface0/40 px-2.5 py-1.5">
+			<div className="flex items-center gap-2 border border-border/70 bg-surface0/40 px-2.5 py-1.5">
 				<MonitorPlay className="size-3.5 shrink-0 text-red" />
 				<div className="min-w-0 flex-1  leading-tight">
 					<div className="truncate text-[10px] text-subtext0">
@@ -391,7 +391,7 @@ export function WhatFollowsYou() {
 							duration: reduced ? 0 : 0.35,
 							delay: reduced ? 0 : 0.1 + index * 0.08,
 						}}
-						className="min-w-0 rounded-md border border-border/70 bg-base/40 px-1.5 py-1.5 text-center"
+						className="min-w-0 border border-border/70 bg-base/40 px-1.5 py-1.5 text-center"
 					>
 						<div className="truncate  text-[10px] text-red">{site.label}</div>
 						<div className="truncate  text-[9px] text-overlay0">
@@ -401,7 +401,7 @@ export function WhatFollowsYou() {
 				))}
 			</div>
 
-			<div className="mt-3 rounded-panel border border-border/70 bg-surface0/30 p-2.5">
+			<div className="mt-3 border border-border/70 bg-surface0/30 p-2.5">
 				<div className="flex items-center gap-2">
 					<HardDrive className="size-3.5 shrink-0 text-green" />
 					<span className="min-w-0 flex-1 truncate  text-[10px] text-subtext0">
@@ -484,10 +484,10 @@ export function MigrationChecklist() {
 					aria-valuemin={0}
 					aria-valuemax={MIGRATION.length}
 					aria-valuenow={done}
-					className="h-1.5 overflow-hidden rounded-full bg-surface0"
+					className="h-1.5 overflow-hidden bg-surface0"
 				>
 					<motion.div
-						className="h-full rounded-full"
+						className="h-full"
 						style={{ background: complete ? GREEN : MAUVE }}
 						initial={reduced ? false : { width: 0 }}
 						animate={{ width: `${percent}%` }}
@@ -514,11 +514,11 @@ export function MigrationChecklist() {
 									[item.id]: !current[item.id],
 								}))
 							}
-							className="flex w-full items-start gap-2.5 rounded-md border border-transparent px-1.5 py-1.5 text-left transition-colors hover:border-border/70 hover:bg-surface0/40"
+							className="flex w-full items-start gap-2.5 border border-transparent px-1.5 py-1.5 text-left transition-colors hover:border-border/70 hover:bg-surface0/40"
 						>
 							<span
 								className={cn(
-									"mt-0.5 grid size-4 shrink-0 place-items-center rounded-[5px] border transition-colors",
+									"mt-0.5 grid size-4 shrink-0 place-items-center border transition-colors",
 									checked ? "border-transparent" : "border-border",
 								)}
 								style={checked ? { background: GREEN } : undefined}
@@ -602,15 +602,15 @@ function Clickbait() {
 			/>
 			<div
 				aria-hidden
-				className="absolute right-[8%] top-[14%] size-[44%] rounded-full border-[3px] border-[var(--yellow)]/90"
+				className="absolute right-[8%] top-[14%] size-[44%] border-[3px] border-[var(--yellow)]/90"
 			/>
 			<div
 				aria-hidden
-				className="absolute left-[11%] top-[24%] h-[54%] w-[24%] rounded-[50%] bg-rosewater/85"
+				className="absolute left-[11%] top-[24%] h-[54%] w-[24%] bg-rosewater/85"
 			>
-				<span className="absolute left-[24%] top-[28%] size-[13%] rounded-full bg-crust" />
-				<span className="absolute right-[24%] top-[28%] size-[13%] rounded-full bg-crust" />
-				<span className="absolute left-[38%] top-[56%] h-[22%] w-[24%] rounded-full bg-crust" />
+				<span className="absolute left-[24%] top-[28%] size-[13%] bg-crust" />
+				<span className="absolute right-[24%] top-[28%] size-[13%] bg-crust" />
+				<span className="absolute left-[38%] top-[56%] h-[22%] w-[24%] bg-crust" />
 			</div>
 			<motion.div
 				aria-hidden
@@ -624,10 +624,10 @@ function Clickbait() {
 			>
 				<ArrowRight className="size-10 sm:size-16" strokeWidth={3} />
 			</motion.div>
-			<span className="absolute bottom-[9%] left-[38%] -rotate-6 rounded-sm border border-crust/50 bg-crust/75 px-1.5 py-0.5  text-[10px] font-bold uppercase tracking-tight text-text sm:text-xs">
+			<span className="absolute bottom-[9%] left-[38%] -rotate-6 border border-crust/50 bg-crust/75 px-1.5 py-0.5  text-[10px] font-bold uppercase tracking-tight text-text sm:text-xs">
 				shocking
 			</span>
-			<span className="absolute bottom-[6%] right-[4%] rounded bg-crust/75 px-1  text-[9px] text-text">
+			<span className="absolute bottom-[6%] right-[4%]  bg-crust/75 px-1  text-[9px] text-text">
 				0:03
 			</span>
 		</motion.div>
@@ -655,21 +655,21 @@ function VideoFrame() {
 			/>
 			<span
 				aria-hidden
-				className="absolute right-[10%] top-[16%] size-[15%] rounded-full bg-surface1/50"
+				className="absolute right-[10%] top-[16%] size-[15%] bg-surface1/50"
 			/>
 			<span
 				aria-hidden
-				className="absolute bottom-0 left-[12%] h-[36%] w-[22%] rounded-t-md bg-surface0/80"
+				className="absolute bottom-0 left-[12%] h-[36%] w-[22%]  bg-surface0/80"
 			/>
 			<span
 				aria-hidden
-				className="absolute bottom-0 right-[18%] h-[50%] w-[17%] rounded-t-full bg-surface0/60"
+				className="absolute bottom-0 right-[18%] h-[50%] w-[17%]  bg-surface0/60"
 			/>
 			<span
 				aria-hidden
 				className="absolute inset-x-0 top-[62%] h-px bg-surface1/40"
 			/>
-			<span className="absolute bottom-[6%] right-[4%] rounded bg-crust/80 px-1  text-[9px] text-overlay1">
+			<span className="absolute bottom-[6%] right-[4%]  bg-crust/80 px-1  text-[9px] text-overlay1">
 				04:12
 			</span>
 		</motion.div>
@@ -688,7 +688,7 @@ export function ThumbnailPreference() {
 								? "A plain frame from the video"
 								: "A loud thumbnail with a shocked face and a big arrow"
 						}
-						className="relative aspect-video overflow-hidden rounded-md border border-border/70"
+						className="relative aspect-video overflow-hidden border border-border/70"
 					>
 						<AnimatePresence initial={false} mode="wait">
 							{frames ? (

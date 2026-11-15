@@ -6,17 +6,7 @@ const twMerge = extendTailwindMerge({
 		classGroups: {
 			"font-size": [
 				{
-					text: [
-						"fluid-xs",
-						"fluid-sm",
-						"fluid-base",
-						"fluid-lg",
-						"fluid-xl",
-						"fluid-2xl",
-						"fluid-3xl",
-						"fluid-4xl",
-						"fluid-5xl",
-					],
+					text: ["label", "display", "page-title", "lead", "body", "meta"],
 				},
 			],
 		},

@@ -22,13 +22,13 @@ export function Panel({
 	return (
 		<div
 			className={cn(
-				"not-prose my-5 overflow-hidden rounded-panel border border-border bg-mantle/70",
+				"not-prose my-8 overflow-hidden border-2 border-ink bg-mantle shadow-[var(--shadow-hard)]",
 				className,
 			)}
 		>
 			{title ? (
-				<div className="flex items-center gap-2 border-b border-border/70 px-3 py-2">
-					<span className="text-post-accent">{icon}</span>
+				<div className="flex items-center gap-2 border-b-2 border-ink px-3 py-2">
+					<span className="text-mauve">{icon}</span>
 					<span className="text-[11px] uppercase tracking-[0.14em] text-overlay1">
 						{title}
 					</span>
@@ -36,7 +36,7 @@ export function Panel({
 			) : null}
 			<div className="p-3 sm:p-4">{children}</div>
 			{footer ? (
-				<div className="border-t border-border/70 px-3 py-2  text-[10px] text-overlay1">
+				<div className="border-t-2 border-ink px-3 py-2 text-[10px] text-overlay1">
 					{footer}
 				</div>
 			) : null}
@@ -56,14 +56,10 @@ export function Chip({
 	return (
 		<span
 			className={cn(
-				"inline-flex items-center gap-1 rounded-full border px-2 py-0.5  text-[10px] leading-relaxed",
+				"inline-flex items-center gap-1 border-2 border-ink bg-base px-2 py-0.5 text-[10px] font-bold leading-relaxed text-crust shadow-[var(--shadow-hard-sm)]",
 				className,
 			)}
-			style={{
-				borderColor: `color-mix(in srgb, ${accent} 40%, transparent)`,
-				background: `color-mix(in srgb, ${accent} 12%, transparent)`,
-				color: accent,
-			}}
+			style={{ background: accent }}
 		>
 			{children}
 		</span>
@@ -80,7 +76,7 @@ export function Stat({
 	hint?: string;
 }) {
 	return (
-		<div className="not-prose rounded-panel border border-border/70 bg-surface0/30 px-3 py-2">
+		<div className="not-prose border-2 border-ink bg-base px-3 py-2 shadow-[var(--shadow-hard-sm)]">
 			<div className="text-[10px] uppercase tracking-[0.12em] text-overlay1">
 				{label}
 			</div>
@@ -117,9 +113,9 @@ export function Meter({
 					</span>
 				</div>
 			) : null}
-			<div className="h-1.5 overflow-hidden rounded-full bg-surface0">
+			<div className="h-3 overflow-hidden border-2 border-ink bg-surface0">
 				<motion.div
-					className="h-full rounded-full"
+					className="h-full"
 					style={{ background: accent }}
 					initial={{ width: 0 }}
 					whileInView={{ width: `${ratio * 100}%` }}
@@ -153,9 +149,9 @@ export function Bars({
 					<span className="truncate  text-[11px] text-subtext0">
 						{entry.label}
 					</span>
-					<div className="h-2 overflow-hidden rounded-full bg-surface0/70">
+					<div className="h-3 overflow-hidden border-2 border-ink bg-surface0">
 						<motion.div
-							className="h-full rounded-full"
+							className="h-full"
 							style={{ background: accent, opacity: 1 - index * 0.1 }}
 							initial={{ width: 0 }}
 							whileInView={{ width: `${(entry.value / ceiling) * 100}%` }}
@@ -184,7 +180,7 @@ export function Timeline({
 	accent?: string;
 }) {
 	return (
-		<ol className="not-prose relative space-y-4 border-l border-border pl-5">
+		<ol className="not-prose relative space-y-4 border-l-2 border-ink pl-5">
 			{steps.map((step, index) => (
 				<motion.li
 					key={step.title}
@@ -195,7 +191,7 @@ export function Timeline({
 					transition={{ duration: 0.4, delay: index * 0.07 }}
 				>
 					<span
-						className="absolute -left-[1.42rem] top-1.5 size-2 rounded-full ring-4 ring-base"
+						className="absolute -left-[1.42rem] top-1.5 size-2 ring-4 ring-base"
 						style={{ background: accent }}
 					/>
 					<div className="text-xs text-text">{step.title}</div>
@@ -222,11 +218,11 @@ export function Tabs({
 	const current = tabs.find((tab) => tab.id === active) ?? tabs[0];
 
 	return (
-		<div className="not-prose my-5 rounded-panel border border-border bg-mantle/60">
+		<div className="not-prose my-6 border-2 border-ink bg-mantle shadow-[var(--shadow-hard)]">
 			<div
 				role="tablist"
 				aria-label="Sections"
-				className="flex flex-wrap gap-1 border-b border-border/70 p-1.5"
+				className="flex flex-wrap gap-1 border-b-2 border-ink p-1.5"
 			>
 				{tabs.map((tab) => (
 					<button
@@ -238,7 +234,7 @@ export function Tabs({
 						aria-controls={`${id}-${tab.id}-panel`}
 						onClick={() => setActive(tab.id)}
 						className={cn(
-							"relative rounded-md px-2.5 py-1  text-[11px] transition-colors",
+							"relative px-2.5 py-1  text-[11px] transition-colors",
 							tab.id === current?.id
 								? "text-base"
 								: "text-overlay1 hover:bg-surface0/60 hover:text-text",
@@ -247,7 +243,7 @@ export function Tabs({
 						{tab.id === current?.id ? (
 							<motion.span
 								layoutId={`${id}-tab`}
-								className="absolute inset-0 -z-10 rounded-md"
+								className="absolute inset-0 -z-10 border border-ink"
 								style={{ background: accent }}
 								transition={{ type: "spring", stiffness: 380, damping: 30 }}
 							/>
@@ -291,8 +287,8 @@ export function Switch({
 }) {
 	const [state, setState] = useState(initial);
 	return (
-		<div className="not-prose my-5 overflow-hidden rounded-panel border border-border bg-mantle/60">
-			<div className="flex items-center justify-between gap-3 border-b border-border/70 px-3 py-2">
+		<div className="not-prose my-6 overflow-hidden border-2 border-ink bg-mantle shadow-[var(--shadow-hard)]">
+			<div className="flex items-center justify-between gap-3 border-b-2 border-ink px-3 py-2">
 				<span className="text-[10px] uppercase tracking-[0.14em] text-overlay1">
 					{state ? on : off}
 				</span>
@@ -302,14 +298,14 @@ export function Switch({
 					aria-checked={state}
 					aria-label={`Toggle ${on}`}
 					onClick={() => setState(!state)}
-					className="relative h-5 w-9 rounded-full bg-surface1 transition-colors"
+					className="relative h-5 w-9 border-2 border-ink bg-surface1 transition-colors"
 					style={state ? { background: accent } : undefined}
 				>
 					<motion.span
 						layout
 						transition={{ type: "spring", stiffness: 500, damping: 30 }}
 						className={cn(
-							"absolute top-0.5 size-4 rounded-full bg-base shadow",
+							"absolute top-0.5 size-4 bg-base ",
 							state ? "right-0.5" : "left-0.5",
 						)}
 					/>
@@ -353,7 +349,7 @@ export function Range({
 				step={step}
 				value={value}
 				onChange={(event) => onChange(Number(event.target.value))}
-				className="h-1.5 w-full cursor-pointer appearance-none rounded-full outline-offset-4"
+				className="h-3 w-full cursor-pointer appearance-none border-2 border-ink outline-offset-4"
 				style={{
 					background: `linear-gradient(to right, ${accent} ${percent}%, var(--surface0) ${percent}%)`,
 				}}
@@ -373,7 +369,7 @@ export function Callout({
 }) {
 	return (
 		<div
-			className="not-prose my-5 flex gap-3 rounded-panel border border-l-2 p-3  text-xs leading-relaxed text-subtext0"
+			className="not-prose my-6 flex gap-3 border-2 border-l-8 border-ink p-3 text-xs leading-relaxed text-subtext0"
 			style={{
 				borderColor: "var(--color-border)",
 				borderLeftColor: accent,
@@ -415,7 +411,7 @@ export function Sparkline({
 		.join(" ");
 
 	return (
-		<figure className="not-prose my-5 space-y-1.5">
+		<figure className="not-prose my-6 space-y-1.5">
 			<svg
 				viewBox={`0 0 ${width} ${height}`}
 				className="w-full"

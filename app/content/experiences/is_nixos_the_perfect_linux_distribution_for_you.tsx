@@ -61,7 +61,7 @@ export function GenerationHero() {
 							aria-pressed={selected}
 							onClick={() => setActive(index)}
 							className={cn(
-								"flex w-full items-start gap-2 rounded-lg border px-2.5 py-2 text-left transition-colors",
+								"flex w-full items-start gap-2 border px-2.5 py-2 text-left transition-colors",
 								selected
 									? "border-mauve/45 bg-mauve/10"
 									: "border-border/60 bg-surface0/20 hover:border-mauve/25 hover:bg-surface0/40",
@@ -69,7 +69,7 @@ export function GenerationHero() {
 						>
 							<span
 								className={cn(
-									"mt-1.5 size-1.5 shrink-0 rounded-full",
+									"mt-1.5 size-1.5 shrink-0",
 									selected ? "bg-mauve" : "bg-overlay0/60",
 								)}
 							/>
@@ -147,11 +147,11 @@ export function GenerationHero() {
 const CONFIG_HEAD = [
 	"{ pkgs, ... }:",
 	"{",
-	"  # everything is a toggle",
-	"  programs.firefox.enable = true;",
+	"# everything is a toggle",
+	"programs.firefox.enable = true;",
 	"",
 ];
-const CONFIG_TOGGLE = "  programs.obs-studio.enable = true;";
+const CONFIG_TOGGLE = "programs.obs-studio.enable = true;";
 const CONFIG_TAIL = ["}"];
 
 function ConfigFile({ on }: { on: boolean }) {
@@ -184,7 +184,7 @@ function ConfigFile({ on }: { on: boolean }) {
 
 	return (
 		<div className="space-y-2.5">
-			<div className="rounded-lg border border-border/60 bg-crust/60 p-1">
+			<div className=" border border-border/60 bg-crust/60 p-1">
 				<div className="overflow-x-auto scrollbar-none">
 					<div className="min-w-max  text-[11px] leading-[1.8]">
 						{CONFIG_HEAD.map((line, index) => (
@@ -347,7 +347,7 @@ export function FitScoreboard() {
 								}))
 							}
 							className={cn(
-								"flex w-full items-start gap-2.5 rounded-lg border px-2.5 py-2 text-left transition-colors",
+								"flex w-full items-start gap-2.5 border px-2.5 py-2 text-left transition-colors",
 								active
 									? "border-mauve/45 bg-mauve/10"
 									: "border-border/60 bg-surface0/20 hover:border-mauve/25 hover:bg-surface0/40",
@@ -355,7 +355,7 @@ export function FitScoreboard() {
 						>
 							<span
 								className={cn(
-									"mt-0.5 grid size-4 shrink-0 place-items-center rounded-[5px] border",
+									"mt-0.5 grid size-4 shrink-0 place-items-center border",
 									active
 										? "border-mauve bg-mauve text-crust"
 										: "border-overlay0/60 text-transparent",

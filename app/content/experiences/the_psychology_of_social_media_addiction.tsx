@@ -49,12 +49,12 @@ function Frame({
 	children: ReactNode;
 }) {
 	return (
-		<div className="not-prose my-6 overflow-hidden rounded-panel border border-border bg-base">
+		<div className="not-prose my-6 overflow-hidden border border-border bg-base">
 			<div className="flex items-center gap-2 border-b border-border bg-mantle/70 px-3 py-2">
 				<span className="flex shrink-0 items-center gap-1.5" aria-hidden>
-					<span className="size-2.5 rounded-full bg-[var(--traffic-red)]" />
-					<span className="size-2.5 rounded-full bg-[var(--traffic-yellow)]" />
-					<span className="size-2.5 rounded-full bg-[var(--traffic-green)]" />
+					<span className="size-2.5 bg-[var(--traffic-red)]" />
+					<span className="size-2.5 bg-[var(--traffic-yellow)]" />
+					<span className="size-2.5 bg-[var(--traffic-green)]" />
 				</span>
 				<span className="min-w-0 flex-1 truncate text-center  text-[10px] tracking-wide text-overlay1">
 					{title}
@@ -178,7 +178,7 @@ export function RewardLoop() {
 					aria-hidden
 				>
 					<span
-						className="absolute left-1/2 top-[8%] size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-mauve"
+						className="absolute left-1/2 top-[8%] size-1.5 -translate-x-1/2 -translate-y-1/2 bg-mauve"
 						style={{ boxShadow: "0 0 10px var(--mauve)" }}
 					/>
 				</motion.div>
@@ -198,7 +198,7 @@ export function RewardLoop() {
 								onClick={() => setActive(index)}
 								aria-pressed={selected}
 								className={
-									"relative inline-flex items-center gap-1 rounded-full border px-2 py-0.5  text-[10px] transition-colors " +
+									"relative inline-flex items-center gap-1 border px-2 py-0.5  text-[10px] transition-colors " +
 									LOOP_SLOT[index] +
 									(selected
 										? " border-transparent text-crust"
@@ -208,7 +208,7 @@ export function RewardLoop() {
 								{selected ? (
 									<motion.span
 										layoutId="loop-node"
-										className="absolute inset-0 -z-10 rounded-full bg-mauve"
+										className="absolute inset-0 -z-10 bg-mauve"
 										transition={
 											reduced
 												? { duration: 0 }
@@ -319,7 +319,7 @@ export function SlotMachine() {
 					{reels.map((value, index) => (
 						<div
 							key={index}
-							className="relative size-11 overflow-hidden rounded-lg border bg-crust/70"
+							className="relative size-11 overflow-hidden border bg-crust/70"
 							style={{
 								borderColor:
 									outcome === "hit"
@@ -350,7 +350,7 @@ export function SlotMachine() {
 					onClick={pull}
 					disabled={spinning}
 					aria-label="Pull the lever"
-					className="group grid h-16 w-10 place-items-end justify-center rounded-panel border border-border bg-surface0/40 pb-1 transition-colors hover:border-mauve/50 disabled:opacity-60"
+					className="group grid h-16 w-10 place-items-end justify-center border border-border bg-surface0/40 pb-1 transition-colors hover:border-mauve/50 disabled:opacity-60"
 				>
 					<motion.span
 						className="flex flex-col items-center"
@@ -358,8 +358,8 @@ export function SlotMachine() {
 						animate={reduced ? undefined : { rotate: spinning ? 24 : 0 }}
 						transition={{ type: "spring", stiffness: 320, damping: 16 }}
 					>
-						<span className="size-3 rounded-full bg-mauve shadow-[0_0_10px_var(--mauve)]" />
-						<span className="h-9 w-1 rounded-full bg-surface2 group-hover:bg-overlay0" />
+						<span className="size-3 bg-mauve" />
+						<span className="h-9 w-1 bg-surface2 group-hover:bg-overlay0" />
 					</motion.span>
 				</button>
 			</div>
@@ -538,12 +538,12 @@ export function MinimalPhone() {
 				const apps = minimal ? MINIMAL_APPS : FULL_APPS;
 				return (
 					<div className="space-y-3">
-						<div className="mx-auto w-full max-w-[13rem] rounded-[1.75rem] border border-border bg-crust p-2">
+						<div className="mx-auto w-full max-w-[13rem] border border-border bg-crust p-2">
 							<div
-								className="mx-auto mb-1.5 h-1 w-10 rounded-full bg-surface1"
+								className="mx-auto mb-1.5 h-1 w-10 bg-surface1"
 								aria-hidden
 							/>
-							<div className="rounded-[1.35rem] border border-border/60 bg-base/80 p-2">
+							<div className=" border border-border/60 bg-base/80 p-2">
 								<div className="mb-2 flex items-center justify-between  text-[8px] text-overlay1">
 									<span>9:41</span>
 									<span className="flex items-center gap-1">
@@ -567,7 +567,7 @@ export function MinimalPhone() {
 													stiffness: 420,
 													damping: 32,
 												}}
-												className="flex flex-col items-center gap-1 rounded-md border border-border/60 bg-surface0/40 px-1 py-1.5"
+												className="flex flex-col items-center gap-1 border border-border/60 bg-surface0/40 px-1 py-1.5"
 											>
 												<span
 													style={{
@@ -584,10 +584,7 @@ export function MinimalPhone() {
 									</AnimatePresence>
 								</div>
 							</div>
-							<div
-								className="mx-auto mt-1.5 h-1 w-8 rounded-full bg-surface1"
-								aria-hidden
-							/>
+							<div className="mx-auto mt-1.5 h-1 w-8 bg-surface1" aria-hidden />
 						</div>
 
 						<div className="flex flex-wrap items-center justify-center gap-1.5">

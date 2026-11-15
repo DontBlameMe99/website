@@ -46,8 +46,8 @@ function SourceLine({
 function TileMarks() {
 	return (
 		<span aria-hidden="true" className="flex shrink-0 items-center gap-1">
-			<span className="size-2 rounded-[1px] bg-mauve/70" />
-			<span className="size-2 rounded-[1px] border border-border" />
+			<span className="size-2 bg-mauve/70" />
+			<span className="size-2 border border-border" />
 		</span>
 	);
 }
@@ -79,14 +79,14 @@ const HERO_APPS = [
 function ObsidianPane() {
 	return (
 		<div className="grid gap-2 sm:grid-cols-[4.5rem_minmax(0,1fr)]">
-			<div className="hidden flex-col gap-0.5 rounded-md border border-border/60 bg-crust/50 p-2  text-[10px] leading-relaxed text-overlay1 sm:flex">
+			<div className="hidden flex-col gap-0.5 border border-border/60 bg-crust/50 p-2  text-[10px] leading-relaxed text-overlay1 sm:flex">
 				<span className="text-overlay0">vault/</span>
 				<span className="truncate text-lavender">notes/</span>
 				<span className="truncate pl-2 text-subtext0">daily.md</span>
 				<span className="truncate pl-2 text-lavender">meeting.md</span>
 				<span className="truncate pl-2 text-subtext0">typst.md</span>
 			</div>
-			<div className="min-w-0 rounded-md border border-border/60 bg-crust/50 p-2.5  text-[11px] leading-relaxed text-subtext0">
+			<div className="min-w-0 border border-border/60 bg-crust/50 p-2.5  text-[11px] leading-relaxed text-subtext0">
 				<SourceLine n={1}>
 					<Tok color={LAVENDER}>#</Tok> Meeting notes
 				</SourceLine>
@@ -105,9 +105,9 @@ function ObsidianPane() {
 
 function NeovimPane() {
 	return (
-		<div className="rounded-md border border-border/60 bg-crust/50 p-2.5  text-[11px] leading-relaxed text-subtext0">
+		<div className=" border border-border/60 bg-crust/50 p-2.5  text-[11px] leading-relaxed text-subtext0">
 			<div className="mb-2 flex flex-wrap items-center gap-1.5 text-[10px]">
-				<span className="rounded-sm bg-surface0 px-1.5 py-0.5 text-green">
+				<span className=" bg-surface0 px-1.5 py-0.5 text-green">
 					1 note.typ
 				</span>
 				<span className="truncate text-overlay0">~/notes</span>
@@ -125,10 +125,8 @@ function NeovimPane() {
 			<SourceLine n={5}>
 				<span className="text-overlay0/60">~</span>
 			</SourceLine>
-			<div className="mt-2 flex items-center gap-2 rounded-sm bg-surface0/60 px-1.5 py-0.5 text-[10px]">
-				<span className="rounded-sm bg-green px-1 font-bold text-crust">
-					NORMAL
-				</span>
+			<div className="mt-2 flex items-center gap-2 bg-surface0/60 px-1.5 py-0.5 text-[10px]">
+				<span className=" bg-green px-1 font-bold text-crust">NORMAL</span>
 				<span className="text-overlay1">note.typ</span>
 				<span className="text-overlay0">typst</span>
 			</div>
@@ -138,10 +136,10 @@ function NeovimPane() {
 
 function TypstPane() {
 	return (
-		<div className="rounded-md border border-border/60 bg-mantle/80 p-3">
+		<div className=" border border-border/60 bg-mantle/80 p-3">
 			<div className="mx-auto max-w-[16rem] space-y-2">
 				<div
-					className="w-fit rounded-sm px-2 py-0.5  text-xs font-bold text-crust"
+					className="w-fit px-2 py-0.5  text-xs font-bold text-crust"
 					style={{ background: MAUVE }}
 				>
 					Meeting notes
@@ -157,7 +155,7 @@ function TypstPane() {
 				<div className="flex items-center justify-between  text-[10px] text-overlay0">
 					<span>compiled</span>
 					<span className="flex items-center gap-1 text-green">
-						<span className="size-1.5 rounded-full bg-green" /> live preview
+						<span className="size-1.5 bg-green" /> live preview
 					</span>
 				</div>
 			</div>
@@ -173,7 +171,7 @@ export function HeroWindow() {
 
 	return (
 		<motion.section
-			className="not-prose my-6 overflow-hidden rounded-panel border border-border bg-base tile-tint"
+			className="not-prose my-6 overflow-hidden border border-border bg-base tile-tint"
 			style={{ "--post-accent": app.accent } as CSSProperties}
 			initial={reduced ? false : { opacity: 0, y: 16, scale: 0.985 }}
 			animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -192,7 +190,7 @@ export function HeroWindow() {
 							setActive((current) => (current + 1) % HERO_APPS.length)
 						}
 						aria-label="Show the next tool"
-						className="group flex items-center gap-1 rounded-md px-1.5 py-0.5  text-[10px] text-overlay1 transition-colors hover:bg-surface0/60 hover:text-text"
+						className="group flex items-center gap-1 px-1.5 py-0.5  text-[10px] text-overlay1 transition-colors hover:bg-surface0/60 hover:text-text"
 					>
 						<span className="tabular-nums">
 							{active + 1}/{HERO_APPS.length}
@@ -217,7 +215,7 @@ export function HeroWindow() {
 						aria-controls={`${id}-panel`}
 						onClick={() => setActive(index)}
 						className={cn(
-							"relative rounded-md px-2.5 py-1  text-[11px] transition-colors",
+							"relative px-2.5 py-1  text-[11px] transition-colors",
 							option.id === app.id
 								? "text-crust"
 								: "text-overlay1 hover:bg-surface0/60 hover:text-text",
@@ -226,7 +224,7 @@ export function HeroWindow() {
 						{option.id === app.id ? (
 							<motion.span
 								layoutId={`${id}-hero-pill`}
-								className="absolute inset-0 rounded-md"
+								className="absolute inset-0"
 								style={{ background: option.accent }}
 								transition={{ type: "spring", stiffness: 380, damping: 30 }}
 							/>
@@ -330,7 +328,7 @@ const NOTE_TABS = [
 		content: (
 			<div className="space-y-2 py-1">
 				<div className="flex items-center gap-2">
-					<span className="h-3.5 w-1 rounded-full bg-mauve" />
+					<span className="h-3.5 w-1 bg-mauve" />
 					<span className="text-xs font-bold text-text">Meeting notes</span>
 				</div>
 				<p className="text-[11px] leading-relaxed">
@@ -436,7 +434,7 @@ function ChordRow({
 
 	return (
 		<div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-			<span className="inline-flex min-w-[7rem] items-center gap-1 rounded-md border border-border/70 bg-crust/60 px-2 py-1  text-[11px]">
+			<span className="inline-flex min-w-[7rem] items-center gap-1 border border-border/70 bg-crust/60 px-2 py-1  text-[11px]">
 				<span
 					className={cn(
 						"whitespace-pre",

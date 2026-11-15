@@ -1,5 +1,5 @@
-import { ArrowUpRight, CodeXml, Package, Terminal, Wrench } from "lucide-react";
-import { Tile } from "~/components/wm/tile";
+import { ArrowUpRight } from "lucide-react";
+import { PageHeader } from "~/components/layout/page_header";
 import { seo } from "~/lib/seo";
 import { PROJECTS } from "~/lib/site";
 
@@ -10,72 +10,75 @@ export const meta = () =>
 			"Selvage, Minecraft plugins, and everything else DontBlameMe keeps on Codeberg.",
 	});
 
-const ICONS = { app: Package, plugin: Wrench, source: CodeXml } as const;
+const KIND = {
+	app: "Application",
+	plugin: "Minecraft plugin",
+	source: "Source",
+} as const;
 
 export default function ProjectsPage() {
 	return (
-		<div className="space-y-2">
-			<div className="grid gap-2 sm:grid-cols-2">
-				{PROJECTS.map((project) => {
-					const Icon = ICONS[project.kind];
-					return (
-						<Tile
-							key={project.name}
-							title={`~/${project.name.toLowerCase()}`}
-							label={project.name}
-							accent={`var(--${project.accent})`}
-						>
-							<a
-								href={project.href}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="group flex h-full flex-col gap-3 p-4 transition-colors hover:bg-surface0/20"
-							>
-								<div className="flex items-center justify-between">
-									<span
-										className="grid size-7 place-items-center rounded-[2px] border"
-										style={{
-											borderColor: `color-mix(in srgb, var(--${project.accent}) 35%, transparent)`,
-											background: `color-mix(in srgb, var(--${project.accent}) 12%, transparent)`,
-											color: `var(--${project.accent})`,
-										}}
-									>
-										<Icon className="size-3.5" strokeWidth={1.8} />
-									</span>
-									<ArrowUpRight className="size-4 text-overlay1 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-text" />
-								</div>
-								<p className="text-xs leading-relaxed text-subtext0">
-									{project.blurb}
-								</p>
-								<span className="mt-auto truncate text-[10px] text-overlay0">
-									{project.href.replace(/^https?:\/\//, "")}
-								</span>
-							</a>
-						</Tile>
-					);
-				})}
-			</div>
+		<div>
+			<PageHeader
+				index="03"
+				label="Projects"
+				meta={`${PROJECTS.length} entries`}
+				title="Projects"
+				lead="Things I build and keep running. Source lives on Codeberg; everything here is one click away from the code."
+			/>
 
-			<Tile title="~/more" label="more on codeberg" accent="var(--blue)">
-				<div className="p-4">
-					<p className="flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-overlay1">
-						<Terminal className="size-3" />
-						codeberg
-					</p>
-					<p className="mt-2 max-w-prose text-xs leading-relaxed text-subtext0">
-						Browse{" "}
+			<ul className="mt-14 grid gap-6 sm:grid-cols-2">
+				{PROJECTS.map((project, index) => (
+					<li key={project.name} className="flex">
 						<a
-							href="https://git.dontblameme.dev"
+							href={project.href}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="text-lavender underline decoration-lavender/40 underline-offset-4 hover:text-mauve"
+							className="nb-panel nb-lift group flex h-full w-full flex-col p-6"
 						>
-							my Codeberg profile
-						</a>{" "}
-						for more projects and source code.
-					</p>
-				</div>
-			</Tile>
+							<div className="flex items-baseline justify-between">
+								<span className="text-label text-subtext0 tabular-nums">
+									{String(index + 1).padStart(2, "0")}
+								</span>
+								<span className="nb-chip bg-base text-subtext0">
+									{KIND[project.kind]}
+								</span>
+							</div>
+
+							<h2 className="mt-8 text-2xl font-extrabold leading-none tracking-[-0.03em] text-text transition-colors group-hover:text-mauve">
+								{project.name}
+							</h2>
+
+							<p className="mt-3 text-[13px] leading-relaxed text-subtext0">
+								{project.blurb}
+							</p>
+
+							<span className="mt-auto flex items-center justify-between gap-4 border-t-2 border-ink pt-3 text-meta">
+								<span className="truncate">
+									{project.href.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+								</span>
+								<ArrowUpRight className="size-4 shrink-0 text-subtext0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-mauve" />
+							</span>
+						</a>
+					</li>
+				))}
+			</ul>
+
+			<div className="mt-16 max-w-[60ch] border-t-2 border-ink pt-6">
+				<p className="text-label text-subtext0">More</p>
+				<p className="mt-3 text-sm leading-relaxed text-subtext0">
+					Browse{" "}
+					<a
+						href="https://git.dontblameme.dev"
+						target="_blank"
+						rel="noopener noreferrer"
+						className="bg-mauve px-1 font-semibold text-crust no-underline transition-colors hover:bg-text"
+					>
+						my Codeberg profile
+					</a>{" "}
+					for more projects and source code.
+				</p>
+			</div>
 		</div>
 	);
 }

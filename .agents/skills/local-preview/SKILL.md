@@ -13,13 +13,14 @@ hold up as evidence.
 - Run `./scripts/dev.sh status` and confirm it reports this worktree before any
   browser observation. A server owned by another worktree serves another
   checkout, so its screenshots prove nothing about this change.
-- Remotion/motion animations run on `requestAnimationFrame`, which is paused in a
-  hidden preview tab. If a page looks blank, open the tab first, wait, then
-  screenshot. `document.getAnimations().finish()` does not affect them.
-- Headless Chromium defaults to `(hover: none)`, so Tailwind `hover:` rules and
-  the dock/tile hover states need a real pointer.
-- Check both themes: the palette lives on `<html class="dark|light">`, and the
-  status bar wraps it in `theme-vt` for the duration of the reveal.
+- Motion animations run on `requestAnimationFrame`, which is paused in a hidden
+  preview tab. If a pane looks blank, open the tab, wait, then screenshot.
+  `document.getAnimations().finish()` does not affect them.
+- Lazy images do not start loading in a hidden tab. Measure them after scrolling
+  into view, or force `img.loading = "eager"` before reading the box.
+- Check both themes: the palette lives on `<html class="dark|light">`. The theme
+  button uses a view transition that can stall in a hidden tab, so set
+  `localStorage.setItem("dbm-theme", "light")` and reload to inspect Latte.
 
 ## Start and stop
 

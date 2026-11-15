@@ -9,11 +9,8 @@ import {
 } from "react-router";
 
 import "./app.css";
-import { KeyBar } from "~/components/wm/key_bar";
-import { SiteFooter } from "~/components/wm/site_footer";
-import { StatusBar } from "~/components/wm/status_bar";
-import { Wallpaper } from "~/components/wm/wallpaper";
-import { useKeybindings } from "~/hooks/use_keybindings";
+import { SiteFooter } from "~/components/layout/site_footer";
+import { SiteHeader } from "~/components/layout/site_header";
 import { seo } from "~/lib/seo";
 import { SITE } from "~/lib/site";
 import { ThemeProvider, themeBootScript } from "~/lib/theme_provider";
@@ -33,11 +30,6 @@ export const links = () => [
 	},
 ];
 
-function Shortcuts() {
-	useKeybindings();
-	return null;
-}
-
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en" className="dark" suppressHydrationWarning>
@@ -52,7 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			<body className="min-h-dvh bg-crust text-text antialiased">
 				<a
 					href="#main-content"
-					className="sr-only focus:not-sr-only focus:fixed focus:top-10 focus:left-2 focus:z-[100] focus:rounded-[2px] focus:border focus:border-mauve focus:bg-mantle focus:px-2 focus:py-1 focus:text-xs"
+					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-mauve focus:px-3 focus:py-1.5 focus:text-xs focus:font-semibold focus:text-crust"
 				>
 					Skip to content
 				</a>
@@ -69,22 +61,19 @@ function Shell({ children }: { children: React.ReactNode }) {
 
 	return (
 		<ThemeProvider>
-			<Wallpaper />
-			<StatusBar />
+			<SiteHeader />
 			<main
 				id="main-content"
-				className="relative z-10 mx-auto w-full max-w-[1800px] px-2 pb-10 pt-10 transition-[max-width] duration-300"
+				className="mx-auto w-full max-w-[1240px] px-5 pb-10 pt-10 sm:pt-14"
 			>
 				<div
 					key={location.pathname}
-					className="animate-boot motion-reduce:animate-none"
+					className="animate-[page-in_180ms_ease-out]"
 				>
 					{children}
 				</div>
-				<SiteFooter />
 			</main>
-			<KeyBar />
-			<Shortcuts />
+			<SiteFooter />
 		</ThemeProvider>
 	);
 }

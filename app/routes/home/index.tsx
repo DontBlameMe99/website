@@ -1,242 +1,199 @@
-import { ArrowRight, ArrowUpRight, BookOpen } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router";
+import { SectionLabel } from "~/components/layout/page_header";
 import { socialIcon } from "~/components/shared/social_icons";
-import { Tile } from "~/components/wm/tile";
 import { formatDate, posts } from "~/lib/posts";
 import { seo } from "~/lib/seo";
-import { PROJECTS, SITE, SOCIALS, TOPICS } from "~/lib/site";
+import { PROJECTS, SITE, SOCIALS } from "~/lib/site";
 
 export const meta = () => seo({ title: SITE.name });
 
-const _STACK = ["nixos", "neovim", "typst", "colemak dh"];
+const FACTS = [
+	["os", "nixos"],
+	["editor", "neovim"],
+	["notes", "typst"],
+	["layout", "colemak dh"],
+] as const;
 
-function Hero({ className }: { className?: string }) {
+function Currently() {
 	return (
-		<Tile
-			title="~/whoami"
-			label="dbm@nixos: ~/whoami"
-			accent="var(--mauve)"
-			className={className}
-		>
-			<div className="flex h-full flex-col px-5 py-6 sm:px-7 sm:py-8">
-				<p className="text-[10px] uppercase tracking-[0.2em] text-overlay1">
-					personal site · privacy · linux · open source
-				</p>
-
-				<h1 className="mt-3 text-fluid-4xl text-text">{SITE.name}</h1>
-
-				<p className="mt-4 max-w-[52ch] text-fluid-sm leading-relaxed text-subtext0">
-					Self-taught developer. I write about the things I break, fix, and then
-					write down so I don't forget: Linux, privacy, note taking, keyboards,
-					and the occasional strong opinion.
-				</p>
-
-				<div className="mt-6 flex flex-wrap items-center gap-2">
-					<Link
-						to="/blog"
-						className="group inline-flex items-center gap-2 rounded-[2px] border border-mauve/50 bg-mauve/12 px-3 py-1.5 text-xs font-semibold text-mauve transition-colors hover:border-mauve hover:bg-mauve/20"
+		<aside className="nb-panel self-start p-5">
+			<p className="text-label text-subtext0">Currently</p>
+			<dl className="mt-4">
+				{FACTS.map(([key, value]) => (
+					<div
+						key={key}
+						className="flex items-baseline justify-between gap-4 border-b border-rule py-2.5 last:border-b-0"
 					>
-						<BookOpen className="size-3.5" />
-						Read the blog
-						<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-					</Link>
-					<Link
-						to="/projects"
-						className="inline-flex items-center gap-2 rounded-[2px] border border-border px-3 py-1.5 text-xs text-subtext1 transition-colors hover:border-teal/50 hover:text-teal"
-					>
-						Projects
-					</Link>
-				</div>
-
-				<div className="mt-auto flex flex-wrap items-end justify-between gap-4 pt-7">
-					<div className="flex items-center gap-1.5">
-						{SOCIALS.map((social) => {
-							const Icon = socialIcon(social.icon);
-							return (
-								<a
-									key={social.label}
-									href={social.href}
-									target={
-										social.href.startsWith("mailto:") ? undefined : "_blank"
-									}
-									rel="noopener noreferrer"
-									aria-label={social.label}
-									title={social.label}
-									className="grid size-7 place-items-center rounded-[2px] border border-border text-overlay1 transition-colors hover:border-mauve/40 hover:text-mauve"
-								>
-									<Icon className="size-3.5" />
-								</a>
-							);
-						})}
+						<dt className="text-meta">{key}</dt>
+						<dd className="text-[13px] font-semibold text-text">{value}</dd>
 					</div>
-
-					<p className="text-[11px] text-overlay1">
-						{posts.length} posts ·{" "}
-						{posts
-							.reduce((total, post) => total + post.words, 0)
-							.toLocaleString("en-US")}{" "}
-						words
-					</p>
-				</div>
-			</div>
-		</Tile>
+				))}
+			</dl>
+		</aside>
 	);
 }
 
-function Profile({ className }: { className?: string }) {
+function WritingList() {
 	return (
-		<Tile
-			title="~/profile"
-			label="profile.png"
-			accent="var(--green)"
-			className={className}
-		>
-			<div className="flex h-full flex-col p-3">
-				<div
-					className="relative grid min-h-[10.5rem] flex-1 place-items-center overflow-hidden rounded-[2px] border border-border"
-					style={{
-						background:
-							"radial-gradient(120% 110% at 20% 10%, color-mix(in srgb, var(--mauve) 14%, transparent), transparent 58%), var(--crust)",
-					}}
-				>
-					<img
-						src="/images/avatar.png"
-						alt="The dbm mark used as my avatar"
-						width={800}
-						height={800}
-						className="w-[72%] max-w-[15rem]"
-					/>
-				</div>
-
-				<dl className="mt-3 grid gap-1 text-[11px]">
-					{[
-						["os", "nixos"],
-						["editor", "neovim"],
-						["notes", "typst"],
-						["layout", "colemak dh"],
-					].map(([key, value]) => (
-						<div
-							key={key}
-							className="flex items-baseline justify-between gap-2"
-						>
-							<dt className="text-overlay1">{key}</dt>
-							<dd className="text-subtext1">{value}</dd>
-						</div>
-					))}
-				</dl>
-
-				<ul className="mt-3 flex flex-wrap gap-1 border-t border-border pt-3">
-					{TOPICS.slice(0, 5).map((topic) => (
-						<li
-							key={topic}
-							className="rounded-[2px] border border-border px-1.5 py-0.5 text-[10px] text-overlay1"
-						>
-							{topic}
-						</li>
-					))}
-				</ul>
-			</div>
-		</Tile>
-	);
-}
-
-function Writing({ className }: { className?: string }) {
-	return (
-		<Tile
-			title="~/blog"
-			label="recent posts"
-			accent="var(--teal)"
-			aside={
+		<section>
+			<div className="flex items-baseline justify-between">
+				<SectionLabel>Writing</SectionLabel>
 				<Link
 					to="/blog"
-					className="inline-flex items-center gap-1 transition-colors hover:text-mauve"
+					className="text-meta uppercase tracking-[0.12em] hover:text-mauve"
 				>
-					all {posts.length}
-					<ArrowUpRight className="size-3" />
+					All {posts.length}
 				</Link>
-			}
-			className={className}
-		>
-			<ul className="divide-y divide-border">
-				{posts.slice(0, 5).map((post) => (
-					<li key={post.slug}>
+			</div>
+
+			<ul>
+				{posts.slice(0, 6).map((post, index) => (
+					<li key={post.slug} className="border-b-2 border-ink">
 						<Link
 							to={`/blog/${post.slug}`}
-							className="group flex items-baseline gap-3 px-3 py-3 transition-colors hover:bg-surface0/25"
+							className="group grid grid-cols-[2rem_minmax(0,1fr)] gap-x-4 gap-y-1 py-5 sm:grid-cols-[2rem_minmax(0,1fr)_7rem]"
 						>
-							<span
-								aria-hidden="true"
-								className="size-1.5 shrink-0 self-center rounded-full"
-								style={{ background: `var(--${post.accent}, var(--mauve))` }}
-							/>
-							<span className="min-w-0 flex-1">
-								<span className="block text-[13px] font-semibold leading-snug text-text transition-colors group-hover:text-mauve">
+							<span className="text-meta pt-1.5 text-overlay1 tabular-nums">
+								{String(index + 1).padStart(2, "0")}
+							</span>
+							<span className="min-w-0">
+								<span className="block text-[1.0625rem] font-bold leading-snug tracking-[-0.02em] text-text transition-colors group-hover:bg-mauve group-hover:text-crust">
 									{post.title}
 								</span>
-								<span className="mt-1 flex flex-wrap items-center gap-x-2 text-[10px] text-overlay1">
-									{post.tags.slice(0, 3).map((tag) => (
-										<span key={tag}>#{tag}</span>
-									))}
+								<span className="mt-1.5 block text-meta">
+									{post.tags.map((tag) => `#${tag}`).join("  ")}
 								</span>
 							</span>
-							<span className="flex shrink-0 flex-col items-end gap-0.5 text-[10px] text-overlay1">
-								<time dateTime={post.date}>{formatDate(post.date)}</time>
-								<span>{post.minutes} min</span>
-							</span>
+							<time
+								dateTime={post.date}
+								className="text-meta col-start-2 sm:col-start-3 sm:text-right"
+							>
+								{formatDate(post.date)}
+							</time>
 						</Link>
 					</li>
 				))}
 			</ul>
-		</Tile>
+
+			<Link to="/blog" className="nb-button mt-8 bg-base text-text">
+				Read all writing
+				<ArrowRight className="size-4" />
+			</Link>
+		</section>
 	);
 }
 
-function Projects({ className }: { className?: string }) {
+function ProjectsRail() {
 	return (
-		<Tile
-			title="~/projects"
-			label="projects"
-			accent="var(--green)"
-			className={className}
-		>
-			<ul className="divide-y divide-border">
+		<section className="nb-panel p-5">
+			<div className="flex items-baseline justify-between">
+				<p className="text-label text-subtext0">Projects</p>
+				<Link
+					to="/projects"
+					className="text-meta uppercase tracking-[0.12em] hover:text-mauve"
+				>
+					All
+				</Link>
+			</div>
+			<ul className="mt-3">
 				{PROJECTS.map((project) => (
 					<li key={project.name}>
 						<a
 							href={project.href}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="group flex items-center gap-2.5 px-3 py-3 transition-colors hover:bg-surface0/25"
+							className="group flex items-baseline justify-between gap-4 border-b border-rule py-2.5 last:border-b-0"
 						>
-							<span
-								aria-hidden="true"
-								className="size-1.5 shrink-0 rounded-full"
-								style={{ background: `var(--${project.accent})` }}
-							/>
-							<span className="min-w-0 flex-1">
-								<span className="block truncate text-[12px] text-subtext1 transition-colors group-hover:text-text">
-									{project.name}
-								</span>
-								<span className="mt-0.5 block truncate text-[10px] text-overlay1">
-									{project.blurb}
-								</span>
+							<span className="text-[13px] font-semibold text-text transition-colors group-hover:text-mauve">
+								{project.name}
 							</span>
-							<ArrowUpRight className="size-3 shrink-0 text-overlay1 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+							<ArrowUpRight className="size-3.5 shrink-0 text-subtext0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
 						</a>
 					</li>
 				))}
 			</ul>
-		</Tile>
+		</section>
+	);
+}
+
+function Elsewhere() {
+	return (
+		<section className="nb-panel p-5">
+			<p className="text-label text-subtext0">Elsewhere</p>
+			<ul className="mt-3">
+				{SOCIALS.map((social) => {
+					const Icon = socialIcon(social.icon);
+					return (
+						<li key={social.label}>
+							<a
+								href={social.href}
+								target={
+									social.href.startsWith("mailto:") ? undefined : "_blank"
+								}
+								rel="noopener noreferrer"
+								className="group flex items-center justify-between gap-4 border-b border-rule py-2.5 text-[13px] font-semibold text-text transition-colors last:border-b-0 hover:text-mauve"
+							>
+								<span>{social.label}</span>
+								<Icon className="size-3.5 text-subtext0 transition-colors group-hover:text-mauve" />
+							</a>
+						</li>
+					);
+				})}
+			</ul>
+		</section>
 	);
 }
 
 export default function Home() {
 	return (
-		<div className="grid items-start gap-2 lg:grid-cols-[minmax(0,1fr)_20rem] lg:grid-rows-[auto_1fr]">
-			<Hero className="lg:col-start-1 lg:row-start-1" />
-			<Profile className="lg:col-start-2 lg:row-start-1" />
-			<Writing className="lg:col-start-1 lg:row-start-2" />
-			<Projects className="lg:col-start-2 lg:row-start-2" />
+		<div>
+			<header className="border-t-2 border-ink pt-4">
+				<div className="flex items-baseline justify-between gap-6">
+					<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-crust">
+						01<span className="mx-1 opacity-40">/</span>Index
+					</span>
+					<span className="text-meta uppercase tracking-[0.12em]">
+						{posts.length} posts
+					</span>
+				</div>
+
+				<div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-14">
+					<div>
+						<h1 className="text-display text-text">{SITE.name}</h1>
+						<p className="mt-7 max-w-[52ch] text-lead">
+							Self-taught developer. I write about privacy, Linux, note taking
+							and the tools I keep rebuilding, and I keep the receipts in
+							public.
+						</p>
+						<div className="mt-9 flex flex-wrap items-center gap-3">
+							<Link to="/blog" className="nb-button bg-mauve text-crust">
+								Read the writing
+								<ArrowRight className="size-4" />
+							</Link>
+							<Link to="/projects" className="nb-button bg-base text-text">
+								Projects
+							</Link>
+							<a
+								href="mailto:contact@dontblameme.dev"
+								className="nb-button bg-base text-text"
+							>
+								Email
+							</a>
+						</div>
+					</div>
+
+					<Currently />
+				</div>
+			</header>
+
+			<div className="mt-20 grid gap-12 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-14">
+				<WritingList />
+				<div className="flex flex-col gap-6">
+					<ProjectsRail />
+					<Elsewhere />
+				</div>
+			</div>
 		</div>
 	);
 }

@@ -18,15 +18,15 @@ import { cn } from "~/lib/utils";
 function Lights() {
 	return (
 		<span className="flex items-center gap-1" aria-hidden="true">
-			<span className="size-2 rounded-full bg-red/70" />
-			<span className="size-2 rounded-full bg-yellow/70" />
-			<span className="size-2 rounded-full bg-green/70" />
+			<span className="size-2 bg-red/70" />
+			<span className="size-2 bg-yellow/70" />
+			<span className="size-2 bg-green/70" />
 		</span>
 	);
 }
 
 const BUTTON =
-	"inline-flex items-center gap-1.5 rounded-full border border-border bg-surface0/40 px-2.5 py-1  text-[11px] text-subtext0 transition-colors hover:border-mauve/50 hover:text-mauve";
+	"inline-flex items-center gap-1.5 border border-border bg-surface0/40 px-2.5 py-1  text-[11px] text-subtext0 transition-colors hover:border-mauve/50 hover:text-mauve";
 
 /* --- hero: the whole system as a flow ----------------------------------- */
 
@@ -183,7 +183,7 @@ export function SystemFlow() {
 				})}
 			</svg>
 
-			<div className="mt-3 flex min-h-11 items-start gap-2 rounded-md border border-border/70 bg-surface0/20 px-2.5 py-2">
+			<div className="mt-3 flex min-h-11 items-start gap-2 border border-border/70 bg-surface0/20 px-2.5 py-2">
 				<span className="mt-0.5  text-[10px] uppercase tracking-[0.14em] text-overlay0">
 					why
 				</span>
@@ -389,9 +389,9 @@ export function DayStrip() {
 			</div>
 
 			<div className="relative mt-2 h-6">
-				<div className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-surface0" />
+				<div className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 bg-surface0" />
 				<motion.div
-					className="absolute left-0 top-1/2 h-1 -translate-y-1/2 rounded-full"
+					className="absolute left-0 top-1/2 h-1 -translate-y-1/2"
 					style={{ background: step.accent }}
 					animate={{ width: `${percent}%` }}
 					transition={spring}
@@ -399,7 +399,7 @@ export function DayStrip() {
 				{DAY.map((entry) => (
 					<span
 						key={entry.short}
-						className="absolute top-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full"
+						className="absolute top-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2"
 						style={{
 							left: `${((entry.at - DAY_START) / (DAY_END - DAY_START)) * 100}%`,
 							background: "var(--surface2)",
@@ -407,7 +407,7 @@ export function DayStrip() {
 					/>
 				))}
 				<motion.span
-					className="absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-base"
+					className="absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 ring-2 ring-base"
 					style={{ background: step.accent }}
 					animate={{ left: `${percent}%` }}
 					transition={spring}
@@ -441,7 +441,7 @@ export function DayStrip() {
 							onClick={() => setHour(entry.at)}
 							aria-pressed={active}
 							className={cn(
-								"relative rounded-md px-2 py-1.5 text-left  text-[10px] transition-colors",
+								"relative px-2 py-1.5 text-left  text-[10px] transition-colors",
 								active
 									? "text-crust"
 									: "text-overlay1 hover:bg-surface0/50 hover:text-subtext0",
@@ -450,7 +450,7 @@ export function DayStrip() {
 							{active ? (
 								<motion.span
 									layoutId="day-step"
-									className="absolute inset-0 -z-10 rounded-md"
+									className="absolute inset-0 -z-10"
 									style={{ background: entry.accent }}
 									transition={
 										reduced

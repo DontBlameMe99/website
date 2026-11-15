@@ -31,7 +31,7 @@ export function PostHeading({
 			<a
 				href={`#${id}`}
 				aria-label="Link to this section"
-				className="absolute -left-5 top-0 text-mauve no-underline opacity-0 transition-opacity focus-visible:opacity-100 group-hover/heading:opacity-70"
+				className="heading-anchor"
 			>
 				#
 			</a>

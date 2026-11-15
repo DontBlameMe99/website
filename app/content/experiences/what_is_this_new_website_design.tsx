@@ -16,7 +16,7 @@ function MiniRail() {
 	const rows = [0, 1, 1, 2, 1, 2, 1];
 
 	return (
-		<div className="flex w-12 flex-col gap-1 rounded-[4px] bg-mantle/50 p-1">
+		<div className="flex w-12 flex-col gap-1 bg-mantle/50 p-1">
 			{rows.map((depth, index) => (
 				<div
 					key={index}
@@ -25,12 +25,12 @@ function MiniRail() {
 				>
 					<span
 						className={cn(
-							"size-1 shrink-0 rounded-[1px]",
+							"size-1 shrink-0",
 							index === 0 ? "bg-mauve" : "bg-surface2",
 						)}
 					/>
 					<span
-						className="h-1 rounded-full bg-surface1"
+						className="h-1 bg-surface1"
 						style={{ width: 12 + (index % 3) * 5 }}
 					/>
 				</div>
@@ -60,7 +60,7 @@ const MINI_EDGES: [number, number][] = [
 
 function MiniGraph({ reduced }: { reduced: boolean }) {
 	return (
-		<div className="h-full w-[54px] rounded-[4px] bg-mantle/50 p-1">
+		<div className="h-full w-[54px] bg-mantle/50 p-1">
 			<svg
 				viewBox="0 0 54 84"
 				className="h-full w-full"
@@ -105,12 +105,9 @@ const ARTICLE_LINES = [
 
 function MiniArticle({ fresh, reduced }: { fresh: boolean; reduced: boolean }) {
 	return (
-		<div className="flex h-full min-w-0 flex-col gap-1.5 rounded-[4px] bg-mantle/50 p-1.5">
+		<div className="flex h-full min-w-0 flex-col gap-1.5 bg-mantle/50 p-1.5">
 			<motion.div
-				className={cn(
-					"h-1.5 rounded-full",
-					fresh ? "bg-mauve/80" : "bg-surface1",
-				)}
+				className={cn("h-1.5", fresh ? "bg-mauve/80" : "bg-surface1")}
 				animate={{ width: fresh ? "72%" : "64%" }}
 				transition={springFor(reduced)}
 			/>
@@ -127,7 +124,7 @@ function MiniArticle({ fresh, reduced }: { fresh: boolean; reduced: boolean }) {
 						{["meta", "design"].map((tag) => (
 							<span
 								key={tag}
-								className="rounded-full border border-mauve/40 bg-mauve/10 px-1  text-[7px] leading-3 text-mauve"
+								className=" border border-mauve/40 bg-mauve/10 px-1  text-[7px] leading-3 text-mauve"
 							>
 								#{tag}
 							</span>
@@ -141,7 +138,7 @@ function MiniArticle({ fresh, reduced }: { fresh: boolean; reduced: boolean }) {
 						{paragraph.map((width) => (
 							<div
 								key={width}
-								className="h-1 rounded-full bg-surface1/80"
+								className="h-1 bg-surface1/80"
 								style={{ width }}
 							/>
 						))}
@@ -156,12 +153,12 @@ function MiniLayout({ fresh, reduced }: { fresh: boolean; reduced: boolean }) {
 	const transition = springFor(reduced);
 
 	return (
-		<div className="overflow-hidden rounded-panel border border-border/80 bg-base">
+		<div className="overflow-hidden border border-border/80 bg-base">
 			<div className="flex items-center gap-2 border-b border-border/70 bg-mantle/60 px-2.5 py-1.5">
 				<span className="flex shrink-0 gap-1">
-					<span className="size-1.5 rounded-full bg-[var(--red)]" />
-					<span className="size-1.5 rounded-full bg-[var(--yellow)]" />
-					<span className="size-1.5 rounded-full bg-[var(--green)]" />
+					<span className="size-1.5 bg-[var(--red)]" />
+					<span className="size-1.5 bg-[var(--yellow)]" />
+					<span className="size-1.5 bg-[var(--green)]" />
 				</span>
 				<span className="truncate  text-[9px] text-overlay1">
 					dontblameme.codeberg.page
@@ -448,7 +445,7 @@ export function NoteGraphFigure() {
 					type="button"
 					onClick={connect}
 					className={cn(
-						"inline-flex shrink-0 items-center gap-1 rounded-full border px-2 py-0.5 transition-colors",
+						"inline-flex shrink-0 items-center gap-1 border px-2 py-0.5 transition-colors",
 						exhausted
 							? "border-border text-overlay1 hover:border-mauve/50 hover:text-mauve"
 							: "border-mauve/40 bg-mauve/10 text-mauve hover:bg-mauve/20",
@@ -508,7 +505,7 @@ export function RedirectFigure() {
 						type="button"
 						onClick={() => setSelected(entry.id)}
 						className={cn(
-							"relative rounded-md px-2 py-1  text-[10px] transition-colors",
+							"relative px-2 py-1  text-[10px] transition-colors",
 							entry.id === selected
 								? "text-base"
 								: "text-overlay1 hover:text-text",
@@ -517,7 +514,7 @@ export function RedirectFigure() {
 						{entry.id === selected ? (
 							<motion.span
 								layoutId="redirect-pill"
-								className="absolute inset-0 -z-10 rounded-md bg-mauve"
+								className="absolute inset-0 -z-10 bg-mauve"
 								transition={springFor(!!reduced)}
 							/>
 						) : null}
@@ -526,7 +523,7 @@ export function RedirectFigure() {
 				))}
 			</div>
 
-			<div className="mt-2.5 rounded-panel border border-border/70 bg-surface0/20 p-2.5">
+			<div className="mt-2.5 border border-border/70 bg-surface0/20 p-2.5">
 				<div className="flex items-baseline gap-2  text-[10px]">
 					<span className="shrink-0 text-overlay0">GET</span>
 					<span className="min-w-0 break-all text-subtext0">

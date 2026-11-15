@@ -2,7 +2,7 @@ import { Activity, Keyboard } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import { Chip, Panel, Range, Stat, Switch } from "~/components/post/kit";
-import { BlurFade } from "~/components/ui/blur_fade";
+import { Reveal } from "~/components/ui/reveal";
 import { cn } from "~/lib/utils";
 
 const ACCENT = "var(--post-accent)";
@@ -49,7 +49,7 @@ function TypingStrip() {
 				<span className="text-text">{HERO_TEXT.slice(0, typed)}</span>
 				<motion.span
 					aria-hidden
-					className="inline-block h-3.5 w-[5px] translate-y-[1px] rounded-[1px]"
+					className="inline-block h-3.5 w-[5px] translate-y-[1px]"
 					style={{ background: ACCENT }}
 					animate={reduced ? { opacity: 1 } : { opacity: [1, 1, 0, 0] }}
 					transition={caretTransition}
@@ -64,7 +64,7 @@ function TypingStrip() {
 						<motion.span
 							key={`${letter}-${index}`}
 							className={cn(
-								"inline-flex size-6 items-center justify-center rounded-[5px] border  text-[10px] leading-none sm:size-7",
+								"inline-flex size-6 items-center justify-center border  text-[10px] leading-none sm:size-7",
 								letter === " " && "text-[8px] text-overlay0",
 							)}
 							initial={false}
@@ -101,9 +101,9 @@ function TypingStrip() {
 
 export function Hero() {
 	return (
-		<BlurFade delay={0.05}>
+		<Reveal delay={0.05}>
 			<TypingStrip />
-		</BlurFade>
+		</Reveal>
 	);
 }
 
@@ -111,10 +111,10 @@ export function Hero() {
 
 const ROW_NAMES = ["top", "home", "bottom"];
 
-const QWERTY_ROWS = ["qwertyuiop", "asdfghjkl ", "zxcvbnm   "];
+const QWERTY_ROWS = ["qwertyuiop", "asdfghjkl ", "zxcvbnm"];
 /* Colemak DH: D and H leave the home row for the index-finger column below,
    B and K take their place on the top and bottom rows. */
-const COLEMAK_ROWS = ["qwfpbjluy ", "arstgmneio", "zxcdvkh   "];
+const COLEMAK_ROWS = ["qwfpbjluy ", "arstgmneio", "zxcdvkh"];
 
 const FINGERS = [
 	{ label: "left pinky", color: "var(--rosewater)" },
@@ -204,7 +204,7 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 						<div
 							key={`band-${index}`}
 							className={cn(
-								"rounded-[5px]",
+								"",
 								Math.floor(index / 10) === 1 && "bg-surface0/40",
 							)}
 						/>
@@ -217,7 +217,7 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 							return (
 								<div
 									key={cell.id}
-									className="h-7 rounded-[5px] border border-border/25 bg-surface0/10 sm:h-8"
+									className="h-7 border border-border/25 bg-surface0/10 sm:h-8"
 								/>
 							);
 						}
@@ -233,7 +233,7 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 								aria-pressed={active}
 								aria-label={`${cell.letter}, ${ROW_NAMES[cell.row]} row, ${finger.label}`}
 								className={cn(
-									"relative h-7 rounded-[5px] border  text-[11px] leading-none sm:h-8",
+									"relative h-7 border  text-[11px] leading-none sm:h-8",
 									active && "z-10",
 								)}
 								style={{
@@ -260,7 +260,7 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 								{cell.row === 1 ? (
 									<span
 										aria-hidden
-										className="absolute bottom-[3px] left-1/2 size-[2px] -translate-x-1/2 rounded-full"
+										className="absolute bottom-[3px] left-1/2 size-[2px] -translate-x-1/2"
 										style={{ background: "currentColor", opacity: 0.55 }}
 									/>
 								) : null}
@@ -274,7 +274,7 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 					className="pointer-events-none absolute inset-0 z-20 grid grid-cols-10 gap-[3px] sm:gap-1"
 				>
 					<div
-						className="relative rounded-[5px]"
+						className="relative"
 						style={{
 							gridColumn: `${Math.floor(ghost % 10) + 1}`,
 							gridRow: `${Math.floor(ghost / 10) + 1}`,
@@ -282,7 +282,7 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 						}}
 					>
 						<span
-							className="absolute -right-0.5 -top-0.5 size-1.5 rounded-full"
+							className="absolute -right-0.5 -top-0.5 size-1.5"
 							style={{
 								background: toFinger.color,
 								boxShadow:
@@ -293,10 +293,10 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 				</div>
 			</div>
 
-			<div className="mt-3 space-y-1.5 rounded-[6px] border border-border/60 bg-surface0/30 p-2.5">
+			<div className="mt-3 space-y-1.5 border border-border/60 bg-surface0/30 p-2.5">
 				<div className="flex flex-wrap items-center gap-2  text-[11px]">
 					<span
-						className="inline-flex size-5 items-center justify-center rounded-[4px] border leading-none"
+						className="inline-flex size-5 items-center justify-center border leading-none"
 						style={{
 							borderColor: toFinger.color,
 							color: toFinger.color,
@@ -329,10 +329,7 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 					{ label: "index", color: "var(--teal)" },
 				].map((entry) => (
 					<span key={entry.label} className="inline-flex items-center gap-1">
-						<span
-							className="size-2 rounded-full"
-							style={{ background: entry.color }}
-						/>
+						<span className="size-2" style={{ background: entry.color }} />
 						{entry.label}
 					</span>
 				))}
@@ -480,7 +477,7 @@ export function LearningCurve() {
 
 				<motion.div
 					aria-hidden
-					className="absolute size-2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+					className="absolute size-2 -translate-x-1/2 -translate-y-1/2"
 					initial={false}
 					animate={{
 						left: `${(xFor(day) / CHART_W) * 100}%`,

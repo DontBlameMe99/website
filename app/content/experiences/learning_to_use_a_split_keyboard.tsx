@@ -10,7 +10,7 @@ const ACCENT = "var(--mauve)";
 
 function Half({ side }: { side: "left" | "right" }) {
 	return (
-		<div className="rounded-[8px] border border-border/80 bg-mantle/80 p-1.5 shadow-[0_12px_24px_-16px_rgba(0,0,0,0.85)]">
+		<div className=" border border-border/80 bg-mantle/80 p-1.5">
 			<div className="grid grid-cols-5 gap-1">
 				{Array.from({ length: 20 }, (_, index) => {
 					const home = Math.floor(index / 5) === 1;
@@ -18,7 +18,7 @@ function Half({ side }: { side: "left" | "right" }) {
 						<span
 							key={index}
 							className={cn(
-								"aspect-square rounded-[3px] border",
+								"aspect-square border",
 								home
 									? "border-mauve/40 bg-mauve/20"
 									: "border-border bg-surface0/80",
@@ -33,8 +33,8 @@ function Half({ side }: { side: "left" | "right" }) {
 					side === "left" ? "ml-auto" : "mr-auto",
 				)}
 			>
-				<span className="aspect-[2/1] rounded-[3px] border border-border bg-surface1/70" />
-				<span className="aspect-[2/1] rounded-[3px] border border-border bg-surface1/70" />
+				<span className="aspect-[2/1] border border-border bg-surface1/70" />
+				<span className="aspect-[2/1] border border-border bg-surface1/70" />
 			</div>
 		</div>
 	);
@@ -60,7 +60,7 @@ export function Stance() {
 		>
 			<motion.div
 				aria-hidden="true"
-				className="relative flex items-center justify-center overflow-hidden rounded-md border border-border/60 bg-base/60 px-2 py-7"
+				className="relative flex items-center justify-center overflow-hidden border border-border/60 bg-base/60 px-2 py-7"
 				onViewportEnter={() => setSeen(true)}
 				viewport={{ once: true, margin: "-40px" }}
 				onHoverStart={() => setHover(true)}
@@ -299,7 +299,7 @@ export function MoonlanderFigure() {
 							whileHover={reduced ? undefined : { scale: 1.15 }}
 							transition={{ type: "spring", stiffness: 400, damping: 22 }}
 							className={cn(
-								"absolute grid size-5 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border  text-[9px] transition-colors",
+								"absolute grid size-5 -translate-x-1/2 -translate-y-1/2 place-items-center border  text-[9px] transition-colors",
 								selected
 									? "border-mauve bg-mauve text-crust"
 									: "border-mauve/40 bg-base/90 text-mauve hover:border-mauve",
@@ -310,7 +310,7 @@ export function MoonlanderFigure() {
 							{selected ? (
 								<motion.span
 									layoutId="hotspot-ring"
-									className="pointer-events-none absolute -inset-1 rounded-full border border-mauve/60"
+									className="pointer-events-none absolute -inset-1 border border-mauve/60"
 									transition={{ type: "spring", stiffness: 420, damping: 30 }}
 								/>
 							) : null}
@@ -321,7 +321,7 @@ export function MoonlanderFigure() {
 
 			<div
 				aria-live="polite"
-				className="mt-3 min-h-[4.5rem] rounded-md border border-border/70 bg-surface0/20 p-3"
+				className="mt-3 min-h-[4.5rem] border border-border/70 bg-surface0/20 p-3"
 			>
 				<AnimatePresence mode="wait" initial={false}>
 					<motion.div
@@ -397,7 +397,7 @@ export function LayersFigure() {
 							{keycaps.map((cap, index) => (
 								<div
 									key={index}
-									className="relative grid aspect-square place-items-center overflow-hidden rounded-[5px] border border-border bg-surface0/60"
+									className="relative grid aspect-square place-items-center overflow-hidden border border-border bg-surface0/60"
 								>
 									<AnimatePresence mode="popLayout" initial={false}>
 										<motion.span
@@ -416,7 +416,7 @@ export function LayersFigure() {
 						</div>
 
 						<div className="flex items-center gap-1.5">
-							<div className="relative grid h-7 w-16 place-items-center overflow-hidden rounded-[5px] border border-mauve/40 bg-mauve/10">
+							<div className="relative grid h-7 w-16 place-items-center overflow-hidden border border-mauve/40 bg-mauve/10">
 								<motion.span
 									className="absolute inset-0 bg-mauve/25"
 									animate={{ opacity: raised ? 1 : 0 }}
@@ -424,7 +424,7 @@ export function LayersFigure() {
 								/>
 								<span className="relative  text-[10px] text-mauve">layer</span>
 							</div>
-							<div className="grid h-7 flex-1 place-items-center rounded-[5px] border border-border bg-surface0/40  text-[10px] text-overlay0">
+							<div className="grid h-7 flex-1 place-items-center border border-border bg-surface0/40  text-[10px] text-overlay0">
 								space
 							</div>
 						</div>
@@ -598,9 +598,9 @@ export function AdaptationFigure() {
 					step={1}
 				/>
 
-				<div className="relative mt-2 h-1 rounded-full bg-surface0/70">
+				<div className="relative mt-2 h-1 bg-surface0/70">
 					<motion.div
-						className="absolute inset-y-0 rounded-full bg-mauve/35"
+						className="absolute inset-y-0 bg-mauve/35"
 						style={{ left: "37.5%" }}
 						initial={{ width: 0 }}
 						whileInView={{ width: "37.5%" }}

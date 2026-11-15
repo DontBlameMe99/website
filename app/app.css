@@ -750,11 +750,6 @@ input[type="range"]::-moz-range-thumb {
 	}
 }
 
-/* The mark is drawn in Mocha hues. On paper it needs to be darker to read. */
-.light .pfp-mark {
-	filter: brightness(0.55) saturate(1.25) contrast(1.05);
-}
-
 /* --- theme --------------------------------------------------------------- */
 
 html.theme-switching,

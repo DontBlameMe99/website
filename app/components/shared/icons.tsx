@@ -1,4 +1,12 @@
-import { AppWindow, Blocks, CodeXml, GitFork, Mail } from "lucide-react";
+import {
+	AppWindow,
+	Blocks,
+	CodeXml,
+	GitFork,
+	Mail,
+	Smartphone,
+	SquareTerminal,
+} from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 
 type Icon = ComponentType<SVGProps<SVGSVGElement>>;
@@ -57,8 +65,10 @@ export function socialIcon(name: string): Icon {
 
 const PROJECT_ICONS: Record<string, Icon> = {
 	app: AppWindow,
+	android: Smartphone,
 	plugin: Blocks,
 	source: GitFork,
+	tool: SquareTerminal,
 };
 
 export function projectIcon(kind: string): Icon {

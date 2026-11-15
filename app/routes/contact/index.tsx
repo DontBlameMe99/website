@@ -1,7 +1,7 @@
-import { ArrowUpRight, Copy } from "lucide-react";
+import { ArrowUpRight, Copy, Mail } from "lucide-react";
 import { useState } from "react";
 import { PageHeader } from "~/components/layout/page_header";
-import { socialIcon } from "~/components/shared/social_icons";
+import { MatrixIcon, socialIcon } from "~/components/shared/icons";
 import { seo } from "~/lib/seo";
 import { CONTACT, SOCIALS } from "~/lib/site";
 
@@ -59,7 +59,10 @@ export default function ContactPage() {
 			<div className="mt-14 grid gap-6 lg:grid-cols-2">
 				<section className="nb-panel p-6">
 					<div className="flex items-baseline justify-between">
-						<p className="text-label text-subtext0">Email</p>
+						<p className="flex items-center gap-1.5 text-label text-subtext0">
+							<Mail aria-hidden="true" className="size-3.5" />
+							Email
+						</p>
 						<CopyEmail />
 					</div>
 					<a
@@ -77,7 +80,10 @@ export default function ContactPage() {
 
 				<section className="nb-panel p-6">
 					<div className="flex items-baseline justify-between">
-						<p className="text-label text-subtext0">Matrix</p>
+						<p className="flex items-center gap-1.5 text-label text-subtext0">
+							<MatrixIcon className="size-3.5" />
+							Matrix
+						</p>
 						<ArrowUpRight aria-hidden="true" className="size-4 text-subtext0" />
 					</div>
 					<a
@@ -106,7 +112,7 @@ export default function ContactPage() {
 										rel="noopener noreferrer"
 										className="nb-chip group bg-base text-subtext0 transition-colors hover:bg-mauve hover:text-on-accent"
 									>
-										<Icon className="size-3.5" />
+										<Icon className="size-3.5 shrink-0" />
 										{social.label}
 									</a>
 								</li>

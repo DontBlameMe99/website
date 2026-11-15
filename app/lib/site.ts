@@ -8,7 +8,7 @@ export const SITE = {
 };
 
 export const SOCIALS = [
-	{ label: "Codeberg", href: "https://git.dontblameme.dev", icon: "code" },
+	{ label: "Codeberg", href: "https://git.dontblameme.dev", icon: "codeberg" },
 	{
 		label: "Mastodon",
 		href: "https://mastodon.dontblameme.dev",
@@ -57,10 +57,10 @@ export const PROJECTS = [
 ] as const;
 
 export const NAV = [
-	{ label: "Home", to: "/", icon: "home" },
-	{ label: "Blog", to: "/blog", icon: "blog" },
-	{ label: "Projects", to: "/projects", icon: "projects" },
-	{ label: "Contact", to: "/contact", icon: "contact" },
+	{ label: "Home", to: "/" },
+	{ label: "Blog", to: "/blog" },
+	{ label: "Projects", to: "/projects" },
+	{ label: "Contact", to: "/contact" },
 ] as const;
 
 export const TOPICS = [

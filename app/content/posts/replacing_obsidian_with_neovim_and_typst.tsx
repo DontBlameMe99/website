@@ -11,7 +11,7 @@ export const meta = {
 	date: "2026-07-22",
 	summary:
 		"Obsidian, Neovim and Typst all solve the same problem differently. A long walk through the toolchain I actually write in now.",
-	tags: ["neovim", "typst", "notes"],
+	tags: ["notes"],
 	accent: "lavender",
 	words: 2906,
 	minutes: 13,

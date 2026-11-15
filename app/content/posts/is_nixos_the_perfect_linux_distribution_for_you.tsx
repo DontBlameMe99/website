@@ -13,7 +13,7 @@ export const meta = {
 	date: "2025-09-13",
 	summary:
 		"NixOS does not ask whether you are ready. It asks whether you want your system described as code, rebuilt from a single file.",
-	tags: ["nixos", "linux", "ricing"],
+	tags: ["linux"],
 	accent: "sapphire",
 	words: 1881,
 	minutes: 9,

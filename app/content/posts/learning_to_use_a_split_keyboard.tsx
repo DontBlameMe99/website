@@ -12,7 +12,7 @@ export const meta = {
 	date: "2023-06-16",
 	summary:
 		"Two halves of a keyboard, a few weeks of confusion, and shoulders that finally stopped complaining. A practical account of switching.",
-	tags: ["keyboard", "health", "ergonomics"],
+	tags: ["keyboard", "health"],
 	accent: "peach",
 	words: 1297,
 	minutes: 6,

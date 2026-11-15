@@ -12,7 +12,7 @@ export const meta = {
 	date: "2023-09-02",
 	summary:
 		"The feed is not a product, you are. Variable rewards, notification loops, and why willpower keeps losing to interface design.",
-	tags: ["psychology", "socialmedia", "attention"],
+	tags: ["psychology"],
 	accent: "red",
 	words: 1133,
 	minutes: 5,

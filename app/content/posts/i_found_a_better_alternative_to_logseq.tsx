@@ -11,7 +11,7 @@ export const meta = {
 	date: "2025-05-15",
 	summary:
 		"Logseq was almost right. Here is what pushed me back to Obsidian, what the graph looks like now, and how it feeds this blog.",
-	tags: ["notes", "obsidian", "pkm"],
+	tags: ["notes"],
 	accent: "blue",
 	words: 1555,
 	minutes: 7,

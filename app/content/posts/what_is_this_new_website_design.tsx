@@ -11,7 +11,7 @@ export const meta = {
 	date: "2025-10-18",
 	summary:
 		"Why the site changed shape, why the graph exists, and what the new directory structure is actually for.",
-	tags: ["meta", "design", "typst"],
+	tags: ["design"],
 	accent: "mauve",
 	words: 1499,
 	minutes: 7,

@@ -11,7 +11,7 @@ export const meta = {
 	date: "2023-07-10",
 	summary:
 		"What YouTube does when you are not looking, and what changes when the front end is yours. FreeTube, subscriptions, and the cost of leaving.",
-	tags: ["privacy", "youtube", "freetube"],
+	tags: ["privacy"],
 	accent: "red",
 	words: 1227,
 	minutes: 6,

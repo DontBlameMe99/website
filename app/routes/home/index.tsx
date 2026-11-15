@@ -116,6 +116,8 @@ export default function Home() {
 						</Link>
 						<a
 							href="mailto:contact@dontblameme.dev"
+							target="_blank"
+							rel="noopener noreferrer"
 							className="nb-button bg-base text-text"
 						>
 							Email

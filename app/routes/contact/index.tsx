@@ -64,6 +64,8 @@ export default function ContactPage() {
 					</div>
 					<a
 						href={`mailto:${CONTACT.email}`}
+						target="_blank"
+						rel="noopener noreferrer"
 						className="mt-6 block break-all text-lg font-extrabold tracking-[-0.02em] text-text transition-colors hover:text-mauve"
 					>
 						{CONTACT.email}

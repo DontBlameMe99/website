@@ -11,9 +11,7 @@ export function SiteFooter() {
 						<li key={social.label}>
 							<a
 								href={social.href}
-								target={
-									social.href.startsWith("mailto:") ? undefined : "_blank"
-								}
+								target="_blank"
 								rel="noopener noreferrer"
 								className="nb-chip group bg-base transition-colors hover:bg-mauve hover:text-on-accent"
 							>

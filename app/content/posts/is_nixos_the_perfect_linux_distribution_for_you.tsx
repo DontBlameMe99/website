@@ -2,7 +2,6 @@ import { CodeBlock } from "~/components/post/code_block";
 import { PostHeading, Prose } from "~/components/post/prose";
 import {
 	ConfigDiff,
-	FitScoreboard,
 	GenerationHero,
 	RiceSpiral,
 } from "~/content/experiences/is_nixos_the_perfect_linux_distribution_for_you";
@@ -322,7 +321,7 @@ export default function Post() {
 				{
 					"I have also set it up so that I basically have toggles for everything I want to enable, leading to me simply setting "
 				}
-				<code>{"obs-studio.enable = true;"}</code>
+				<code>{"programs.obs-studio.enable = true;"}</code>
 				{" in my configuration if I wish to use OBS right now."}
 			</p>
 			<ConfigDiff />
@@ -740,7 +739,6 @@ in {
 				<li>Backups using my own script</li>
 				<li>And so much more...</li>
 			</ul>
-			<FitScoreboard />
 			<p>
 				{"If you wish to learn more about NixOS I could also recommend the "}
 				<a

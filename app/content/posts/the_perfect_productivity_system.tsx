@@ -1,10 +1,5 @@
 import { PostHeading, Prose } from "~/components/post/prose";
-import {
-	DayStrip,
-	SystemFlow,
-	ToolChurn,
-	WeekTest,
-} from "~/content/experiences/the_perfect_productivity_system";
+import { SystemFlow } from "~/content/experiences/the_perfect_productivity_system";
 import type { PostMeta, Section } from "~/lib/post_types";
 
 export const meta = {
@@ -124,7 +119,6 @@ export default function Post() {
 				<strong>exactly</strong>
 				{" the trap I want to talk about."}
 			</p>
-			<ToolChurn />
 			<p>
 				{
 					"Customizing your workplace/productivity system feels much better (and quite frankly is easier to do) than to do actual work. When you are trying to achieve the "
@@ -335,7 +329,6 @@ export default function Post() {
 					system I found works the best for me to remember things.
 				</li>
 			</ul>
-			<DayStrip />
 			<p>
 				{"If you want you can try out Obsidian, but "}
 				<strong>only add plugins once you actively need them</strong>
@@ -373,7 +366,6 @@ export default function Post() {
 				overall system - slowly making it the same as the original Notion setup
 				you wanted to prevent.
 			</p>
-			<WeekTest />
 			<PostHeading level={2} id="conclusion">
 				Conclusion
 			</PostHeading>

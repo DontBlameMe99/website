@@ -1,8 +1,7 @@
-import { Activity, Keyboard } from "lucide-react";
+import { Activity } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { useEffect, useState } from "react";
-import { Chip, Panel, Range, Stat, Switch } from "~/components/post/kit";
-import { Reveal } from "~/components/ui/reveal";
+import { useState } from "react";
+import { Chip, Panel, Switch } from "~/components/post/kit";
 import { cn } from "~/lib/utils";
 
 const ACCENT = "var(--post-accent)";
@@ -10,107 +9,6 @@ const ACCENT = "var(--post-accent)";
 /* Typing sites lie about being fun. This post's figures stick to the two
    things it does claim: a layout moved keys around, and the first weeks of the
    switch are worse than the speed you started with. */
-
-/* ---------------------------------------------------------------- hero ---- */
-
-const HERO_TEXT = "colemak dh";
-
-function TypingStrip() {
-	const reduced = useReducedMotion();
-	const [typed, setTyped] = useState(0);
-
-	useEffect(() => {
-		if (reduced) {
-			setTyped(HERO_TEXT.length);
-			return;
-		}
-		let index = 0;
-		const timer = setInterval(() => {
-			index += 1;
-			setTyped(index);
-			if (index >= HERO_TEXT.length) clearInterval(timer);
-		}, 130);
-		return () => clearInterval(timer);
-	}, [reduced]);
-
-	const caretTransition = reduced
-		? undefined
-		: {
-				duration: 1.1,
-				repeat: Infinity,
-				times: [0, 0.5, 0.5, 1],
-				ease: "linear" as const,
-			};
-
-	return (
-		<Panel title="typing / colemak dh" icon={<Keyboard className="size-3" />}>
-			<div className="flex flex-wrap items-baseline gap-x-2 gap-y-1  text-sm">
-				<span className="text-overlay1">$</span>
-				<span className="text-text">
-					{HERO_TEXT.slice(0, typed)}
-					<motion.span
-						aria-hidden
-						className="inline-block h-3.5 w-[5px] translate-y-[1px]"
-						style={{ background: ACCENT }}
-						animate={reduced ? { opacity: 1 } : { opacity: [1, 1, 0, 0] }}
-						transition={caretTransition}
-					/>
-					<span className="invisible" aria-hidden="true">
-						{HERO_TEXT.slice(typed)}
-					</span>
-				</span>
-			</div>
-
-			<div aria-hidden className="mt-3 flex flex-wrap gap-1">
-				{[...HERO_TEXT].map((letter, index) => {
-					const lit = index < typed;
-					const current = index === typed - 1;
-					return (
-						<motion.span
-							key={`${letter}-${index}`}
-							className={cn(
-								"inline-flex size-6 items-center justify-center border  text-[11px] leading-none sm:size-7",
-								letter === " " && "text-[8px] text-overlay0",
-							)}
-							initial={false}
-							animate={{
-								scale: current && !reduced ? 1.08 : 1,
-								color: lit ? ACCENT : "var(--overlay0)",
-								borderColor: lit
-									? `color-mix(in srgb, ${ACCENT} 55%, transparent)`
-									: "var(--color-border)",
-								backgroundColor: lit
-									? `color-mix(in srgb, ${ACCENT} 16%, transparent)`
-									: "transparent",
-							}}
-							transition={
-								reduced
-									? { duration: 0 }
-									: { type: "spring" as const, stiffness: 420, damping: 26 }
-							}
-						>
-							{letter === " " ? "␣" : letter}
-						</motion.span>
-					);
-				})}
-			</div>
-
-			<div className="mt-3 flex flex-wrap gap-1.5">
-				<Chip accent="var(--overlay1)">~20 h of practice</Chip>
-				<Chip accent="var(--overlay1)">100 wpm before</Chip>
-				<Chip accent={ACCENT}>65–70 wpm now</Chip>
-			</div>
-		</Panel>
-	);
-}
-
-export function Hero() {
-	return (
-		<Reveal delay={0.05}>
-			<TypingStrip />
-		</Reveal>
-	);
-}
 
 /* ------------------------------------------------------- layout switch ---- */
 
@@ -234,7 +132,6 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 								type="button"
 								layout={!reduced}
 								onClick={() => setSelected(cell.letter as string)}
-								onPointerEnter={() => setSelected(cell.letter as string)}
 								aria-pressed={active}
 								aria-label={`${cell.letter}, ${ROW_NAMES[cell.row]} row, ${finger.label}`}
 								className={cn(
@@ -339,6 +236,9 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 					</span>
 				))}
 				<span className="text-overlay0">home row shaded</span>
+				<span className="text-overlay0">
+					click a key to trace where it went
+				</span>
 			</div>
 
 			<p className="mt-2  text-[11px] leading-relaxed text-overlay0">
@@ -351,7 +251,12 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 
 export function LayoutFigure() {
 	return (
-		<Switch on="Colemak DH" off="QWERTY" accent={ACCENT}>
+		<Switch
+			on="Colemak DH"
+			off="QWERTY"
+			label="keyboard layout"
+			accent={ACCENT}
+		>
 			{(colemak) => <LayoutBoard colemak={colemak} />}
 		</Switch>
 	);
@@ -408,22 +313,10 @@ const AREA_PATH = [
 	"Z",
 ].join(" ");
 
-function phaseNote(day: number) {
-	if (day === 0) return "day zero: 100 wpm, and about to hand it over.";
-	if (day <= LOW_DAY)
-		return "relearning from scratch, slower than the day you started.";
-	if (day < DAYS) return "climbing out of the dip, still under the old speed.";
-	return "six weeks in: 65–70 wpm. Old speed not back yet.";
-}
+const PHASE_NOTE = "six weeks in: 65–70 wpm. Old speed not back yet.";
 
 export function LearningCurve() {
 	const reduced = useReducedMotion();
-	const [day, setDay] = useState(DAYS);
-	const wpm = Math.round(speedAt(day));
-	const delta = wpm - OLD_WPM;
-	const markerTransition = reduced
-		? { duration: 0 }
-		: { type: "spring" as const, stiffness: 240, damping: 26 };
 
 	return (
 		<Panel
@@ -445,7 +338,7 @@ export function LearningCurve() {
 					className="h-[110px] w-full"
 					preserveAspectRatio="none"
 					role="img"
-					aria-label={`Illustrative typing speed over ${DAYS} days, at day ${day} roughly ${wpm} words per minute`}
+					aria-label={`Illustrative typing speed over ${DAYS} days, ending around ${Math.round(speedAt(DAYS))} words per minute`}
 				>
 					<path
 						d={AREA_PATH}
@@ -480,41 +373,20 @@ export function LearningCurve() {
 					/>
 				</svg>
 
-				<motion.div
+				<div
 					aria-hidden
 					className="absolute size-2 -translate-x-1/2 -translate-y-1/2"
-					initial={false}
-					animate={{
-						left: `${(xFor(day) / CHART_W) * 100}%`,
-						top: yFor(speedAt(day)),
-					}}
-					transition={markerTransition}
 					style={{
+						left: `${(xFor(DAYS) / CHART_W) * 100}%`,
+						top: yFor(speedAt(DAYS)),
 						background: ACCENT,
 						boxShadow: `0 0 0 4px color-mix(in srgb, ${ACCENT} 18%, transparent)`,
 					}}
 				/>
 			</div>
 
-			<div className="mt-3">
-				<Range
-					value={day}
-					onChange={setDay}
-					min={0}
-					max={DAYS}
-					label="days in"
-					accent={ACCENT}
-				/>
-			</div>
-
-			<div className="mt-3 grid grid-cols-3 gap-2">
-				<Stat label="day" value={day} hint={`of ${DAYS}`} />
-				<Stat label="≈ wpm" value={wpm} hint="illustrative" />
-				<Stat label="vs before" value={`${delta}`} hint="wpm" />
-			</div>
-
 			<p className="mt-2.5  text-[11px] leading-relaxed text-subtext0">
-				{phaseNote(day)}
+				{PHASE_NOTE}
 			</p>
 		</Panel>
 	);

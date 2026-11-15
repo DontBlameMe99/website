@@ -1,26 +1,21 @@
 import type { LucideIcon } from "lucide-react";
 import {
 	ArrowDown,
-	ArrowRight,
 	Brain,
 	Cloud,
-	Copy,
 	Database,
-	FileArchive,
 	HardDrive,
-	History,
 	KeyRound,
 	RotateCcw,
 	ShieldCheck,
 	Unplug,
 } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
-import { Bars, Callout, Chip, Panel } from "~/components/post/kit";
+import { Bars, Chip, Panel } from "~/components/post/kit";
 import { cn } from "~/lib/utils";
 
-/* Three figures for the backups post. Each one owns its state and never touches
+/* Two figures for the backups post. Each one owns its state and never touches
    the document, so the article still prerenders. Aggressive motion steps aside
    for reduced-motion readers. */
 
@@ -32,11 +27,6 @@ const MUTED = "var(--overlay0)";
 
 const mix = (color: string, percent: number) =>
 	`color-mix(in srgb, ${color} ${percent}%, transparent)`;
-
-const spring = (reduced: boolean | null, stiffness = 320) =>
-	reduced
-		? { duration: 0 }
-		: { type: "spring" as const, stiffness, damping: 28 };
 
 /* --- shared chrome ------------------------------------------------------- */
 
@@ -51,233 +41,6 @@ function WindowDots() {
 				/>
 			))}
 		</span>
-	);
-}
-
-function MiniButton({
-	children,
-	onClick,
-}: {
-	children: ReactNode;
-	onClick: () => void;
-}) {
-	return (
-		<button
-			type="button"
-			onClick={onClick}
-			className="inline-flex items-center gap-1 border px-2 py-1 text-[11px] transition-colors"
-			style={{
-				borderColor: mix(MAUVE, 40),
-				background: mix(MAUVE, 10),
-				color: MAUVE,
-			}}
-		>
-			{children}
-		</button>
-	);
-}
-
-/* --- figure one: is this a backup? -------------------------------------- */
-
-type SortItem = {
-	path: string;
-	detail: string;
-	icon: LucideIcon;
-	backup: boolean;
-	quote: string;
-	why: string;
-};
-
-const SORTER: SortItem[] = [
-	{
-		path: "~/Pictures",
-		detail: "copied to ~/Pictures.old, same SSD",
-		icon: Copy,
-		backup: false,
-		quote: "A copy of your files on the same disk",
-		why: "The disk dies and both folders leave together.",
-	},
-	{
-		path: "~/.config/nvim",
-		detail: "rsynced to a second, external disk",
-		icon: FileArchive,
-		backup: false,
-		quote: "A partial copy of your important files",
-		why: "The rest of the machine still has exactly one copy.",
-	},
-	{
-		path: "~/",
-		detail: "full disk image, external HDD",
-		icon: HardDrive,
-		backup: true,
-		quote:
-			"A secure, preferably encrypted copy of all your files onto: a separate disk",
-		why: "Everything, encrypted, on a disk that is not the one it copies.",
-	},
-	{
-		path: "Borg",
-		detail: "ssh://cloud-box/./Borg",
-		icon: Cloud,
-		backup: true,
-		quote:
-			"A secure, preferably encrypted copy of all your files onto: a remote location",
-		why: "A different machine in a different building.",
-	},
-	{
-		path: "rsync --all",
-		detail: "last run: whenever I thought about it",
-		icon: History,
-		backup: false,
-		quote: 'A "I-Do-It-Whenever-I-Think-About-It" copy of your files',
-		why: "A schedule measured in good intentions.",
-	},
-];
-
-export function BackupSorter() {
-	const reduced = useReducedMotion();
-	const [at, setAt] = useState(0);
-	const [pick, setPick] = useState<boolean | null>(null);
-	const [results, setResults] = useState<boolean[]>([]);
-
-	const item = SORTER[at];
-	const done = at >= SORTER.length;
-	const score = results.filter(Boolean).length;
-	const correct = item ? pick === item.backup : false;
-	const Icon = item?.icon;
-
-	const choose = (guess: boolean) => {
-		if (!item || pick !== null) return;
-		setPick(guess);
-		setResults((prev) => [...prev, guess === item.backup]);
-	};
-
-	const advance = () => {
-		setAt((prev) => prev + 1);
-		setPick(null);
-	};
-
-	const restart = () => {
-		setAt(0);
-		setPick(null);
-		setResults([]);
-	};
-
-	const swap = {
-		initial: reduced ? false : { opacity: 0, y: 10 },
-		animate: { opacity: 1, y: 0 },
-		exit: reduced ? { opacity: 0 } : { opacity: 0, y: -8 },
-		transition: spring(reduced),
-	};
-
-	return (
-		<Panel
-			title="backup-or-not.app"
-			icon={<WindowDots />}
-			footer={
-				done
-					? `${score} / ${SORTER.length} right`
-					: `item ${at + 1} / ${SORTER.length}`
-			}
-		>
-			<AnimatePresence mode="wait" initial={false}>
-				{done ? (
-					<motion.div key="summary" {...swap} className="space-y-3">
-						<div className="flex items-center justify-between gap-2">
-							<span className="text-[11px] text-text">
-								{score} / {SORTER.length} right
-							</span>
-							<MiniButton onClick={restart}>
-								<RotateCcw className="size-3" />
-								again
-							</MiniButton>
-						</div>
-						<div className="text-[11px] leading-relaxed text-overlay1">
-							{score === SORTER.length
-								? "Every item matched. The definition did the work."
-								: `${SORTER.length - score} of them slipped past the definition.`}
-						</div>
-						<Callout accent={MAUVE} icon={<ShieldCheck className="size-3.5" />}>
-							<div>
-								A secure, preferably encrypted copy of all your files onto:
-							</div>
-							<div className="mt-1">a separate disk</div>
-							<div>a remote location</div>
-						</Callout>
-					</motion.div>
-				) : item && Icon ? (
-					<motion.div key={`item-${at}`} {...swap} className="space-y-3">
-						<div className=" border border-border/70 bg-surface0/25 p-2.5">
-							<div className="flex items-start gap-2.5">
-								<span className="grid size-8 shrink-0 place-items-center border border-border/70 bg-base/60 text-mauve">
-									<Icon className="size-4" />
-								</span>
-								<div className="min-w-0">
-									<div className="break-all text-[11px] leading-snug text-text">
-										{item.path}
-									</div>
-									<div className="mt-0.5 text-[9px] leading-relaxed text-overlay1">
-										{item.detail}
-									</div>
-								</div>
-							</div>
-
-							{pick === null ? (
-								<div className="mt-2.5 flex gap-1.5">
-									<button
-										type="button"
-										onClick={() => choose(true)}
-										className="flex-1 border border-border/70 bg-base/60 px-2 py-1.5 text-[11px] text-subtext0 transition-colors hover:border-mauve/60 hover:text-text"
-									>
-										backup
-									</button>
-									<button
-										type="button"
-										onClick={() => choose(false)}
-										className="flex-1 border border-border/70 bg-base/60 px-2 py-1.5 text-[11px] text-subtext0 transition-colors hover:border-mauve/60 hover:text-text"
-									>
-										not a backup
-									</button>
-								</div>
-							) : (
-								<motion.div
-									initial={reduced ? false : { opacity: 0, y: 6 }}
-									animate={{ opacity: 1, y: 0 }}
-									transition={{ duration: reduced ? 0 : 0.24 }}
-									className="mt-2.5 space-y-2"
-								>
-									<div className="flex flex-wrap items-center gap-1.5">
-										<Chip accent={item.backup ? GREEN : RED}>
-											{item.backup ? "backup" : "not a backup"}
-										</Chip>
-										<Chip accent={correct ? GREEN : RED}>
-											{correct ? "right" : "wrong"}
-										</Chip>
-									</div>
-									<div
-										className="border-l-2 pl-2.5"
-										style={{ borderColor: item.backup ? GREEN : RED }}
-									>
-										<div className="text-[8px] uppercase tracking-[0.12em] text-overlay0">
-											from the definition
-										</div>
-										<div className="break-words text-[11px] leading-relaxed text-subtext0">
-											{item.quote}
-										</div>
-									</div>
-									<div className="text-[11px] leading-relaxed text-overlay1">
-										{item.why}
-									</div>
-									<MiniButton onClick={advance}>
-										{at + 1 === SORTER.length ? "see the score" : "next item"}
-										<ArrowRight className="size-3" />
-									</MiniButton>
-								</motion.div>
-							)}
-						</div>
-					</motion.div>
-				) : null}
-			</AnimatePresence>
-		</Panel>
 	);
 }
 
@@ -306,7 +69,7 @@ const REPOS: {
 export function RetentionBoard() {
 	return (
 		<Panel
-			title="borgmatic --list"
+			title="retention policy"
 			icon={<WindowDots />}
 			footer="keepDaily 60, keepWeekly 52, keepMonthly 36, keepYearly 20"
 		>
@@ -351,7 +114,7 @@ export function RetentionBoard() {
 	);
 }
 
-/* --- figure four: the recovery chain ------------------------------------ */
+/* --- the recovery chain -------------------------------------------------- */
 
 type ChainLink = {
 	id: string;
@@ -381,7 +144,7 @@ const CHAIN: ChainLink[] = [
 		title: "KeePassXC database",
 		detail: "your copy, plus copies trusted people keep in their own backups",
 		icon: Database,
-		onBreak: "the passphrase has no home left",
+		onBreak: "every copy is gone, including the ones trusted people hold",
 	},
 	{
 		id: "memory",
@@ -494,7 +257,7 @@ export function RecoveryChain() {
 						<Unplug className="size-3.5 shrink-0" style={{ color: RED }} />
 					)}
 					<span className="text-[11px] text-text">
-						{ok ? "recovery works" : "recovery fails"}
+						{ok ? "chain intact" : "chain broken"}
 					</span>
 					{ok ? null : (
 						<button

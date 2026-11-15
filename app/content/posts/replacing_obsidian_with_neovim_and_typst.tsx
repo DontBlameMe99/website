@@ -1,9 +1,6 @@
 import { CodeBlock } from "~/components/post/code_block";
 import { PostHeading, PostImage, Prose } from "~/components/post/prose";
-import {
-	KeyCheatStrip,
-	NoteSyntaxSwitcher,
-} from "~/content/experiences/replacing_obsidian_with_neovim_and_typst";
+import { NoteSyntaxSwitcher } from "~/content/experiences/replacing_obsidian_with_neovim_and_typst";
 import type { PostMeta, Section } from "~/lib/post_types";
 
 export const meta = {
@@ -673,7 +670,6 @@ $
 			<p>
 				Now to my text editor, personal religion and lifestyle choice: Neovim.
 			</p>
-			<KeyCheatStrip />
 			<PostHeading level={3} id="already-used">
 				Already Used
 			</PostHeading>

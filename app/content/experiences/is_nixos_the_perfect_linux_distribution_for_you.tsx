@@ -1,27 +1,16 @@
-import {
-	Check,
-	CornerUpLeft,
-	Flame,
-	Layers,
-	ListChecks,
-	Plus,
-	RotateCcw,
-	Terminal,
-} from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { Flame, Layers, Plus, Terminal } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import {
 	Callout,
 	Chip,
-	Meter,
 	Panel,
 	Sparkline,
 	Stat,
 	Switch,
 } from "~/components/post/kit";
-import { cn } from "~/lib/utils";
 
-/* Figure 1: a boot menu you can click. */
+/* Figure 1: a boot menu, read only. */
 
 const GENERATIONS = [
 	{
@@ -42,105 +31,30 @@ const GENERATIONS = [
 ];
 
 export function GenerationHero() {
-	const reduced = useReducedMotion();
-	const [active, setActive] = useState(0);
-
 	return (
 		<Panel
 			title="system generations"
 			icon={<Layers className="size-3.5" />}
-			footer="a toy: three made-up generations, no real boot menu behind this"
+			footer="a toy: three made-up generations"
 		>
-			<div
-				role="group"
-				aria-label="Boot an older generation"
-				className="space-y-1.5"
-			>
-				{GENERATIONS.map((generation, index) => {
-					const selected = index === active;
-					return (
-						<button
-							key={generation.label}
-							type="button"
-							aria-pressed={selected}
-							onClick={() => setActive(index)}
-							className={cn(
-								"flex w-full items-start gap-2 border px-2.5 py-2 text-left transition-colors",
-								selected
-									? "border-mauve/45 bg-mauve/10"
-									: "border-border/60 bg-surface0/20 hover:border-mauve/25 hover:bg-surface0/40",
-							)}
-						>
-							<span
-								className={cn(
-									"mt-1.5 size-1.5 shrink-0",
-									selected ? "bg-mauve" : "bg-overlay0/60",
-								)}
-							/>
-							<span className="min-w-0 flex-1">
-								<span className="flex flex-wrap items-baseline gap-x-2">
-									<span
-										className={cn(
-											"text-[11px]",
-											selected ? "text-text" : "text-subtext0",
-										)}
-									>
-										{generation.label}
-									</span>
-									<span className="text-[11px] text-overlay0">
-										{generation.meta}
-									</span>
-									{index === 0 ? (
-										<Chip accent="var(--green)">latest</Chip>
-									) : null}
-								</span>
-								<span className="mt-0.5 block  text-[11px] leading-relaxed text-overlay1">
-									{generation.changes.join(", ")}
-								</span>
-							</span>
-							{selected ? (
-								<motion.span
-									layoutId="generation-cursor"
-									transition={
-										reduced
-											? { duration: 0 }
-											: { type: "spring", stiffness: 420, damping: 32 }
-									}
-									className="mt-0.5 shrink-0 text-mauve"
-								>
-									<CornerUpLeft className="size-3.5" />
-								</motion.span>
-							) : null}
-						</button>
-					);
-				})}
-			</div>
-
-			<div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-t border-border/60 pt-2.5">
-				<Chip accent={active === 0 ? "var(--green)" : "var(--mauve)"}>
-					{active === 0 ? (
-						<Check className="size-3" />
-					) : (
-						<CornerUpLeft className="size-3" />
-					)}
-					{active === 0
-						? "booted: latest"
-						: `${active} rebuild${active === 1 ? "" : "s"} rolled back`}
-				</Chip>
-				{active > 0 ? (
-					<button
-						type="button"
-						onClick={() => setActive(0)}
-						className="inline-flex items-center gap-1  text-[11px] text-overlay1 transition-colors hover:text-mauve"
+			<div className="space-y-1.5">
+				{GENERATIONS.map((generation, index) => (
+					<div
+						key={generation.label}
+						className="border border-border/60 bg-surface0/20 px-2.5 py-2"
 					>
-						<RotateCcw className="size-3" />
-						back to latest
-					</button>
-				) : (
-					<span className="text-[11px] text-overlay0">
-						click an older entry to roll back
-					</span>
-				)}
+						<span className="flex flex-wrap items-baseline gap-x-2">
+							<span className="text-[11px] text-text">{generation.label}</span>
+							<span className="text-[11px] text-overlay0">
+								{generation.meta}
+							</span>
+							{index === 0 ? <Chip accent="var(--green)">latest</Chip> : null}
+						</span>
+						<span className="mt-0.5 block  text-[11px] leading-relaxed text-overlay1">
+							{generation.changes.join(", ")}
+						</span>
+					</div>
+				))}
 			</div>
 		</Panel>
 	);
@@ -265,7 +179,12 @@ function ConfigFile({ on }: { on: boolean }) {
 export function ConfigDiff() {
 	return (
 		<>
-			<Switch on="obs-studio enabled" off="obs-studio off" initial={false}>
+			<Switch
+				on="obs-studio enabled"
+				off="obs-studio off"
+				label="obs-studio"
+				initial={false}
+			>
 				{(on) => <ConfigFile on={on} />}
 			</Switch>
 			<p className="not-prose mt-2  text-[11px] leading-relaxed text-overlay0">
@@ -276,160 +195,9 @@ export function ConfigDiff() {
 	);
 }
 
-/* Figure 3: five honest claims, one running verdict. */
-
-const CLAIMS = [
-	{
-		id: "same-config",
-		label: "one setup, two machines",
-		hint: "a desktop and a laptop from the same file",
-	},
-	{
-		id: "toggles",
-		label: "a toggle for every program",
-		hint: "programs.obs-studio.enable = true;",
-	},
-	{
-		id: "syntax",
-		label: "one more syntax is fine",
-		hint: "the config file is a real language",
-	},
-	{
-		id: "packages",
-		label: "packages fresher than stable",
-		hint: "127,132 packages at time of writing",
-	},
-	{
-		id: "rollback",
-		label: "a boot entry to fall back to",
-		hint: "an older generation is one reboot away",
-	},
-];
-
-const VERDICT: Record<number, string> = {
-	1: "One match. That is thin ground for a reinstall.",
-	2: "Two matches. Read it as curiosity, not a plan.",
-	3: "Three matches. A virtual machine is the cheap test.",
-	4: "Four matches. Look hard at the one that is missing.",
-	5: "All five match. The next step is a test install, not a wipe.",
-};
-
-export function FitScoreboard() {
-	const reduced = useReducedMotion();
-	const [picked, setPicked] = useState<Record<string, boolean>>({});
-	const count = CLAIMS.filter((claim) => picked[claim.id]).length;
-	const verdict =
-		count > 0 ? (VERDICT[count] ?? "") : "Pick the rows that describe you.";
-
-	return (
-		<Panel
-			title="is this for you"
-			icon={<ListChecks className="size-3.5" />}
-			footer={
-				<div className="flex flex-wrap items-center justify-between gap-2">
-					<span>claims come from the post, the score is yours</span>
-					<button
-						type="button"
-						onClick={() => setPicked({})}
-						className="inline-flex items-center gap-1 text-overlay0 transition-colors hover:text-mauve"
-					>
-						<RotateCcw className="size-3" />
-						clear
-					</button>
-				</div>
-			}
-		>
-			<div
-				role="group"
-				aria-label="Claims that might describe you"
-				className="space-y-1.5"
-			>
-				{CLAIMS.map((claim) => {
-					const active = Boolean(picked[claim.id]);
-					return (
-						<button
-							key={claim.id}
-							type="button"
-							aria-pressed={active}
-							onClick={() =>
-								setPicked((current) => ({
-									...current,
-									[claim.id]: !current[claim.id],
-								}))
-							}
-							className={cn(
-								"flex w-full items-start gap-2.5 border px-2.5 py-2 text-left transition-colors",
-								active
-									? "border-mauve/45 bg-mauve/10"
-									: "border-border/60 bg-surface0/20 hover:border-mauve/25 hover:bg-surface0/40",
-							)}
-						>
-							<span
-								className={cn(
-									"mt-0.5 grid size-4 shrink-0 place-items-center border",
-									active
-										? "border-mauve bg-mauve text-on-accent"
-										: "border-overlay0/60 text-transparent",
-								)}
-							>
-								<motion.span
-									animate={{ scale: active ? 1 : 0.6 }}
-									transition={
-										reduced
-											? { duration: 0 }
-											: { type: "spring", stiffness: 500, damping: 26 }
-									}
-								>
-									<Check className="size-3" />
-								</motion.span>
-							</span>
-							<span className="min-w-0">
-								<span
-									className={cn(
-										"block  text-[11px]",
-										active ? "text-text" : "text-subtext0",
-									)}
-								>
-									{claim.label}
-								</span>
-								<span className="mt-0.5 block  text-[11px] leading-relaxed text-overlay1">
-									{claim.hint}
-								</span>
-							</span>
-						</button>
-					);
-				})}
-			</div>
-
-			<div className="mt-3 space-y-2 border-t border-border/60 pt-2.5">
-				<AnimatePresence mode="wait" initial={false}>
-					<motion.p
-						key={count > 0 ? `verdict-${count}` : "prompt"}
-						aria-live="polite"
-						initial={reduced ? false : { opacity: 0, y: 4 }}
-						animate={{ opacity: 1, y: 0 }}
-						exit={reduced ? undefined : { opacity: 0, y: -4 }}
-						transition={{ duration: 0.18 }}
-						className="text-[11px] leading-relaxed text-subtext0"
-					>
-						{verdict}
-					</motion.p>
-				</AnimatePresence>
-				<Meter
-					value={count}
-					max={CLAIMS.length}
-					label="match"
-					suffix={`/${CLAIMS.length}`}
-				/>
-			</div>
-		</Panel>
-	);
-}
-
-/* Figure 4: the rice spiral, drawn as two curves. */
+/* Figure 3: the rice spiral, drawn as two curves. */
 
 const BENEFIT = [8, 46, 72, 84, 90, 91, 91, 92, 92, 92, 92, 92];
-const BENEFIT_SPIRAL = [8, 46, 72, 84, 90, 91, 91, 92, 92, 92, 93, 94];
 const HOURS_OFF = [3, 6, 10, 14, 17, 19, 20, 20, 20, 20, 20, 20];
 const HOURS_ON = [3, 7, 12, 18, 26, 35, 45, 57, 70, 84, 96, 100];
 
@@ -439,8 +207,8 @@ function SpiralChart({ spiral }: { spiral: boolean }) {
 	return (
 		<div className="space-y-1">
 			<Sparkline
-				key={`benefit-${mode}`}
-				points={spiral ? BENEFIT_SPIRAL : BENEFIT}
+				key="benefit"
+				points={BENEFIT}
 				accent="var(--teal)"
 				height={54}
 				label="benefit: what the system does for you"
@@ -460,8 +228,8 @@ function SpiralChart({ spiral }: { spiral: boolean }) {
 				/>
 				<Stat
 					label="benefit"
-					value={spiral ? "94" : "92"}
-					hint={spiral ? "+2 for +80 hours" : "already there"}
+					value="92"
+					hint={spiral ? "+0 for +80 hours" : "already there"}
 				/>
 			</div>
 			<Callout icon={<Flame className="size-3.5" />}>
@@ -473,7 +241,12 @@ function SpiralChart({ spiral }: { spiral: boolean }) {
 
 export function RiceSpiral() {
 	return (
-		<Switch on="spiral: on" off="spiral: off" initial={false}>
+		<Switch
+			on="spiral: on"
+			off="spiral: off"
+			label="rice spiral"
+			initial={false}
+		>
 			{(spiral) => <SpiralChart spiral={spiral} />}
 		</Switch>
 	);

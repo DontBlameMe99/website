@@ -88,45 +88,6 @@ export function Stat({
 	);
 }
 
-export function Meter({
-	value,
-	max = 100,
-	label,
-	accent = "var(--mauve)",
-	suffix = "",
-}: {
-	value: number;
-	max?: number;
-	label?: string;
-	accent?: string;
-	suffix?: string;
-}) {
-	const ratio = Math.max(0, Math.min(1, value / max));
-	return (
-		<div className="not-prose space-y-1.5">
-			{label ? (
-				<div className="flex items-baseline justify-between  text-[11px]">
-					<span className="text-subtext0">{label}</span>
-					<span className="tabular-nums text-overlay0">
-						{value}
-						{suffix}
-					</span>
-				</div>
-			) : null}
-			<div className="h-3 overflow-hidden border-2 border-ink bg-surface0">
-				<motion.div
-					className="h-full"
-					style={{ background: accent }}
-					initial={{ width: 0 }}
-					whileInView={{ width: `${ratio * 100}%` }}
-					viewport={{ once: true }}
-					transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-				/>
-			</div>
-		</div>
-	);
-}
-
 export function Bars({
 	data,
 	accent = "var(--mauve)",
@@ -138,6 +99,7 @@ export function Bars({
 	max?: number;
 	format?: (value: number) => string;
 }) {
+	const reduced = useReducedMotion();
 	const ceiling = max ?? Math.max(...data.map((entry) => entry.value), 1);
 	return (
 		<div className="not-prose space-y-2.5">
@@ -152,9 +114,19 @@ export function Bars({
 					<div className="h-3 overflow-hidden border-2 border-ink bg-surface0">
 						<motion.div
 							className="h-full"
-							style={{ background: accent, opacity: 1 - index * 0.1 }}
-							initial={{ width: 0 }}
-							whileInView={{ width: `${(entry.value / ceiling) * 100}%` }}
+							style={{
+								background: accent,
+								opacity: 1 - index * 0.1,
+								width: reduced
+									? `${(entry.value / ceiling) * 100}%`
+									: undefined,
+							}}
+							initial={reduced ? false : { width: 0 }}
+							whileInView={
+								reduced
+									? undefined
+									: { width: `${(entry.value / ceiling) * 100}%` }
+							}
 							viewport={{ once: true }}
 							transition={{
 								duration: 0.8,
@@ -172,47 +144,16 @@ export function Bars({
 	);
 }
 
-export function Timeline({
-	steps,
-	accent = "var(--mauve)",
-}: {
-	steps: { title: string; body?: React.ReactNode }[];
-	accent?: string;
-}) {
-	return (
-		<ol className="not-prose relative space-y-4 border-l-2 border-ink pl-5">
-			{steps.map((step, index) => (
-				<motion.li
-					key={step.title}
-					className="relative"
-					initial={{ opacity: 0, x: -8 }}
-					whileInView={{ opacity: 1, x: 0 }}
-					viewport={{ once: true, margin: "-40px" }}
-					transition={{ duration: 0.4, delay: index * 0.07 }}
-				>
-					<span
-						className="absolute -left-[1.42rem] top-1.5 size-2 ring-4 ring-base"
-						style={{ background: accent }}
-					/>
-					<div className="text-xs text-text">{step.title}</div>
-					{step.body ? (
-						<div className="mt-0.5  text-[11px] leading-relaxed text-overlay1">
-							{step.body}
-						</div>
-					) : null}
-				</motion.li>
-			))}
-		</ol>
-	);
-}
-
 export function Tabs({
 	tabs,
+	label = "Tabs",
 	accent = "var(--mauve)",
 }: {
 	tabs: { id: string; label: string; content: React.ReactNode }[];
+	label?: string;
 	accent?: string;
 }) {
+	const reduced = useReducedMotion();
 	const [active, setActive] = useState(tabs[0]?.id);
 	const id = useId();
 	const current = tabs.find((tab) => tab.id === active) ?? tabs[0];
@@ -245,7 +186,7 @@ export function Tabs({
 		<div className="not-prose my-6 border-2 border-ink bg-mantle shadow-[var(--shadow-hard)]">
 			<div
 				role="tablist"
-				aria-label="Sections"
+				aria-label={label}
 				className="flex flex-wrap gap-1 border-b-2 border-ink p-1.5"
 			>
 				{tabs.map((tab) => (
@@ -271,7 +212,11 @@ export function Tabs({
 								layoutId={`${id}-tab`}
 								className="absolute inset-0 -z-10 border border-ink"
 								style={{ background: accent }}
-								transition={{ type: "spring", stiffness: 380, damping: 30 }}
+								transition={
+									reduced
+										? { duration: 0 }
+										: { type: "spring", stiffness: 380, damping: 30 }
+								}
 							/>
 						) : null}
 						{tab.label}
@@ -287,10 +232,10 @@ export function Tabs({
 				<AnimatePresence mode="wait" initial={false}>
 					<motion.div
 						key={current?.id}
-						initial={{ opacity: 0, y: 6 }}
+						initial={reduced ? false : { opacity: 0, y: 6 }}
 						animate={{ opacity: 1, y: 0 }}
-						exit={{ opacity: 0, y: -6 }}
-						transition={{ duration: 0.18 }}
+						exit={reduced ? { opacity: 0 } : { opacity: 0, y: -6 }}
+						transition={{ duration: reduced ? 0 : 0.18 }}
 					>
 						{current?.content}
 					</motion.div>
@@ -303,16 +248,19 @@ export function Tabs({
 export function Switch({
 	on,
 	off,
+	label,
 	children,
 	accent = "var(--mauve)",
 	initial = false,
 }: {
 	on: string;
 	off: string;
+	label?: string;
 	children: (state: boolean) => React.ReactNode;
 	accent?: string;
 	initial?: boolean;
 }) {
+	const reduced = useReducedMotion();
 	const [state, setState] = useState(initial);
 	return (
 		<div className="not-prose my-6 overflow-hidden border-2 border-ink bg-mantle shadow-[var(--shadow-hard)]">
@@ -324,14 +272,18 @@ export function Switch({
 					type="button"
 					role="switch"
 					aria-checked={state}
-					aria-label={`Toggle ${on}`}
+					aria-label={`Toggle ${label ?? on}`}
 					onClick={() => setState(!state)}
 					className="relative h-6 w-11 shrink-0 border-2 border-ink bg-surface2 transition-colors"
 					style={state ? { background: accent } : undefined}
 				>
 					<motion.span
 						layout
-						transition={{ type: "spring", stiffness: 500, damping: 30 }}
+						transition={
+							reduced
+								? { duration: 0 }
+								: { type: "spring", stiffness: 500, damping: 30 }
+						}
 						className={cn(
 							"absolute top-0.5 size-4 border-2 border-ink bg-base",
 							state ? "right-0.5" : "left-0.5",

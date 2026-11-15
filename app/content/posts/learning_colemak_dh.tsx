@@ -1,6 +1,5 @@
 import { PostHeading, Prose } from "~/components/post/prose";
 import {
-	Hero,
 	LayoutFigure,
 	LearningCurve,
 } from "~/content/experiences/learning_colemak_dh";
@@ -118,7 +117,6 @@ export default function Post() {
 				Monkeytype using 50 words, all lowercase, and no punctuation. Before
 				switching to Colemak DH, I was typing at around 100 WPM.
 			</p>
-			<Hero />
 			<p>
 				It's worth noting that I switched to a split keyboard, which helped
 				facilitate the learning process. Surprisingly, adapting to the new

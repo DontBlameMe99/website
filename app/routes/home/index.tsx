@@ -104,7 +104,7 @@ export default function Home() {
 					<h1 className="text-display text-text">{SITE.name}</h1>
 					<p className="mt-7 max-w-[52ch] text-lead">
 						Self-taught developer. I write about privacy, Linux, note taking and
-						the tools I keep rebuilding, and I keep the receipts in public.
+						the tools I keep rebuilding.
 					</p>
 					<div className="mt-9 flex flex-wrap items-center gap-3">
 						<Link to="/blog" className="nb-button bg-mauve text-on-accent">

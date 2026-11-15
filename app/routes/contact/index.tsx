@@ -52,7 +52,6 @@ export default function ContactPage() {
 			<PageHeader
 				index="04"
 				label="Contact"
-				meta="Open to email"
 				title="Contact"
 				lead="Want to get in touch? Email is the reliable one. Matrix works too. I read everything, replies are slow."
 			/>

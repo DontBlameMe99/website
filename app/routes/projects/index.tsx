@@ -8,13 +8,14 @@ export const meta = () =>
 	seo({
 		title: "Projects",
 		description:
-			"Selvage, Minecraft plugins, and everything else DontBlameMe keeps on Codeberg.",
+			"Selvage, Minecraft plugins, Typo, and the rest of what DontBlameMe builds and keeps running.",
 	});
 
 const KIND = {
 	app: "Application",
+	android: "Android app",
 	plugin: "Minecraft plugin",
-	source: "Source",
+	tool: "CLI tool",
 } as const;
 
 export default function ProjectsPage() {
@@ -25,7 +26,7 @@ export default function ProjectsPage() {
 				label="Projects"
 				meta={`${PROJECTS.length} entries`}
 				title="Projects"
-				lead="Things I build and keep running. Source lives on Codeberg; everything here is one click away from the code."
+				lead="Things I build and keep running. Everything here is one click away from the code."
 			/>
 
 			<ul className="mt-14 grid gap-6 sm:grid-cols-2">
@@ -33,12 +34,12 @@ export default function ProjectsPage() {
 					const KindIcon = projectIcon(project.kind);
 
 					return (
-						<li key={project.name} className="flex">
+						<li key={project.name} className="flex min-w-0">
 							<a
 								href={project.href}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="nb-panel nb-lift group flex h-full w-full flex-col p-6"
+								className="nb-panel nb-lift group flex h-full w-full min-w-0 flex-col p-6"
 							>
 								<div className="flex items-center justify-between">
 									<span className="text-label text-subtext0 tabular-nums">
@@ -50,9 +51,18 @@ export default function ProjectsPage() {
 									</span>
 								</div>
 
-								<h2 className="mt-8 text-2xl font-extrabold leading-none tracking-[-0.03em] text-text transition-colors group-hover:text-mauve">
-									{project.name}
-								</h2>
+								<div className="mt-8 flex flex-wrap items-center gap-3">
+									<img
+										src={project.icon}
+										alt=""
+										width={40}
+										height={40}
+										className="size-10 shrink-0 border-2 border-ink bg-base object-cover"
+									/>
+									<h2 className="text-2xl font-extrabold leading-none tracking-[-0.03em] text-text transition-colors group-hover:text-mauve">
+										{project.name}
+									</h2>
+								</div>
 
 								<p className="mt-3 text-[13px] leading-relaxed text-subtext0">
 									{project.blurb}

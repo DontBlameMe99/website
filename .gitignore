@@ -1,0 +1,25 @@
+.DS_Store
+/node_modules/
+
+# React Router
+/.react-router/
+/build/
+/.wrangler/
+
+.direnv
+result
+
+.pre-commit-config.yaml
+
+# Worktrees
+/.worktrees/
+
+# Environment variables
+.env
+
+daemon.pid
+
+# Orchestrator notes (local only)
+/WORKFLOW.md
+/MEMORY.md
+/TEST.md

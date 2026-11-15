@@ -1,0 +1,13 @@
+{
+  "$schema": "https://t3.codes/schema/t3.json",
+  "iconPath": "public/images/logo.svg",
+  "scripts": [
+    {
+      "name": "Setup Worktree",
+      "command": "nix develop -c bash -c 'command -v bun biome >/dev/null && bun install --frozen-lockfile'",
+      "icon": "configure",
+      "runOnWorktreeCreate": true,
+      "async": false
+    }
+  ]
+}

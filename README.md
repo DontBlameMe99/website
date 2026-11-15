@@ -1,12 +1,11 @@
 # dontblameme.dev
 
-Personal site and blog of DontBlameMe. React Router 8 in prerendered SPA mode,
-React 19, TypeScript, Tailwind CSS 4, Bun.
+Personal site and blog of DontBlameMe.
 
 Neobrutalist shell: flat surfaces, 2px ink borders, hard offset shadows, square
 corners, one heavy grotesque doing all the typographic work. Catppuccin Mocha
-and Latte with Malva (mauve) as the only accent, used sparingly on links,
-labels and buttons. Montserrat everywhere, JetBrains Mono only inside code.
+and Latte with Malva (mauve) as the only accent, used sparingly on links, labels
+and buttons. Montserrat everywhere, JetBrains Mono only inside code.
 
 ## Development
 

@@ -27,7 +27,7 @@ export function SiteHeader() {
 						alt=""
 						width={28}
 						height={28}
-						className="pfp-mark size-6 shrink-0 border-2 border-ink bg-base object-contain p-px sm:size-7"
+						className="size-6 shrink-0 border-2 border-ink bg-base object-contain p-px sm:size-7"
 					/>
 					<span>{SITE.name}</span>
 				</NavLink>

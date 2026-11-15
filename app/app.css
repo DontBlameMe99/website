@@ -576,8 +576,8 @@
 	border-top: 2px solid var(--ink);
 }
 
-/* Images fill the measure, never the viewport. Inline diagrams stay inline and
-   shrink to the line, so a paragraph that references one still reads as one. */
+/* Images never exceed the measure or the viewport, and always take a line of
+   their own so no text sits beside them, even inside a paragraph. */
 .prose-dbm img {
 	display: block;
 	width: auto;
@@ -589,27 +589,10 @@
 	box-shadow: var(--shadow-hard);
 }
 
-/* On a phone an inline diagram would break the line, so it becomes a block. */
+/* A block image inside text splits the paragraph, so it needs its own air. */
 .prose-dbm p img,
 .prose-dbm li img {
-	display: block;
-	width: 100%;
-	max-height: 14rem;
 	margin: 1em 0;
-	object-fit: contain;
-	box-shadow: var(--shadow-hard-sm);
-}
-
-@media (min-width: 40rem) {
-	.prose-dbm p img,
-	.prose-dbm li img {
-		display: inline-block;
-		width: auto;
-		max-width: 46%;
-		max-height: 8.5rem;
-		margin: 0 0.35em;
-		vertical-align: middle;
-	}
 }
 
 .prose-dbm figure {

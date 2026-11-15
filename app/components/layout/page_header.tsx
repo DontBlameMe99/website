@@ -26,7 +26,7 @@ export function PageHeader({
 	return (
 		<header className={cn("border-t-2 border-ink pt-4", className)}>
 			<div className="flex items-baseline justify-between gap-6">
-				<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-crust">
+				<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-on-accent">
 					{index}
 					<span className="mx-1 opacity-40">/</span>
 					{label}

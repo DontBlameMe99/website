@@ -5,7 +5,7 @@ export function NotFound({ status = 404 }: { status?: number }) {
 	return (
 		<div className="border-t-2 border-ink pt-4">
 			<div className="flex items-baseline justify-between">
-				<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-crust">
+				<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-on-accent">
 					Error
 				</span>
 				<span className="text-meta uppercase tracking-[0.12em] tabular-nums">
@@ -26,7 +26,7 @@ export function NotFound({ status = 404 }: { status?: number }) {
 			</p>
 
 			<div className="mt-10 flex flex-wrap gap-3">
-				<Link to="/" className="nb-button bg-mauve text-crust">
+				<Link to="/" className="nb-button bg-mauve text-on-accent">
 					<ArrowLeft className="size-4" />
 					Index
 				</Link>

@@ -56,11 +56,9 @@ export const sections: Section[] = [
 export default function Post() {
 	return (
 		<Prose>
-			<Hero />
 			<PostHeading level={2} id="what-is-colemak-dh">
 				What Is Colemak DH
 			</PostHeading>
-			<LayoutFigure />
 			<p>
 				<a
 					href="https://colemakmods.github.io/mod-dh/keyboards.html"
@@ -100,10 +98,10 @@ export default function Post() {
 				Furthermore, Colemak DH retains enough similarity to QWERTY, making it
 				easier to learn and adapt to the new layout.
 			</p>
+			<LayoutFigure />
 			<PostHeading level={2} id="how-was-the-learning-process">
 				How Was the Learning Process?
 			</PostHeading>
-			<LearningCurve />
 			<p>
 				During the Learning process, which has spanned around 20 hours of
 				practice, I have used the Colemak DH layout for normal typing tasks and
@@ -114,11 +112,13 @@ export default function Post() {
 				constraints, I have been averaging 2-4 hours once a week, which is not
 				ideal for efficient learning.
 			</p>
+			<LearningCurve />
 			<p>
 				Currently, I can achieve a typing speed of around 65-70 WPM on
 				Monkeytype using 50 words, all lowercase, and no punctuation. Before
 				switching to Colemak DH, I was typing at around 100 WPM.
 			</p>
+			<Hero />
 			<p>
 				It's worth noting that I switched to a split keyboard, which helped
 				facilitate the learning process. Surprisingly, adapting to the new

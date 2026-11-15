@@ -5,26 +5,13 @@ import {
 	Check,
 	Eye,
 	Globe,
-	KeyRound,
-	ListChecks,
 	Phone,
-	Search,
-	ServerOff,
-	Settings2,
 	ShieldCheck,
-	Trash2,
 	UserRound,
 } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
-import {
-	Callout,
-	Chip,
-	Panel,
-	Stat,
-	Switch,
-	Tabs,
-} from "~/components/post/kit";
+import { Callout, Chip, Panel, Switch, Tabs } from "~/components/post/kit";
 import { cn } from "~/lib/utils";
 
 /* Interactive figures for "Becoming private online". Every label below is
@@ -108,7 +95,7 @@ export function PrivacyMeter() {
 							</AnimatePresence>
 						</span>
 						<span className="text-xs text-overlay0">/3</span>
-						<span className="text-[10px] uppercase tracking-[0.14em] text-overlay1">
+						<span className="text-[11px] uppercase tracking-[0.14em] text-overlay1">
 							steps taken
 						</span>
 					</div>
@@ -151,7 +138,7 @@ export function PrivacyMeter() {
 									className={cn(
 										"mt-0.5 grid size-4 shrink-0 place-items-center  border  text-[9px]",
 										done
-											? "border-mauve bg-mauve text-crust"
+											? "border-mauve bg-mauve text-on-accent"
 											: "border-overlay0/60 text-overlay0",
 									)}
 								>
@@ -202,123 +189,6 @@ export function PrivacyMeter() {
 	);
 }
 
-const FIRST_STEPS: { label: string; icon: LucideIcon }[] = [
-	{ label: "Changing Your Search Engine", icon: Search },
-	{ label: "Using Available Settings", icon: Settings2 },
-	{ label: "Deleting Old Accounts", icon: Trash2 },
-	{ label: "Don't Reuse Passwords", icon: KeyRound },
-	{ label: "Be Careful with VPNs", icon: ServerOff },
-];
-
-export function FirstStepsChecklist() {
-	const reduced = useReducedMotion();
-	const [ticked, setTicked] = useState<string[]>([]);
-	const total = FIRST_STEPS.length;
-	const count = ticked.length;
-	const all = count === total;
-
-	const toggle = (label: string) =>
-		setTicked((previous) =>
-			previous.includes(label)
-				? previous.filter((entry) => entry !== label)
-				: [...previous, label],
-		);
-
-	return (
-		<Panel
-			title="first-steps.todo"
-			icon={<ListChecks className="size-3.5" />}
-			footer={all ? "some level of Privacy" : "tap a move to tick it off"}
-		>
-			<div className="space-y-3">
-				<div className="grid grid-cols-2 gap-2">
-					<Stat label="moves taken" value={`${count} / ${total}`} />
-					<Stat
-						label="checklist"
-						value={`${Math.round((count / total) * 100)}%`}
-						hint="of the first steps"
-					/>
-				</div>
-
-				<Fill
-					value={(count / total) * 100}
-					accent={all ? "var(--green)" : "var(--mauve)"}
-				/>
-
-				<ul className="space-y-1">
-					{FIRST_STEPS.map((step, index) => {
-						const checked = ticked.includes(step.label);
-						const Icon = step.icon;
-						return (
-							<motion.li key={step.label} layout={!reduced}>
-								<button
-									type="button"
-									aria-pressed={checked}
-									onClick={() => toggle(step.label)}
-									className={cn(
-										"group flex w-full items-center gap-2 border px-2 py-1.5 text-left transition-colors",
-										checked
-											? "border-mauve/40 bg-mauve/10"
-											: "border-border/60 hover:bg-surface0/40",
-									)}
-								>
-									<span
-										className={cn(
-											"grid size-4 shrink-0 place-items-center border",
-											checked ? "border-mauve bg-mauve" : "border-overlay0/70",
-										)}
-									>
-										<AnimatePresence initial={false}>
-											{checked ? (
-												<motion.span
-													key="check"
-													className="text-crust"
-													initial={reduced ? false : { scale: 0.3, opacity: 0 }}
-													animate={{ scale: 1, opacity: 1 }}
-													exit={{ scale: 0.3, opacity: 0 }}
-													transition={{
-														type: "spring",
-														stiffness: 620,
-														damping: 24,
-													}}
-												>
-													<Check className="size-3" strokeWidth={3.5} />
-												</motion.span>
-											) : null}
-										</AnimatePresence>
-									</span>
-									<Icon
-										className={cn(
-											"size-3 shrink-0",
-											checked ? "text-mauve" : "text-overlay1",
-										)}
-									/>
-									<span
-										className={cn(
-											"min-w-0 flex-1 truncate  text-[11px]",
-											checked ? "text-text" : "text-subtext0",
-										)}
-									>
-										{step.label}
-									</span>
-									<span
-										className={cn(
-											"shrink-0  text-[9px] uppercase tracking-[0.12em]",
-											checked ? "text-mauve" : "text-overlay0",
-										)}
-									>
-										{checked ? "done" : `0${index + 1}`}
-									</span>
-								</button>
-							</motion.li>
-						);
-					})}
-				</ul>
-			</div>
-		</Panel>
-	);
-}
-
 const SITES = ["site 01", "site 02", "site 03", "site 04", "site 05"];
 
 export function IdentitySplit() {
@@ -337,7 +207,7 @@ export function IdentitySplit() {
 				return (
 					<div className="space-y-3">
 						<div className="flex items-center justify-between gap-2">
-							<span className="text-[10px] uppercase tracking-[0.14em] text-overlay1">
+							<span className="text-[11px] uppercase tracking-[0.14em] text-overlay1">
 								sites that can link you
 							</span>
 							<span
@@ -383,7 +253,7 @@ export function IdentitySplit() {
 							))}
 						</ul>
 
-						<div className="flex items-start gap-2  text-[10px] leading-relaxed text-overlay1">
+						<div className="flex items-start gap-2  text-[11px] leading-relaxed text-overlay1">
 							<UserRound className="mt-0.5 size-3 shrink-0 text-mauve" />
 							<span>
 								{separate
@@ -411,7 +281,7 @@ function Exposure({ flagged }: { flagged: boolean }) {
 	return (
 		<div className="space-y-2">
 			<div className="flex items-center justify-between gap-2">
-				<span className="text-[10px] uppercase tracking-[0.14em] text-overlay1">
+				<span className="text-[11px] uppercase tracking-[0.14em] text-overlay1">
 					published, years ago
 				</span>
 				<Chip accent={accent}>{flagged ? "re-read now" : "harmless"}</Chip>
@@ -450,7 +320,7 @@ function Exposure({ flagged }: { flagged: boolean }) {
 				})}
 			</ul>
 
-			<div className="flex items-center justify-between gap-2  text-[10px] text-overlay1">
+			<div className="flex items-center justify-between gap-2  text-[11px] text-overlay1">
 				<span>exposed fields</span>
 				<span className="tabular-nums" style={{ color: accent }}>
 					{flagged ? PUBLISHED.length : 0} / {PUBLISHED.length}

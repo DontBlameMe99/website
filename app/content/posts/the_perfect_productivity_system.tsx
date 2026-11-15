@@ -47,7 +47,6 @@ export const sections: Section[] = [
 export default function Post() {
 	return (
 		<Prose>
-			<SystemFlow />
 			<PostHeading level={2} id="introduction">
 				Introduction
 			</PostHeading>
@@ -90,7 +89,6 @@ export default function Post() {
 			<PostHeading level={2} id="the-productivity-system-treadmill">
 				The Productivity System Treadmill
 			</PostHeading>
-			<ToolChurn />
 			<p>
 				{"This might be you (it definitely was me some time ago): "}
 				<em>
@@ -126,6 +124,7 @@ export default function Post() {
 				<strong>exactly</strong>
 				{" the trap I want to talk about."}
 			</p>
+			<ToolChurn />
 			<p>
 				{
 					"Customizing your workplace/productivity system feels much better (and quite frankly is easier to do) than to do actual work. When you are trying to achieve the "
@@ -308,10 +307,10 @@ export default function Post() {
 				<strong>expand only when I actually need something new</strong>, Not
 				before.
 			</p>
+			<SystemFlow />
 			<PostHeading level={2} id="what-do-you-need">
 				What Do You Need?
 			</PostHeading>
-			<DayStrip />
 			<p>
 				If you expect me to tell you exactly what you need, I am sorry but I
 				can't. The exact need is different for everybody. For me it is
@@ -336,6 +335,7 @@ export default function Post() {
 					system I found works the best for me to remember things.
 				</li>
 			</ul>
+			<DayStrip />
 			<p>
 				{"If you want you can try out Obsidian, but "}
 				<strong>only add plugins once you actively need them</strong>
@@ -351,7 +351,6 @@ export default function Post() {
 			>
 				But When Do I Actually Need a New Setup/Plugin?
 			</PostHeading>
-			<WeekTest />
 			<p>
 				{
 					"This is an interesting question. You might have just seen a new video about the new best productivity setup, or found out about a plugin in Obsidian you want to try. The best way to test if you actually need the plugin/setup is simple: Just don't think about it for a week and see if it is still important to you. If it is, set it up and try it for a week. After said week do a review: Has it actually had the wanted effect? Is it as useful as you thought it would be? Is it adding any downtime to your workflow? If the new setup/plugin is a net-positive, continue to use it. If not, "
@@ -374,6 +373,7 @@ export default function Post() {
 				overall system - slowly making it the same as the original Notion setup
 				you wanted to prevent.
 			</p>
+			<WeekTest />
 			<PostHeading level={2} id="conclusion">
 				Conclusion
 			</PostHeading>

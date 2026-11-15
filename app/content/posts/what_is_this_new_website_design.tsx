@@ -61,7 +61,6 @@ export const sections: Section[] = [
 export default function Post() {
 	return (
 		<Prose>
-			<HeroFigure />
 			<p>You may have noticed that the website's design has changed a lot.</p>
 			<p>
 				{"In this post I want to highlight "}
@@ -91,12 +90,12 @@ export default function Post() {
 			<PostHeading level={4} id="what-is-different-now">
 				What Is Different Now?
 			</PostHeading>
-			<NoteGraphFigure />
 			<p>
 				The overall design is different, and you can also find a nice graph on
 				the side which visualizes connections between notes, just like in my
 				note taking system of choice: Obsidian!
 			</p>
+			<NoteGraphFigure />
 			<PostHeading level={3} id="how-does-it-affect-me">
 				How Does It Affect Me?
 			</PostHeading>
@@ -210,6 +209,7 @@ export default function Post() {
 				As you are able to see, the entire website has changed a lot
 				design-wise.
 			</p>
+			<HeroFigure />
 			<p>
 				{
 					"It also has changed structurally, now including directories on the left-hand side, and clickable tags (every "
@@ -313,7 +313,6 @@ export default function Post() {
 			<PostHeading level={4} id="old-links">
 				Old Links
 			</PostHeading>
-			<RedirectFigure />
 			<p>
 				<strong>Every old link</strong>
 				{", be it to a blogpost or maybe a sub-site, "}
@@ -331,6 +330,7 @@ export default function Post() {
 				{"Whereas now it's like this: "}
 				<code>{"https://dontblameme.codeberg.page/Blog/my-blog-post"}</code>.
 			</p>
+			<RedirectFigure />
 			<p>
 				<strong>But please double-check if those links actually work.</strong>
 			</p>

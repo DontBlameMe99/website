@@ -100,7 +100,7 @@ export function ProblemsFigure() {
 					)}
 				</Switch>
 			</div>
-			<figcaption className="mt-2  text-[10px] leading-relaxed text-overlay1">
+			<figcaption className="mt-2  text-[11px] leading-relaxed text-overlay1">
 				The same five problems, read side by side. Numbers and phrasing are the
 				author's.
 			</figcaption>
@@ -283,7 +283,7 @@ export function GraphFigure() {
 					</div>
 				</Panel>
 			</div>
-			<figcaption className="mt-2  text-[10px] leading-relaxed text-overlay1">
+			<figcaption className="mt-2  text-[11px] leading-relaxed text-overlay1">
 				An illustration of a note graph, not a screenshot of the author's vault.
 			</figcaption>
 		</figure>
@@ -329,7 +329,7 @@ export function FilesFigure() {
 						/>
 
 						<div className="overflow-hidden border border-border/60 bg-crust/40">
-							<div className="flex items-center justify-between gap-2 border-b border-border/60 px-2 py-1.5  text-[10px] text-overlay1">
+							<div className="flex items-center justify-between gap-2 border-b border-border/60 px-2 py-1.5  text-[11px] text-overlay1">
 								<span className="inline-flex min-w-0 items-center gap-1.5">
 									<Folder className="size-3 shrink-0" />
 									<span className="truncate">obsidian / vault</span>
@@ -349,7 +349,7 @@ export function FilesFigure() {
 
 							<div className="p-2">
 								{notes === 0 ? (
-									<p className="py-6 text-center  text-[10px] text-overlay0">
+									<p className="py-6 text-center  text-[11px] text-overlay0">
 										empty vault
 									</p>
 								) : (
@@ -395,7 +395,7 @@ export function FilesFigure() {
 					</div>
 				</Panel>
 			</div>
-			<figcaption className="mt-2  text-[10px] leading-relaxed text-overlay1">
+			<figcaption className="mt-2  text-[11px] leading-relaxed text-overlay1">
 				Drag the slider. Nothing is read from a disk here, the file count is
 				only the notes you say you wrote.
 			</figcaption>

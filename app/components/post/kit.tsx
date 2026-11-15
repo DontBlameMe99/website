@@ -36,7 +36,7 @@ export function Panel({
 			) : null}
 			<div className="p-3 sm:p-4">{children}</div>
 			{footer ? (
-				<div className="border-t-2 border-ink px-3 py-2 text-[10px] text-overlay1">
+				<div className="border-t-2 border-ink px-3 py-2 text-[11px] text-overlay1">
 					{footer}
 				</div>
 			) : null}
@@ -56,7 +56,7 @@ export function Chip({
 	return (
 		<span
 			className={cn(
-				"inline-flex items-center gap-1 border-2 border-ink bg-base px-2 py-0.5 text-[10px] font-bold leading-relaxed text-crust shadow-[var(--shadow-hard-sm)]",
+				"inline-flex items-center gap-1 border-2 border-ink bg-base px-2 py-0.5 text-[11px] font-bold leading-relaxed text-on-accent shadow-[var(--shadow-hard-sm)]",
 				className,
 			)}
 			style={{ background: accent }}
@@ -77,12 +77,12 @@ export function Stat({
 }) {
 	return (
 		<div className="not-prose border-2 border-ink bg-base px-3 py-2 shadow-[var(--shadow-hard-sm)]">
-			<div className="text-[10px] uppercase tracking-[0.12em] text-overlay1">
+			<div className="text-[11px] uppercase tracking-[0.12em] text-overlay1">
 				{label}
 			</div>
 			<div className="mt-0.5  text-sm text-text">{value}</div>
 			{hint ? (
-				<div className="mt-0.5  text-[10px] text-overlay0">{hint}</div>
+				<div className="mt-0.5 text-[11px] text-overlay1">{hint}</div>
 			) : null}
 		</div>
 	);
@@ -144,7 +144,7 @@ export function Bars({
 			{data.map((entry, index) => (
 				<div
 					key={entry.label}
-					className="grid grid-cols-[7.5rem_1fr_auto] items-center gap-3"
+					className="grid grid-cols-[minmax(0,6rem)_1fr_auto] items-center gap-2 sm:grid-cols-[7.5rem_1fr_auto] sm:gap-3"
 				>
 					<span className="truncate  text-[11px] text-subtext0">
 						{entry.label}
@@ -217,6 +217,30 @@ export function Tabs({
 	const id = useId();
 	const current = tabs.find((tab) => tab.id === active) ?? tabs[0];
 
+	const select = (index: number) => {
+		const tab = tabs[(index + tabs.length) % tabs.length];
+		if (!tab) return;
+		setActive(tab.id);
+		document.getElementById(`${id}-${tab.id}`)?.focus();
+	};
+
+	const onKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+		const index = tabs.findIndex((tab) => tab.id === current?.id);
+		if (event.key === "ArrowRight") {
+			event.preventDefault();
+			select(index + 1);
+		} else if (event.key === "ArrowLeft") {
+			event.preventDefault();
+			select(index - 1);
+		} else if (event.key === "Home") {
+			event.preventDefault();
+			select(0);
+		} else if (event.key === "End") {
+			event.preventDefault();
+			select(tabs.length - 1);
+		}
+	};
+
 	return (
 		<div className="not-prose my-6 border-2 border-ink bg-mantle shadow-[var(--shadow-hard)]">
 			<div
@@ -231,12 +255,14 @@ export function Tabs({
 						role="tab"
 						id={`${id}-${tab.id}`}
 						aria-selected={tab.id === current?.id}
-						aria-controls={`${id}-${tab.id}-panel`}
+						aria-controls={`${id}-panel`}
+						tabIndex={tab.id === current?.id ? 0 : -1}
+						onKeyDown={onKeyDown}
 						onClick={() => setActive(tab.id)}
 						className={cn(
-							"relative px-2.5 py-1  text-[11px] transition-colors",
+							"relative px-2.5 py-1.5 text-[11px] transition-colors",
 							tab.id === current?.id
-								? "text-base"
+								? "text-on-accent"
 								: "text-overlay1 hover:bg-surface0/60 hover:text-text",
 						)}
 					>
@@ -252,13 +278,15 @@ export function Tabs({
 					</button>
 				))}
 			</div>
-			<div className="p-3 sm:p-4  text-xs text-subtext0">
+			<div
+				id={`${id}-panel`}
+				role="tabpanel"
+				aria-labelledby={`${id}-${current?.id}`}
+				className="p-3 text-xs text-subtext0 sm:p-4"
+			>
 				<AnimatePresence mode="wait" initial={false}>
 					<motion.div
 						key={current?.id}
-						id={`${id}-${current?.id}-panel`}
-						role="tabpanel"
-						aria-labelledby={`${id}-${current?.id}`}
 						initial={{ opacity: 0, y: 6 }}
 						animate={{ opacity: 1, y: 0 }}
 						exit={{ opacity: 0, y: -6 }}
@@ -289,7 +317,7 @@ export function Switch({
 	return (
 		<div className="not-prose my-6 overflow-hidden border-2 border-ink bg-mantle shadow-[var(--shadow-hard)]">
 			<div className="flex items-center justify-between gap-3 border-b-2 border-ink px-3 py-2">
-				<span className="text-[10px] uppercase tracking-[0.14em] text-overlay1">
+				<span className="text-[11px] uppercase tracking-[0.14em] text-overlay1">
 					{state ? on : off}
 				</span>
 				<button
@@ -298,14 +326,14 @@ export function Switch({
 					aria-checked={state}
 					aria-label={`Toggle ${on}`}
 					onClick={() => setState(!state)}
-					className="relative h-5 w-9 border-2 border-ink bg-surface1 transition-colors"
+					className="relative h-6 w-11 shrink-0 border-2 border-ink bg-surface2 transition-colors"
 					style={state ? { background: accent } : undefined}
 				>
 					<motion.span
 						layout
 						transition={{ type: "spring", stiffness: 500, damping: 30 }}
 						className={cn(
-							"absolute top-0.5 size-4 bg-base ",
+							"absolute top-0.5 size-4 border-2 border-ink bg-base",
 							state ? "right-0.5" : "left-0.5",
 						)}
 					/>
@@ -349,7 +377,7 @@ export function Range({
 				step={step}
 				value={value}
 				onChange={(event) => onChange(Number(event.target.value))}
-				className="h-3 w-full cursor-pointer appearance-none border-2 border-ink outline-offset-4"
+				className="h-6 w-full cursor-pointer appearance-none border-2 border-ink outline-offset-4"
 				style={{
 					background: `linear-gradient(to right, ${accent} ${percent}%, var(--surface0) ${percent}%)`,
 				}}
@@ -433,7 +461,7 @@ export function Sparkline({
 				/>
 			</svg>
 			{label ? (
-				<figcaption className="text-[10px] text-overlay1">{label}</figcaption>
+				<figcaption className="text-[11px] text-overlay1">{label}</figcaption>
 			) : null}
 		</figure>
 	);

@@ -58,7 +58,6 @@ export const sections: Section[] = [
 export default function Post() {
 	return (
 		<Prose>
-			<Stance />
 			<PostHeading level={2} id="why-would-you-use-a-split-keyboard">
 				Why Would You Use a Split Keyboard?
 			</PostHeading>
@@ -102,6 +101,7 @@ export default function Post() {
 				</a>
 				.
 			</p>
+			<Stance />
 			<PostHeading level={4} id="customization">
 				Customization
 			</PostHeading>
@@ -203,7 +203,6 @@ export default function Post() {
 			<PostHeading level={3} id="the-zsa-moonlander">
 				The ZSA Moonlander
 			</PostHeading>
-			<MoonlanderFigure />
 			<p>
 				{"I chose to get the "}
 				<a
@@ -218,6 +217,7 @@ export default function Post() {
 				}
 			</p>
 			<p>Just order and that's it.</p>
+			<MoonlanderFigure />
 			<PostHeading level={3} id="cost-comparison">
 				Cost Comparison
 			</PostHeading>
@@ -301,7 +301,6 @@ export default function Post() {
 			<PostHeading level={3} id="learning-experience">
 				Learning Experience
 			</PostHeading>
-			<LayersFigure />
 			<p>
 				Initially, using a split keyboard may feel unfamiliar and require an
 				adjustment period. The split design and tilted halves might take some
@@ -320,15 +319,16 @@ export default function Post() {
 				invest time in understanding the layers' organization and determining
 				the most effective layout for your specific needs.
 			</p>
+			<LayersFigure />
 			<PostHeading level={3} id="time-taken-to-learn">
 				Time Taken to Learn
 			</PostHeading>
-			<AdaptationFigure />
 			<p>
 				The time required to learn the split style varies from person to person.
 				For me it took around 3 to 6 hours to become comfortable with the split
 				keyboard.
 			</p>
+			<AdaptationFigure />
 			<p>
 				Notably, prior experience with touch typing can be advantageous, as it
 				helps to adapt to the split layout more quickly.

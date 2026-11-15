@@ -79,6 +79,7 @@ export function SystemFlow() {
 			<svg
 				viewBox="0 0 420 196"
 				className="w-full"
+				role="img"
 				aria-label="The system: capture, notes, anki, review"
 			>
 				{LINKS.map((d, index) => {
@@ -184,7 +185,7 @@ export function SystemFlow() {
 			</svg>
 
 			<div className="mt-3 flex min-h-11 items-start gap-2 border border-border/70 bg-surface0/20 px-2.5 py-2">
-				<span className="mt-0.5  text-[10px] uppercase tracking-[0.14em] text-overlay0">
+				<span className="mt-0.5  text-[11px] uppercase tracking-[0.14em] text-overlay0">
 					why
 				</span>
 				<AnimatePresence mode="wait" initial={false}>
@@ -249,7 +250,7 @@ export function ToolChurn() {
 				{SYSTEM_PARTS.map((part) => (
 					<Chip key={part.label}>{part.label}</Chip>
 				))}
-				<span className="text-[10px] text-overlay0">still four parts.</span>
+				<span className="text-[11px] text-overlay0">still four parts.</span>
 			</div>
 
 			<div className="mt-3 flex min-h-9 flex-wrap items-center gap-1.5">
@@ -307,7 +308,7 @@ export function ToolChurn() {
 					type="button"
 					onClick={() => setCount((value) => value + 1)}
 					whileTap={reduced ? undefined : { scale: 0.96 }}
-					className={cn(BUTTON, "border-mauve/50 bg-mauve/15 text-mauve")}
+					className={cn(BUTTON, "border-mauve/50 bg-mauve/10 text-mauve")}
 				>
 					<Plus className="size-3" />
 					another app
@@ -441,9 +442,9 @@ export function DayStrip() {
 							onClick={() => setHour(entry.at)}
 							aria-pressed={active}
 							className={cn(
-								"relative px-2 py-1.5 text-left  text-[10px] transition-colors",
+								"relative px-2 py-1.5 text-left  text-[11px] transition-colors",
 								active
-									? "text-crust"
+									? "text-on-accent"
 									: "text-overlay1 hover:bg-surface0/50 hover:text-subtext0",
 							)}
 						>
@@ -573,7 +574,7 @@ export function WeekTest() {
 		<>
 			<div className="not-prose mt-5 flex flex-wrap items-center gap-2">
 				<Chip accent="var(--teal)">the one-week test</Chip>
-				<span className="text-[10px] text-overlay0">
+				<span className="text-[11px] text-overlay0">
 					wait a week, try a week, then decide
 				</span>
 			</div>

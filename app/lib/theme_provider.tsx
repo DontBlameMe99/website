@@ -9,7 +9,6 @@ import {
 
 export type Theme = "dark" | "light";
 
-export const THEME_CHANGING_CLASS = "theme-changing";
 export const THEME_STORAGE_KEY = "dbm-theme";
 
 type ThemeContextValue = {
@@ -49,14 +48,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 	const apply = useCallback((next: Theme) => {
 		const root = document.documentElement;
-		if (root.classList.contains(next)) return;
-		root.classList.add(THEME_CHANGING_CLASS);
 		root.classList.remove("light", "dark");
 		root.classList.add(next);
-		// Force the recalculation now, so the palette commits before the class
-		// that disables transitions is dropped again.
-		getComputedStyle(root).getPropertyValue("--base");
-		root.classList.remove(THEME_CHANGING_CLASS);
 
 		const meta = document.querySelector<HTMLMetaElement>(
 			'meta[name="theme-color"]',
@@ -108,6 +101,7 @@ export const themeBootScript = `
 		if (theme !== 'light' && theme !== 'dark') {
 			theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
 		}
+		document.documentElement.classList.remove('light', 'dark');
 		document.documentElement.classList.add(theme);
 	})();
 `;

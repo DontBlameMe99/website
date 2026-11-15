@@ -9,6 +9,7 @@ import {
 } from "react-router";
 
 import "./app.css";
+import { MotionConfig } from "motion/react";
 import { SiteFooter } from "~/components/layout/site_footer";
 import { SiteHeader } from "~/components/layout/site_header";
 import { seo } from "~/lib/seo";
@@ -44,7 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			<body className="min-h-dvh bg-crust text-text antialiased">
 				<a
 					href="#main-content"
-					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-mauve focus:px-3 focus:py-1.5 focus:text-xs focus:font-semibold focus:text-crust"
+					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-mauve focus:px-3 focus:py-1.5 focus:text-xs focus:font-semibold focus:text-on-accent"
 				>
 					Skip to content
 				</a>
@@ -61,19 +62,21 @@ function Shell({ children }: { children: React.ReactNode }) {
 
 	return (
 		<ThemeProvider>
-			<SiteHeader />
-			<main
-				id="main-content"
-				className="mx-auto w-full max-w-[1240px] px-5 pb-10 pt-10 sm:pt-14"
-			>
-				<div
-					key={location.pathname}
-					className="animate-[page-in_180ms_ease-out]"
+			<MotionConfig reducedMotion="user">
+				<SiteHeader />
+				<main
+					id="main-content"
+					className="mx-auto w-full max-w-[1240px] px-5 pb-10 pt-10 sm:pt-14"
 				>
-					{children}
-				</div>
-			</main>
-			<SiteFooter />
+					<div
+						key={location.pathname}
+						className="animate-[page-in_180ms_ease-out]"
+					>
+						{children}
+					</div>
+				</main>
+				<SiteFooter />
+			</MotionConfig>
 		</ThemeProvider>
 	);
 }

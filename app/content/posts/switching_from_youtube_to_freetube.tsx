@@ -2,7 +2,6 @@ import { PostHeading, Prose } from "~/components/post/prose";
 import {
 	MigrationChecklist,
 	ThumbnailPreference,
-	VideoPageMockup,
 	WhatFollowsYou,
 } from "~/content/experiences/switching_from_youtube_to_freetube";
 import type { PostMeta, Section } from "~/lib/post_types";
@@ -66,11 +65,9 @@ export const sections: Section[] = [
 export default function Post() {
 	return (
 		<Prose>
-			<VideoPageMockup />
 			<PostHeading level={2} id="why-would-you-switch-away-from-youtube">
 				Why Would You Switch Away from YouTube?
 			</PostHeading>
-			<WhatFollowsYou />
 			<p>
 				{"This question is understandable, but not correct. "}
 				<strong>You are not leaving YouTube</strong>
@@ -98,6 +95,7 @@ export default function Post() {
 					" Account (because of the tracking), I don't want to use a slow website, and I also don't want to be tracked."
 				}
 			</p>
+			<WhatFollowsYou />
 			<PostHeading level={2} id="but-isn-t-it-slower-worse-looking">
 				But Isn't It Slower/Worse/Looking?
 			</PostHeading>
@@ -195,7 +193,6 @@ export default function Post() {
 			<PostHeading level={2} id="how-did-the-transition-feel">
 				How Did the Transition Feel?
 			</PostHeading>
-			<MigrationChecklist />
 			<p>
 				{
 					"For me, it was pretty simple. Just install the app using either your "
@@ -245,7 +242,6 @@ export default function Post() {
 			<PostHeading level={2} id="special-features-i-love-about-freetube">
 				Special Features I Love About FreeTube
 			</PostHeading>
-			<ThumbnailPreference />
 			<p>
 				{"I love that on "}
 				<a href="https://freetubeapp.io/" target="_blank" rel="noreferrer">
@@ -269,6 +265,7 @@ export default function Post() {
 					" Because my brain was actually trained to just focus on those big red arrow thumbnails. Pretty creepy, if you ask me."
 				}
 			</p>
+			<ThumbnailPreference />
 			<p>
 				{
 					"I also really love that you can block sponsored segments. FreeTube has integrated YouTube SponsorBlock support, which allows you to select what you want to skip and then skip it. If you don't know what I mean, This will skip those annoying ads YouTubers include in their videos. Not the ads playing "
@@ -379,6 +376,7 @@ export default function Post() {
 				and (the best part) is not tracking you. The last point (not tracking)
 				alone would be reason enough to use it for me.
 			</p>
+			<MigrationChecklist />
 			<PostHeading level={2} id="how-to-install-freetube">
 				How to Install FreeTube
 			</PostHeading>

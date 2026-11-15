@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant light (&:is(.light *));
 
 /* One typeface for the whole site. */
 @font-face {
@@ -77,9 +78,10 @@
 
 	/* Neobrutalism: borders and shadows use the same ink, never a blur. */
 	--color-ink: var(--ink);
+	--color-on-accent: var(--on-accent);
 	--color-post-accent: var(--post-accent);
 	--color-border: var(--ink);
-	--color-rule: color-mix(in srgb, var(--ink) 22%, transparent);
+	--color-rule: color-mix(in srgb, var(--ink) 30%, transparent);
 	--color-input: var(--ink);
 	--color-ring: var(--mauve);
 }
@@ -103,8 +105,8 @@
 	--subtext1: #bac2de;
 	--subtext0: #a6adc8;
 	--overlay2: #9399b2;
-	--overlay1: #7f849c;
-	--overlay0: #6c7086;
+	--overlay1: #9ba0b8;
+	--overlay0: #8f94ad;
 	--surface2: #585b70;
 	--surface1: #45475a;
 	--surface0: #313244;
@@ -113,6 +115,8 @@
 	--crust: #11111b;
 
 	--ink: var(--text);
+	/* Text that sits on a saturated accent fill. */
+	--on-accent: #11111b;
 	/* Figures inside posts tint themselves with this. */
 	--post-accent: var(--mauve);
 	--shadow-hard: 4px 4px 0 var(--ink);
@@ -122,25 +126,26 @@
 
 .light {
 	color-scheme: light;
-	/* Catppuccin Latte, with near-black ink on paper. */
-	--pink: #ea76cb;
-	--mauve: #8839ef;
-	--red: #d20f39;
-	--maroon: #e64553;
-	--peach: #fe640b;
-	--yellow: #df8e1d;
-	--green: #40a02b;
-	--teal: #179299;
-	--sky: #04a5e5;
-	--sapphire: #209fb5;
-	--blue: #1e66f5;
-	--lavender: #7287fd;
-	--text: #4c4f69;
-	--subtext1: #5c5f77;
-	--subtext0: #6c6f85;
-	--overlay2: #7c7f9b;
-	--overlay1: #8c8fa1;
-	--overlay0: #9ca0b0;
+	/* Catppuccin Latte, deepened until every accent carries white text at 4.5:1
+	   and every muted tone clears 4.5:1 on the page background. */
+	--pink: #a0156b;
+	--mauve: #7627d9;
+	--red: #b3122f;
+	--maroon: #96262f;
+	--peach: #a9490c;
+	--yellow: #7d5504;
+	--green: #2a6d1f;
+	--teal: #0b625c;
+	--sky: #0b6285;
+	--sapphire: #0c6373;
+	--blue: #1a56d6;
+	--lavender: #4f58c9;
+	--text: #41445c;
+	--subtext1: #4c4f69;
+	--subtext0: #565a72;
+	--overlay2: #5c5f77;
+	--overlay1: #565a72;
+	--overlay0: #545870;
 	--surface2: #acb0be;
 	--surface1: #bcc0cc;
 	--surface0: #ccd0da;
@@ -149,6 +154,7 @@
 	--crust: #dce0e8;
 
 	--ink: #11111b;
+	--on-accent: #ffffff;
 }
 
 @layer base {
@@ -179,9 +185,10 @@
 		color: var(--crust);
 	}
 
+	/* Ink, not the accent: it has to stay visible on accent fills too. */
 	:focus-visible {
-		outline: 2px solid var(--mauve);
-		outline-offset: 2px;
+		outline: 2px solid var(--ink);
+		outline-offset: 3px;
 	}
 
 	h1,
@@ -218,7 +225,7 @@
 }
 
 @utility text-display {
-	font-size: clamp(2.75rem, 8vw, 5.5rem);
+	font-size: clamp(2.5rem, 8vw, 5.5rem);
 	font-weight: 800;
 	line-height: 0.9;
 	letter-spacing: -0.05em;
@@ -357,7 +364,7 @@
 	font-weight: 700;
 	line-height: 1;
 	letter-spacing: 0.1em;
-	color: var(--ink);
+	color: var(--on-accent);
 	box-shadow: var(--shadow-hard-sm);
 	font-variant-numeric: tabular-nums;
 }
@@ -400,8 +407,22 @@
 
 .prose-dbm a:hover {
 	background: var(--mauve);
-	color: var(--ink);
-	text-decoration-color: var(--ink);
+	color: var(--on-accent);
+	text-decoration-color: var(--on-accent);
+}
+
+/* An image link is only as wide as the image: no full-measure highlight, no
+   underline, and the shadow hugs the frame. */
+.prose-dbm figure > a {
+	display: inline-block;
+	text-decoration: none;
+}
+
+.prose-dbm figure > a:hover,
+.prose-dbm figure > a:focus-visible {
+	background: transparent;
+	color: inherit;
+	text-decoration: none;
 }
 
 .prose-dbm strong {
@@ -453,7 +474,7 @@
 	border-left-width: 10px;
 	background: color-mix(in srgb, var(--mauve) 10%, transparent);
 	padding: 0.9em 1.1em;
-	color: var(--subtext0);
+	color: var(--subtext1);
 }
 
 .prose-dbm code {
@@ -502,15 +523,27 @@
 	box-shadow: var(--shadow-hard);
 }
 
+/* On a phone an inline diagram would break the line, so it becomes a block. */
 .prose-dbm p img,
 .prose-dbm li img {
-	display: inline-block;
-	width: auto;
-	max-width: 46%;
-	max-height: 8.5rem;
-	margin: 0 0.35em;
-	vertical-align: middle;
+	display: block;
+	width: 100%;
+	max-height: 14rem;
+	margin: 1em 0;
+	object-fit: contain;
 	box-shadow: var(--shadow-hard-sm);
+}
+
+@media (min-width: 40rem) {
+	.prose-dbm p img,
+	.prose-dbm li img {
+		display: inline-block;
+		width: auto;
+		max-width: 46%;
+		max-height: 8.5rem;
+		margin: 0 0.35em;
+		vertical-align: middle;
+	}
 }
 
 .prose-dbm figure {
@@ -554,6 +587,11 @@
 	position: absolute;
 	right: 0;
 	top: 0;
+	display: flex;
+	height: 1.5rem;
+	width: 1.5rem;
+	align-items: center;
+	justify-content: center;
 	color: var(--mauve);
 	font-size: 0.8em;
 	font-weight: 800;
@@ -567,17 +605,37 @@
 	opacity: 1;
 }
 
-/* --- controls ------------------------------------------------------------ */
-
-button,
-input,
-summary {
-	font: inherit;
-	color: inherit;
+/* No hover on touch: a visible-but-empty anchor just invites stray taps. */
+@media (hover: none) {
+	.heading-anchor {
+		display: none;
+	}
 }
 
-input::placeholder {
-	color: var(--overlay0);
+@utility scrollbar-none {
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+/* --- controls ------------------------------------------------------------ */
+
+@layer base {
+	/* This one has to sit in a layer: unlayered declarations beat every
+	   utility, so buttons would keep the browser's 16px font and inherit the
+	   wrong text color. */
+	button,
+	input,
+	summary {
+		font: inherit;
+		color: inherit;
+	}
+
+	input::placeholder {
+		color: var(--overlay0);
+	}
 }
 
 /* Square thumbs, so the range inputs match the rest of the borders. */
@@ -625,37 +683,31 @@ input[type="range"]::-moz-range-thumb {
 	}
 }
 
+/* The mark is drawn in Mocha hues. On paper it needs to be darker to read. */
+.light .pfp-mark {
+	filter: brightness(0.55) saturate(1.25) contrast(1.05);
+}
+
 /* --- theme --------------------------------------------------------------- */
 
-html.theme-changing,
-html.theme-changing *,
-html.theme-changing *::before,
-html.theme-changing *::after {
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
 	transition: none !important;
 }
 
-html.theme-vt::view-transition-old(root),
-html.theme-vt::view-transition-new(root) {
+/* The inset wipe is the only animation on the snapshots. A cross-fade here
+   fights it and reads as a flicker. */
+::view-transition-old(root),
+::view-transition-new(root) {
 	animation: none;
 	mix-blend-mode: normal;
 }
 
-::view-transition-old(root) {
-	animation: 120ms ease-out both vt-fade-out;
-}
-::view-transition-new(root) {
-	animation: 160ms ease-in both vt-fade-in;
-}
-
-@keyframes vt-fade-out {
-	to {
-		opacity: 0;
-	}
-}
-@keyframes vt-fade-in {
-	from {
-		opacity: 0;
-	}
+/* The overlay must not eat clicks while the wipe runs. */
+::view-transition {
+	pointer-events: none;
 }
 
 @keyframes page-in {

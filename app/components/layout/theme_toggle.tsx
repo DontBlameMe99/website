@@ -1,22 +1,41 @@
 import { Moon, Sun } from "lucide-react";
 import { useRef } from "react";
+import { flushSync } from "react-dom";
 import { useTheme } from "~/lib/theme_provider";
 
+type ViewTransition = { ready: Promise<void>; finished: Promise<void> };
 type DocumentWithTransitions = Document & {
-	startViewTransition?: (callback: () => void) => { ready: Promise<void> };
+	startViewTransition?: (callback: () => void) => ViewTransition;
 };
 
-/** A square button that wipes the next palette in from its own corner. */
+const FALLBACK_MS = 300;
+
+/** A square button that wipes the next palette in as a rectangle. */
 export function ThemeToggle() {
 	const { theme, setTheme } = useTheme();
 	const ref = useRef<HTMLButtonElement>(null);
+	// Only a run that owns the class advances the token. Runs that bail out
+	// early must not, or the owner's cleanup would no-op forever.
+	const runs = useRef(0);
 	const nextTheme = theme === "dark" ? "light" : "dark";
 
 	const toggle = () => {
 		const doc = document as DocumentWithTransitions;
 		const button = ref.current;
+		const root = document.documentElement;
 
-		if (!doc.startViewTransition || !button) {
+		const reduced = window.matchMedia(
+			"(prefers-reduced-motion: reduce)",
+		).matches;
+
+		// A hidden tab never paints the transition, so do not route the state
+		// change through it there.
+		if (
+			!doc.startViewTransition ||
+			!button ||
+			reduced ||
+			document.visibilityState !== "visible"
+		) {
 			setTheme(nextTheme);
 			return;
 		}
@@ -24,25 +43,56 @@ export function ThemeToggle() {
 		const rect = button.getBoundingClientRect();
 		const x = rect.left + rect.width / 2;
 		const y = rect.top + rect.height / 2;
-		const radius = Math.hypot(
-			Math.max(x, innerWidth - x),
-			Math.max(y, innerHeight - y),
-		);
 
-		document.documentElement.classList.add("theme-vt");
-		setTimeout(
-			() => document.documentElement.classList.remove("theme-vt"),
-			1200,
-		);
+		// Every click owns its transition. Tokens keep a stale transition from
+		// stripping the class or flipping the palette of a newer one.
+		const id = ++runs.current;
+		const isLatest = () => runs.current === id;
 
-		const transition = doc.startViewTransition(() => setTheme(nextTheme));
+		root.classList.add("theme-switching");
+
+		const cleanup = () => {
+			if (isLatest()) root.classList.remove("theme-switching");
+		};
+
+		let ran = false;
+		const apply = () => {
+			if (ran || !isLatest()) return;
+			ran = true;
+			// React must commit before the browser captures the new snapshot,
+			// otherwise the wipe shows the palette it just replaced.
+			flushSync(() => setTheme(nextTheme));
+		};
+
+		let transition: ViewTransition;
+		try {
+			transition = doc.startViewTransition(apply);
+		} catch {
+			// Starting can throw (for example on a document that is not fully
+			// active). Flip the theme and leave nothing disabled behind.
+			cleanup();
+			setTheme(nextTheme);
+			return;
+		}
+
+		// A stalled transition still has to flip the palette.
+		const fallback = window.setTimeout(() => {
+			apply();
+			cleanup();
+		}, FALLBACK_MS);
+
+		transition.finished.finally(() => {
+			window.clearTimeout(fallback);
+			cleanup();
+		});
+
 		transition.ready
 			.then(() => {
-				document.documentElement.animate(
+				root.animate(
 					{
 						clipPath: [
-							`circle(0px at ${x}px ${y}px)`,
-							`circle(${radius}px at ${x}px ${y}px)`,
+							`inset(${y}px ${innerWidth - x}px ${innerHeight - y}px ${x}px)`,
+							"inset(0px 0px 0px 0px)",
 						],
 					},
 					{
@@ -52,9 +102,7 @@ export function ThemeToggle() {
 					},
 				);
 			})
-			.catch(() => {
-				document.documentElement.classList.remove("theme-vt");
-			});
+			.catch(cleanup);
 	};
 
 	return (
@@ -62,15 +110,12 @@ export function ThemeToggle() {
 			ref={ref}
 			type="button"
 			onClick={toggle}
-			aria-label={`Switch to ${nextTheme} mode`}
-			title={`Switch to ${nextTheme} mode`}
-			className="nb-button h-9 w-9 shrink-0 justify-center bg-base p-0"
+			aria-label="Switch color theme"
+			title="Switch color theme"
+			className="nb-button h-8 w-8 shrink-0 justify-center bg-base p-0 sm:h-9 sm:w-9"
 		>
-			{theme === "dark" ? (
-				<Moon className="size-3.5" />
-			) : (
-				<Sun className="size-3.5" />
-			)}
+			<Moon aria-hidden="true" className="size-3.5 light:hidden" />
+			<Sun aria-hidden="true" className="hidden size-3.5 light:block" />
 		</button>
 	);
 }

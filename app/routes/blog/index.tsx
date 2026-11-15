@@ -58,28 +58,33 @@ export default function BlogIndex() {
 							onChange={(event) => setQuery(event.target.value)}
 							placeholder="Filter posts"
 							aria-label="Filter posts"
-							className="w-full bg-transparent outline-none placeholder:text-overlay1"
+							className="w-full bg-transparent"
 						/>
-						{query ? (
-							<button
-								type="button"
-								onClick={() => setQuery("")}
-								aria-label="Clear filter"
-								className="text-subtext0 transition-colors hover:text-text"
-							>
-								<X className="size-3.5" />
-							</button>
-						) : null}
+						<button
+							type="button"
+							onClick={() => setQuery("")}
+							aria-label="Clear filter"
+							tabIndex={query ? 0 : -1}
+							className={cn(
+								"grid size-6 shrink-0 place-items-center text-subtext0 transition-colors hover:text-text",
+								!query && "invisible",
+							)}
+						>
+							<X aria-hidden="true" className="size-3.5" />
+						</button>
 					</label>
 
 					<div className="flex items-center gap-4">
-						<span className="text-meta">
+						<span
+							aria-live="polite"
+							className="min-w-14 text-right text-meta tabular-nums"
+						>
 							{filtered.length} / {posts.length}
 						</span>
 						<button
 							type="button"
 							onClick={() => setNewestFirst((value) => !value)}
-							className="nb-button bg-base py-1.5 text-[11px] uppercase tracking-[0.08em] text-text"
+							className="nb-button min-w-28 justify-center bg-base py-1.5 text-[11px] uppercase tracking-[0.08em] text-text"
 						>
 							{newestFirst ? (
 								<ArrowDownWideNarrow className="size-3.5" />
@@ -95,10 +100,11 @@ export default function BlogIndex() {
 					<button
 						type="button"
 						onClick={() => setTag(null)}
+						aria-pressed={tag === null}
 						className={cn(
 							"nb-chip transition-colors",
 							tag === null
-								? "bg-mauve text-crust"
+								? "bg-mauve text-on-accent"
 								: "bg-base text-subtext0 hover:bg-surface0 hover:text-text",
 						)}
 					>
@@ -109,10 +115,11 @@ export default function BlogIndex() {
 							key={value}
 							type="button"
 							onClick={() => setTag(tag === value ? null : value)}
+							aria-pressed={tag === value}
 							className={cn(
 								"nb-chip transition-colors",
 								tag === value
-									? "bg-mauve text-crust"
+									? "bg-mauve text-on-accent"
 									: "bg-base text-subtext0 hover:bg-surface0 hover:text-text",
 							)}
 						>
@@ -164,7 +171,7 @@ export default function BlogIndex() {
 							setQuery("");
 							setTag(null);
 						}}
-						className="nb-button mt-4 bg-mauve text-crust"
+						className="nb-button mt-4 bg-mauve text-on-accent"
 					>
 						Reset it
 					</button>

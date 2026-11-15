@@ -212,7 +212,7 @@ export function HeroFigure() {
 			{(fresh) => (
 				<div className="space-y-2">
 					<MiniLayout fresh={fresh} reduced={!!reduced} />
-					<p className="text-[10px] leading-relaxed text-overlay0">
+					<p className="text-[11px] leading-relaxed text-overlay0">
 						Wireframes only, no screenshots. The toggle adds a directory rail
 						and a graph rail to the same page.
 					</p>
@@ -326,6 +326,7 @@ export function NoteGraphFigure() {
 			<svg
 				viewBox="0 0 320 230"
 				className="block w-full select-none"
+				role="img"
 				aria-label="A toy note graph: sixteen notes and the links between them"
 			>
 				{edges.map((edge, index) => {
@@ -368,14 +369,9 @@ export function NoteGraphFigure() {
 					return (
 						<motion.g
 							key={hexId(index)}
-							role="img"
-							aria-label={`note ${hexId(index)}`}
-							tabIndex={0}
+							aria-hidden="true"
 							onPointerEnter={() => setActive(index)}
 							onPointerLeave={() => setActive(null)}
-							onFocus={() => setActive(index)}
-							onBlur={() => setActive(null)}
-							className="cursor-pointer outline-none"
 							animate={{ opacity: dim ? 0.35 : 1 }}
 							transition={{ duration: 0.15 }}
 						>
@@ -414,7 +410,7 @@ export function NoteGraphFigure() {
 			</svg>
 			<div
 				aria-live="polite"
-				className="mt-2 flex min-h-6 flex-wrap items-center gap-x-2 gap-y-1  text-[10px] text-overlay1"
+				className="mt-2 flex min-h-6 flex-wrap items-center gap-x-2 gap-y-1  text-[11px] text-overlay1"
 			>
 				<AnimatePresence initial={false}>
 					<motion.span
@@ -448,7 +444,7 @@ export function NoteGraphFigure() {
 						"inline-flex shrink-0 items-center gap-1 border px-2 py-0.5 transition-colors",
 						exhausted
 							? "border-border text-overlay1 hover:border-mauve/50 hover:text-mauve"
-							: "border-mauve/40 bg-mauve/10 text-mauve hover:bg-mauve/20",
+							: "border-mauve/40 bg-mauve/10 text-mauve hover:bg-mauve hover:text-on-accent",
 					)}
 				>
 					{exhausted ? (
@@ -505,7 +501,7 @@ export function RedirectFigure() {
 						type="button"
 						onClick={() => setSelected(entry.id)}
 						className={cn(
-							"relative px-2 py-1  text-[10px] transition-colors",
+							"relative px-2 py-1  text-[11px] transition-colors",
 							entry.id === selected
 								? "text-base"
 								: "text-overlay1 hover:text-text",
@@ -524,7 +520,7 @@ export function RedirectFigure() {
 			</div>
 
 			<div className="mt-2.5 border border-border/70 bg-surface0/20 p-2.5">
-				<div className="flex items-baseline gap-2  text-[10px]">
+				<div className="flex items-baseline gap-2  text-[11px]">
 					<span className="shrink-0 text-overlay0">GET</span>
 					<span className="min-w-0 break-all text-subtext0">
 						{current.from}
@@ -566,7 +562,7 @@ export function RedirectFigure() {
 						<AnimatePresence mode="wait" initial={false}>
 							<motion.div
 								key={current.id}
-								className="break-all  text-[10px] leading-relaxed text-text"
+								className="break-all  text-[11px] leading-relaxed text-text"
 								initial={{ opacity: 0, y: 4 }}
 								animate={{ opacity: 1, y: 0 }}
 								exit={{ opacity: 0, y: -4 }}

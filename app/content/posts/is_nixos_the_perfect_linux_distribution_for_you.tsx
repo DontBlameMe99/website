@@ -58,11 +58,9 @@ export const sections: Section[] = [
 export default function Post() {
 	return (
 		<Prose>
-			<GenerationHero />
 			<PostHeading level={2} id="what-even-is-nixos">
 				What Even Is NixOS?
 			</PostHeading>
-			<ConfigDiff />
 			<p>
 				Maybe this is the first time you're hearing about NixOS, so let's start
 				with a definition.
@@ -85,7 +83,6 @@ export default function Post() {
 			<PostHeading level={2} id="why-should-i-care">
 				Why Should I Care?
 			</PostHeading>
-			<FitScoreboard />
 			<p>
 				Okay, another distribution with another package manager, but why should
 				I bother at all?
@@ -327,10 +324,10 @@ export default function Post() {
 				<code>{"obs-studio.enable = true;"}</code>
 				{" in my configuration if I wish to use OBS right now."}
 			</p>
+			<ConfigDiff />
 			<PostHeading level={4} id="danger-of-seeking-perfection">
 				Danger of Seeking Perfection
 			</PostHeading>
-			<RiceSpiral />
 			<p>
 				{"But be warned, there might come a time where you are (similar to my "}
 				<a
@@ -343,6 +340,7 @@ export default function Post() {
 				) seeking perfection in your configuration. Maybe you can make X and Y
 				modular to keep Z cleaner?
 			</p>
+			<RiceSpiral />
 			<p>
 				{"Yeah, don't fall for that. "}
 				<strong>
@@ -380,7 +378,7 @@ export default function Post() {
 				Yes, this is also possible on other distributions, but on NixOS it is
 				really easy to do:
 			</p>
-			<pre>
+			<pre tabIndex={0}>
 				<code data-lang="nix">{`
 {
   pkgs,
@@ -408,7 +406,7 @@ in {
 				Just for good measure, here is the same snippet but using the default
 				channel (which sadly is broken at the moment of writing):
 			</p>
-			<pre>
+			<pre tabIndex={0}>
 				<code data-lang="nix">{`
 {
   pkgs,
@@ -473,7 +471,7 @@ in {
 				</a>
 				, basically my own assembly-like language):
 			</p>
-			<pre>
+			<pre tabIndex={0}>
 				<code data-lang="nix">{`
 {
   inputs = {
@@ -565,7 +563,7 @@ in {
 				</a>
 				, it looks like this:
 			</p>
-			<pre>
+			<pre tabIndex={0}>
 				<code data-lang="nix">{`
 {
   inputs = {
@@ -600,6 +598,7 @@ in {
 				menu. If I boot into an old entry, every installation of a package,
 				update, or whatever, gets reverted.
 			</p>
+			<GenerationHero />
 			<p>
 				This is different to btrfs, since it is not restoring any files itself,
 				but only removing the links, therefore "disabling" the new things.
@@ -736,6 +735,7 @@ in {
 				<li>Backups using my own script</li>
 				<li>And so much more...</li>
 			</ul>
+			<FitScoreboard />
 			<p>
 				{"If you wish to learn more about NixOS I could also recommend the "}
 				<a

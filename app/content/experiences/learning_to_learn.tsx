@@ -2,9 +2,7 @@ import {
 	Check,
 	Gift,
 	PartyPopper,
-	RotateCcw,
 	SlidersHorizontal,
-	Sparkles,
 	Target,
 } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
@@ -60,7 +58,7 @@ export function HourAccumulator() {
 							</motion.span>
 							<span className="text-[11px] text-overlay1">hours / year</span>
 						</div>
-						<div className="mt-1  text-[10px] text-overlay0">
+						<div className="mt-1  text-[11px] text-overlay0">
 							{minutes} min a day, every day
 							{hours > HOURS_PER_YEAR
 								? ` · ${hours - HOURS_PER_YEAR} h past a full year`
@@ -132,7 +130,7 @@ const TAIL_SPAN = 32;
 const px = (day: number) => PAD.left + (day / HORIZON) * PLOT_W;
 const py = (retention: number) => PAD.top + (1 - retention / 100) * PLOT_H;
 
-const NEVER_REVIEWED = samplePath(
+const _NEVER_REVIEWED = samplePath(
 	HORIZON,
 	(day) => 100 * Math.exp(-DECAY * day),
 	120,
@@ -147,7 +145,7 @@ function tailWindow(completed: number) {
 		: { from, to: next, span: next - from };
 }
 
-function retentionAt(day: number, completed: number) {
+function _retentionAt(day: number, completed: number) {
 	let from = 0;
 	for (let index = 0; index < completed; index++) {
 		const to = REVIEW_DAYS[index];
@@ -171,141 +169,6 @@ function samplePath(
 		);
 	}
 	return points.join(" ");
-}
-
-function _SpacedRepetitionCurve() {
-	const [completed, setCompleted] = useState(0);
-	const reduced = useReducedMotion();
-	const tail = tailWindow(completed);
-	const done = completed >= REVIEW_DAYS.length;
-	const dip = Math.round(retentionAt(tail.to, completed));
-	const curve = samplePath(tail.to, (day) => retentionAt(day, completed), 180);
-
-	return (
-		<Panel
-			title="review.app"
-			icon={<WindowDots />}
-			footer="illustration of spaced repetition · each review resets the curve and doubles the gap · not a real Anki schedule"
-		>
-			<div className="space-y-3">
-				<svg
-					viewBox={`0 0 ${CURVE_WIDTH} ${CURVE_HEIGHT}`}
-					className="w-full"
-					role="img"
-					aria-label={`Retention after ${completed} reviews: ${dip}% left at day ${tail.to}`}
-				>
-					{[0, 25, 50, 75, 100].map((value) => (
-						<line
-							key={value}
-							x1={PAD.left}
-							x2={CURVE_WIDTH - PAD.right}
-							y1={py(value)}
-							y2={py(value)}
-							stroke="var(--surface0)"
-							strokeWidth={0.6}
-							strokeDasharray={value === 0 ? undefined : "2 3"}
-						/>
-					))}
-					{[100, 50, 0].map((value) => (
-						<text
-							key={value}
-							x={PAD.left - 4}
-							y={py(value) + 2.5}
-							textAnchor="end"
-							fontSize={7}
-							fill="var(--overlay0)"
-							fontFamily="var(--font-sans)"
-						>
-							{value}%
-						</text>
-					))}
-					<text
-						x={PAD.left}
-						y={CURVE_HEIGHT - 4}
-						fontSize={7}
-						fill="var(--overlay0)"
-						fontFamily="var(--font-sans)"
-					>
-						day 0
-					</text>
-					<text
-						x={CURVE_WIDTH - PAD.right}
-						y={CURVE_HEIGHT - 4}
-						textAnchor="end"
-						fontSize={7}
-						fill="var(--overlay0)"
-						fontFamily="var(--font-sans)"
-					>
-						day {HORIZON}
-					</text>
-
-					<path
-						d={NEVER_REVIEWED}
-						fill="none"
-						stroke="var(--overlay0)"
-						strokeWidth={1}
-						strokeDasharray="3 4"
-					/>
-
-					<motion.path
-						key={`curve-${completed}`}
-						d={curve}
-						fill="none"
-						stroke="var(--mauve)"
-						strokeWidth={2}
-						strokeLinecap="round"
-						initial={reduced ? false : { pathLength: 0 }}
-						animate={{ pathLength: 1 }}
-						transition={{ duration: reduced ? 0 : 0.55, ease: "easeOut" }}
-					/>
-
-					{REVIEW_DAYS.slice(0, completed).map((day) => (
-						<motion.circle
-							key={`review-${day}`}
-							cx={px(day)}
-							cy={py(retentionAt(day, completed))}
-							r={2.4}
-							fill="var(--mauve)"
-							initial={reduced ? false : { opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ duration: 0.25 }}
-						/>
-					))}
-				</svg>
-
-				<div className="flex flex-wrap items-center gap-1.5">
-					<Chip>with review</Chip>
-					<Chip accent="var(--overlay1)">no review</Chip>
-					<span className="text-[10px] text-overlay0">
-						{dip}% left at day {tail.to}
-					</span>
-				</div>
-
-				<div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-					<div className="grid grid-cols-2 gap-2 sm:w-64">
-						<Stat
-							label="reviews"
-							value={`${completed} / ${REVIEW_DAYS.length}`}
-						/>
-						<Stat label="gap" value={`${tail.span} d`} />
-					</div>
-					<motion.button
-						type="button"
-						onClick={() => setCompleted(done ? 0 : completed + 1)}
-						whileTap={reduced ? undefined : { scale: 0.96 }}
-						className="inline-flex items-center justify-center gap-1.5 border border-mauve/50 bg-mauve/15 px-3 py-1.5  text-[11px] text-mauve transition-colors hover:bg-mauve/25"
-					>
-						{done ? (
-							<RotateCcw className="size-3.5" />
-						) : (
-							<Sparkles className="size-3.5" />
-						)}
-						{done ? "start over" : "review now"}
-					</motion.button>
-				</div>
-			</div>
-		</Panel>
-	);
 }
 
 /* --- momentum ------------------------------------------------------------ */
@@ -392,7 +255,7 @@ export function MomentumTracker() {
 									className={cn(
 										"grid size-4 shrink-0 place-items-center border transition-colors",
 										checked
-											? "border-mauve bg-mauve text-crust"
+											? "border-mauve bg-mauve text-on-accent"
 											: "border-border",
 									)}
 								>

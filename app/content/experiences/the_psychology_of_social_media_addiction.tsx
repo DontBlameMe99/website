@@ -56,14 +56,14 @@ function Frame({
 					<span className="size-2.5 bg-[var(--traffic-yellow)]" />
 					<span className="size-2.5 bg-[var(--traffic-green)]" />
 				</span>
-				<span className="min-w-0 flex-1 truncate text-center  text-[10px] tracking-wide text-overlay1">
+				<span className="min-w-0 flex-1 truncate text-center  text-[11px] tracking-wide text-overlay1">
 					{title}
 				</span>
 				<span className="w-[2.625rem] shrink-0" aria-hidden />
 			</div>
 			<div className="p-3 sm:p-4">{children}</div>
 			{footer ? (
-				<div className="border-t border-border/70 px-3 py-2  text-[10px] text-overlay1">
+				<div className="border-t border-border/70 px-3 py-2  text-[11px] text-overlay1">
 					{footer}
 				</div>
 			) : null}
@@ -198,10 +198,10 @@ export function RewardLoop() {
 								onClick={() => setActive(index)}
 								aria-pressed={selected}
 								className={
-									"relative inline-flex items-center gap-1 border px-2 py-0.5  text-[10px] transition-colors " +
+									"relative inline-flex items-center gap-1 border px-2 py-0.5  text-[11px] transition-colors " +
 									LOOP_SLOT[index] +
 									(selected
-										? " border-transparent text-crust"
+										? " border-transparent text-on-accent"
 										: " border-border text-subtext0 hover:border-mauve/50 hover:text-text")
 								}
 							>
@@ -495,7 +495,7 @@ export function DayInPhone() {
 						<Stat label="on the phone" value={formatHours(hours)} />
 						<Stat label="elsewhere" value={formatHours(left)} />
 					</div>
-					<p className="text-[10px] leading-relaxed text-overlay1">
+					<p className="text-[11px] leading-relaxed text-overlay1">
 						Drag the slider. The ring starts at midnight and fills clockwise.
 					</p>
 				</div>

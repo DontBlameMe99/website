@@ -40,14 +40,23 @@ export function PostHeading({
 	);
 }
 
-/** Post images are lazy, decodable, and can be opened on their own. */
+/**
+ * Post images are lazy, decodable, and can be opened on their own. The alt text
+ * carries the meaning. The caption repeats it for sighted readers, so it is
+ * hidden from screen readers to avoid announcing the same sentence twice.
+ */
 export function PostImage({ src, alt }: { src: string; alt: string }) {
 	return (
 		<figure>
-			<a href={src} target="_blank" rel="noreferrer" className="block">
+			<a
+				href={src}
+				target="_blank"
+				rel="noreferrer"
+				aria-label={alt ? `Open full size: ${alt}` : "Open full size"}
+			>
 				<img src={src} alt={alt} loading="lazy" decoding="async" />
 			</a>
-			{alt ? <figcaption>{alt}</figcaption> : null}
+			{alt ? <figcaption aria-hidden="true">{alt}</figcaption> : null}
 		</figure>
 	);
 }

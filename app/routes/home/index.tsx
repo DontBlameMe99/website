@@ -41,7 +41,7 @@ function WritingList() {
 				<SectionLabel>Writing</SectionLabel>
 				<Link
 					to="/blog"
-					className="text-meta uppercase tracking-[0.12em] hover:text-mauve"
+					className="inline-flex min-h-6 items-center py-1 text-meta uppercase tracking-[0.12em] hover:text-mauve"
 				>
 					All {posts.length}
 				</Link>
@@ -58,7 +58,7 @@ function WritingList() {
 								{String(index + 1).padStart(2, "0")}
 							</span>
 							<span className="min-w-0">
-								<span className="block text-[1.0625rem] font-bold leading-snug tracking-[-0.02em] text-text transition-colors group-hover:bg-mauve group-hover:text-crust">
+								<span className="block text-[1.0625rem] font-bold leading-snug tracking-[-0.02em] text-text transition-colors group-hover:bg-mauve group-hover:text-on-accent">
 									{post.title}
 								</span>
 								<span className="mt-1.5 block text-meta">
@@ -91,7 +91,7 @@ function ProjectsRail() {
 				<p className="text-label text-subtext0">Projects</p>
 				<Link
 					to="/projects"
-					className="text-meta uppercase tracking-[0.12em] hover:text-mauve"
+					className="inline-flex min-h-6 items-center py-1 text-meta uppercase tracking-[0.12em] hover:text-mauve"
 				>
 					All
 				</Link>
@@ -150,7 +150,7 @@ export default function Home() {
 		<div>
 			<header className="border-t-2 border-ink pt-4">
 				<div className="flex items-baseline justify-between gap-6">
-					<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-crust">
+					<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-on-accent">
 						01<span className="mx-1 opacity-40">/</span>Index
 					</span>
 					<span className="text-meta uppercase tracking-[0.12em]">
@@ -167,7 +167,7 @@ export default function Home() {
 							public.
 						</p>
 						<div className="mt-9 flex flex-wrap items-center gap-3">
-							<Link to="/blog" className="nb-button bg-mauve text-crust">
+							<Link to="/blog" className="nb-button bg-mauve text-on-accent">
 								Read the writing
 								<ArrowRight className="size-4" />
 							</Link>
@@ -183,13 +183,22 @@ export default function Home() {
 						</div>
 					</div>
 
-					<Currently />
+					<div className="nb-panel self-start overflow-hidden bg-base">
+						<img
+							src="/images/logo.svg"
+							alt="DontBlameMe, the dbm mark"
+							width={800}
+							height={800}
+							className="pfp-mark block w-full"
+						/>
+					</div>
 				</div>
 			</header>
 
 			<div className="mt-20 grid gap-12 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-14">
 				<WritingList />
 				<div className="flex flex-col gap-6">
+					<Currently />
 					<ProjectsRail />
 					<Elsewhere />
 				</div>

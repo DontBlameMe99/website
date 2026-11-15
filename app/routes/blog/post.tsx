@@ -11,9 +11,9 @@ import { NotFound } from "~/routes/__404/not_found";
 export function meta({ params }: { params: { slug?: string } }) {
 	const post = params.slug ? getPost(params.slug) : undefined;
 	return seo({
-		title: post?.title ?? "Post",
+		title: post?.title ?? "Not found",
 		description: post?.summary,
-		type: "article",
+		type: post ? "article" : "website",
 	});
 }
 
@@ -60,6 +60,40 @@ function PostNav({
 	);
 }
 
+function Toc({
+	sections,
+	active,
+	className,
+}: {
+	sections: { id: string; text: string; level: number }[];
+	active: string | null;
+	className?: string;
+}) {
+	return (
+		<nav aria-label="On this page" className={className}>
+			<ul className="[&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-b-rule">
+				{sections.map((section) => (
+					<li key={section.id}>
+						<a
+							href={`#${section.id}`}
+							aria-current={active === section.id ? "true" : undefined}
+							className={cn(
+								"block py-2 text-[11px] leading-relaxed transition-colors",
+								section.level >= 3 && "pl-3",
+								active === section.id
+									? "text-mauve underline decoration-2 underline-offset-4"
+									: "text-subtext0 hover:text-text",
+							)}
+						>
+							{section.text}
+						</a>
+					</li>
+				))}
+			</ul>
+		</nav>
+	);
+}
+
 export default function PostPage() {
 	const { slug } = useParams();
 	const post = slug ? getPost(slug) : undefined;
@@ -78,7 +112,7 @@ export default function PostPage() {
 				<div className="min-w-0 max-w-[70ch]">
 					<header className="border-t-2 border-ink pt-4">
 						<div className="flex items-baseline justify-between gap-6">
-							<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-crust">
+							<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-on-accent">
 								Post
 							</span>
 							<time
@@ -110,6 +144,17 @@ export default function PostPage() {
 						</div>
 					</header>
 
+					<details className="nb-panel mt-12 p-5 lg:hidden">
+						<summary className="cursor-pointer text-label text-text">
+							Contents
+						</summary>
+						<Toc
+							sections={post.sections}
+							active={active}
+							className="mt-3 max-h-64 overflow-y-auto overscroll-contain"
+						/>
+					</details>
+
 					<div className="mt-14">
 						<PostBody />
 					</div>
@@ -122,31 +167,16 @@ export default function PostPage() {
 					</Link>
 				</div>
 
-				<aside className="lg:sticky lg:top-24 lg:self-start">
-					<div className="nb-panel p-5">
+				<aside className="hidden min-w-0 lg:sticky lg:top-24 lg:block lg:self-start">
+					<div className="nb-panel flex max-h-[calc(100dvh-8rem)] flex-col p-5">
 						<SectionLabel>Contents</SectionLabel>
-						<nav aria-label="On this page" className="mt-3">
-							<ul>
-								{post.sections.map((section) => (
-									<li key={section.id}>
-										<a
-											href={`#${section.id}`}
-											className={cn(
-												"block border-b border-rule py-1.5 text-[11px] leading-relaxed transition-colors last:border-b-0",
-												section.level >= 3 && "pl-3 text-[10.5px]",
-												active === section.id
-													? "font-bold text-mauve"
-													: "text-subtext0 hover:text-text",
-											)}
-										>
-											{section.text}
-										</a>
-									</li>
-								))}
-							</ul>
-						</nav>
+						<Toc
+							sections={post.sections}
+							active={active}
+							className="mt-3 min-h-0 overflow-y-auto overscroll-contain pr-1"
+						/>
 
-						<div className="mt-6 hidden lg:block">
+						<div className="mt-6">
 							<SectionLabel>Meta</SectionLabel>
 							<dl className="mt-3 text-meta">
 								<div className="flex justify-between border-b border-rule py-1.5">

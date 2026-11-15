@@ -115,7 +115,6 @@ export default function Post() {
 			<PostHeading level={3} id="how-much-time-do-i-need-to-learn-new-things">
 				How Much Time Do I Need to Learn New Things?
 			</PostHeading>
-			<HourAccumulator />
 			<p>It's difficult to provide a one-size-fits-all answer.</p>
 			<p>
 				{
@@ -144,6 +143,7 @@ export default function Post() {
 				<strong>365 hours per year</strong>. This is a lot of time to learn new
 				things.
 			</p>
+			<HourAccumulator />
 			<p>
 				Of course, if you want to study and need to learn a new topic by the end
 				of next month, you would need to dedicate more time. But always
@@ -350,7 +350,6 @@ export default function Post() {
 			<PostHeading level={2} id="how-to-stay-motivated">
 				How to Stay Motivated
 			</PostHeading>
-			<MomentumTracker />
 			<p>
 				Here are some Personal tips that I use to stay motivated while Learning.
 			</p>
@@ -445,6 +444,7 @@ export default function Post() {
 				mean that you cannot learn. Everybody can easily, without much effort,
 				learn anything they want.
 			</blockquote>
+			<MomentumTracker />
 			<PostHeading level={2} id="conclusion">
 				Conclusion
 			</PostHeading>

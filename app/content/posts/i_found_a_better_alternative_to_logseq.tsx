@@ -96,7 +96,6 @@ export default function Post() {
 			<PostHeading level={2} id="problems-of-logseq">
 				Problems of Logseq
 			</PostHeading>
-			<ProblemsFigure />
 			<p>
 				The problems of Logseq took awhile to surface for me, but when they did,
 				they were really bothering me.
@@ -236,6 +235,7 @@ export default function Post() {
 				, I did not care about this offer.
 			</p>
 			<p>Addressing the problems:</p>
+			<ProblemsFigure />
 			<PostHeading level={3} id="1-slow-performance-2">
 				1: Slow Performance
 			</PostHeading>
@@ -399,7 +399,6 @@ export default function Post() {
 			<PostHeading level={3} id="how-many-files-do-you-have-now">
 				How Many Files Do You Have Now?
 			</PostHeading>
-			<FilesFigure />
 			<p>
 				{"Before my transformation, I had "}
 				<strong>493</strong>
@@ -411,23 +410,26 @@ export default function Post() {
 					" files. Yes, a few ones (I would guess around 100 files) are missing, but apparently I don't need them."
 				}
 			</p>
+			<FilesFigure />
 			<PostHeading level={2} id="how-does-your-graph-look">
 				How Does Your Graph Look?
 			</PostHeading>
-			<GraphFigure />
 			<p>
 				This is the one and only (obviously useless) question you may ask a
 				PKM-system user. Yes, I will answer it. Here is my old Logseq graph:
 			</p>
 			<PostImage
 				src="/posts/i_found_a_better_alternative_to_logseq/Pasted%20image%2020251017031703.webp"
-				alt={""}
+				alt={
+					"My old Logseq graph: every note wired to several others, a dense ball of connections"
+				}
 			/>
 			<p>And here is my new Obsidian graph:</p>
 			<PostImage
 				src="/posts/i_found_a_better_alternative_to_logseq/Pasted%20image%2020251017031716.webp"
-				alt={""}
+				alt={"The same notes in Obsidian: fewer links, three loose clusters"}
 			/>
+			<GraphFigure />
 			<PostHeading level={2} id="but-what-happened-to-your-blog-pipeline">
 				But What Happened to Your Blog Pipeline?
 			</PostHeading>

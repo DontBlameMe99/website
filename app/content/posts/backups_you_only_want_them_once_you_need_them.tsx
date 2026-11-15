@@ -3,7 +3,6 @@ import {
 	BackupSorter,
 	RecoveryChain,
 	RetentionBoard,
-	ThreeTwoOne,
 } from "~/content/experiences/backups_you_only_want_them_once_you_need_them";
 import type { PostMeta, Section } from "~/lib/post_types";
 
@@ -44,7 +43,6 @@ export default function Post() {
 			<PostHeading level={2} id="what-are-backups">
 				What Are Backups
 			</PostHeading>
-			<BackupSorter />
 			<p>
 				Before we can understand what I'm doing and why, we must agree on what I
 				mean by 'backup'.
@@ -70,6 +68,7 @@ export default function Post() {
 					</ul>
 				</li>
 			</ul>
+			<BackupSorter />
 			<PostHeading level={2} id="a-little-story">
 				A Little Story
 			</PostHeading>
@@ -81,7 +80,9 @@ export default function Post() {
 				{": "}
 				<img
 					src="/posts/backups_you_only_want_them_once_you_need_them/Dunning-Kruger%20Effect.svg"
-					alt={""}
+					alt={
+						"Dunning-Kruger curve: confidence peaks on Mount Stupid, falls into the Valley of Despair, then climbs the Slope of Enlightenment"
+					}
 					loading="lazy"
 				/>
 				{
@@ -137,7 +138,6 @@ export default function Post() {
 			<PostHeading level={2} id="3-2-1-rule">
 				3-2-1 Rule
 			</PostHeading>
-			<ThreeTwoOne />
 			<p>
 				{
 					'Possibly you have heard of this as well, if you heard of "keep backups" at any point. '
@@ -218,7 +218,6 @@ export default function Post() {
 			<PostHeading level={2} id="my-new-setup">
 				My New Setup
 			</PostHeading>
-			<RetentionBoard />
 			<p>
 				{
 					"My new setup is way more advanced and objectively better. First of all, I sync my most important data to my phone and laptop, using "
@@ -274,7 +273,7 @@ export default function Post() {
 				),
 			</p>
 			<p>I have annotated it so you can understand it:</p>
-			<pre>
+			<pre tabIndex={0}>
 				<code data-lang="nix">{`
 programs.borgmatic = { # Everything in here is for the borgmatic program
       enable = true; # Enable borgmatic, this is nix-specific syntax for "installing" a program
@@ -320,10 +319,10 @@ programs.borgmatic = { # Everything in here is for the borgmatic program
 			<p>
 				<code>{"storage.encryptionPasscommand"}</code>.
 			</p>
+			<RetentionBoard />
 			<PostHeading level={3} id="is-the-remote-backup-encrypted-though">
 				Is the Remote Backup Encrypted, Though?
 			</PostHeading>
-			<RecoveryChain />
 			<p>
 				Yes. But as I said, my threat model includes me losing everything. This
 				also includes my local password manager, which includes my backup
@@ -336,6 +335,7 @@ programs.borgmatic = { # Everything in here is for the borgmatic program
 				this Database to trusted people and they store it inside of their secure
 				backup process (inside of their own separate real-life location).
 			</p>
+			<RecoveryChain />
 			<p>
 				This means for me actually losing everything, one of these cases needs
 				to happen:

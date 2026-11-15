@@ -55,7 +55,6 @@ export const sections: Section[] = [
 export default function Post() {
 	return (
 		<Prose>
-			<RewardLoop />
 			<PostHeading level={2} id="what-is-a-social-media-addiction">
 				What Is a Social Media Addiction?
 			</PostHeading>
@@ -159,10 +158,10 @@ export default function Post() {
 					{" each day logged in."}
 				</li>
 			</ul>
+			<DayInPhone />
 			<PostHeading level={2} id="but-why-is-social-media-so-addictive">
 				But Why Is Social Media So Addictive?
 			</PostHeading>
-			<SlotMachine />
 			<p>
 				{
 					"Great question. It is so addictive because the sites you use provide you with dopamine. Some platforms such as "
@@ -179,6 +178,7 @@ export default function Post() {
 				{" to keep consumers using their products "}
 				<strong>as much as possible</strong>.
 			</p>
+			<RewardLoop />
 			<p>
 				{
 					"Those sites cause your brain's reward area to trigger the same way as it would trigger when you consume "
@@ -186,6 +186,7 @@ export default function Post() {
 				<strong>cocaine</strong>
 				{" as an example."}
 			</p>
+			<SlotMachine />
 			<PostHeading level={2} id="social-media-and-mental-health">
 				Social Media and Mental Health
 			</PostHeading>
@@ -227,7 +228,6 @@ export default function Post() {
 			<PostHeading level={2} id="personal-opinion-wasted-time">
 				Personal Opinion: Wasted Time
 			</PostHeading>
-			<DayInPhone />
 			<p>
 				This is something which bothers me personally. Imagine yourself like
 				this:
@@ -340,7 +340,6 @@ export default function Post() {
 			<PostHeading level={2} id="but-what-can-i-do-about-it">
 				But What Can I Do About It?
 			</PostHeading>
-			<MinimalPhone />
 			<p>Simple answer: Just use it less.</p>
 			<p>
 				{
@@ -381,6 +380,7 @@ export default function Post() {
 				<strong>3-5 PAGES</strong>
 				{" of apps."}
 			</p>
+			<MinimalPhone />
 			<p>
 				{'An advantage of "debloating" / making your phone minimal: '}
 				<strong>Your battery will last much longer</strong>.

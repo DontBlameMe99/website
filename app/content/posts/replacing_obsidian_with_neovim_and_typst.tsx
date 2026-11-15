@@ -1,6 +1,5 @@
 import { PostHeading, PostImage, Prose } from "~/components/post/prose";
 import {
-	HeroWindow,
 	KeyCheatStrip,
 	NoteSyntaxSwitcher,
 } from "~/content/experiences/replacing_obsidian_with_neovim_and_typst";
@@ -90,7 +89,6 @@ export const sections: Section[] = [
 export default function Post() {
 	return (
 		<Prose>
-			<HeroWindow />
 			<PostHeading level={2} id="hello-there">
 				Hello There
 			</PostHeading>
@@ -263,7 +261,9 @@ export default function Post() {
 			</PostHeading>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/obsidian_mobile.png"
-				alt={""}
+				alt={
+					"Obsidian on a phone: the note above a formatting toolbar and the on-screen keyboard"
+				}
 			/>
 			<p>
 				{
@@ -378,7 +378,6 @@ export default function Post() {
 			<PostHeading level={4} id="inconsistent-syntax">
 				Inconsistent Syntax
 			</PostHeading>
-			<NoteSyntaxSwitcher />
 			<p>
 				{"The syntax is just inconsistent. Yes, things like "}
 				<code>{"# Headings"}</code>
@@ -396,6 +395,7 @@ export default function Post() {
 				Using this link syntax might work for some editors, but break for
 				others.
 			</p>
+			<NoteSyntaxSwitcher />
 			<p>
 				Markdown's strength is also its weakness: it is simple and widely
 				supported, but different tools often extend it in incompatible ways,
@@ -462,7 +462,7 @@ export default function Post() {
 				This is a simple document that creates a Hello World page, with a
 				centered title:
 			</p>
-			<pre>
+			<pre tabIndex={0}>
 				<code data-lang="latex">{`
 \\documentclass{article}
 
@@ -530,7 +530,7 @@ Hello, world!
 				Take a look at the old LaTeX example above and compare it to the Typst
 				version:
 			</p>
-			<pre>
+			<pre tabIndex={0}>
 				<code data-lang="typ">{`
 #align(center)[
   #text(size: 20pt, weight: "bold")[My Centered Title]
@@ -597,14 +597,14 @@ Hello, world!
 				Just compare these two examples, the first one is LaTeX, and the second
 				one is Typst:
 			</p>
-			<pre>
+			<pre tabIndex={0}>
 				<code data-lang="latex">{`
 \\[
 f(x) = \\frac{\\sum_{i=1}^{n} \\alpha_i x_i^2}{\\sqrt{1 + \\beta^2}} + \\int_0^\\pi \\sin(x)\\,dx
 \\]
 				`}</code>
 			</pre>
-			<pre>
+			<pre tabIndex={0}>
 				<code data-lang="typ">{`
 $
 f(x) = (sum_(i=1)^n alpha_i x_i^2) / sqrt(1 + beta^2) + integral_0^pi sin(x) dif x
@@ -668,6 +668,7 @@ $
 			<p>
 				Now to my text editor, personal religion and lifestyle choice: Neovim.
 			</p>
+			<KeyCheatStrip />
 			<PostHeading level={3} id="already-used">
 				Already Used
 			</PostHeading>
@@ -739,7 +740,6 @@ $
 			<PostHeading level={3} id="neovim-configuration">
 				Neovim Configuration
 			</PostHeading>
-			<KeyCheatStrip />
 			<p>
 				{"Now, for Neovim, I am using my configuration which can be found "}
 				<a
@@ -777,7 +777,7 @@ $
 			</p>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/markview_nvim.png"
-				alt={""}
+				alt={"A Typst document rendered inside Neovim by the Markview plugin"}
 			/>
 			<PostHeading level={3} id="example-pages">
 				Example Pages
@@ -790,7 +790,7 @@ $
 			<p>The default styling looks like this:</p>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/typst_default_style.png"
-				alt={""}
+				alt={"Typst default styling: plain serif page with wide margins"}
 			/>
 			<p>
 				… which is actually fine for an academic document, but I prefer
@@ -798,7 +798,9 @@ $
 			</p>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/typst_styled_example.png"
-				alt={""}
+				alt={
+					"The same page with my Catppuccin theme, larger type and tighter spacing"
+				}
 			/>
 			<p>
 				… which uses my Catppuccin theme, a larger font size, my preferred font
@@ -811,7 +813,7 @@ $
 				<em>out of the box</em>.
 			</p>
 			<p>Let's take a look at a simple example:</p>
-			<pre>
+			<pre tabIndex={0}>
 				<code data-lang="typ">{`
 // Styles all headings
 // \`#show\` to specify styling
@@ -988,7 +990,9 @@ $
 			</p>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/image_of_me_writing.png"
-				alt={""}
+				alt={
+					"This blog written in Markdown inside Neovim, with the file tree and a terminal below"
+				}
 			/>
 			<PostHeading level={2} id="final-words">
 				Final Words

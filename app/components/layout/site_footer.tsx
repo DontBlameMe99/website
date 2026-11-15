@@ -16,7 +16,7 @@ export function SiteFooter() {
 										social.href.startsWith("mailto:") ? undefined : "_blank"
 									}
 									rel="noopener noreferrer"
-									className="nb-chip group bg-base transition-colors hover:bg-mauve hover:text-crust"
+									className="nb-chip group bg-base transition-colors hover:bg-mauve hover:text-on-accent"
 								>
 									{social.label}
 									<ArrowUpRight className="size-3 opacity-60 transition-opacity group-hover:opacity-100" />

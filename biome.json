@@ -56,6 +56,20 @@
 					}
 				}
 			}
+		},
+		{
+			"includes": [
+				"app/content/posts/backups_you_only_want_them_once_you_need_them.tsx",
+				"app/content/posts/is_nixos_the_perfect_linux_distribution_for_you.tsx",
+				"app/content/posts/replacing_obsidian_with_neovim_and_typst.tsx"
+			],
+			"linter": {
+				"rules": {
+					"a11y": {
+						"noNoninteractiveTabindex": "off"
+					}
+				}
+			}
 		}
 	]
 }

@@ -301,7 +301,7 @@ export function MoonlanderFigure() {
 							className={cn(
 								"absolute grid size-5 -translate-x-1/2 -translate-y-1/2 place-items-center border  text-[9px] transition-colors",
 								selected
-									? "border-mauve bg-mauve text-crust"
+									? "border-mauve bg-mauve text-on-accent"
 									: "border-mauve/40 bg-base/90 text-mauve hover:border-mauve",
 							)}
 							style={{ left: `${hotspot.x}%`, top: `${hotspot.y}%` }}
@@ -333,7 +333,7 @@ export function MoonlanderFigure() {
 					>
 						<div className="flex items-center gap-2">
 							<Chip accent={ACCENT}>{active.label}</Chip>
-							<span className="text-[10px] tabular-nums text-overlay0">
+							<span className="text-[11px] tabular-nums text-overlay0">
 								{position}/4
 							</span>
 						</div>
@@ -406,7 +406,7 @@ export function LayersFigure() {
 											animate={{ opacity: 1, scale: 1 }}
 											exit={reduced ? undefined : { opacity: 0, scale: 0.85 }}
 											transition={{ duration: 0.14 }}
-											className="text-[10px] text-subtext1"
+											className="text-[11px] text-subtext1"
 										>
 											{cap}
 										</motion.span>
@@ -422,9 +422,9 @@ export function LayersFigure() {
 									animate={{ opacity: raised ? 1 : 0 }}
 									transition={{ duration: reduced ? 0 : 0.18 }}
 								/>
-								<span className="relative  text-[10px] text-mauve">layer</span>
+								<span className="relative  text-[11px] text-mauve">layer</span>
 							</div>
-							<div className="grid h-7 flex-1 place-items-center border border-border bg-surface0/40  text-[10px] text-overlay0">
+							<div className="grid h-7 flex-1 place-items-center border border-border bg-surface0/40  text-[11px] text-overlay0">
 								space
 							</div>
 						</div>
@@ -435,7 +435,7 @@ export function LayersFigure() {
 							<Chip accent="var(--peach)">macros</Chip>
 						</div>
 
-						<p className="text-[10px] leading-relaxed text-overlay0">
+						<p className="text-[11px] leading-relaxed text-overlay0">
 							Illustrative keymap: the same keys carry a second legend on the
 							other layer.
 						</p>

@@ -51,7 +51,11 @@ export function GenerationHero() {
 			icon={<Layers className="size-3.5" />}
 			footer="a toy: three made-up generations, no real boot menu behind this"
 		>
-			<div aria-label="Boot an older generation" className="space-y-1.5">
+			<div
+				role="group"
+				aria-label="Boot an older generation"
+				className="space-y-1.5"
+			>
 				{GENERATIONS.map((generation, index) => {
 					const selected = index === active;
 					return (
@@ -83,14 +87,14 @@ export function GenerationHero() {
 									>
 										{generation.label}
 									</span>
-									<span className="text-[10px] text-overlay0">
+									<span className="text-[11px] text-overlay0">
 										{generation.meta}
 									</span>
 									{index === 0 ? (
 										<Chip accent="var(--green)">latest</Chip>
 									) : null}
 								</span>
-								<span className="mt-0.5 block  text-[10px] leading-relaxed text-overlay1">
+								<span className="mt-0.5 block  text-[11px] leading-relaxed text-overlay1">
 									{generation.changes.join(" · ")}
 								</span>
 							</span>
@@ -127,13 +131,13 @@ export function GenerationHero() {
 					<button
 						type="button"
 						onClick={() => setActive(0)}
-						className="inline-flex items-center gap-1  text-[10px] text-overlay1 transition-colors hover:text-mauve"
+						className="inline-flex items-center gap-1  text-[11px] text-overlay1 transition-colors hover:text-mauve"
 					>
 						<RotateCcw className="size-3" />
 						back to latest
 					</button>
 				) : (
-					<span className="text-[10px] text-overlay0">
+					<span className="text-[11px] text-overlay0">
 						click an older entry to roll back
 					</span>
 				)}
@@ -189,7 +193,7 @@ function ConfigFile({ on }: { on: boolean }) {
 					<div className="min-w-max  text-[11px] leading-[1.8]">
 						{CONFIG_HEAD.map((line, index) => (
 							<div key={`head-${index}`} className="flex gap-2 px-1">
-								<span className="w-4 shrink-0 select-none text-right text-overlay0/70">
+								<span className="w-4 shrink-0 select-none text-right text-overlay1">
 									{index + 1}
 								</span>
 								<span className="w-2 shrink-0 select-none text-transparent">
@@ -205,7 +209,7 @@ function ConfigFile({ on }: { on: boolean }) {
 								transition={{ duration: 0.2 }}
 								className="flex gap-2 border-l-2 border-green/60 bg-green/10 px-1"
 							>
-								<span className="w-4 shrink-0 select-none text-right text-green/80">
+								<span className="w-4 shrink-0 select-none text-right text-green">
 									{toggleNumber}
 								</span>
 								<span className="w-2 shrink-0 select-none text-green">+</span>
@@ -223,12 +227,15 @@ function ConfigFile({ on }: { on: boolean }) {
 									>
 										{typing ? "▌" : ""}
 									</motion.span>
+									<span className="invisible" aria-hidden="true">
+										{CONFIG_TOGGLE.slice(typed)}
+									</span>
 								</span>
 							</motion.div>
 						) : null}
 						{CONFIG_TAIL.map((line, index) => (
 							<div key={`tail-${index}`} className="flex gap-2 px-1">
-								<span className="w-4 shrink-0 select-none text-right text-overlay0/70">
+								<span className="w-4 shrink-0 select-none text-right text-overlay1">
 									{tailNumber}
 								</span>
 								<span className="w-2 shrink-0 select-none text-transparent">
@@ -246,7 +253,7 @@ function ConfigFile({ on }: { on: boolean }) {
 					<Plus className="size-3" />
 					{on ? "+1 line" : "no change"}
 				</Chip>
-				<span className="inline-flex items-center gap-1  text-[10px] text-overlay1">
+				<span className="inline-flex items-center gap-1  text-[11px] text-overlay1">
 					<Terminal className="size-3" />
 					nixos-rebuild switch
 				</span>
@@ -261,7 +268,7 @@ export function ConfigDiff() {
 			<Switch on="obs-studio enabled" off="obs-studio off" initial={false}>
 				{(on) => <ConfigFile on={on} />}
 			</Switch>
-			<p className="not-prose mt-2  text-[10px] leading-relaxed text-overlay0">
+			<p className="not-prose mt-2  text-[11px] leading-relaxed text-overlay0">
 				illustrative snippet, shortened to fit. the toggle only edits this
 				mockup file.
 			</p>
@@ -332,7 +339,11 @@ export function FitScoreboard() {
 				</div>
 			}
 		>
-			<div aria-label="Claims that might describe you" className="space-y-1.5">
+			<div
+				role="group"
+				aria-label="Claims that might describe you"
+				className="space-y-1.5"
+			>
 				{CLAIMS.map((claim) => {
 					const active = Boolean(picked[claim.id]);
 					return (
@@ -357,7 +368,7 @@ export function FitScoreboard() {
 								className={cn(
 									"mt-0.5 grid size-4 shrink-0 place-items-center border",
 									active
-										? "border-mauve bg-mauve text-crust"
+										? "border-mauve bg-mauve text-on-accent"
 										: "border-overlay0/60 text-transparent",
 								)}
 							>
@@ -381,7 +392,7 @@ export function FitScoreboard() {
 								>
 									{claim.label}
 								</span>
-								<span className="mt-0.5 block  text-[10px] leading-relaxed text-overlay1">
+								<span className="mt-0.5 block  text-[11px] leading-relaxed text-overlay1">
 									{claim.hint}
 								</span>
 							</span>

@@ -3,16 +3,13 @@ import {
 	ArrowDown,
 	ArrowRight,
 	Brain,
-	Bug,
 	Cloud,
 	Copy,
 	Database,
 	FileArchive,
-	Flame,
 	HardDrive,
 	History,
 	KeyRound,
-	Laptop,
 	RotateCcw,
 	ShieldCheck,
 	Unplug,
@@ -20,17 +17,10 @@ import {
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 import { useState } from "react";
-import {
-	Bars,
-	Callout,
-	Chip,
-	Meter,
-	Panel,
-	Range,
-} from "~/components/post/kit";
+import { Bars, Callout, Chip, Panel } from "~/components/post/kit";
 import { cn } from "~/lib/utils";
 
-/* Four figures for the backups post. Each one owns its state and never touches
+/* Three figures for the backups post. Each one owns its state and never touches
    the document, so the article still prerenders. Aggressive motion steps aside
    for reduced-motion readers. */
 
@@ -38,9 +28,7 @@ const MAUVE = "var(--mauve)";
 const GREEN = "var(--green)";
 const RED = "var(--red)";
 const TEAL = "var(--teal)";
-const BLUE = "var(--blue)";
 const MUTED = "var(--overlay0)";
-const BORDER = "var(--color-border)";
 
 const mix = (color: string, percent: number) =>
 	`color-mix(in srgb, ${color} ${percent}%, transparent)`;
@@ -77,7 +65,7 @@ function MiniButton({
 		<button
 			type="button"
 			onClick={onClick}
-			className="inline-flex items-center gap-1 border px-2 py-1 text-[10px] transition-colors"
+			className="inline-flex items-center gap-1 border px-2 py-1 text-[11px] transition-colors"
 			style={{
 				borderColor: mix(MAUVE, 40),
 				background: mix(MAUVE, 10),
@@ -203,7 +191,7 @@ export function BackupSorter() {
 								again
 							</MiniButton>
 						</div>
-						<div className="text-[10px] leading-relaxed text-overlay1">
+						<div className="text-[11px] leading-relaxed text-overlay1">
 							{score === SORTER.length
 								? "Every item matched. The definition did the work."
 								: `${SORTER.length - score} of them slipped past the definition.`}
@@ -238,14 +226,14 @@ export function BackupSorter() {
 									<button
 										type="button"
 										onClick={() => choose(true)}
-										className="flex-1 border border-border/70 bg-base/60 px-2 py-1.5 text-[10px] text-subtext0 transition-colors hover:border-mauve/60 hover:text-text"
+										className="flex-1 border border-border/70 bg-base/60 px-2 py-1.5 text-[11px] text-subtext0 transition-colors hover:border-mauve/60 hover:text-text"
 									>
 										backup
 									</button>
 									<button
 										type="button"
 										onClick={() => choose(false)}
-										className="flex-1 border border-border/70 bg-base/60 px-2 py-1.5 text-[10px] text-subtext0 transition-colors hover:border-mauve/60 hover:text-text"
+										className="flex-1 border border-border/70 bg-base/60 px-2 py-1.5 text-[11px] text-subtext0 transition-colors hover:border-mauve/60 hover:text-text"
 									>
 										not a backup
 									</button>
@@ -272,11 +260,11 @@ export function BackupSorter() {
 										<div className="text-[8px] uppercase tracking-[0.12em] text-overlay0">
 											from the definition
 										</div>
-										<div className="break-words text-[10px] leading-relaxed text-subtext0">
+										<div className="break-words text-[11px] leading-relaxed text-subtext0">
 											{item.quote}
 										</div>
 									</div>
-									<div className="text-[10px] leading-relaxed text-overlay1">
+									<div className="text-[11px] leading-relaxed text-overlay1">
 										{item.why}
 									</div>
 									<MiniButton onClick={advance}>
@@ -292,271 +280,6 @@ export function BackupSorter() {
 		</Panel>
 	);
 }
-
-/* --- figure two: the 3-2-1 board ---------------------------------------- */
-
-type CopyKind = "live" | "local" | "remote";
-type DisasterId = "disk" | "fire" | "ransomware";
-
-const DISASTERS: {
-	id: DisasterId;
-	label: string;
-	icon: LucideIcon;
-	line: string;
-}[] = [
-	{
-		id: "disk",
-		label: "disk dies",
-		icon: HardDrive,
-		line: "The working disk stops spinning.",
-	},
-	{
-		id: "fire",
-		label: "house fire",
-		icon: Flame,
-		line: "The house is gone, and everything that sat inside it.",
-	},
-	{
-		id: "ransomware",
-		label: "ransomware",
-		icon: Bug,
-		line: "Everything the machine can write to gets encrypted.",
-	},
-];
-
-const copyLabel = (kind: CopyKind, index: number) =>
-	kind === "live" ? "live" : `${kind === "local" ? "L" : "R"}${index + 1}`;
-
-const copyHint = (kind: CopyKind) =>
-	kind === "live" ? "in use" : kind === "local" ? "local" : "remote";
-
-const copyAccent = (kind: CopyKind) =>
-	kind === "live" ? MAUVE : kind === "local" ? TEAL : BLUE;
-
-export function ThreeTwoOne() {
-	const reduced = useReducedMotion();
-	const [total, setTotal] = useState(3);
-	const [local, setLocalCount] = useState(2);
-	const [disaster, setDisaster] = useState<DisasterId | null>(null);
-
-	const remote = total - local;
-	const ruleOk = total >= 3 && local >= 2 && remote >= 1;
-
-	const copies: { key: string; kind: CopyKind; index: number }[] = [
-		{ key: "live", kind: "live", index: 0 },
-		...Array.from({ length: local }, (_, index) => ({
-			key: `local-${index}`,
-			kind: "local" as const,
-			index,
-		})),
-		...Array.from({ length: remote }, (_, index) => ({
-			key: `remote-${index}`,
-			kind: "remote" as const,
-			index,
-		})),
-	];
-
-	const gone = (kind: CopyKind) => {
-		if (!disaster) return false;
-		return disaster === "disk" ? kind === "live" : kind !== "remote";
-	};
-
-	const survivors = disaster ? copies.filter((copy) => !gone(copy.kind)) : [];
-	const active = DISASTERS.find((entry) => entry.id === disaster);
-	const verdict = !disaster
-		? "no disaster yet"
-		: survivors.length === 0
-			? "not safe"
-			: "safe";
-
-	const setTotalSafe = (next: number) => {
-		setTotal(next);
-		setLocalCount((current) => Math.min(current, next));
-	};
-
-	return (
-		<Panel
-			title="3-2-1.app"
-			icon={<WindowDots />}
-			footer={ruleOk ? "3-2-1 satisfied" : "3-2-1 not satisfied"}
-		>
-			<div className="space-y-3">
-				<div className="grid grid-cols-3 gap-1.5">
-					<AnimatePresence initial={false}>
-						{copies.map((copy) => {
-							const isGone = gone(copy.kind);
-							const accent = isGone ? RED : copyAccent(copy.kind);
-							const Icon =
-								copy.kind === "live"
-									? Laptop
-									: copy.kind === "local"
-										? HardDrive
-										: Cloud;
-
-							return (
-								<motion.div
-									key={copy.key}
-									layout={!reduced}
-									initial={reduced ? false : { opacity: 0, scale: 0.85 }}
-									animate={{
-										opacity: isGone ? 0.45 : 1,
-										scale: isGone ? 0.94 : 1,
-									}}
-									exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.8 }}
-									transition={spring(reduced, 380)}
-									className="flex flex-col items-center gap-0.5 border px-1 py-1.5"
-									style={{
-										borderColor: mix(accent, 45),
-										background: mix(accent, 8),
-										color: accent,
-									}}
-								>
-									<Icon className="size-3.5" />
-									<span className="text-[9px] leading-none">
-										{copyLabel(copy.kind, copy.index)}
-									</span>
-									<span className="text-[8px] leading-none opacity-70">
-										{isGone ? "gone" : copyHint(copy.kind)}
-									</span>
-								</motion.div>
-							);
-						})}
-					</AnimatePresence>
-				</div>
-
-				<div className="space-y-2.5">
-					<Range
-						label="backups in total"
-						value={total}
-						min={1}
-						max={5}
-						onChange={setTotalSafe}
-						accent={MAUVE}
-					/>
-					<Range
-						label="local copies"
-						value={local}
-						min={0}
-						max={total}
-						onChange={setLocalCount}
-						accent={TEAL}
-					/>
-					<Range
-						label="remote copies"
-						value={remote}
-						min={0}
-						max={total}
-						onChange={(next) => setLocalCount(total - next)}
-						accent={BLUE}
-					/>
-				</div>
-
-				<Panel
-					title="the rule"
-					icon={<ShieldCheck className="size-3" />}
-					className="my-0"
-				>
-					<div className="space-y-2">
-						<Meter
-							label="backups"
-							value={total}
-							max={3}
-							suffix="/3"
-							accent={total >= 3 ? GREEN : MAUVE}
-						/>
-						<Meter
-							label="local"
-							value={local}
-							max={2}
-							suffix="/2"
-							accent={local >= 2 ? GREEN : TEAL}
-						/>
-						<Meter
-							label="remote"
-							value={remote}
-							max={1}
-							suffix="/1"
-							accent={remote >= 1 ? GREEN : BLUE}
-						/>
-					</div>
-				</Panel>
-
-				<div className="grid grid-cols-3 gap-1.5">
-					{DISASTERS.map((entry) => {
-						const Icon = entry.icon;
-						const on = entry.id === disaster;
-
-						return (
-							<button
-								key={entry.id}
-								type="button"
-								onClick={() => setDisaster(entry.id)}
-								className={cn(
-									"flex flex-col items-center gap-1 border px-1 py-1.5 text-[9px] leading-none transition-colors",
-									on ? "text-red" : "text-subtext0 hover:text-text",
-								)}
-								style={{
-									borderColor: on ? mix(RED, 55) : BORDER,
-									background: on ? mix(RED, 10) : mix("var(--text)", 4),
-								}}
-							>
-								<Icon className="size-3.5" />
-								{entry.label}
-							</button>
-						);
-					})}
-				</div>
-
-				<AnimatePresence mode="wait" initial={false}>
-					<motion.div
-						key={`${disaster ?? "none"}-${survivors.length}`}
-						initial={reduced ? false : { opacity: 0, y: 6 }}
-						animate={{ opacity: 1, y: 0 }}
-						exit={reduced ? { opacity: 0 } : { opacity: 0, y: -6 }}
-						transition={{ duration: reduced ? 0 : 0.22 }}
-						className=" border p-2.5"
-						style={{
-							borderColor: disaster
-								? mix(survivors.length ? GREEN : RED, 40)
-								: BORDER,
-							background: disaster
-								? mix(survivors.length ? GREEN : RED, 7)
-								: "transparent",
-						}}
-					>
-						<div className="flex flex-wrap items-center gap-1.5">
-							<span className="text-[10px] text-text">
-								{active?.label ?? verdict}
-							</span>
-							{disaster ? (
-								<Chip accent={survivors.length ? GREEN : RED}>{verdict}</Chip>
-							) : null}
-							{disaster ? (
-								<button
-									type="button"
-									onClick={() => setDisaster(null)}
-									className="ml-auto inline-flex items-center gap-1 text-[9px] text-overlay1 transition-colors hover:text-text"
-								>
-									<RotateCcw className="size-2.5" />
-									reset
-								</button>
-							) : null}
-						</div>
-						<div className="mt-1 text-[10px] leading-relaxed text-overlay1">
-							{disaster && active
-								? `${active.line} ${survivors.length} ${
-										survivors.length === 1 ? "copy" : "copies"
-									} still there.`
-								: "Run a disaster and watch which copies survive it."}
-						</div>
-					</motion.div>
-				</AnimatePresence>
-			</div>
-		</Panel>
-	);
-}
-
-/* --- figure three: what borgmatic keeps --------------------------------- */
 
 const RETENTION = [
 	{ label: "daily", value: 60 },
@@ -770,7 +493,7 @@ export function RecoveryChain() {
 					) : (
 						<Unplug className="size-3.5 shrink-0" style={{ color: RED }} />
 					)}
-					<span className="text-[10px] text-text">
+					<span className="text-[11px] text-text">
 						{ok ? "recovery works" : "recovery fails"}
 					</span>
 					{ok ? null : (
@@ -784,7 +507,7 @@ export function RecoveryChain() {
 						</button>
 					)}
 				</div>
-				<div className="mt-1 text-[10px] leading-relaxed text-overlay1">
+				<div className="mt-1 text-[11px] leading-relaxed text-overlay1">
 					{ok
 						? "Nothing on this chain lives inside the thing it unlocks."
 						: `${failing?.title ?? "a link"}: ${failing?.onBreak ?? "no way through"}.`}

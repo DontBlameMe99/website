@@ -46,14 +46,19 @@ function TypingStrip() {
 		<Panel title="typing · colemak dh" icon={<Keyboard className="size-3" />}>
 			<div className="flex flex-wrap items-baseline gap-x-2 gap-y-1  text-sm">
 				<span className="text-overlay1">$</span>
-				<span className="text-text">{HERO_TEXT.slice(0, typed)}</span>
-				<motion.span
-					aria-hidden
-					className="inline-block h-3.5 w-[5px] translate-y-[1px]"
-					style={{ background: ACCENT }}
-					animate={reduced ? { opacity: 1 } : { opacity: [1, 1, 0, 0] }}
-					transition={caretTransition}
-				/>
+				<span className="text-text">
+					{HERO_TEXT.slice(0, typed)}
+					<motion.span
+						aria-hidden
+						className="inline-block h-3.5 w-[5px] translate-y-[1px]"
+						style={{ background: ACCENT }}
+						animate={reduced ? { opacity: 1 } : { opacity: [1, 1, 0, 0] }}
+						transition={caretTransition}
+					/>
+					<span className="invisible" aria-hidden="true">
+						{HERO_TEXT.slice(typed)}
+					</span>
+				</span>
 			</div>
 
 			<div aria-hidden className="mt-3 flex flex-wrap gap-1">
@@ -64,7 +69,7 @@ function TypingStrip() {
 						<motion.span
 							key={`${letter}-${index}`}
 							className={cn(
-								"inline-flex size-6 items-center justify-center border  text-[10px] leading-none sm:size-7",
+								"inline-flex size-6 items-center justify-center border  text-[11px] leading-none sm:size-7",
 								letter === " " && "text-[8px] text-overlay0",
 							)}
 							initial={false}
@@ -117,14 +122,14 @@ const QWERTY_ROWS = ["qwertyuiop", "asdfghjkl ", "zxcvbnm"];
 const COLEMAK_ROWS = ["qwfpbjluy ", "arstgmneio", "zxcdvkh"];
 
 const FINGERS = [
-	{ label: "left pinky", color: "var(--rosewater)" },
+	{ label: "left pinky", color: "var(--pink)" },
 	{ label: "left ring", color: "var(--mauve)" },
 	{ label: "left middle", color: "var(--blue)" },
 	{ label: "left index", color: "var(--teal)" },
 	{ label: "right index", color: "var(--teal)" },
 	{ label: "right middle", color: "var(--blue)" },
 	{ label: "right ring", color: "var(--mauve)" },
-	{ label: "right pinky", color: "var(--rosewater)" },
+	{ label: "right pinky", color: "var(--pink)" },
 ];
 const FINGER_BY_COL = [0, 1, 2, 3, 3, 4, 4, 5, 6, 7];
 
@@ -244,7 +249,7 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 										? `color-mix(in srgb, ${finger.color} 26%, transparent)`
 										: `color-mix(in srgb, ${finger.color} 7%, transparent)`,
 									color: active
-										? finger.color
+										? "var(--text)"
 										: `color-mix(in srgb, ${finger.color} 45%, var(--text))`,
 									boxShadow: active ? `0 0 0 1px ${finger.color}` : undefined,
 								}}
@@ -310,20 +315,20 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 					</span>
 					<Chip accent={toFinger.color}>{toFinger.label}</Chip>
 				</div>
-				<div className="text-[10px] leading-relaxed text-overlay1">
+				<div className="text-[11px] leading-relaxed text-overlay1">
 					{moveWords(dr, dc)}
 					{dr !== 0 || dc !== 0
 						? ` · ${travel.toFixed(1)} key widths, center to center`
 						: ""}
 				</div>
-				<div className="text-[10px] leading-relaxed text-overlay1">
+				<div className="text-[11px] leading-relaxed text-overlay1">
 					{fromFinger.label} → {toFinger.label}
 				</div>
 			</div>
 
-			<div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1  text-[10px] text-overlay1">
+			<div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1  text-[11px] text-overlay1">
 				{[
-					{ label: "pinky", color: "var(--rosewater)" },
+					{ label: "pinky", color: "var(--pink)" },
 					{ label: "ring", color: "var(--mauve)" },
 					{ label: "middle", color: "var(--blue)" },
 					{ label: "index", color: "var(--teal)" },
@@ -336,7 +341,7 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 				<span className="text-overlay0">home row shaded</span>
 			</div>
 
-			<p className="mt-2  text-[10px] leading-relaxed text-overlay0">
+			<p className="mt-2  text-[11px] leading-relaxed text-overlay0">
 				Letters only, punctuation slots dimmed. The dashed outline and dot mark
 				where the selected key sits in the other layout.
 			</p>
@@ -426,7 +431,7 @@ export function LearningCurve() {
 			icon={<Activity className="size-3" />}
 			footer="illustrative. the shape follows the post's six-week claim, the numbers are a toy."
 		>
-			<div className="flex items-center justify-between gap-2  text-[10px] text-overlay1">
+			<div className="flex items-center justify-between gap-2  text-[11px] text-overlay1">
 				<span>wpm</span>
 				<span className="inline-flex items-center gap-1.5">
 					<span className="inline-block w-4 border-t border-dashed border-overlay1" />

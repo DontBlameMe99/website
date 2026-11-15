@@ -1,6 +1,5 @@
 import { PostHeading, Prose } from "~/components/post/prose";
 import {
-	FirstStepsChecklist,
 	IdentitySplit,
 	NothingToHide,
 	PrivacyMeter,
@@ -87,7 +86,6 @@ export const sections: Section[] = [
 export default function Post() {
 	return (
 		<Prose>
-			<PrivacyMeter />
 			<PostHeading level={2} id="privacy-what-is-this">
 				Privacy? What Is This?
 			</PostHeading>
@@ -125,6 +123,7 @@ export default function Post() {
 				<strong>understand wrong</strong>, the rules might change. And then you
 				will maybe regret publishing your resource number X.
 			</p>
+			<NothingToHide />
 			<PostHeading
 				level={3}
 				id="okay-so-should-i-delete-everything-and-move-in-the-woods"
@@ -141,10 +140,10 @@ export default function Post() {
 			<p>
 				<strong>You will never achieve 100% Privacy though</strong>.
 			</p>
+			<PrivacyMeter />
 			<PostHeading level={2} id="first-steps">
 				First Steps
 			</PostHeading>
-			<FirstStepsChecklist />
 			<p>
 				{"Glad you want to read the first steps you could take to achieve "}
 				<strong>some level</strong>
@@ -559,10 +558,10 @@ export default function Post() {
 				}
 				<strong>Just delete the E-mail!</strong>
 			</p>
+			<IdentitySplit />
 			<PostHeading level={3} id="don-t-create-an-account-on-every-website">
 				Don't Create an Account on Every Website
 			</PostHeading>
-			<IdentitySplit />
 			<p>
 				Sounds hard, doesn't it? Before creating an Account on website X think
 				about it.
@@ -711,7 +710,6 @@ export default function Post() {
 					grandmother who doesn't care at all?
 				</strong>
 			</p>
-			<NothingToHide />
 		</Prose>
 	);
 }

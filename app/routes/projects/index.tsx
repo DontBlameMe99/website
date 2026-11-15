@@ -72,7 +72,7 @@ export default function ProjectsPage() {
 						href="https://git.dontblameme.dev"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="bg-mauve px-1 font-semibold text-crust no-underline transition-colors hover:bg-text"
+						className="bg-mauve px-1 font-semibold text-on-accent no-underline transition-colors hover:bg-text"
 					>
 						my Codeberg profile
 					</a>{" "}

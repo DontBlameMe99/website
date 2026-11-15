@@ -1,6 +1,7 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Mail } from "lucide-react";
 import { Link } from "react-router";
 import { SectionLabel } from "~/components/layout/page_header";
+import { projectIcon } from "~/components/shared/icons";
 import { formatDate, posts } from "~/lib/posts";
 import { seo } from "~/lib/seo";
 import { PROJECTS, SITE } from "~/lib/site";
@@ -14,9 +15,10 @@ function WritingList() {
 				<SectionLabel>Writing</SectionLabel>
 				<Link
 					to="/blog"
-					className="inline-flex min-h-6 items-center py-1 text-meta uppercase tracking-[0.12em] hover:text-mauve"
+					className="inline-flex min-h-6 items-center gap-1 py-1 text-meta uppercase tracking-[0.12em] hover:text-mauve"
 				>
 					All {posts.length}
+					<ArrowRight aria-hidden="true" className="size-3" />
 				</Link>
 			</div>
 
@@ -64,27 +66,35 @@ function ProjectsRail() {
 				<p className="text-label text-subtext0">Projects</p>
 				<Link
 					to="/projects"
-					className="inline-flex min-h-6 items-center py-1 text-meta uppercase tracking-[0.12em] hover:text-mauve"
+					className="inline-flex min-h-6 items-center gap-1 py-1 text-meta uppercase tracking-[0.12em] hover:text-mauve"
 				>
 					All
+					<ArrowRight aria-hidden="true" className="size-3" />
 				</Link>
 			</div>
 			<ul className="mt-3">
-				{PROJECTS.map((project) => (
-					<li key={project.name}>
-						<a
-							href={project.href}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="group flex items-baseline justify-between gap-4 border-b border-rule py-2.5 last:border-b-0"
-						>
-							<span className="text-[13px] font-semibold text-text transition-colors group-hover:text-mauve">
-								{project.name}
-							</span>
-							<ArrowUpRight className="size-3.5 shrink-0 text-subtext0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-						</a>
-					</li>
-				))}
+				{PROJECTS.map((project) => {
+					const Icon = projectIcon(project.kind);
+
+					return (
+						<li key={project.name}>
+							<a
+								href={project.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="group flex items-center justify-between gap-4 border-b border-rule py-2.5 last:border-b-0"
+							>
+								<span className="flex min-w-0 items-center gap-2">
+									<Icon className="size-3.5 shrink-0 text-subtext0" />
+									<span className="truncate text-[13px] font-semibold text-text transition-colors group-hover:text-mauve">
+										{project.name}
+									</span>
+								</span>
+								<ArrowUpRight className="size-3.5 shrink-0 text-subtext0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+							</a>
+						</li>
+					);
+				})}
 			</ul>
 		</section>
 	);
@@ -120,6 +130,7 @@ export default function Home() {
 							rel="noopener noreferrer"
 							className="nb-button bg-base text-text"
 						>
+							<Mail aria-hidden="true" className="size-4" />
 							Email
 						</a>
 					</div>

@@ -1,6 +1,7 @@
 import {
 	ArrowDownWideNarrow,
 	ArrowUpNarrowWide,
+	Clock,
 	Search,
 	X,
 } from "lucide-react";
@@ -136,11 +137,14 @@ export default function BlogIndex() {
 								to={`/blog/${post.slug}`}
 								className="nb-panel nb-lift group flex h-full w-full flex-col p-6"
 							>
-								<div className="flex items-baseline justify-between text-label text-subtext0">
+								<div className="flex items-center justify-between text-label text-subtext0">
 									<span className="tabular-nums">
 										{String(index + 1).padStart(2, "0")}
 									</span>
-									<span>{post.minutes} min</span>
+									<span className="flex items-center gap-1">
+										<Clock aria-hidden="true" className="size-3" />
+										{post.minutes} min
+									</span>
 								</div>
 
 								<h2 className="mt-8 text-xl font-bold leading-[1.1] tracking-[-0.02em] text-text transition-colors group-hover:text-mauve">

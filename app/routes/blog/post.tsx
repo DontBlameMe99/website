@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock, Type } from "lucide-react";
 import { Link, useParams } from "react-router";
 import { SectionLabel } from "~/components/layout/page_header";
 import { useActiveHeading } from "~/hooks/use_active_heading";
@@ -128,9 +128,11 @@ export default function PostPage() {
 
 						<div className="mt-7 flex flex-wrap items-center gap-2">
 							<span className="nb-chip bg-base text-subtext0">
+								<Clock aria-hidden="true" className="size-3" />
 								{post.minutes} min read
 							</span>
 							<span className="nb-chip bg-base text-subtext0">
+								<Type aria-hidden="true" className="size-3" />
 								{post.words.toLocaleString("en-US")} words
 							</span>
 							{post.tags.map((tag) => (

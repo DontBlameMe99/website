@@ -69,6 +69,15 @@ export const PROJECTS = [
 	},
 ] as const;
 
+export const PAGES = [
+	"/",
+	"/blog",
+	"/projects",
+	"/contact",
+	"/disclosure",
+	"/theme",
+] as const;
+
 export const NAV = [
 	{ label: "Home", to: "/" },
 	{ label: "Blog", to: "/blog" },

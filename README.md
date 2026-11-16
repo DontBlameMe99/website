@@ -7,10 +7,10 @@ shadows, square corners, one heavy grotesque doing all the typographic work.
 Montserrat everywhere, JetBrains Mono only inside code, and Malva (mauve) as the
 only accent, used sparingly on links, labels and buttons.
 
-`/theme` switches the shape (Neobrutalist, Flat, Glassmorphism) and the
-colorscheme for each brightness. The two axes are independent, the choice is per
-device, and the header toggle flips dark and light. A style owns a lot more than
-geometry: edges, fills, backdrop blur, and type, all through tokens in
+`/theme` switches the shape (Neobrutalist, Flat, Glassmorphism, Windows XP) and
+the colorscheme for each brightness. The two axes are independent, the choice is
+per device, and the header toggle flips dark and light. A style owns a lot more
+than geometry: edges, fills, backdrop blur, and type, all through tokens in
 `app/app.css`.
 
 ## Development

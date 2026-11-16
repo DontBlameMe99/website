@@ -161,9 +161,12 @@
    hover utility can still override the color, and a style that wants a gradient
    only has to set the image.
 
-   Type is fair game too: a style may override --font-sans on its own block. */
+   Type is fair game too: a style may override --font-sans on its own block.
+   The face is set here, not only on body, so a preview re-resolves it from the
+   scope instead of inheriting the page's face. */
 :root,
 [data-style] {
+	--font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 	--bw: 2px;
 	--bw-heavy: 10px;
 	--line-style: solid;
@@ -179,15 +182,29 @@
 	--page-image: none;
 	--panel-surface: var(--base);
 	--panel-image: none;
+	--panel-edge: var(--bw) var(--line-style) var(--edge);
+	--panel-top-edge: var(--bw) var(--line-style) var(--edge);
+	--panel-radius: var(--radius);
 	--well-surface: var(--mantle);
 	--well-image: none;
+	--well-edge: var(--bw) var(--line-style) var(--edge);
+	--well-radius: var(--radius);
 	--plain-surface: var(--base);
 	--plain-image: none;
+	--button-edge: var(--bw) var(--line-style) var(--edge);
+	--button-surface: var(--plain-surface);
+	--button-image: var(--plain-image);
+	--button-ink: currentColor;
+	--button-weight: 700;
+	--chip-accent-ink: var(--on-accent);
+	--input-shadow: none;
 	--accent-surface: var(--mauve);
 	--accent-image: none;
 	--hover-edge: var(--edge);
 	--hover-fill: var(--plain-surface);
 	--press-fill: var(--plain-surface);
+	--button-hover-shadow: var(--shadow-hard);
+	--button-press-shadow: none;
 	--card-hover-fill: var(--panel-surface);
 	--accent-hover-fill: var(--accent-surface);
 	--accent-press-fill: var(--accent-surface);
@@ -196,6 +213,8 @@
 	/* The @theme value resolves once on :root; redeclaring it here lets a
 	   nested style scope re-resolve the default border color too. */
 	--color-border: var(--edge);
+
+	font-family: var(--font-sans);
 }
 
 [data-scheme="frappe"] {
@@ -759,6 +778,444 @@
 	background-image: none;
 }
 
+[data-style="xp"] {
+	/* Windows XP Luna. The chrome is fixed, the window bodies keep the
+	   palette so a dark scheme still reads as a dark XP desktop. */
+	--bw: 1px;
+	--bw-heavy: 3px;
+	--radius: 3px;
+	--line-style: solid;
+	--lift: 0px;
+	--press: 0px;
+
+	--font-sans: Tahoma, "Segoe UI", Verdana, sans-serif;
+
+	/* Fixed Luna chrome. Private to this block and its own rules. */
+	--xp-title: linear-gradient(
+		180deg,
+		#0997ff 0%,
+		#0053ee 8%,
+		#0050ee 40%,
+		#0066ff 88%,
+		#0066ff 93%,
+		#005bff 95%,
+		#003dd7 96%,
+		#003dd7 100%
+	);
+	--xp-title-ink: #fff;
+	--xp-title-shadow: 1px 1px 0 #0f1089;
+	--xp-frame: #0831d9;
+	--xp-frame-light: #166aee;
+	--xp-frame-dark: #001ea0;
+	--xp-silver: #ece9d8;
+	--xp-border: #003c74;
+	--xp-field: #7f9db9;
+	--xp-select: #316ac5;
+	--xp-taskbar: linear-gradient(
+		180deg,
+		#3c92f0 0%,
+		#1747a4 10%,
+		#245edb 40%,
+		#2561d2 100%
+	);
+	--xp-btn-face: linear-gradient(180deg, #fcfcfb 0%, #f3f3ef 45%, #ecebe6 100%);
+	--xp-btn-hot: inset 0 0 0 1px #fff, 0 0 0 2px #fdd98c, 0 0 0 3px #e59700;
+
+	/* Window and dialog body: the palette keeps the text legible, the frame
+	   and bevels are fixed Luna. */
+	--edge: var(--xp-field);
+	--page-surface: var(--crust);
+	--panel-surface: var(--base);
+	--well-surface: var(--mantle);
+	--panel-edge: 3px solid var(--xp-frame);
+	--panel-top-edge: 3px solid var(--xp-frame);
+	--panel-radius: 8px 8px 3px 3px;
+	--well-edge: 3px solid var(--xp-frame);
+	--well-radius: 8px 8px 3px 3px;
+	--plain-surface: color-mix(in srgb, var(--base) 55%, var(--surface0));
+	--plain-image: none;
+	--button-edge: 1px solid var(--xp-border);
+	--button-surface: var(--xp-silver);
+	--button-image: var(--xp-btn-face);
+	--button-ink: #000;
+	--button-weight: 400;
+	--accent-surface: var(--xp-select);
+	--accent-image: none;
+	--chip-accent-ink: #fff;
+	--xp-link: #0b3fb5;
+	--input-shadow: inset 1px 1px 2px rgb(0 0 0 / 0.15);
+	--hover-edge: var(--xp-border);
+	--hover-fill: var(--xp-silver);
+	--press-fill: #d1ccc1;
+	--button-hover-shadow: var(--xp-btn-hot);
+	--button-press-shadow: inset 1px 1px 2px rgb(0 0 0 / 0.25);
+	--card-hover-fill: color-mix(
+		in srgb,
+		var(--xp-select) 5%,
+		var(--panel-surface)
+	);
+	--shadow-hard:
+		inset 1px 1px 0 var(--xp-frame-light),
+		inset -1px -1px 0 var(--xp-frame-dark), 2px 2px 10px rgb(0 0 0 / 0.35);
+	--shadow-hard-lg:
+		inset 1px 1px 0 var(--xp-frame-light),
+		inset -1px -1px 0 var(--xp-frame-dark), 3px 3px 16px rgb(0 0 0 / 0.4);
+	--shadow-hard-sm: inset 0 0 0 1px #fff;
+	--scrollbar: #d6d3c2;
+	--backdrop: none;
+}
+
+/* Dark schemes keep the prose links on a light Luna blue. */
+.dark[data-style="xp"] {
+	--xp-link: #8fc7ff;
+}
+
+/* --- Windows XP chrome ----------------------------------------------------
+
+   The desktop, the title bar, the taskbar and the controls are fixed Luna
+   colors. Window bodies stay on the palette. Every rule here is scoped to
+   data-style="xp", so the other styles keep their own surfaces. */
+
+[data-style="xp"] body {
+	background-color: #3a6ea5;
+	background-image:
+		radial-gradient(
+			ellipse at 50% 120%,
+			#7ab35a 0%,
+			#4f8f3a 26%,
+			transparent 55%
+		),
+		linear-gradient(180deg, #79b4ef 0%, #4a86d2 38%, #2b5ea8 100%);
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+/* The content is one maximized window: blue frame, rounded top under the
+   sticky title bar, palette body. */
+[data-style="xp"] main {
+	max-width: 1180px;
+	background-color: var(--page-surface);
+	border: 3px solid var(--xp-frame);
+	border-top: 0;
+	border-radius: 0 0 3px 3px;
+	box-shadow: 0 12px 34px rgb(0 0 0 / 0.38);
+}
+
+/* The sticky header is the title bar. */
+[data-style="xp"] header.nb-chrome {
+	max-width: 1180px;
+	margin-inline: auto;
+	background-color: #0054e3;
+	background-image: var(--xp-title);
+	border: 3px solid var(--xp-frame);
+	border-bottom: 0;
+	border-radius: 8px 8px 0 0;
+	box-shadow:
+		inset 1px 1px 0 var(--xp-frame-light),
+		inset -1px 0 0 var(--xp-frame-dark);
+}
+
+[data-style="xp"] header.nb-chrome > div {
+	max-width: none;
+	color: var(--xp-title-ink);
+	font-family: "Trebuchet MS", Tahoma, sans-serif;
+	text-shadow: var(--xp-title-shadow);
+}
+
+[data-style="xp"] header.nb-chrome a {
+	color: var(--xp-title-ink);
+}
+
+[data-style="xp"] header.nb-chrome nav a:hover {
+	color: var(--xp-title-ink);
+	background-color: rgb(255 255 255 / 0.18);
+}
+
+[data-style="xp"] header.nb-chrome nav a[aria-current="page"] {
+	color: var(--xp-title-ink);
+	text-decoration-color: rgb(255 255 255 / 0.7);
+}
+
+/* The reading bar rides the title bar's bottom edge. */
+[data-style="xp"] header.nb-chrome .bg-mauve {
+	background-color: #7ab8ff;
+}
+
+/* A page masthead is a window with its own title bar. */
+[data-style="xp"] .page-window {
+	border: 3px solid var(--xp-frame);
+	border-radius: 8px 8px 3px 3px;
+	background-color: var(--panel-surface);
+	box-shadow: var(--shadow-hard);
+	padding: 0 0 1.5rem;
+}
+
+[data-style="xp"] .page-window > div:first-child {
+	align-items: center;
+	min-height: 26px;
+	padding: 3px 6px;
+	border-radius: 6px 6px 0 0;
+	background-image: var(--xp-title);
+	color: var(--xp-title-ink);
+	font-family: "Trebuchet MS", Tahoma, sans-serif;
+	text-shadow: var(--xp-title-shadow);
+}
+
+[data-style="xp"] .page-window > div:first-child .nb-chip {
+	padding: 0;
+	border: 0;
+	background: transparent;
+	box-shadow: none;
+	color: var(--xp-title-ink);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+}
+
+[data-style="xp"] .page-window > div:first-child .text-meta {
+	color: var(--xp-title-ink);
+}
+
+[data-style="xp"] .page-window > h1 {
+	margin: 2rem 1.5rem 0;
+}
+
+[data-style="xp"] .page-window > p {
+	margin-inline: 1.5rem;
+}
+
+[data-style="xp"] .page-window > div:not(:first-child) {
+	margin-inline: 1.5rem;
+}
+
+[data-style="xp"] .page-window > div:first-child time {
+	color: var(--xp-title-ink);
+}
+
+/* Minimize, restore and close, as the title bar draws them. */
+.win-controls {
+	display: none;
+}
+
+[data-style="xp"] .win-controls {
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+	margin-left: 0.5rem;
+}
+
+@media (max-width: 49.99rem) {
+	[data-style="xp"] header.nb-chrome .win-controls {
+		display: none;
+	}
+}
+
+[data-style="xp"] .win-controls > span {
+	position: relative;
+	width: 20px;
+	height: 18px;
+	border: 1px solid #0a246a;
+	border-radius: 2px;
+	background-image: linear-gradient(180deg, #4a9df6, #1b5fc4);
+	box-shadow: inset 0 0 0 1px #7ab8ff;
+}
+
+[data-style="xp"] .win-controls > span:nth-child(1)::before {
+	content: "";
+	position: absolute;
+	left: 4px;
+	right: 4px;
+	bottom: 4px;
+	height: 2px;
+	background: #fff;
+}
+
+[data-style="xp"] .win-controls > span:nth-child(2)::before {
+	content: "";
+	position: absolute;
+	inset: 3px;
+	border: 1px solid #fff;
+}
+
+[data-style="xp"] .win-controls > span:nth-child(3) {
+	border-color: #6d1209;
+	background-image: linear-gradient(180deg, #e66a58, #b52a1c);
+	box-shadow: inset 0 0 0 1px #ff9a86;
+}
+
+[data-style="xp"] .win-controls > span:nth-child(3)::before,
+[data-style="xp"] .win-controls > span:nth-child(3)::after {
+	content: "";
+	position: absolute;
+	left: 9px;
+	top: 3px;
+	width: 1px;
+	height: 10px;
+	background: #fff;
+	transform: rotate(45deg);
+}
+
+[data-style="xp"] .win-controls > span:nth-child(3)::after {
+	transform: rotate(-45deg);
+}
+
+/* The footer is the taskbar. */
+[data-style="xp"] footer.nb-line-t {
+	margin-top: 3.5rem;
+	border-top: 1px solid #0755c5;
+	background-color: #245edb;
+	background-image: var(--xp-taskbar);
+	color: #fff;
+}
+
+[data-style="xp"] footer :is(p, span, a, .text-label) {
+	color: #fff;
+}
+
+[data-style="xp"] footer a {
+	text-decoration-color: #bcd4f6;
+}
+
+[data-style="xp"] footer .nb-chip {
+	border: 1px solid #0a3f8f;
+	background-color: #1a4a9c;
+	background-image: linear-gradient(180deg, #2f6bc8, #1a4a9c);
+	color: #fff;
+	box-shadow: inset 0 0 0 1px #5a8fe0;
+}
+
+[data-style="xp"] footer .nb-chip.nb-chip:hover {
+	background-color: #2158b0;
+	background-image: linear-gradient(180deg, #3570d0, #2158b0);
+	color: #fff;
+}
+
+/* The default command button gets the blue glow, not the accent fill. */
+[data-style="xp"] .nb-button.nb-accent {
+	border-color: var(--xp-border);
+	background-color: var(--xp-silver);
+	background-image: var(--xp-btn-face);
+	box-shadow:
+		inset 0 0 0 1px #fff,
+		0 0 0 2px #bcd4f6,
+		0 0 0 3px #6982ee;
+	color: #000;
+	font-weight: 700;
+}
+
+/* Text fields are white wells with the Luna blue-gray edge. */
+[data-style="xp"] .nb-input {
+	border: 1px solid var(--xp-field);
+	border-radius: 2px;
+	background-color: #fff;
+	background-image: none;
+	box-shadow: inset 1px 1px 2px rgb(0 0 0 / 0.15);
+	color: #000;
+}
+
+[data-style="xp"] .nb-input :is(input, textarea) {
+	color: #000;
+}
+
+[data-style="xp"] .nb-input input::placeholder {
+	color: #6d6d6d;
+}
+
+[data-style="xp"] .nb-input :is(svg, button) {
+	color: #555;
+}
+
+[data-style="xp"] .nb-input button:hover {
+	color: #000;
+}
+
+/* A titled post panel gets a real title bar. */
+[data-style="xp"] .kit-titlebar {
+	border-bottom: 1px solid #003dd7;
+	border-radius: 6px 6px 0 0;
+	background-image: var(--xp-title);
+	color: var(--xp-title-ink);
+	font-family: "Trebuchet MS", Tahoma, sans-serif;
+	text-shadow: var(--xp-title-shadow);
+}
+
+[data-style="xp"] .kit-titlebar * {
+	color: var(--xp-title-ink);
+}
+
+/* Links in prose are the old web blue, not the palette accent. */
+[data-style="xp"] .prose-dbm a {
+	color: var(--xp-link);
+	text-decoration-color: var(--xp-link);
+}
+
+[data-style="xp"] .prose-dbm a:hover {
+	background: transparent;
+	color: var(--xp-link);
+	text-decoration-color: var(--xp-link);
+}
+
+[data-style="xp"] .prose-dbm h2::before {
+	background: var(--xp-select);
+	color: #fff;
+}
+
+[data-style="xp"] .prose-dbm ul > li::before {
+	color: var(--xp-select);
+}
+
+[data-style="xp"] .prose-dbm .code-block__bar {
+	border-bottom: 1px solid var(--xp-field);
+	background-color: var(--xp-silver);
+	background-image: linear-gradient(180deg, #f9f9f5, #e3e0d5);
+	color: #222;
+}
+
+[data-style="xp"] .prose-dbm .code-block__copy {
+	border-color: var(--xp-field);
+	color: #333;
+}
+
+[data-style="xp"] .prose-dbm .code-block__copy:hover {
+	border-color: var(--xp-border);
+	background: #d8e4f8;
+	color: #000;
+}
+
+[data-style="xp"] .prose-dbm .code-block__copy[data-copied] {
+	border-color: #1a6b1a;
+	color: #1a6b1a;
+}
+
+/* The taskbar buttons in the footer. */
+[data-style="xp"] .prose-dbm .code-block pre {
+	scrollbar-color: #aca899 #f1efe2;
+}
+
+[data-style="xp"] ::selection {
+	background: var(--xp-select);
+	color: #fff;
+}
+
+/* A hot chip gets the pale blue of a hovering Luna control. */
+[data-style="xp"] .nb-chip:not(.nb-accent):hover {
+	background-color: #d8e4f8;
+	color: #000;
+}
+
+/* The skip link carries its own fill, so it cannot use the palette ink. */
+[data-style="xp"] a[href="#main-content"]:focus {
+	background-color: var(--xp-select);
+	color: #fff;
+}
+
+/* The era's dotted focus rectangle, kept on the page ink where it can show. */
+[data-style="xp"] :focus-visible {
+	outline: 1px dotted var(--focus-ring);
+	outline-offset: 2px;
+}
+
 /* The focus ring keeps the page's ink even inside a palette card, where the
    scoped --ink is that card's text color. Declared on :root only, so it
    resolves there and is inherited as a concrete color. */
@@ -906,7 +1363,9 @@
 }
 
 @utility nb-panel {
-	border: var(--bw) var(--line-style) var(--edge);
+	border: var(--panel-edge);
+	border-top: var(--panel-top-edge);
+	border-radius: var(--panel-radius);
 	background-color: var(--panel-surface);
 	background-image: var(--panel-image);
 	box-shadow: var(--shadow-hard);
@@ -927,7 +1386,8 @@
 
 /* A panel that sits on the recessed tone instead of the page base. */
 @utility nb-well {
-	border: var(--bw) var(--line-style) var(--edge);
+	border: var(--well-edge);
+	border-radius: var(--well-radius);
 	background-color: var(--well-surface);
 	background-image: var(--well-image);
 	box-shadow: var(--shadow-hard);
@@ -957,12 +1417,13 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 0.5rem;
-	border: var(--bw) var(--line-style) var(--edge);
-	background-color: var(--plain-surface);
-	background-image: var(--plain-image);
+	border: var(--button-edge);
+	background-color: var(--button-surface);
+	background-image: var(--button-image);
+	color: var(--button-ink);
 	padding: 0.5rem 0.85rem;
 	font-size: 0.8125rem;
-	font-weight: 700;
+	font-weight: var(--button-weight);
 	line-height: 1.2;
 	box-shadow: var(--shadow-hard-sm);
 	backdrop-filter: var(--backdrop);
@@ -975,14 +1436,14 @@
 
 	&:hover {
 		transform: translate(var(--lift), var(--lift));
-		box-shadow: var(--shadow-hard);
+		box-shadow: var(--button-hover-shadow);
 		border-color: var(--hover-edge);
 		background-color: var(--hover-fill);
 	}
 
 	&:active {
 		transform: translate(var(--press), var(--press));
-		box-shadow: none;
+		box-shadow: var(--button-press-shadow);
 		background-color: var(--press-fill);
 	}
 }
@@ -1006,6 +1467,7 @@
 	border: var(--bw) var(--line-style) var(--edge);
 	background-color: var(--plain-surface);
 	background-image: var(--plain-image);
+	box-shadow: var(--input-shadow);
 	padding: 0.55rem 0.7rem;
 	font-size: 0.875rem;
 	backdrop-filter: var(--backdrop);
@@ -1027,6 +1489,10 @@
 	&:active {
 		background-color: var(--accent-press-fill);
 	}
+}
+
+.nb-chip.nb-accent {
+	color: var(--chip-accent-ink);
 }
 
 /* The field is the frame: focus belongs on the wrapper, not the bare input. */
@@ -1508,6 +1974,62 @@ input[type="range"]::-moz-range-thumb {
 	* {
 		scrollbar-width: thin;
 		scrollbar-color: var(--scrollbar) transparent;
+	}
+}
+
+/* XP scrollbars: 16px chrome with a beveled thumb and arrow buttons. */
+@supports selector(::-webkit-scrollbar-thumb) {
+	[data-style="xp"] ::-webkit-scrollbar {
+		width: 16px;
+		height: 16px;
+	}
+	[data-style="xp"] ::-webkit-scrollbar-track {
+		background: #f1efe2;
+		box-shadow: inset 1px 0 0 #aca899;
+	}
+	[data-style="xp"] ::-webkit-scrollbar-thumb {
+		background-color: #d6d3c2;
+		background-image: linear-gradient(90deg, #fdfdfd, #d8d0c4);
+		border: 1px solid #aca899;
+		box-shadow: inset 0 0 0 1px #fff;
+	}
+	[data-style="xp"] ::-webkit-scrollbar-button:single-button {
+		display: block;
+		height: 16px;
+		border: 1px solid #aca899;
+		background-color: #ece9d8;
+		background-repeat: no-repeat;
+		background-position: center;
+		box-shadow: inset 0 0 0 1px #fff;
+	}
+	[data-style="xp"]
+		::-webkit-scrollbar-button:single-button:vertical:decrement {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 5 4 0 8 5Z' fill='%23000'/%3E%3C/svg%3E");
+	}
+	[data-style="xp"]
+		::-webkit-scrollbar-button:single-button:vertical:increment {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0 8 0 4 5Z' fill='%23000'/%3E%3C/svg%3E");
+	}
+	[data-style="xp"]
+		::-webkit-scrollbar-button:single-button:horizontal:decrement {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='8'%3E%3Cpath d='M5 0 0 4 5 8Z' fill='%23000'/%3E%3C/svg%3E");
+	}
+	[data-style="xp"]
+		::-webkit-scrollbar-button:single-button:horizontal:increment {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='8'%3E%3Cpath d='M0 0 5 4 0 8Z' fill='%23000'/%3E%3C/svg%3E");
+	}
+	/* Code blocks keep their slim bar. */
+	[data-style="xp"] .prose-dbm .code-block pre::-webkit-scrollbar {
+		height: 6px;
+	}
+	[data-style="xp"] .prose-dbm .code-block pre::-webkit-scrollbar-thumb {
+		border: 0;
+		background-color: #aca899;
+		background-image: none;
+		box-shadow: none;
+	}
+	[data-style="xp"] .prose-dbm .code-block pre::-webkit-scrollbar-button {
+		display: none;
 	}
 }
 

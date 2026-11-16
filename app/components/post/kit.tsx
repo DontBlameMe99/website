@@ -22,7 +22,7 @@ export function Panel({
 	return (
 		<div className={cn("not-prose my-8 overflow-hidden nb-well", className)}>
 			{title ? (
-				<div className="flex items-center gap-2 nb-line-b px-3 py-2">
+				<div className="flex items-center gap-2 nb-line-b kit-titlebar px-3 py-2">
 					<span className="text-mauve">{icon}</span>
 					<span className="text-[11px] uppercase tracking-[0.14em] text-overlay1">
 						{title}

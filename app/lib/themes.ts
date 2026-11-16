@@ -6,7 +6,7 @@
  */
 
 export type Mode = "dark" | "light";
-export type StyleId = "neobrutalist" | "flat" | "glassmorphism";
+export type StyleId = "neobrutalist" | "flat" | "glassmorphism" | "xp";
 export type SchemeId =
 	| "frappe"
 	| "macchiato"
@@ -49,6 +49,11 @@ export const STYLES: readonly Style[] = [
 		id: "glassmorphism",
 		label: "Glassmorphism",
 		blurb: "Frosted panes, soft light, an aurora behind them.",
+	},
+	{
+		id: "xp",
+		label: "Windows XP",
+		blurb: "Luna chrome: glossy buttons, beveled fields, rounded windows.",
 	},
 ];
 

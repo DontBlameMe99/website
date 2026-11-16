@@ -14,7 +14,7 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
 
 export function SiteHeader() {
 	return (
-		<header className="site-header sticky top-0 z-40 nb-page">
+		<header className="site-header sticky top-0 z-40 nb-page nb-chrome">
 			<div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 sm:h-16 sm:flex-nowrap sm:gap-10 sm:px-5 sm:py-0">
 				<NavLink
 					to="/"
@@ -45,6 +45,12 @@ export function SiteHeader() {
 
 				<span className="ml-auto sm:ml-0">
 					<ThemeToggle />
+				</span>
+
+				<span className="win-controls" aria-hidden="true">
+					<span />
+					<span />
+					<span />
 				</span>
 			</div>
 			{/* The reading bar is the header's bottom rule: mauve behind you,

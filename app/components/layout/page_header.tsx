@@ -24,16 +24,25 @@ export function PageHeader({
 	className,
 }: PageHeaderProps) {
 	return (
-		<header className={cn("nb-line-t pt-4", className)}>
+		<header className={cn("nb-line-t pt-4 page-window", className)}>
 			<div className="flex items-baseline justify-between gap-6">
 				<span className="nb-chip nb-accent uppercase tracking-[0.1em]">
 					{index}
 					<span className="mx-1">/</span>
 					{label}
 				</span>
-				{meta ? (
-					<span className="text-meta uppercase tracking-[0.12em]">{meta}</span>
-				) : null}
+				<span className="flex items-center gap-3">
+					{meta ? (
+						<span className="text-meta uppercase tracking-[0.12em]">
+							{meta}
+						</span>
+					) : null}
+					<span className="win-controls" aria-hidden="true">
+						<span />
+						<span />
+						<span />
+					</span>
+				</span>
 			</div>
 
 			<h1 className="mt-12 text-page-title text-text">{title}</h1>

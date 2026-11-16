@@ -1633,7 +1633,7 @@
 }
 
 [data-style="material"] nav[aria-label="Primary"] a[aria-current="page"] {
-	background-color: color-mix(in srgb, var(--mauve) 26%, var(--base));
+	background-color: color-mix(in srgb, var(--mauve) 12%, var(--base));
 	color: var(--text);
 }
 
@@ -1673,6 +1673,13 @@
 
 [data-style="material"] .text-green {
 	color: color-mix(in srgb, var(--green) 75%, var(--text));
+}
+
+/* The bullets and markers are accent text too; keep them above AA on the
+   tinted page. */
+[data-style="material"] .prose-dbm ul > li::before,
+[data-style="material"] .prose-dbm ol > li::marker {
+	color: color-mix(in srgb, var(--mauve) 65%, var(--text));
 }
 
 [data-style="material"] .text-display,

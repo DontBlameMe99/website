@@ -20,14 +20,9 @@ export function Panel({
 	footer?: React.ReactNode;
 }) {
 	return (
-		<div
-			className={cn(
-				"not-prose my-8 overflow-hidden border-2 border-ink bg-mantle shadow-[var(--shadow-hard)]",
-				className,
-			)}
-		>
+		<div className={cn("not-prose my-8 overflow-hidden nb-well", className)}>
 			{title ? (
-				<div className="flex items-center gap-2 border-b-2 border-ink px-3 py-2">
+				<div className="flex items-center gap-2 nb-line-b px-3 py-2">
 					<span className="text-mauve">{icon}</span>
 					<span className="text-[11px] uppercase tracking-[0.14em] text-overlay1">
 						{title}
@@ -36,7 +31,7 @@ export function Panel({
 			) : null}
 			<div className="p-3 sm:p-4">{children}</div>
 			{footer ? (
-				<div className="border-t-2 border-ink px-3 py-2 text-[11px] text-overlay1">
+				<div className="nb-line-t px-3 py-2 text-[11px] text-overlay1">
 					{footer}
 				</div>
 			) : null}
@@ -56,7 +51,7 @@ export function Chip({
 	return (
 		<span
 			className={cn(
-				"inline-flex items-center gap-1 border-2 border-ink bg-base px-2 py-0.5 text-[11px] font-bold leading-relaxed text-on-accent shadow-[var(--shadow-hard-sm)]",
+				"inline-flex items-center gap-1 nb-line px-2 py-0.5 text-[11px] font-bold leading-relaxed text-on-accent nb-shadow-sm",
 				className,
 			)}
 			style={{ background: accent }}
@@ -76,7 +71,7 @@ export function Stat({
 	hint?: string;
 }) {
 	return (
-		<div className="not-prose border-2 border-ink bg-base px-3 py-2 shadow-[var(--shadow-hard-sm)]">
+		<div className="not-prose nb-line nb-shadow-sm nb-fill px-3 py-2">
 			<div className="text-[11px] uppercase tracking-[0.12em] text-overlay1">
 				{label}
 			</div>
@@ -111,7 +106,7 @@ export function Bars({
 					<span className="truncate  text-[11px] text-subtext0">
 						{entry.label}
 					</span>
-					<div className="h-3 overflow-hidden border-2 border-ink bg-surface0">
+					<div className="h-3 overflow-hidden nb-line bg-surface0">
 						<motion.div
 							className="h-full"
 							style={{
@@ -183,11 +178,11 @@ export function Tabs({
 	};
 
 	return (
-		<div className="not-prose my-6 border-2 border-ink bg-mantle shadow-[var(--shadow-hard)]">
+		<div className="not-prose my-6 nb-well">
 			<div
 				role="tablist"
 				aria-label={label}
-				className="flex flex-wrap gap-1 border-b-2 border-ink p-1.5"
+				className="flex flex-wrap gap-1 nb-line-b p-1.5"
 			>
 				{tabs.map((tab) => (
 					<button
@@ -210,7 +205,7 @@ export function Tabs({
 						{tab.id === current?.id ? (
 							<motion.span
 								layoutId={`${id}-tab`}
-								className="absolute inset-0 -z-10 border border-ink"
+								className="absolute inset-0 -z-10 nb-line"
 								style={{ background: accent }}
 								transition={
 									reduced
@@ -263,8 +258,8 @@ export function Switch({
 	const reduced = useReducedMotion();
 	const [state, setState] = useState(initial);
 	return (
-		<div className="not-prose my-6 overflow-hidden border-2 border-ink bg-mantle shadow-[var(--shadow-hard)]">
-			<div className="flex items-center justify-between gap-3 border-b-2 border-ink px-3 py-2">
+		<div className="not-prose my-6 overflow-hidden nb-well">
+			<div className="flex items-center justify-between gap-3 nb-line-b px-3 py-2">
 				<span className="text-[11px] uppercase tracking-[0.14em] text-overlay1">
 					{state ? on : off}
 				</span>
@@ -274,7 +269,7 @@ export function Switch({
 					aria-checked={state}
 					aria-label={`Toggle ${label ?? on}`}
 					onClick={() => setState(!state)}
-					className="relative h-6 w-11 shrink-0 border-2 border-ink bg-surface2 transition-colors"
+					className="relative h-6 w-11 shrink-0 nb-line bg-surface2 transition-colors"
 					style={state ? { background: accent } : undefined}
 				>
 					<motion.span
@@ -285,7 +280,7 @@ export function Switch({
 								: { type: "spring", stiffness: 500, damping: 30 }
 						}
 						className={cn(
-							"absolute top-0.5 size-4 border-2 border-ink bg-base",
+							"absolute top-0.5 size-4 nb-line nb-fill",
 							state ? "right-0.5" : "left-0.5",
 						)}
 					/>
@@ -329,7 +324,7 @@ export function Range({
 				step={step}
 				value={value}
 				onChange={(event) => onChange(Number(event.target.value))}
-				className="h-6 w-full cursor-pointer appearance-none border-2 border-ink outline-offset-4"
+				className="h-6 w-full cursor-pointer appearance-none nb-line outline-offset-4"
 				style={{
 					background: `linear-gradient(to right, ${accent} ${percent}%, var(--surface0) ${percent}%)`,
 				}}
@@ -349,9 +344,8 @@ export function Callout({
 }) {
 	return (
 		<div
-			className="not-prose my-6 flex gap-3 border-2 border-l-8 border-ink p-3 text-xs leading-relaxed text-subtext0"
+			className="not-prose my-6 flex gap-3 nb-callout p-3 text-xs leading-relaxed text-subtext0"
 			style={{
-				borderColor: "var(--color-border)",
 				borderLeftColor: accent,
 				background: `color-mix(in srgb, ${accent} 6%, transparent)`,
 			}}

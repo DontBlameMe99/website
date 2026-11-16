@@ -14,7 +14,7 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
 
 export function SiteHeader() {
 	return (
-		<header className="sticky top-0 z-40 bg-crust">
+		<header className="sticky top-0 z-40 nb-page">
 			<div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 sm:h-16 sm:flex-nowrap sm:gap-10 sm:px-5 sm:py-0">
 				<NavLink
 					to="/"
@@ -27,7 +27,7 @@ export function SiteHeader() {
 						alt=""
 						width={28}
 						height={28}
-						className="size-6 shrink-0 border-2 border-ink bg-base object-contain p-px sm:size-7"
+						className="size-6 shrink-0 nb-line nb-fill object-contain p-px sm:size-7"
 					/>
 					<span>{SITE.name}</span>
 				</NavLink>
@@ -48,9 +48,9 @@ export function SiteHeader() {
 				</span>
 			</div>
 			{/* The reading bar is the header's bottom rule: mauve behind you,
-			    ink ahead. It moves with the two-row mobile header instead of
+			    edge ahead. It moves with the two-row mobile header instead of
 			    crossing it. */}
-			<div className="relative h-[2px] bg-ink">
+			<div className="relative h-[var(--bw)] bg-[var(--edge)]">
 				<ScrollProgress className="pointer-events-none absolute inset-0 bg-mauve" />
 			</div>
 		</header>

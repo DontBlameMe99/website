@@ -34,7 +34,7 @@ function CopyEmail() {
 			<button
 				type="button"
 				onClick={copy}
-				className="nb-button min-w-20 justify-center bg-base py-1.5 text-[11px] uppercase tracking-[0.08em] text-text"
+				className="nb-button min-w-20 justify-center py-1.5 text-[11px] uppercase tracking-[0.08em]"
 			>
 				<Copy aria-hidden="true" className="size-3" />
 				{copied ? "Copied" : "Copy"}
@@ -110,7 +110,7 @@ export default function ContactPage() {
 										href={social.href}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="nb-chip group bg-base text-subtext0 transition-colors hover:bg-mauve hover:text-on-accent"
+										className="nb-chip group text-subtext0 transition-colors hover:bg-mauve hover:text-on-accent"
 									>
 										<Icon className="size-3.5 shrink-0" />
 										{social.label}

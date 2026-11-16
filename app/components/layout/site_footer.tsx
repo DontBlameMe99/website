@@ -4,7 +4,7 @@ import { SOCIALS } from "~/lib/site";
 
 export function SiteFooter() {
 	return (
-		<footer className="mt-28 border-t-2 border-ink">
+		<footer className="mt-28 nb-line-t">
 			<div className="mx-auto max-w-[1240px] px-5 py-12">
 				<p className="text-label text-subtext0">Elsewhere</p>
 				<ul className="mt-4 flex flex-wrap gap-2">
@@ -16,7 +16,7 @@ export function SiteFooter() {
 									href={social.href}
 									target="_blank"
 									rel="noopener noreferrer"
-									className="nb-chip group bg-base transition-colors hover:bg-mauve hover:text-on-accent"
+									className="nb-chip group transition-colors hover:bg-mauve hover:text-on-accent"
 								>
 									<Icon className="size-3.5 shrink-0" />
 									{social.label}

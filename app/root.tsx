@@ -33,16 +33,33 @@ export const links = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en" className="dark" suppressHydrationWarning>
+		<html
+			lang="en"
+			className="dark"
+			data-style="neobrutalist"
+			data-scheme="mocha"
+			suppressHydrationWarning
+		>
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<meta name="theme-color" content="#11111b" />
+				{/* Browser chrome before hydration: the OS preference picks the
+				    default for that brightness. Both are rewritten on mount. */}
+				<meta
+					name="theme-color"
+					media="(prefers-color-scheme: dark)"
+					content="#11111b"
+				/>
+				<meta
+					name="theme-color"
+					media="(prefers-color-scheme: light)"
+					content="#dce0e8"
+				/>
 				<script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
 				<Meta />
 				<Links />
 			</head>
-			<body className="min-h-dvh bg-crust text-text antialiased">
+			<body className="min-h-dvh text-text antialiased">
 				<a
 					href="#main-content"
 					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-mauve focus:px-3 focus:py-1.5 focus:text-xs focus:font-semibold focus:text-on-accent"

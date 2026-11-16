@@ -47,13 +47,13 @@ export default function ProjectsPage() {
 											alt=""
 											width={40}
 											height={40}
-											className="size-10 shrink-0 border-2 border-ink bg-base object-cover"
+											className="size-10 shrink-0 nb-line nb-fill object-cover"
 										/>
 										<h2 className="min-w-0 break-words text-2xl font-extrabold leading-tight tracking-[-0.03em] text-text transition-colors group-hover:text-mauve">
 											{project.name}
 										</h2>
 									</div>
-									<span className="nb-chip ml-auto shrink-0 bg-base text-subtext0">
+									<span className="nb-chip ml-auto shrink-0 text-subtext0">
 										<KindIcon className="size-3" />
 										{KIND[project.kind]}
 									</span>
@@ -63,7 +63,7 @@ export default function ProjectsPage() {
 									{project.blurb}
 								</p>
 
-								<span className="mt-auto flex items-center justify-between gap-4 border-t-2 border-ink pt-3 text-meta">
+								<span className="mt-auto flex items-center justify-between gap-4 nb-line-t pt-3 text-meta">
 									<span className="truncate">
 										{project.href
 											.replace(/^https?:\/\//, "")
@@ -77,7 +77,7 @@ export default function ProjectsPage() {
 				})}
 			</ul>
 
-			<div className="mt-16 max-w-[60ch] border-t-2 border-ink pt-6">
+			<div className="mt-16 max-w-[60ch] nb-line-t pt-6">
 				<p className="text-label text-subtext0">More</p>
 				<p className="mt-3 text-sm leading-relaxed text-subtext0">
 					Browse{" "}

@@ -84,7 +84,7 @@ export default function BlogIndex() {
 						<button
 							type="button"
 							onClick={() => setNewestFirst((value) => !value)}
-							className="nb-button min-w-28 justify-center bg-base py-1.5 text-[11px] uppercase tracking-[0.08em] text-text"
+							className="nb-button min-w-28 justify-center py-1.5 text-[11px] uppercase tracking-[0.08em]"
 						>
 							{newestFirst ? (
 								<ArrowDownWideNarrow className="size-3.5" />
@@ -104,8 +104,8 @@ export default function BlogIndex() {
 						className={cn(
 							"nb-chip transition-colors",
 							tag === null
-								? "bg-mauve text-on-accent"
-								: "bg-base text-subtext0 hover:bg-surface0 hover:text-text",
+								? "nb-accent"
+								: "text-subtext0 hover:bg-surface0 hover:text-text",
 						)}
 					>
 						All
@@ -119,8 +119,8 @@ export default function BlogIndex() {
 							className={cn(
 								"nb-chip transition-colors",
 								tag === value
-									? "bg-mauve text-on-accent"
-									: "bg-base text-subtext0 hover:bg-surface0 hover:text-text",
+									? "nb-accent"
+									: "text-subtext0 hover:bg-surface0 hover:text-text",
 							)}
 						>
 							{value}
@@ -151,7 +151,7 @@ export default function BlogIndex() {
 									{post.summary}
 								</p>
 
-								<div className="mt-auto flex items-baseline justify-between gap-4 border-t-2 border-ink pt-3 text-meta">
+								<div className="mt-auto flex items-baseline justify-between gap-4 nb-line-t pt-3 text-meta">
 									<time dateTime={post.date}>{formatDate(post.date)}</time>
 									<span className="text-right">
 										{post.tags.map((value) => `#${value}`).join(" ")}
@@ -170,7 +170,7 @@ export default function BlogIndex() {
 							setQuery("");
 							setTag(null);
 						}}
-						className="nb-button mt-4 bg-mauve text-on-accent"
+						className="nb-button nb-accent mt-4"
 					>
 						Reset it
 					</button>

@@ -40,11 +40,13 @@ export type SchemeId =
 	| "mono"
 	| "gruvbox-dark"
 	| "solarized-dark"
+	| "everforest-dark"
 	| "latte"
 	| "nord-light"
 	| "mono-light"
 	| "gruvbox-light"
-	| "solarized-light";
+	| "solarized-light"
+	| "everforest-light";
 
 export type Style = {
 	id: StyleId;
@@ -126,6 +128,12 @@ export const SCHEMES: readonly ColorScheme[] = [
 		blurb: "Deep blue canvas, calm teal ink.",
 	},
 	{
+		id: "everforest-dark",
+		label: "Everforest Dark",
+		mode: "dark",
+		blurb: "Warm forest greens on a soft slate night.",
+	},
+	{
 		id: "latte",
 		label: "Catppuccin Latte",
 		mode: "light",
@@ -154,6 +162,12 @@ export const SCHEMES: readonly ColorScheme[] = [
 		label: "Solarized Light",
 		mode: "light",
 		blurb: "Warm cream canvas, calm teal ink.",
+	},
+	{
+		id: "everforest-light",
+		label: "Everforest Light",
+		mode: "light",
+		blurb: "Sunlit cream, with deep forest inks.",
 	},
 ];
 

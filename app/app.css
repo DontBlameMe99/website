@@ -2372,8 +2372,8 @@
 .prose-dbm blockquote {
 	border: var(--bw) var(--line-style) var(--edge);
 	border-left-width: var(--bw-heavy);
-	/* A tint deep enough to read, shallow enough that the ink keeps AAA. */
-	background: color-mix(in srgb, var(--accent-surface) 6%, transparent);
+	/* No wash: a style that already tints its page (Material) would stack the
+	   two and drop the quoted ink under AAA. The heavy accent rule carries it. */
 	padding: 0.9em 1.1em;
 	color: var(--subtext1);
 }

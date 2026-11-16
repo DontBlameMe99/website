@@ -6,7 +6,7 @@ export const meta = () =>
 	seo({
 		title: "Disclosure",
 		description:
-			"Every post on dontblameme.dev is written by me. AI helps with the code that carries them. This page is where I keep that split honest.",
+			"Every post here is written by me. AI helps with the code and interactive visualizations that carry them.",
 	});
 
 const MINE = [

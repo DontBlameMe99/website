@@ -10,16 +10,3 @@
 result
 
 .pre-commit-config.yaml
-
-# Worktrees
-/.worktrees/
-
-# Environment variables
-.env
-
-daemon.pid
-
-# Orchestrator notes (local only)
-/WORKFLOW.md
-/MEMORY.md
-/TEST.md

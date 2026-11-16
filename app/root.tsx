@@ -9,6 +9,7 @@ import {
 } from "react-router";
 
 import "./app.css";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { MotionConfig } from "motion/react";
 import { SiteFooter } from "~/components/layout/site_footer";
 import { SiteHeader } from "~/components/layout/site_header";
@@ -81,6 +82,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				{children}
 				<ScrollRestoration />
 				<Scripts />
+				<SpeedInsights />
 			</body>
 		</html>
 	);

@@ -40,6 +40,20 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 const systemMode = (): Mode =>
 	window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 
+/**
+ * A surface token as a plain color. Reading the custom property back gives
+ * whatever the style wrote, which can be a scheme-dependent function like
+ * light-dark(); a used color resolves it. `theme-color` takes a color only.
+ */
+const usedColor = (node: Element, token: string): string => {
+	const probe = document.createElement("span");
+	probe.style.color = `var(${token})`;
+	node.appendChild(probe);
+	const color = getComputedStyle(probe).color;
+	probe.remove();
+	return color;
+};
+
 const readStored = (): StoredPrefs => {
 	try {
 		return {
@@ -55,11 +69,11 @@ const readStored = (): StoredPrefs => {
 	}
 };
 
-/** Saved choices, or the OS for brightness when there is no saved choice. */
-const storedPrefs = (): ThemePrefs =>
-	typeof window === "undefined"
-		? DEFAULT_PREFS
-		: resolvePrefs(readStored(), systemMode());
+/** Saved choices, or the OS for brightness when there is no saved choice. */ const storedPrefs =
+	(): ThemePrefs =>
+		typeof window === "undefined"
+			? DEFAULT_PREFS
+			: resolvePrefs(readStored(), systemMode());
 
 const writePrefs = (prefs: ThemePrefs) => {
 	try {
@@ -97,7 +111,8 @@ const apply = (prefs: ThemePrefs) => {
 		root.dataset.accent = prefs.accent.hue;
 	}
 
-	const page = getComputedStyle(root).getPropertyValue("--page-surface").trim();
+	// A style may write a scheme-dependent function here, so read a used color.
+	const page = usedColor(root, "--page-surface");
 	if (page) {
 		// There is one meta per color-scheme query for the pre-hydration paint.
 		for (const meta of document.querySelectorAll<HTMLMetaElement>(

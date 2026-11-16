@@ -1562,13 +1562,11 @@
 		180deg,
 		rgba(255, 255, 255, 0.09),
 		rgba(255, 255, 255, 0.02) 40%,
-		rgba(0, 0, 0, 0.16)
+		rgba(0, 0, 0, 0.08)
 	);
-	--well-image: linear-gradient(
-		180deg,
-		rgba(0, 0, 0, 0.28),
-		rgba(255, 255, 255, 0.03)
-	);
+	/* The recess is carried by the inset shadow: a darker well floor would eat
+	   the contrast of the muted text that sits in a well. */
+	--well-image: linear-gradient(180deg, rgba(0, 0, 0, 0.06), transparent);
 	--plain-image: linear-gradient(
 		180deg,
 		rgba(255, 255, 255, 0.13),
@@ -1577,9 +1575,9 @@
 	);
 	--accent-image: linear-gradient(
 		180deg,
-		rgba(255, 255, 255, 0.3),
-		rgba(255, 255, 255, 0.05) 45%,
-		rgba(0, 0, 0, 0.2)
+		rgba(255, 255, 255, 0.18),
+		rgba(255, 255, 255, 0.03) 45%,
+		rgba(0, 0, 0, 0.14)
 	);
 
 	/* Hover catches more light and press loses it, so the color stays put. */

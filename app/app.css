@@ -1655,9 +1655,7 @@
 			180deg,
 			light-dark(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.55)) 0,
 			light-dark(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.12)) 2px,
-			transparent 3px,
-			transparent calc(100% - 4px),
-			light-dark(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0)) 100%
+			transparent 3px
 		),
 		var(--grain);
 	--input-shadow: var(--shadow-well);
@@ -1670,15 +1668,11 @@
 	--hover-fill: color-mix(in srgb, #fff 7%, var(--plain-surface));
 	--press-fill: color-mix(in srgb, #000 12%, var(--plain-surface));
 	--card-hover-fill: color-mix(in srgb, #fff 5%, var(--panel-surface));
-	/* The accent cannot do that: some palettes carry dark text on a light accent,
-	   some light text on a dark one, so it moves toward the ink instead, the one
-	   direction that adds contrast against on-accent in both. */
-	--accent-hover-fill: color-mix(in srgb, var(--ink) 6%, var(--accent-surface));
-	--accent-press-fill: color-mix(
-		in srgb,
-		var(--ink) 12%,
-		var(--accent-surface)
-	);
+	/* The accent keeps its color under a pointer. Its ink is chosen for the
+	   fill, and a visitor can pick any accent, so a tint could move the fill
+	   toward that ink; the slab and the inset press carry the feedback instead. */
+	--accent-hover-fill: var(--accent-surface);
+	--accent-press-fill: var(--accent-surface);
 	--scrollbar: var(--surface2);
 }
 

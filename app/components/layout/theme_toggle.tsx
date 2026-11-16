@@ -1,6 +1,7 @@
 import { Moon, Sun } from "lucide-react";
 import { useRef } from "react";
 import { flushSync } from "react-dom";
+import { liquidWipeFrames } from "~/lib/liquid_wipe";
 import { useTheme } from "~/lib/theme_provider";
 
 type ViewTransition = { ready: Promise<void>; finished: Promise<void> };
@@ -10,7 +11,7 @@ type DocumentWithTransitions = Document & {
 
 const FALLBACK_MS = 300;
 
-/** A square button that wipes the next palette in as a rectangle. */
+/** A square button that spills the next palette in as a liquid blob. */
 export function ThemeToggle() {
 	const { mode, setMode } = useTheme();
 	const ref = useRef<HTMLButtonElement>(null);
@@ -89,15 +90,10 @@ export function ThemeToggle() {
 		transition.ready
 			.then(() => {
 				root.animate(
+					{ clipPath: liquidWipeFrames(x, y, innerWidth, innerHeight) },
 					{
-						clipPath: [
-							`inset(${y}px ${innerWidth - x}px ${innerHeight - y}px ${x}px)`,
-							"inset(0px 0px 0px 0px)",
-						],
-					},
-					{
-						duration: 500,
-						easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+						// The frames carry the easing, so the track itself runs linear.
+						duration: 650,
 						pseudoElement: "::view-transition-new(root)",
 					},
 				);

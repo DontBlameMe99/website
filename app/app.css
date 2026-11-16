@@ -840,8 +840,9 @@
 	--button-ink: #000;
 	--button-weight: 400;
 	--accent-surface: var(--xp-select);
-	--accent-image: linear-gradient(180deg, #5a8fe0, #2f66c4);
+	--accent-image: none;
 	--chip-accent-ink: #fff;
+	--xp-link: #0b3fb5;
 	--input-shadow: inset 1px 1px 2px rgb(0 0 0 / 0.15);
 	--hover-edge: var(--xp-border);
 	--hover-fill: var(--xp-silver);
@@ -862,6 +863,11 @@
 	--shadow-hard-sm: inset 0 0 0 1px #fff;
 	--scrollbar: #d6d3c2;
 	--backdrop: none;
+}
+
+/* Dark schemes keep the prose links on a light Luna blue. */
+.dark[data-style="xp"] {
+	--xp-link: #8fc7ff;
 }
 
 /* --- Windows XP chrome ----------------------------------------------------
@@ -999,6 +1005,12 @@
 	margin-left: 0.5rem;
 }
 
+@media (max-width: 49.99rem) {
+	[data-style="xp"] header.nb-chrome .win-controls {
+		display: none;
+	}
+}
+
 [data-style="xp"] .win-controls > span {
 	position: relative;
 	width: 20px;
@@ -1067,15 +1079,15 @@
 
 [data-style="xp"] footer .nb-chip {
 	border: 1px solid #0a3f8f;
-	background-color: #2f6fd8;
-	background-image: linear-gradient(180deg, #4a8bf0, #1e51a8);
+	background-color: #1a4a9c;
+	background-image: linear-gradient(180deg, #2f6bc8, #1a4a9c);
 	color: #fff;
-	box-shadow: inset 0 0 0 1px #6ea8f8;
+	box-shadow: inset 0 0 0 1px #5a8fe0;
 }
 
-[data-style="xp"] footer .nb-chip:hover {
-	background-color: #3a7ce4;
-	background-image: linear-gradient(180deg, #5a9bf8, #2a62c0);
+[data-style="xp"] footer .nb-chip.nb-chip:hover {
+	background-color: #2158b0;
+	background-image: linear-gradient(180deg, #3570d0, #2158b0);
 	color: #fff;
 }
 
@@ -1110,6 +1122,14 @@
 	color: #6d6d6d;
 }
 
+[data-style="xp"] .nb-input :is(svg, button) {
+	color: #555;
+}
+
+[data-style="xp"] .nb-input button:hover {
+	color: #000;
+}
+
 /* A titled post panel gets a real title bar. */
 [data-style="xp"] .kit-titlebar {
 	border-bottom: 1px solid #003dd7;
@@ -1126,14 +1146,14 @@
 
 /* Links in prose are the old web blue, not the palette accent. */
 [data-style="xp"] .prose-dbm a {
-	color: #0b3fb5;
-	text-decoration-color: #0b3fb5;
+	color: var(--xp-link);
+	text-decoration-color: var(--xp-link);
 }
 
 [data-style="xp"] .prose-dbm a:hover {
 	background: transparent;
-	color: #0b3fb5;
-	text-decoration-color: #0b3fb5;
+	color: var(--xp-link);
+	text-decoration-color: var(--xp-link);
 }
 
 [data-style="xp"] .prose-dbm h2::before {
@@ -1150,6 +1170,22 @@
 	background-color: var(--xp-silver);
 	background-image: linear-gradient(180deg, #f9f9f5, #e3e0d5);
 	color: #222;
+}
+
+[data-style="xp"] .prose-dbm .code-block__copy {
+	border-color: var(--xp-field);
+	color: #333;
+}
+
+[data-style="xp"] .prose-dbm .code-block__copy:hover {
+	border-color: var(--xp-border);
+	background: #d8e4f8;
+	color: #000;
+}
+
+[data-style="xp"] .prose-dbm .code-block__copy[data-copied] {
+	border-color: #1a6b1a;
+	color: #1a6b1a;
 }
 
 /* The taskbar buttons in the footer. */

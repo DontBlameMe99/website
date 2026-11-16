@@ -362,6 +362,71 @@
 	--on-accent: #eceff4;
 }
 
+[data-scheme="mono"] {
+	color-scheme: dark;
+	/* No hue at all: the accent is paper white, and every named color is a grey
+	   step that stays readable on its own. */
+	--pink: #e2e2e2;
+	--mauve: #f5f5f5;
+	--red: #d0d0d0;
+	--maroon: #c8c8c8;
+	--peach: #bdbdbd;
+	--yellow: #dadada;
+	--green: #c3c3c3;
+	--teal: #b8b8b8;
+	--sky: #cdcdcd;
+	--sapphire: #aeaeae;
+	--blue: #e6e6e6;
+	--lavender: #ececec;
+	--text: #ededed;
+	--subtext1: #cfcfcf;
+	--subtext0: #b4b4b4;
+	--overlay2: #ababab;
+	--overlay1: #9a9a9a;
+	--overlay0: #868686;
+	--surface2: #3b3b3b;
+	--surface1: #2f2f2f;
+	--surface0: #242424;
+	--base: #171717;
+	--mantle: #111111;
+	--crust: #0b0b0b;
+
+	--ink: var(--text);
+	--on-accent: #0b0b0b;
+}
+
+[data-scheme="mono-light"] {
+	color-scheme: light;
+	/* The same ramp read the other way, with black as the one accent. */
+	--pink: #2a2a2a;
+	--mauve: #1a1a1a;
+	--red: #3a3a3a;
+	--maroon: #333333;
+	--peach: #454545;
+	--yellow: #2f2f2f;
+	--green: #3f3f3f;
+	--teal: #4a4a4a;
+	--sky: #363636;
+	--sapphire: #525252;
+	--blue: #262626;
+	--lavender: #202020;
+	--text: #1a1a1a;
+	--subtext1: #373737;
+	--subtext0: #444444;
+	--overlay2: #4a4a4a;
+	--overlay1: #565656;
+	--overlay0: #626262;
+	--surface2: #b7b7b7;
+	--surface1: #c7c7c7;
+	--surface0: #d7d7d7;
+	--base: #f3f3f3;
+	--mantle: #eaeaea;
+	--crust: #e1e1e1;
+
+	--ink: #0a0a0a;
+	--on-accent: #ffffff;
+}
+
 [data-style="flat"] {
 	/* Shape only: the palette above is untouched, so any scheme works here. */
 	--bw: 1px;

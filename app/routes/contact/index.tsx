@@ -43,7 +43,7 @@ export default function ContactPage() {
 				index="04"
 				label="Contact"
 				title="Contact"
-				lead="Want to get in touch? Email is the reliable one. Matrix works too. I read everything, replies are slow."
+				lead="Want to get in touch? Matrix is preferred, Email can be slow."
 			/>
 
 			<div className="mt-14 grid gap-6 lg:grid-cols-2">

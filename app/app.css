@@ -607,7 +607,9 @@
    --surface1 and --surface2 are strokes and bars, never text.
 
    Accents keep their Solarized hue and move only as far as 4.5:1 against that
-   canvas, since each one doubles as a fill carrying --on-accent text. */
+   canvas, since each one doubles as a fill carrying --on-accent text. Solarized
+   has no purple, so mauve is the one mixed color: between its magenta and its
+   violet. */
 [data-scheme="solarized-dark"] {
 	color-scheme: dark;
 	/* Solarized Dark. Red, orange, magenta, violet, and blue are lifted off
@@ -615,7 +617,7 @@
 	   brighter than base1/base0 so small text still clears 4.5:1 on a tinted
 	   fill or inside a chip. */
 	--pink: #dd629d;
-	--mauve: #2aa198;
+	--mauve: #b676cb;
 	--red: #e56462;
 	--maroon: #e8652f;
 	--peach: #e8652f;
@@ -692,7 +694,7 @@
 	   so prose still clears 4.5:1 on the accent tint a blockquote paints, and
 	   every accent is pulled until it clears 4.5:1 on base3. */
 	--pink: #cf2d7c;
-	--mauve: #217e77;
+	--mauve: #9e4aba;
 	--red: #d12723;
 	--maroon: #c44815;
 	--peach: #c44815;

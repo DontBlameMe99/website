@@ -131,25 +131,21 @@ export default function BlogIndex() {
 
 			{filtered.length ? (
 				<ul className="mt-10 grid gap-6 sm:grid-cols-2">
-					{filtered.map((post, index) => (
+					{filtered.map((post) => (
 						<li key={post.slug} className="flex">
 							<Link
 								to={`/blog/${post.slug}`}
 								className="nb-panel nb-lift group flex h-full w-full flex-col p-6"
 							>
-								<div className="flex items-center justify-between text-label text-subtext0">
-									<span className="tabular-nums">
-										{String(index + 1).padStart(2, "0")}
-									</span>
-									<span className="flex items-center gap-1">
+								<div className="flex items-start justify-between gap-4">
+									<h2 className="text-xl font-bold leading-[1.1] tracking-[-0.02em] text-text transition-colors group-hover:text-mauve">
+										{post.title}
+									</h2>
+									<span className="flex shrink-0 items-center gap-1 text-label text-subtext0">
 										<Clock aria-hidden="true" className="size-3" />
 										{post.minutes} min
 									</span>
 								</div>
-
-								<h2 className="mt-8 text-xl font-bold leading-[1.1] tracking-[-0.02em] text-text transition-colors group-hover:text-mauve">
-									{post.title}
-								</h2>
 
 								<p className="mt-3 text-[13px] leading-relaxed text-subtext0">
 									{post.summary}

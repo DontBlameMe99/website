@@ -30,7 +30,7 @@ export default function ProjectsPage() {
 			/>
 
 			<ul className="mt-14 grid gap-6 sm:grid-cols-2">
-				{PROJECTS.map((project, index) => {
+				{PROJECTS.map((project) => {
 					const KindIcon = projectIcon(project.kind);
 
 					return (
@@ -41,27 +41,23 @@ export default function ProjectsPage() {
 								rel="noopener noreferrer"
 								className="nb-panel nb-lift group flex h-full w-full min-w-0 flex-col p-6"
 							>
-								<div className="flex items-center justify-between">
-									<span className="text-label text-subtext0 tabular-nums">
-										{String(index + 1).padStart(2, "0")}
-									</span>
-									<span className="nb-chip bg-base text-subtext0">
+								<div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+									<div className="flex min-w-0 items-center gap-3">
+										<img
+											src={project.icon}
+											alt=""
+											width={40}
+											height={40}
+											className="size-10 shrink-0 border-2 border-ink bg-base object-cover"
+										/>
+										<h2 className="min-w-0 break-words text-2xl font-extrabold leading-tight tracking-[-0.03em] text-text transition-colors group-hover:text-mauve">
+											{project.name}
+										</h2>
+									</div>
+									<span className="nb-chip shrink-0 bg-base text-subtext0">
 										<KindIcon className="size-3" />
 										{KIND[project.kind]}
 									</span>
-								</div>
-
-								<div className="mt-8 flex flex-wrap items-center gap-3">
-									<img
-										src={project.icon}
-										alt=""
-										width={40}
-										height={40}
-										className="size-10 shrink-0 border-2 border-ink bg-base object-cover"
-									/>
-									<h2 className="text-2xl font-extrabold leading-none tracking-[-0.03em] text-text transition-colors group-hover:text-mauve">
-										{project.name}
-									</h2>
 								</div>
 
 								<p className="mt-3 text-[13px] leading-relaxed text-subtext0">

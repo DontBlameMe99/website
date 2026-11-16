@@ -23,15 +23,12 @@ function WritingList() {
 			</div>
 
 			<ul>
-				{posts.slice(0, 6).map((post, index) => (
+				{posts.slice(0, 6).map((post) => (
 					<li key={post.slug} className="border-b-2 border-ink">
 						<Link
 							to={`/blog/${post.slug}`}
-							className="group grid grid-cols-[2rem_minmax(0,1fr)] gap-x-4 gap-y-1 py-5 sm:grid-cols-[2rem_minmax(0,1fr)_7rem]"
+							className="group grid gap-x-4 gap-y-1 py-5 sm:grid-cols-[minmax(0,1fr)_7rem]"
 						>
-							<span className="text-meta pt-1.5 text-overlay1 tabular-nums">
-								{String(index + 1).padStart(2, "0")}
-							</span>
 							<span className="min-w-0">
 								<span className="block text-[1.0625rem] font-bold leading-snug tracking-[-0.02em] text-text transition-colors group-hover:bg-mauve group-hover:text-on-accent">
 									{post.title}
@@ -40,10 +37,7 @@ function WritingList() {
 									{post.tags.map((tag) => `#${tag}`).join("  ")}
 								</span>
 							</span>
-							<time
-								dateTime={post.date}
-								className="text-meta col-start-2 sm:col-start-3 sm:text-right"
-							>
+							<time dateTime={post.date} className="text-meta sm:text-right">
 								{formatDate(post.date)}
 							</time>
 						</Link>

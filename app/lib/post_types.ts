@@ -11,5 +11,5 @@ export type PostMeta = {
 export type Section = {
 	id: string;
 	text: string;
-	level: 2 | 3 | 4;
+	level: 2 | 3 | 4 | 5;
 };

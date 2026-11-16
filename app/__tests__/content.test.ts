@@ -30,7 +30,7 @@ describe("post registry", () => {
 			expect(new Set(ids).size).toBe(ids.length);
 			for (const section of module.sections) {
 				expect(section.id).toBe(slugify(section.id));
-				expect([2, 3, 4]).toContain(section.level);
+				expect([2, 3, 4, 5]).toContain(section.level);
 			}
 		}
 	});
@@ -48,7 +48,8 @@ describe("post sources", () => {
 			expect(source).toContain("export default function Post()");
 			expect(source).toContain("export const meta =");
 			expect(source).toContain("export const sections");
-			expect(source).not.toMatch(/^#{1,4} /m);
+			expect(source).not.toMatch(/^#{1,6} /m);
+			expect(source).not.toMatch(/<p>\s*(?:\{\s*")?#{1,6} /);
 			expect(source).not.toContain("#link(");
 			expect(source).not.toContain("#image(");
 			expect(source).not.toContain("window-shadow");

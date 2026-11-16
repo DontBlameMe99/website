@@ -194,12 +194,13 @@
 	/* A well carries its own shadow, so a style can recess it without touching
 	   the panel shadow. */
 	--shadow-well: var(--shadow-hard);
-	/* Material texture, and the emboss on a control's label. Resetting both
-	   keeps a nested style preview from inheriting another style's surface. */
-	--grain: none;
 	--label-shadow: none;
 	--page-surface: var(--crust);
-	--page-image: none;
+	--page-image: radial-gradient(
+		130% 80% at 50% -10%,
+		light-dark(rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.3)),
+		transparent 62%
+	);
 	--panel-surface: var(--base);
 	--panel-image: none;
 	--panel-edge: var(--bw) var(--line-style) var(--edge);
@@ -1612,53 +1613,36 @@
 			color-mix(in srgb, var(--base) 45%, var(--crust))
 		);
 
-	/* Grain, at the level where it reads as a material and not as dirt. */
-	--grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)' opacity='0.05'/%3E%3C/svg%3E");
-
 	/* Fills curve away from the light. The panel and control bodies only darken
 	   toward the floor and their shine lives in the first few pixels of the
 	   edge: palettes like Nord tune their muted text to exactly 4.5:1 against
 	   the surface, so nothing may lighten the area a glyph sits on. */
-	--page-image:
-		var(--grain),
-		radial-gradient(
-			130% 80% at 50% -10%,
-			light-dark(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.12)),
-			transparent 62%
-		);
-	--panel-image:
-		linear-gradient(
-			180deg,
-			light-dark(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4)) 0,
-			light-dark(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08)) 6px,
-			light-dark(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)) 14px,
-			light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.28)) 100%
-		),
-		var(--grain);
-	--well-image:
-		linear-gradient(
-			180deg,
-			light-dark(rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.08)),
-			light-dark(rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0)) 55%
-		),
-		var(--grain);
-	--plain-image:
-		linear-gradient(
-			180deg,
-			light-dark(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.5)) 0,
-			light-dark(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)) 2px,
-			transparent 4px,
-			light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.2)) 100%
-		),
-		var(--grain);
-	--accent-image:
-		linear-gradient(
-			180deg,
-			light-dark(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.55)) 0,
-			light-dark(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.12)) 2px,
-			transparent 3px
-		),
-		var(--grain);
+	--page-image: radial-gradient(
+		130% 80% at 50% -10%,
+		light-dark(rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.3)),
+		transparent 62%
+	);
+	--panel-image: linear-gradient(
+		180deg,
+		light-dark(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4)) 0,
+		light-dark(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08)) 6px,
+		light-dark(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)) 14px,
+		light-dark(rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.28)) 100%
+	);
+	--well-image: light-dark(
+		linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 55%),
+		linear-gradient(180deg, rgba(0, 0, 0, 0.08), transparent 55%)
+	);
+	--plain-image: linear-gradient(
+		180deg,
+		light-dark(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.5)) 0,
+		light-dark(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)) 2px,
+		transparent 4px,
+		light-dark(rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.2)) 100%
+	);
+	/* An accent fill is chosen for its ink, and a picked hex can be either
+	   polarity, so nothing is painted over it. */
+	--accent-image: none;
 	--input-shadow: var(--shadow-well);
 	--label-shadow: 0 1px 0
 		light-dark(rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0.55));
@@ -1666,9 +1650,18 @@
 	/* Interaction moves a plain control toward white under a hover and toward
 	   black under a press, which a surface reads as a lift and a press. */
 	--hover-edge: color-mix(in srgb, var(--mauve) 40%, var(--edge));
-	--hover-fill: color-mix(in srgb, #fff 7%, var(--plain-surface));
-	--press-fill: color-mix(in srgb, #000 12%, var(--plain-surface));
-	--card-hover-fill: color-mix(in srgb, #fff 5%, var(--panel-surface));
+	--hover-fill: light-dark(
+		color-mix(in srgb, #fff 8%, var(--plain-surface)),
+		color-mix(in srgb, #000 6%, var(--plain-surface))
+	);
+	--press-fill: light-dark(
+		color-mix(in srgb, #000 6%, var(--plain-surface)),
+		color-mix(in srgb, #000 12%, var(--plain-surface))
+	);
+	--card-hover-fill: light-dark(
+		color-mix(in srgb, #fff 6%, var(--panel-surface)),
+		color-mix(in srgb, #000 5%, var(--panel-surface))
+	);
 	/* The accent keeps its color under a pointer. Its ink is chosen for the
 	   fill, and a visitor can pick any accent, so a tint could move the fill
 	   toward that ink; the slab and the inset press carry the feedback instead. */
@@ -1861,6 +1854,13 @@
 [data-style="material"] .search-field:has(input:focus-visible) {
 	outline-width: 3px;
 	outline-offset: 2px;
+/* A figure's frame throws its ambient shadow onto the page under the caption,
+   and that caption then reads against a darker surface than it sits on. The
+   frame keeps the bevel and the seam and gives up the outer shadow. */
+[data-style="skeuomorphic"] .prose-dbm img {
+	box-shadow:
+		inset 0 2px 0 light-dark(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5)),
+		inset 0 -2px 0 light-dark(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.55));
 }
 
 /* The focus ring keeps the page's ink even inside a palette card, where the

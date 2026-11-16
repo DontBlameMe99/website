@@ -161,9 +161,12 @@
    hover utility can still override the color, and a style that wants a gradient
    only has to set the image.
 
-   Type is fair game too: a style may override --font-sans on its own block. */
+   Type is fair game too: a style may override --font-sans on its own block.
+   The face is set here, not only on body, so a preview re-resolves it from the
+   scope instead of inheriting the page's face. */
 :root,
 [data-style] {
+	--font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 	--bw: 2px;
 	--bw-heavy: 10px;
 	--line-style: solid;
@@ -179,15 +182,22 @@
 	--page-image: none;
 	--panel-surface: var(--base);
 	--panel-image: none;
+	--panel-edge: var(--bw) var(--line-style) var(--edge);
+	--panel-top-edge: var(--bw) var(--line-style) var(--edge);
+	--panel-radius: var(--radius);
 	--well-surface: var(--mantle);
 	--well-image: none;
+	--well-radius: var(--radius);
 	--plain-surface: var(--base);
 	--plain-image: none;
+	--input-shadow: none;
 	--accent-surface: var(--mauve);
 	--accent-image: none;
 	--hover-edge: var(--edge);
 	--hover-fill: var(--plain-surface);
 	--press-fill: var(--plain-surface);
+	--button-hover-shadow: var(--shadow-hard);
+	--button-press-shadow: none;
 	--card-hover-fill: var(--panel-surface);
 	--accent-hover-fill: var(--accent-surface);
 	--accent-press-fill: var(--accent-surface);
@@ -196,6 +206,8 @@
 	/* The @theme value resolves once on :root; redeclaring it here lets a
 	   nested style scope re-resolve the default border color too. */
 	--color-border: var(--edge);
+
+	font-family: var(--font-sans);
 }
 
 [data-scheme="frappe"] {
@@ -759,6 +771,89 @@
 	background-image: none;
 }
 
+[data-style="xp"] {
+	/* Luna: small radius on controls, a larger one on window tops, and no
+	   movement on press. */
+	--bw: 1px;
+	--bw-heavy: 4px;
+	--radius: 3px;
+	--lift: 0px;
+	--press: 0px;
+
+	/* Tahoma did the era's interface type. Without it the system UI face is
+	   the closest honest fallback. */
+	--font-sans: Tahoma, Verdana, "Segoe UI", system-ui, sans-serif;
+
+	/* Chrome blue comes from the palette, mixed toward the page so every
+	   scheme keeps its text contrast instead of forcing one fixed Windows
+	   blue onto all four. These two --xp-* values stay private to this block
+	   and its own rules, so no shared utility reads them and a nested style
+	   scope has nothing to reset. */
+	--xp-chrome: color-mix(in srgb, var(--blue) 55%, var(--base));
+	--xp-gloss: linear-gradient(
+		180deg,
+		rgb(255 255 255 / 0.6) 0%,
+		rgb(255 255 255 / 0.2) 48%,
+		rgb(255 255 255 / 0) 50%
+	);
+
+	/* Edges and fills follow the chrome, not the ink. */
+	--edge: color-mix(in srgb, var(--blue) 45%, var(--ink));
+	--page-surface: color-mix(in srgb, var(--base) 92%, var(--blue));
+	--page-image: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--blue) 10%, transparent),
+		transparent 30rem
+	);
+	--panel-surface: var(--base);
+	--well-surface: var(--mantle);
+	--panel-edge: var(--bw) var(--line-style) var(--xp-chrome);
+	--panel-top-edge: var(--bw-heavy) var(--line-style) var(--xp-chrome);
+	--panel-radius: 8px 8px var(--radius) var(--radius);
+	--well-radius: 8px 8px var(--radius) var(--radius);
+	--plain-surface: color-mix(in srgb, var(--base) 55%, var(--surface0));
+	--plain-image: var(--xp-gloss);
+	--input-shadow:
+		inset 1px 1px 2px rgb(0 0 0 / 0.18),
+		inset -1px -1px 0 rgb(255 255 255 / 0.35);
+	--hover-edge: color-mix(in srgb, var(--blue) 65%, var(--ink));
+	--hover-fill: color-mix(in srgb, var(--blue) 14%, var(--plain-surface));
+	--press-fill: color-mix(in srgb, var(--blue) 24%, var(--plain-surface));
+	--button-hover-shadow: var(--shadow-hard-sm);
+	--button-press-shadow: inset 1px 1px 3px rgb(0 0 0 / 0.3);
+	--card-hover-fill: color-mix(in srgb, var(--blue) 7%, var(--panel-surface));
+
+	/* A drop shadow for windows, a bevel for controls. */
+	--shadow-hard: 0 2px 6px rgb(0 0 0 / 0.35);
+	--shadow-hard-lg: 0 4px 14px rgb(0 0 0 / 0.4);
+	--shadow-hard-sm:
+		inset 0 1px 0 rgb(255 255 255 / 0.55), inset 1px 0 0 rgb(255 255 255 / 0.3),
+		inset -1px -1px 0 rgb(0 0 0 / 0.12);
+	--scrollbar: var(--xp-chrome);
+}
+
+/* `nb-chrome` marks the sticky header, the one surface a style may repaint as
+   a title bar. */
+[data-style="xp"] .nb-chrome {
+	background-image: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--blue) 8%, var(--base)),
+		color-mix(in srgb, var(--blue) 18%, var(--base))
+	);
+}
+
+/* The era's dotted focus rectangle. The ring token is page-level, so it stays
+   visible on a palette card with the other brightness. */
+[data-style="xp"] :focus-visible {
+	outline: 1px dotted var(--focus-ring);
+	outline-offset: 2px;
+}
+
+[data-style="xp"] ::selection {
+	background: var(--blue);
+	color: var(--on-accent);
+}
+
 /* The focus ring keeps the page's ink even inside a palette card, where the
    scoped --ink is that card's text color. Declared on :root only, so it
    resolves there and is inherited as a concrete color. */
@@ -906,7 +1001,9 @@
 }
 
 @utility nb-panel {
-	border: var(--bw) var(--line-style) var(--edge);
+	border: var(--panel-edge);
+	border-top: var(--panel-top-edge);
+	border-radius: var(--panel-radius);
 	background-color: var(--panel-surface);
 	background-image: var(--panel-image);
 	box-shadow: var(--shadow-hard);
@@ -928,6 +1025,7 @@
 /* A panel that sits on the recessed tone instead of the page base. */
 @utility nb-well {
 	border: var(--bw) var(--line-style) var(--edge);
+	border-radius: var(--well-radius);
 	background-color: var(--well-surface);
 	background-image: var(--well-image);
 	box-shadow: var(--shadow-hard);
@@ -975,14 +1073,14 @@
 
 	&:hover {
 		transform: translate(var(--lift), var(--lift));
-		box-shadow: var(--shadow-hard);
+		box-shadow: var(--button-hover-shadow);
 		border-color: var(--hover-edge);
 		background-color: var(--hover-fill);
 	}
 
 	&:active {
 		transform: translate(var(--press), var(--press));
-		box-shadow: none;
+		box-shadow: var(--button-press-shadow);
 		background-color: var(--press-fill);
 	}
 }
@@ -1006,6 +1104,7 @@
 	border: var(--bw) var(--line-style) var(--edge);
 	background-color: var(--plain-surface);
 	background-image: var(--plain-image);
+	box-shadow: var(--input-shadow);
 	padding: 0.55rem 0.7rem;
 	font-size: 0.875rem;
 	backdrop-filter: var(--backdrop);
@@ -1508,6 +1607,24 @@ input[type="range"]::-moz-range-thumb {
 	* {
 		scrollbar-width: thin;
 		scrollbar-color: var(--scrollbar) transparent;
+	}
+}
+
+/* XP scrollbars are a chunky beveled chrome, not a thin ink line. */
+@supports selector(::-webkit-scrollbar-thumb) {
+	[data-style="xp"] ::-webkit-scrollbar {
+		width: 16px;
+		height: 16px;
+	}
+	[data-style="xp"] ::-webkit-scrollbar-track {
+		background: var(--surface0);
+		box-shadow: inset 1px 1px 0 rgb(0 0 0 / 0.12);
+	}
+	[data-style="xp"] ::-webkit-scrollbar-thumb {
+		background-color: var(--scrollbar);
+		background-image: var(--xp-gloss);
+		border: 1px solid var(--edge);
+		background-clip: padding-box;
 	}
 }
 

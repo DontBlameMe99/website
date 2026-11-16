@@ -161,7 +161,7 @@ export default function ThemePage() {
 				<section>
 					<SectionLabel>Interface style</SectionLabel>
 
-					<div className="mt-4 grid gap-6 sm:grid-cols-2">
+					<div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 						{STYLES.map((option) => (
 							<StyleOption key={option.id} option={option} />
 						))}

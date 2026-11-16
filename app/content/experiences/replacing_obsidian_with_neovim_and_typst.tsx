@@ -67,7 +67,7 @@ export function NoteSyntaxSwitcher() {
 	return (
 		<div className="not-prose">
 			<Tabs tabs={NOTE_TABS} label="Syntax" />
-			<p className="text-[11px] text-overlay0">
+			<p className="text-[11px] text-overlay1">
 				same note, different delimiters
 			</p>
 		</div>

@@ -183,9 +183,9 @@ export function LayersFigure() {
 									animate={{ opacity: raised ? 1 : 0 }}
 									transition={{ duration: reduced ? 0 : 0.18 }}
 								/>
-								<span className="relative  text-[11px] text-accent">layer</span>
+								<span className="relative  text-[11px] text-text">layer</span>
 							</div>
-							<div className="grid h-7 flex-1 place-items-center border border-border bg-surface0/40  text-[11px] text-overlay0">
+							<div className="grid h-7 flex-1 place-items-center border border-border bg-surface0/40  text-[11px] text-overlay1">
 								space
 							</div>
 						</div>
@@ -194,7 +194,7 @@ export function LayersFigure() {
 							<Chip accent={ACCENT}>{raised ? "raise" : "base"}</Chip>
 						</div>
 
-						<p className="text-[11px] leading-relaxed text-overlay0">
+						<p className="text-[11px] leading-relaxed text-overlay1">
 							Illustrative keymap: the same keys carry a second legend on the
 							other layer.
 						</p>

@@ -32,7 +32,7 @@ export function WhatFollowsYou() {
 					<div className="truncate text-[11px] text-subtext0">
 						one viewing session
 					</div>
-					<div className="truncate text-[9px] text-overlay0">
+					<div className="truncate text-[9px] text-overlay1">
 						same cookie, same address
 					</div>
 				</div>
@@ -82,7 +82,7 @@ export function WhatFollowsYou() {
 						className="min-w-0 border border-border/70 bg-base/40 px-1.5 py-1.5 text-center"
 					>
 						<div className="truncate  text-[11px] text-red">{site.label}</div>
-						<div className="truncate  text-[9px] text-overlay0">
+						<div className="truncate  text-[9px] text-overlay1">
 							{site.note}
 						</div>
 					</motion.div>
@@ -100,7 +100,7 @@ export function WhatFollowsYou() {
 					</Chip>
 				</div>
 				<div className="mt-2 flex items-center gap-2">
-					<span className="truncate  text-[9px] text-overlay0">
+					<span className="truncate  text-[9px] text-overlay1">
 						subscriptions, history
 					</span>
 					<span aria-hidden className="h-px flex-1 bg-border" />
@@ -213,7 +213,7 @@ export function ThumbnailPreference() {
 				>
 					<Clickbait />
 				</div>
-				<div className="mt-2 truncate  text-[11px] text-overlay0">
+				<div className="mt-2 truncate  text-[11px] text-overlay1">
 					the thumbnail as uploaded
 				</div>
 			</div>
@@ -225,7 +225,7 @@ export function ThumbnailPreference() {
 				>
 					<VideoFrame />
 				</div>
-				<div className="mt-2 truncate  text-[11px] text-overlay0">
+				<div className="mt-2 truncate  text-[11px] text-overlay1">
 					a frame from the video
 				</div>
 			</div>

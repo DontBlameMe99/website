@@ -10,3 +10,6 @@
 result
 
 .pre-commit-config.yaml
+
+# Local scratch
+/.scratch/

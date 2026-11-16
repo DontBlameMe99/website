@@ -1,6 +1,6 @@
 {
 	"files": {
-		"includes": ["app/**"]
+		"includes": ["app/**", "scripts/**"]
 	},
 	"formatter": {
 		"indentStyle": "tab",

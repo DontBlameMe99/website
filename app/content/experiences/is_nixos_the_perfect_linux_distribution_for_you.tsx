@@ -45,7 +45,7 @@ export function GenerationHero() {
 					>
 						<span className="flex flex-wrap items-baseline gap-x-2">
 							<span className="text-[11px] text-text">{generation.label}</span>
-							<span className="text-[11px] text-overlay0">
+							<span className="text-[11px] text-overlay1">
 								{generation.meta}
 							</span>
 							{index === 0 ? <Chip accent="var(--green)">latest</Chip> : null}
@@ -187,7 +187,7 @@ export function ConfigDiff() {
 			>
 				{(on) => <ConfigFile on={on} />}
 			</Switch>
-			<p className="not-prose mt-2  text-[11px] leading-relaxed text-overlay0">
+			<p className="not-prose mt-2  text-[11px] leading-relaxed text-overlay1">
 				illustrative snippet, shortened to fit. the toggle only edits this
 				mockup file.
 			</p>

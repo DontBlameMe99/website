@@ -33,8 +33,6 @@ const VIEWPORT = { width: 1280, height: 1600 };
 const SCALE = 0.5;
 // The mask frame paints every glyph in this color. It is far enough from any
 // page color to detect ink even when the text and its background match.
-const MASK_A_COLOR = "#ff00ff";
-const MASK_B_COLOR = "#00ff00";
 const MASK_A: Rgb = { r: 255, g: 0, b: 255 };
 const MASK_B: Rgb = { r: 0, g: 255, b: 0 };
 const IMAGE = {
@@ -410,20 +408,25 @@ async function auditState(
 			);
 			continue;
 		}
+		const liveHeight = await chrome.evaluate<number>(
+			"document.documentElement.scrollHeight",
+		);
+		if (liveHeight !== scan.height) {
+			errors.push(
+				`${combo.label} ${page} ${state} at scroll ${position}: page height changed after the scan`,
+			);
+			continue;
+		}
 		await chrome.evaluate(
 			`(async () => { (${setTextHidden.toString()})(true); await ${frame}; (${finishAnimations.toString()})(); await ${frame}; return true })()`,
 		);
 		const hidden = await chrome.screenshot();
 		await chrome.evaluate(
-			`(async () => { (${setTextHidden.toString()})(false); (${setTextMask.toString()})(${JSON.stringify(
-				MASK_A_COLOR,
-			)}); await ${frame}; return true })()`,
+			`(async () => { (${setTextHidden.toString()})(false); (${setTextMask.toString()})("#ff00ff"); await ${frame}; return true })()`,
 		);
 		const maskA = await chrome.screenshot();
 		await chrome.evaluate(
-			`(async () => { (${setTextMask.toString()})(${JSON.stringify(
-				MASK_B_COLOR,
-			)}); await ${frame}; return true })()`,
+			`(async () => { (${setTextMask.toString()})("#00ff00"); await ${frame}; return true })()`,
 		);
 		const maskB = await chrome.screenshot();
 		await chrome.evaluate(

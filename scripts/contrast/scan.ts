@@ -173,7 +173,11 @@ export function scanPage(): Scan {
 		if (rect.w < 2 || rect.h < 2) return;
 		const svg = el.namespaceURI === "http://www.w3.org/2000/svg";
 		const fill = cs.fill;
-		if (svg && (fill === "none" || fill.startsWith("url("))) return;
+		if (svg && (fill === "none" || fill.startsWith("url("))) {
+			// The mask must not paint text the scan never records.
+			el.setAttribute("data-wcag-skip", "");
+			return;
+		}
 		const color = svg ? fill : cs.color;
 		const alpha = opacity(el);
 		if (alpha <= 0) return;
@@ -311,7 +315,7 @@ export function setTextMask(color: string | null): string | null {
 			"-webkit-text-fill-color:var(--wcag-mask) !important;",
 			"text-shadow:none !important;",
 			"}",
-			"svg text{fill:var(--wcag-mask) !important}",
+			"svg text:not([data-wcag-skip]){fill:var(--wcag-mask) !important}",
 			"input::placeholder,textarea::placeholder,::marker{color:var(--wcag-mask) !important}",
 		].join("");
 		document.head.appendChild(tag);

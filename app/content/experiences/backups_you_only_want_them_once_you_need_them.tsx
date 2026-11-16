@@ -196,7 +196,6 @@ export function RecoveryChain() {
 								style={{
 									borderColor: mix(tint, cut ? 50 : 30),
 									background: mix(tint, cut ? 9 : 4),
-									opacity: blocked ? 0.55 : 1,
 								}}
 							>
 								<span
@@ -232,7 +231,7 @@ export function RecoveryChain() {
 									<ArrowDown
 										className="size-3"
 										style={{
-											color: blockedAt(index + 1) ? MUTED : mix(GREEN, 70),
+											color: blockedAt(index + 1) ? MUTED : GREEN,
 										}}
 									/>
 								</div>

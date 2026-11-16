@@ -127,7 +127,7 @@ export function SystemFlow() {
 								y={node.y + 22}
 								fontSize={10}
 								letterSpacing="0.12em"
-								fill="var(--overlay1)"
+								fill="var(--subtext1)"
 								style={{ fontFamily: "inherit" }}
 							>
 								{`0${index + 1}`}

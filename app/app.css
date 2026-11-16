@@ -1850,6 +1850,8 @@
 [data-style="material"] .search-field:has(input:focus-visible) {
 	outline-width: 3px;
 	outline-offset: 2px;
+}
+
 /* A figure's frame throws its ambient shadow onto the page under the caption,
    and that caption then reads against a darker surface than it sits on. The
    frame keeps the bevel and the seam and gives up the outer shadow. */

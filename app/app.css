@@ -191,6 +191,9 @@
 	--shadow-hard: 4px 4px 0 var(--ink);
 	--shadow-hard-lg: 6px 6px 0 var(--ink);
 	--shadow-hard-sm: 2px 2px 0 var(--ink);
+	/* A well carries its own shadow, so a style can recess it without touching
+	   the panel shadow. */
+	--shadow-well: var(--shadow-hard);
 	--page-surface: var(--crust);
 	--page-image: none;
 	--panel-surface: var(--base);
@@ -1515,6 +1518,78 @@
 [data-style="xp"] :focus-visible {
 	outline: 1px dotted var(--focus-ring);
 	outline-offset: 2px;
+[data-style="skeuomorphic"] {
+	/* Shape: corners as molded bevels and a hairline seam. Nothing slides, so
+	   depth comes from light alone and a control never moves under the
+	   pointer. */
+	--bw: 1px;
+	--bw-heavy: 5px;
+	--radius: 10px;
+	--lift: 0px;
+	--press: 0px;
+
+	/* A seam is a shade of the surface, not a drawn line. */
+	--edge: color-mix(in srgb, var(--crust) 60%, #000);
+
+	/* Two lights on every raised surface: a catch along the top edge where the
+	   light lands, a shade along the bottom where it does not, and a soft
+	   shadow underneath. Black and white keep the same light on every palette,
+	   dark or light. */
+	--shadow-hard:
+		inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(0, 0, 0, 0.45),
+		0 2px 4px rgba(0, 0, 0, 0.4), 0 10px 24px -10px rgba(0, 0, 0, 0.8);
+	--shadow-hard-lg:
+		inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 -1px 0 rgba(0, 0, 0, 0.45),
+		0 3px 6px rgba(0, 0, 0, 0.4), 0 16px 32px -12px rgba(0, 0, 0, 0.85);
+	--shadow-hard-sm:
+		inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+		0 1px 2px rgba(0, 0, 0, 0.45);
+
+	/* Seams, wells, and presses keep the same light: the catch and shade above,
+	   then a shadow that only a raised surface throws. */
+	--shadow-well:
+		inset 0 2px 6px rgba(0, 0, 0, 0.45),
+		inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+	--button-press-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
+
+	/* Fills curve away from the light instead of switching tone flatly. */
+	--page-image: radial-gradient(
+		120% 90% at 50% 0%,
+		rgba(255, 255, 255, 0.06),
+		transparent 60%
+	);
+	--panel-image: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 0.09),
+		rgba(255, 255, 255, 0.02) 40%,
+		rgba(0, 0, 0, 0.16)
+	);
+	--well-image: linear-gradient(
+		180deg,
+		rgba(0, 0, 0, 0.28),
+		rgba(255, 255, 255, 0.03)
+	);
+	--plain-image: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 0.13),
+		rgba(255, 255, 255, 0.03) 45%,
+		rgba(0, 0, 0, 0.2)
+	);
+	--accent-image: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 0.3),
+		rgba(255, 255, 255, 0.05) 45%,
+		rgba(0, 0, 0, 0.2)
+	);
+
+	/* Hover catches more light and press loses it, so the color stays put. */
+	--hover-edge: color-mix(in srgb, var(--mauve) 40%, var(--edge));
+	--hover-fill: color-mix(in srgb, #fff 7%, var(--plain-surface));
+	--press-fill: color-mix(in srgb, #000 12%, var(--plain-surface));
+	--card-hover-fill: color-mix(in srgb, #fff 5%, var(--panel-surface));
+	--accent-hover-fill: color-mix(in srgb, #fff 10%, var(--accent-surface));
+	--accent-press-fill: color-mix(in srgb, #000 14%, var(--accent-surface));
+	--scrollbar: var(--surface2);
 }
 
 [data-style="material"] {
@@ -1883,7 +1958,7 @@
 	border-radius: var(--well-radius);
 	background-color: var(--well-surface);
 	background-image: var(--well-image);
-	box-shadow: var(--shadow-hard);
+	box-shadow: var(--shadow-well);
 	backdrop-filter: var(--backdrop);
 }
 

@@ -36,7 +36,8 @@ export type StyleId =
 	| "flat"
 	| "glassmorphism"
 	| "xp"
-	| "material";
+	| "material"
+	| "skeuomorphic";
 export type SchemeId =
 	| "frappe"
 	| "macchiato"
@@ -93,6 +94,11 @@ export const STYLES: readonly Style[] = [
 		id: "material",
 		label: "Material",
 		blurb: "Tonal fills, soft elevation, pill controls.",
+	},
+	{
+		id: "skeuomorphic",
+		label: "Skeuomorphic",
+		blurb: "Molded corners, beveled slabs, embossed labels.",
 	},
 ];
 

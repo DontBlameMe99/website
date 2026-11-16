@@ -1,17 +1,6 @@
 # dontblameme.dev
 
-Personal site and blog of DontBlameMe.
-
-Neobrutalist shell by default: flat surfaces, 2px ink borders, hard offset
-shadows, square corners, one heavy grotesque doing all the typographic work.
-Montserrat everywhere, JetBrains Mono only inside code, and Malva (mauve) as the
-only accent, used sparingly on links, labels and buttons.
-
-`/theme` switches the shape (Neobrutalist, Flat, Glassmorphism, Windows XP) and
-the colorscheme for each brightness. The two axes are independent, the choice is
-per device, and the header toggle flips dark and light. A style owns a lot more
-than geometry: edges, fills, backdrop blur, and type, all through tokens in
-`app/app.css`.
+Personal site and blog of DontBlameMe (https://dontblameme.dev).
 
 ## Development
 
@@ -30,23 +19,12 @@ bun run verify     # tests, typecheck, prerendered build
 ## Content
 
 Posts are React components in `app/content/posts/<slug>.tsx`. Each one exports
-`meta` (title, date, summary, tags, accent, words, minutes), `sections` (heading
-ids for the table of contents) and a default `Post` component that renders the
-prose as JSX. There is no markdown or Typst pipeline at runtime, so a post can
-use any component and its figures sit in the flow next to the paragraphs they
-belong to.
+`meta`, `sections`and a default `Post` component that renders it as JSX.
 
 Figures for a post live in `app/content/experiences/<slug>.tsx` and are imported
 by that post. Images live in `public/posts/<slug>/` and are capped by
-`app/app.css` so they fit the reading measure and the viewport.
+`app/app.css`.
 
 The post registry also builds `/rss.xml`, `/atom.xml` and `/sitemap.xml` at
 build time through the resource routes in `app/routes/`. The footer links to the
 RSS feed, and pages advertise both feeds through `<link rel="alternate">`.
-
-## Layout
-
-- `app/components/layout/` header, footer, page masthead, theme toggle
-- `app/components/post/` prose primitives and the shared figure kit
-- `app/routes/` index, writing, post, projects, contact, theme, 404
-- `app/lib/` post registry view, theme provider and palette catalog, slug helper

@@ -151,10 +151,10 @@ function Clickbait() {
 			>
 				<ArrowRight className="size-10 sm:size-16" strokeWidth={3} />
 			</div>
-			<span className="absolute bottom-[9%] left-[38%] -rotate-6 border border-crust/50 bg-crust/75 px-1.5 py-0.5  text-[11px] font-bold uppercase tracking-tight text-text sm:text-xs">
+			<span className="absolute bottom-[9%] left-[38%] -rotate-6 border border-crust/50 bg-crust/95 px-1.5 py-0.5  text-[11px] font-bold uppercase tracking-tight text-text sm:text-xs">
 				shocking
 			</span>
-			<span className="absolute bottom-[6%] right-[4%]  bg-crust/75 px-1  text-[9px] text-text">
+			<span className="absolute bottom-[6%] right-[4%]  bg-crust/95 px-1  text-[9px] text-text">
 				0:03
 			</span>
 		</motion.div>

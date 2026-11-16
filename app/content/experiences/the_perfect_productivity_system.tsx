@@ -118,7 +118,7 @@ export function SystemFlow() {
 								width={NODE_W}
 								height={NODE_H}
 								rx={12}
-								fill="var(--surface0)"
+								fill="color-mix(in srgb, var(--surface0) 45%, var(--well-surface))"
 								stroke="var(--surface1)"
 								strokeWidth={1.25}
 							/>

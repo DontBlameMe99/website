@@ -199,7 +199,7 @@ export function Tabs({
 							"relative isolate px-2.5 py-1.5 text-[11px] transition-colors",
 							tab.id === current?.id
 								? "text-on-accent"
-								: "text-overlay1 hover:bg-surface0/60 hover:text-text",
+								: "text-overlay1 hover:bg-surface0/45 hover:text-text",
 						)}
 					>
 						{tab.id === current?.id ? (
@@ -344,10 +344,10 @@ export function Callout({
 }) {
 	return (
 		<div
-			className="not-prose my-6 flex gap-3 nb-callout p-3 text-xs leading-relaxed text-subtext0"
+			className="not-prose my-6 flex gap-3 nb-callout p-3 text-xs leading-relaxed text-text"
 			style={{
 				borderLeftColor: accent,
-				background: `color-mix(in srgb, ${accent} 6%, transparent)`,
+				background: `color-mix(in srgb, ${accent} 4%, transparent)`,
 			}}
 		>
 			{icon ? (

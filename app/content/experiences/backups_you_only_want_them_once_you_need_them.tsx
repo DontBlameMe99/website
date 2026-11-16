@@ -195,7 +195,7 @@ export function RecoveryChain() {
 								className="flex w-full items-center gap-2 border px-2 py-1.5 text-left transition-colors"
 								style={{
 									borderColor: mix(tint, cut ? 50 : 30),
-									background: mix(tint, cut ? 9 : 4),
+									background: mix(tint, cut ? 3 : 2),
 								}}
 							>
 								<span
@@ -244,7 +244,7 @@ export function RecoveryChain() {
 			<div
 				aria-live="polite"
 				className="mt-2.5 border p-2.5"
-				style={{ borderColor: mix(accent, 40), background: mix(accent, 6) }}
+				style={{ borderColor: mix(accent, 40), background: mix(accent, 4) }}
 			>
 				<div className="flex items-center gap-1.5">
 					{ok ? (

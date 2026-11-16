@@ -131,13 +131,13 @@
 	--text: #cdd6f4;
 	--subtext1-base: #bac2de;
 	--subtext1: var(--subtext1-base);
-	--subtext0-base: #a6adc8;
+	--subtext0-base: #aab1ca;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #9399b2;
+	--overlay2-base: #acb0c3;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #9ba0b8;
+	--overlay1-base: #abb0c4;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #8f94ad;
+	--overlay0: #acb0c2;
 	--surface2: #585b70;
 	--surface1: #45475a;
 	--surface0: #313244;
@@ -248,10 +248,10 @@
 [data-scheme="dracula"] {
 	color-scheme: dark;
 	/* Dracula Classic, official values. The palette has one purple and one cyan,
-	   so the extra cool slots reuse them. The label tone is lifted from the
-	   comment blue until it clears 4.5:1 on a panel; overlay0 stays the softer
-	   placeholder tone. Red is the tight accent at 4.5:1 on a panel, the rest
-	   have more room. */
+	   so the extra cool slots reuse them. The label and placeholder tones are
+	   lifted from the comment blue until each clears AAA on every surface it
+	   sits on. Red is the tight accent at 4.5:1 on a panel, the rest have more
+	   room. */
 	--pink: #ff79c6;
 	--mauve: #bd93f9;
 	--red: #ff5555;
@@ -269,11 +269,11 @@
 	--subtext1: var(--subtext1-base);
 	--subtext0-base: #c8c9d6;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #b0b4c8;
+	--overlay2-base: #b9bdce;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #9ba0bf;
+	--overlay1-base: #b9bcd2;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #959ab8;
+	--overlay0: #b8bcd0;
 	--surface2: #6272a4;
 	--surface1: #44475a;
 	--surface0: #353747;
@@ -301,16 +301,17 @@
 	--blue: #8caaee;
 	--lavender: #babbf1;
 	--text: #c6d0f5;
-	--subtext1-base: #b5bfe2;
+	--subtext1-base: #c5cde8;
 	--subtext1: var(--subtext1-base);
-	--subtext0-base: #a5adce;
+	--subtext0-base: #c6cce0;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #949cbb;
+	--overlay2-base: #c7cbdb;
 	--overlay2: var(--overlay2-base);
-	/* Official #838ba7 is 3.65:1 on base; this clears 4.5 for 11px labels. */
-	--overlay1-base: #9aa2c0;
+	/* Official #838ba7 is 3.65:1 on base, so the label tones are lifted until
+	   each clears AAA on the tinted fill a chip or a button can paint. */
+	--overlay1-base: #c6cbdb;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #737994;
+	--overlay0: #c8cbd5;
 	--surface2: #626880;
 	--surface1: #51576d;
 	--surface0: #414559;
@@ -340,14 +341,15 @@
 	--text: #cad3f5;
 	--subtext1-base: #b8c0e0;
 	--subtext1: var(--subtext1-base);
-	--subtext0-base: #a5adcb;
+	--subtext0-base: #b4bbd4;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #939ab7;
+	--overlay2-base: #b5bacd;
 	--overlay2: var(--overlay2-base);
-	/* Official #8087a2 is 4.14:1 on base; this clears 4.5 for 11px labels. */
-	--overlay1-base: #8e96b1;
+	/* Official #8087a2 is 4.14:1 on base, so the label tones are lifted until
+	   each clears AAA on the tinted fill a chip or a button can paint. */
+	--overlay1-base: #b4bacb;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #6e738d;
+	--overlay0: #b7b9c6;
 	--surface2: #5b6078;
 	--surface1: #494d64;
 	--surface0: #363a4f;
@@ -363,7 +365,8 @@
 	color-scheme: dark;
 	/* Nord: Polar Night surfaces, Snow Storm text, Frost and Aurora accents,
 	   lightened where the site sets them as text until each clears 4.5:1.
-	   Sapphire, blue, and overlay0 are the tight ones at 4.6:1 on the panels. */
+	   Sapphire and blue are the tight accents at 4.6:1 on the panels, and the ink
+	   ramp is lifted the same way until every label clears AAA. */
 	--pink: #c69ec0;
 	--mauve: #bd97b6;
 	--red: #de8790;
@@ -381,11 +384,11 @@
 	--subtext1: var(--subtext1-base);
 	--subtext0-base: #d8dee9;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #b4bfce;
+	--overlay2-base: #c2cbd7;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #96a2b4;
+	--overlay1-base: #c4cad5;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #909daf;
+	--overlay0: #c3cad3;
 	--surface2: #4c566a;
 	--surface1: #434c5e;
 	--surface0: #3b4252;
@@ -400,29 +403,29 @@
 [data-scheme="latte"] {
 	color-scheme: light;
 	/* Catppuccin Latte, deepened until every accent carries white text at 4.5:1
-	   and every muted tone clears 4.5:1 on the page background. */
+	   and every muted tone clears AAA on the page background. */
 	--pink: #a0156b;
 	--mauve: #7627d9;
 	--red: #b3122f;
 	--maroon: #96262f;
-	--peach: #a9490c;
+	--peach: #a4470c;
 	--yellow: #7d5504;
 	--green: #2a6d1f;
 	--teal: #0b625c;
 	--sky: #0b6285;
 	--sapphire: #0c6373;
 	--blue: #1a56d6;
-	--lavender: #4f58c9;
-	--text: #41445c;
-	--subtext1-base: #4c4f69;
+	--lavender: #4d56c8;
+	--text: #3c3e55;
+	--subtext1-base: #3d3f54;
 	--subtext1: var(--subtext1-base);
-	--subtext0-base: #565a72;
+	--subtext0-base: #3e4052;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #5c5f77;
+	--overlay2-base: #3e4151;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #565a72;
+	--overlay1-base: #3e4052;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #545870;
+	--overlay0: #3f4153;
 	--surface2: #acb0be;
 	--surface1: #bcc0cc;
 	--surface0: #ccd0da;
@@ -440,29 +443,29 @@
 	   and deeper accents. The selection and line-highlight tones build the
 	   surface ramp. Maroon and lavender are deepened until every accent carries
 	   paper text at 4.5:1, and the muted steps are darkened off the comment tone
-	   until labels clear 4.5:1 on the page. */
+	   until labels clear AAA on the page. */
 	--pink: #a3144d;
 	--mauve: #644ac9;
-	--red: #c53526;
+	--red: #c03425;
 	--maroon: #b83a2c;
 	--peach: #a34d14;
-	--yellow: #846e15;
+	--yellow: #7b6614;
 	--green: #14710a;
 	--teal: #036a96;
 	--sky: #036a96;
 	--sapphire: #036a96;
 	--blue: #036a96;
-	--lavender: #7058c9;
+	--lavender: #6d54c8;
 	--text: #1f1f1f;
 	--subtext1-base: #3a3730;
 	--subtext1: var(--subtext1-base);
-	--subtext0-base: #57523f;
+	--subtext0-base: #4b4636;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #6c664b;
+	--overlay2-base: #4b4734;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #625d44;
+	--overlay1-base: #4b4734;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #57523c;
+	--overlay0: #4c4734;
 	--surface2: #cfcfde;
 	--surface1: #d4cfbd;
 	--surface0: #e2deca;
@@ -477,7 +480,7 @@
 [data-scheme="nord-light"] {
 	color-scheme: light;
 	/* Nord Light, deepened until every accent carries Snow Storm text at 4.5:1
-	   and every muted tone clears 4.5:1 on the page background. */
+	   and every muted tone clears AAA on the page background. */
 	--pink: #8a4e77;
 	--mauve: #7d5578;
 	--red: #a33f4a;
@@ -491,15 +494,15 @@
 	--blue: #3a5f91;
 	--lavender: #4e5d8b;
 	--text: #2e3440;
-	--subtext1-base: #3b4252;
+	--subtext1-base: #393f4f;
 	--subtext1: var(--subtext1-base);
-	--subtext0-base: #434c5e;
+	--subtext0-base: #394050;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #4c566a;
+	--overlay2-base: #39404f;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #525d6f;
+	--overlay1-base: #3a414e;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #556075;
+	--overlay0: #3a4150;
 	--surface2: #b3bfd1;
 	--surface1: #c1cbda;
 	--surface0: #cfd7e3;
@@ -534,9 +537,9 @@
 	--subtext0: var(--subtext0-base);
 	--overlay2-base: #ababab;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #9a9a9a;
+	--overlay1-base: #a9a9a9;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #868686;
+	--overlay0: #a9a9a9;
 	--surface2: #3b3b3b;
 	--surface1: #2f2f2f;
 	--surface0: #242424;
@@ -566,13 +569,13 @@
 	--text: #1a1a1a;
 	--subtext1-base: #373737;
 	--subtext1: var(--subtext1-base);
-	--subtext0-base: #444444;
+	--subtext0-base: #424242;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #4a4a4a;
+	--overlay2-base: #424242;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #565656;
+	--overlay1-base: #424242;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #626262;
+	--overlay0: #434343;
 	--surface2: #b7b7b7;
 	--surface1: #c7c7c7;
 	--surface0: #d7d7d7;
@@ -611,13 +614,13 @@
 	--text: #fbf1c7;
 	--subtext1-base: #ebdbb2;
 	--subtext1: var(--subtext1-base);
-	--subtext0-base: #d5c4a1;
+	--subtext0-base: #d5c5a2;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #bdae93;
+	--overlay2-base: #cfc4b0;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #b2a38c;
+	--overlay1-base: #cdc4b5;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #a89984;
+	--overlay0: #ccc4b7;
 	--surface2: #665c54;
 	--surface1: #504945;
 	--surface0: #3c3836;
@@ -632,7 +635,8 @@
 [data-scheme="gruvbox-light"] {
 	color-scheme: light;
 	/* The faded accents, deepened until they carry white text on an accent fill
-	   and still clear 4.5:1 as text on the page. */
+	   and still clear 4.5:1 as text on the page. The ink ramp is lifted the same
+	   way, until every muted tone clears AAA. */
 	--pink: #a0305f;
 	--mauve: #8f3f71;
 	--red: #9d0006;
@@ -648,13 +652,13 @@
 	--text: #282828;
 	--subtext1-base: #3c3836;
 	--subtext1: var(--subtext1-base);
-	--subtext0-base: #504945;
+	--subtext0-base: #443e3a;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #5b534c;
+	--overlay2-base: #453e39;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #615951;
+	--overlay1-base: #443f39;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #665c54;
+	--overlay0: #453f39;
 	--surface2: #a89984;
 	--surface1: #bdae93;
 	--surface0: #d5c4a1;
@@ -678,9 +682,9 @@
 [data-scheme="solarized-dark"] {
 	color-scheme: dark;
 	/* Solarized Dark. Red, orange, magenta, violet, and blue are lifted off
-	   their official values for 4.5:1 on base03, and the ink ramp runs one step
-	   brighter than base1/base0 so small text still clears 4.5:1 on a tinted
-	   fill or inside a chip. */
+	   their official values for 4.5:1 on base03, and the ink ramp runs brighter
+	   than base1/base0 until small text clears AAA on a tinted fill or inside a
+	   chip. base1 stays the single muted tone, so the lift costs no tier. */
 	--pink: #dd629d;
 	--mauve: #b676cb;
 	--red: #e56462;
@@ -693,16 +697,16 @@
 	--sapphire: #3496da;
 	--blue: #3496da;
 	--lavender: #8387cd;
-	--text: #a8b6b6;
-	--subtext1-base: #93a1a1;
+	--text: #b1bebe;
+	--subtext1-base: #b3bdbd;
 	--subtext1: var(--subtext1-base);
-	--subtext0-base: #93a1a1;
+	--subtext0-base: #b3bdbd;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #a8b6b6;
+	--overlay2-base: #b1bebe;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #93a1a1;
+	--overlay1-base: #b3bdbd;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #93a1a1;
+	--overlay0: #b3bdbd;
 	--surface2: #657b83;
 	--surface1: #586e75;
 	--surface0: #073642;
@@ -740,16 +744,16 @@
 	--sapphire: #7fbbb3;
 	--blue: #7fbbb3;
 	--lavender: #b1bdb4;
-	--text: #d3c6aa;
-	--subtext1-base: #d3c6aa;
+	--text: #d8ccb3;
+	--subtext1-base: #d8ccb3;
 	--subtext1: var(--subtext1-base);
-	--subtext0-base: #9da9a0;
+	--subtext0-base: #c5cdc7;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #9da9a0;
+	--overlay2-base: #c5cdc7;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #9da9a0;
+	--overlay1-base: #c5cdc7;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #96a29a;
+	--overlay0: #c4cbc7;
 	--surface2: #475258;
 	--surface1: #3d484d;
 	--surface0: #343f44;
@@ -763,9 +767,9 @@
 
 [data-scheme="solarized-light"] {
 	color-scheme: light;
-	/* Solarized Light, deepened the same way: the muted tones run below base01,
-	   so prose still clears 4.5:1 on the accent tint a blockquote paints, and
-	   every accent is pulled until it clears 4.5:1 on base3. */
+	/* Solarized Light, deepened the same way: the muted tones run below base01
+	   until prose clears AAA on the accent tint a blockquote paints, and every
+	   accent is pulled until it clears 4.5:1 on base3. */
 	--pink: #cf2d7c;
 	--mauve: #9e4aba;
 	--red: #d12723;
@@ -779,15 +783,15 @@
 	--blue: #2076b3;
 	--lavender: #6369c0;
 	--text: #073642;
-	--subtext1-base: #4d666e;
+	--subtext1-base: #3d5057;
 	--subtext1: var(--subtext1-base);
-	--subtext0-base: #4d666e;
+	--subtext0-base: #3d5057;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #4d666e;
+	--overlay2-base: #3d5057;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #4d666e;
+	--overlay1-base: #3d5057;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #4d666e;
+	--overlay0: #3d5057;
 	--surface2: #839496;
 	--surface1: #93a1a1;
 	--surface0: #eee8d5;
@@ -802,7 +806,7 @@
 [data-scheme="everforest-light"] {
 	color-scheme: light;
 	/* Everforest Light, medium contrast. The official fg and accents are
-	   deepened until prose clears 4.5:1 on the inline-code fill and every accent
+	   deepened until prose clears AAA on the inline-code fill and every accent
 	   both reads on the page and carries white text. The tints keep their hue
 	   and only move in lightness. */
 	--pink: #a82f74;
@@ -817,16 +821,16 @@
 	--sapphire: #2a6b8f;
 	--blue: #2a6b8f;
 	--lavender: #5c6491;
-	--text: #4f5d64;
-	--subtext1-base: #4f5d64;
+	--text: #3d484e;
+	--subtext1-base: #3d484e;
 	--subtext1: var(--subtext1-base);
-	--subtext0-base: #55636a;
+	--subtext0-base: #3f494f;
 	--subtext0: var(--subtext0-base);
-	--overlay2-base: #55636a;
+	--overlay2-base: #3f494f;
 	--overlay2: var(--overlay2-base);
-	--overlay1-base: #59676f;
+	--overlay1-base: #40494f;
 	--overlay1: var(--overlay1-base);
-	--overlay0: #5e6b70;
+	--overlay0: #414a4e;
 	--surface2: #bdc3af;
 	--surface1: #e0dcc7;
 	--surface0: #e6e2cc;
@@ -896,12 +900,14 @@
 	--scrollbar-thumb-line: 3px solid transparent;
 
 	/* Nothing lifts, so an interaction has to tint instead: a hairline edge
-	   that firms up on hover, and fills that lean toward the text color. */
+	   that firms up on hover, and fills that step down the surface ramp toward
+	   the well and the page. Mixing toward the ink instead would walk the fill
+	   into the text color, which no palette at the AAA floor can afford. */
 	--edge: color-mix(in srgb, var(--ink) 50%, transparent);
 	--hover-edge: color-mix(in srgb, var(--accent-surface) 55%, var(--edge));
-	--hover-fill: color-mix(in srgb, var(--ink) 6%, var(--plain-surface));
-	--press-fill: color-mix(in srgb, var(--ink) 12%, var(--plain-surface));
-	--card-hover-fill: color-mix(in srgb, var(--ink) 4%, var(--panel-surface));
+	--hover-fill: color-mix(in srgb, var(--mantle) 45%, var(--plain-surface));
+	--press-fill: var(--crust);
+	--card-hover-fill: color-mix(in srgb, var(--crust) 40%, var(--panel-surface));
 	--accent-hover-fill: color-mix(
 		in srgb,
 		var(--ink) 14%,
@@ -929,26 +935,27 @@
 
 	/* The aurora is the scheme's own surface tinted with its accents, so the
 	   wash stays inside the palette instead of dragging in a fixed hue. It is
-	   sized so the 11px muted labels that sit straight on the page keep 4.5:1 on
-	   every palette. A dark scheme loses contrast faster per point of accent
-	   mix, which is why the two sides are not symmetric. light-dark() reads the
-	   scheme's own color-scheme, so a new palette needs no line here. Keep
-	   color-scheme on the [data-scheme] blocks: the build lowers light-dark() to
-	   a variable pair that they define. */
+	   sized so the 11px muted labels that sit straight on the page keep their
+	   AAA on every palette. A light scheme has the tighter budget: its dim ink
+	   is a step above the crust, so a dark accent tint pulls the page down into
+	   the glyphs, while a dark scheme's light ink has more room over a lifted
+	   wash. light-dark() reads the scheme's own color-scheme, so a new palette
+	   needs no line here. Keep color-scheme on the [data-scheme] blocks: the
+	   build lowers light-dark() to a variable pair that they define. */
 	--aurora-mauve: light-dark(
-		color-mix(in srgb, var(--mauve) 7%, var(--crust)),
+		color-mix(in srgb, var(--mauve) 3%, var(--crust)),
 		color-mix(in srgb, var(--mauve) 12%, var(--crust))
 	);
 	--aurora-blue: light-dark(
-		color-mix(in srgb, var(--blue) 6%, var(--crust)),
+		color-mix(in srgb, var(--blue) 3%, var(--crust)),
 		color-mix(in srgb, var(--blue) 11%, var(--crust))
 	);
 	--aurora-wash: light-dark(
-		color-mix(in srgb, var(--sapphire) 5%, var(--crust)),
+		color-mix(in srgb, var(--sapphire) 2.5%, var(--crust)),
 		color-mix(in srgb, var(--sapphire) 9%, var(--crust))
 	);
 	--aurora-pink: light-dark(
-		color-mix(in srgb, var(--pink) 6%, var(--crust)),
+		color-mix(in srgb, var(--pink) 3%, var(--crust)),
 		color-mix(in srgb, var(--pink) 10%, var(--crust))
 	);
 
@@ -998,11 +1005,13 @@
 		inset 1px 0 0 rgb(255 255 255 / 0.1), inset -1px 0 0 rgb(255 255 255 / 0.1),
 		inset 0 -1px 0 rgb(0 0 0 / 0.2);
 
-	/* A pane brightens under the pointer, the way a lit surface does. */
+	/* A pane brightens under the pointer, the way a lit surface does: the fill
+	   steps down the surface ramp toward the well and the page, which keeps the
+	   ink above AAA where a mix toward the ink itself would not. */
 	--hover-edge: color-mix(in srgb, var(--accent-surface) 45%, var(--edge));
-	--hover-fill: color-mix(in srgb, var(--ink) 12%, var(--plain-surface));
-	--press-fill: color-mix(in srgb, var(--ink) 18%, var(--plain-surface));
-	--card-hover-fill: color-mix(in srgb, var(--ink) 8%, var(--panel-surface));
+	--hover-fill: color-mix(in srgb, var(--mantle) 55%, var(--plain-surface));
+	--press-fill: color-mix(in srgb, var(--crust) 85%, var(--plain-surface));
+	--card-hover-fill: color-mix(in srgb, var(--crust) 45%, var(--panel-surface));
 	--accent-hover-fill: color-mix(
 		in srgb,
 		var(--ink) 14%,
@@ -1059,7 +1068,7 @@
 	/* The header scrolls over anything, including a light card on a dark page,
 	   so it keeps only a little show-through. Muted nav links need almost the
 	   page surface behind them to stay above 4.5:1. */
-	background-color: color-mix(in srgb, var(--page-surface) 96%, transparent);
+	background-color: color-mix(in srgb, var(--page-surface) 99.5%, transparent);
 	background-image: none;
 	backdrop-filter: var(--backdrop);
 	border-radius: 0;
@@ -1127,7 +1136,13 @@
 	--panel-radius: 8px 8px 3px 3px;
 	--well-edge: 3px solid var(--xp-frame);
 	--well-radius: 8px 8px 3px 3px;
-	--plain-surface: color-mix(in srgb, var(--base) 55%, var(--surface0));
+	/* A field is inset, and on a dark palette a raised fill would put the ink
+	   under AAA: the light side keeps the palette's own step, the dark side
+	   sinks toward the crust the way an XP field sits below its window. */
+	--plain-surface: light-dark(
+		color-mix(in srgb, var(--base) 55%, var(--surface0)),
+		color-mix(in srgb, var(--base) 75%, var(--crust))
+	);
 	--plain-image: none;
 	--button-edge: 1px solid var(--xp-border);
 	--button-surface: var(--xp-silver);
@@ -1666,21 +1681,14 @@
 	--label-shadow: 0 1px 0
 		light-dark(rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0.55));
 
-	/* Interaction moves a plain control toward white under a hover and toward
-	   black under a press, which a surface reads as a lift and a press. */
+	/* Interaction moves a plain control down the surface ramp, toward the well
+	   under a hover and the page under a press, which a molded slab reads as a
+	   lift and a press. A step toward white or black would carry the fill into
+	   the text color and out of AAA. */
 	--hover-edge: color-mix(in srgb, var(--mauve) 40%, var(--edge));
-	--hover-fill: light-dark(
-		color-mix(in srgb, #fff 8%, var(--plain-surface)),
-		color-mix(in srgb, #000 6%, var(--plain-surface))
-	);
-	--press-fill: light-dark(
-		color-mix(in srgb, #000 6%, var(--plain-surface)),
-		color-mix(in srgb, #000 12%, var(--plain-surface))
-	);
-	--card-hover-fill: light-dark(
-		color-mix(in srgb, #fff 6%, var(--panel-surface)),
-		color-mix(in srgb, #000 5%, var(--panel-surface))
-	);
+	--hover-fill: color-mix(in srgb, var(--mantle) 45%, var(--plain-surface));
+	--press-fill: var(--crust);
+	--card-hover-fill: color-mix(in srgb, var(--crust) 35%, var(--panel-surface));
 	/* The accent keeps its color under a pointer. Its ink is chosen for the
 	   fill, and a visitor can pick any accent, so a tint could move the fill
 	   toward that ink; the slab and the inset press carry the feedback instead. */
@@ -1725,18 +1733,20 @@
 
 	/* Surface roles, low to high: page, container, container-high, well. A
 	   light scheme lightens toward paper, a dark one lifts the base, so a tint
-	   never lands between the text and its background. */
+	   never lands between the text and its background. The tint stays shallow
+	   because a palette's muted ink sits close to its AAA floor: a few points of
+	   accent over the base costs more than a point of contrast. */
 	--page-surface: light-dark(
 		color-mix(in srgb, var(--mauve) 3%, #fff),
-		color-mix(in srgb, var(--mauve) 4%, var(--base))
+		color-mix(in srgb, var(--mauve) 3%, var(--base))
 	);
 	--panel-surface: light-dark(
-		color-mix(in srgb, var(--mauve) 6%, #fff),
-		color-mix(in srgb, var(--mauve) 8%, var(--base))
+		color-mix(in srgb, var(--mauve) 5%, #fff),
+		color-mix(in srgb, var(--mauve) 4%, var(--base))
 	);
 	--plain-surface: light-dark(
-		color-mix(in srgb, var(--mauve) 9%, #fff),
-		color-mix(in srgb, var(--mauve) 8%, var(--base))
+		color-mix(in srgb, var(--mauve) 8%, #fff),
+		color-mix(in srgb, var(--mauve) 4%, var(--base))
 	);
 	--well-surface: var(--mantle);
 	--accent-surface: var(--mauve);
@@ -1755,9 +1765,18 @@
 	--control-edge: color-mix(in srgb, var(--ink) 50%, transparent);
 	--button-edge: var(--bw) var(--line-style) var(--control-edge);
 	--hover-edge: color-mix(in srgb, var(--mauve) 70%, transparent);
-	--hover-fill: color-mix(in srgb, var(--ink) 8%, var(--plain-surface));
-	--press-fill: color-mix(in srgb, var(--ink) 12%, var(--plain-surface));
-	--card-hover-fill: color-mix(in srgb, var(--ink) 6%, var(--panel-surface));
+	--hover-fill: light-dark(
+		color-mix(in srgb, #fff 8%, var(--plain-surface)),
+		color-mix(in srgb, #000 8%, var(--plain-surface))
+	);
+	--press-fill: light-dark(
+		color-mix(in srgb, #fff 14%, var(--plain-surface)),
+		color-mix(in srgb, #000 14%, var(--plain-surface))
+	);
+	--card-hover-fill: light-dark(
+		color-mix(in srgb, #fff 6%, var(--panel-surface)),
+		color-mix(in srgb, #000 6%, var(--panel-surface))
+	);
 	--accent-hover-fill: color-mix(
 		in srgb,
 		var(--ink) 10%,
@@ -1795,15 +1814,15 @@
 [data-style="material"] header.sticky {
 	border-radius: 0;
 	background-color: light-dark(
-		color-mix(in srgb, var(--mauve) 5%, #fff),
-		color-mix(in srgb, var(--mauve) 6%, var(--base))
+		color-mix(in srgb, var(--mauve) 4%, #fff),
+		color-mix(in srgb, var(--mauve) 4%, var(--base))
 	);
 }
 
 [data-style="material"] footer {
 	background-color: light-dark(
-		color-mix(in srgb, var(--mauve) 4%, #fff),
-		color-mix(in srgb, var(--mauve) 5%, var(--base))
+		color-mix(in srgb, var(--mauve) 3%, #fff),
+		color-mix(in srgb, var(--mauve) 3%, var(--base))
 	);
 }
 
@@ -1818,11 +1837,11 @@
 }
 
 [data-style="material"] nav[aria-label="Primary"] a:hover {
-	background-color: color-mix(in srgb, var(--ink) 7%, transparent);
+	background-color: light-dark(rgb(255 255 255 / 0.07), rgb(0 0 0 / 0.07));
 }
 
 [data-style="material"] nav[aria-label="Primary"] a[aria-current="page"] {
-	background-color: color-mix(in srgb, var(--mauve) 12%, var(--base));
+	background-color: color-mix(in srgb, var(--mauve) 5%, var(--base));
 	color: var(--text);
 }
 
@@ -1840,7 +1859,7 @@
 }
 
 [data-style="material"] .nb-chip:not(.nb-accent):not(.bg-accent):hover {
-	background-color: color-mix(in srgb, var(--mauve) 12%, var(--plain-surface));
+	background-color: var(--hover-fill);
 }
 
 /* The field fill is a tone, so its placeholder keeps the on-surface tone: every
@@ -2353,14 +2372,17 @@
 .prose-dbm blockquote {
 	border: var(--bw) var(--line-style) var(--edge);
 	border-left-width: var(--bw-heavy);
-	background: color-mix(in srgb, var(--accent-surface) 10%, transparent);
+	/* A tint deep enough to read, shallow enough that the ink keeps AAA. */
+	background: color-mix(in srgb, var(--accent-surface) 6%, transparent);
 	padding: 0.9em 1.1em;
 	color: var(--subtext1);
 }
 
 .prose-dbm code {
 	font-size: 0.86em;
-	background: var(--surface0);
+	/* A raised well, but only partway off the page: a full surface0 run puts
+	   the ink under AAA in palettes whose text sits near the floor. */
+	background: color-mix(in srgb, var(--surface0) 55%, var(--base));
 	border: 1px var(--line-style) var(--edge);
 	color: var(--text);
 	padding: 0.1em 0.35em;
@@ -2411,7 +2433,9 @@
 }
 
 .prose-dbm .code-block__copy:hover {
-	background: var(--surface0);
+	/* Partway off the bar, not a full surface0 well: the label sits at the AAA
+	   floor in the palettes whose bar is closest to their ink. */
+	background: color-mix(in srgb, var(--surface0) 45%, var(--mantle));
 	color: var(--text);
 }
 
@@ -2531,7 +2555,7 @@
 	font-weight: 700;
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
-	background: var(--surface0);
+	background: color-mix(in srgb, var(--surface0) 55%, var(--base));
 	color: var(--text);
 }
 
@@ -2540,7 +2564,7 @@
 }
 
 .prose-dbm tbody tr:hover {
-	background: color-mix(in srgb, var(--accent-surface) 10%, transparent);
+	background: color-mix(in srgb, var(--accent-surface) 6%, transparent);
 }
 
 /* A heading anchor that only shows up on hover or focus, with the gutter it
@@ -2655,12 +2679,14 @@
 
 [data-style="flat"] .nb-spot::after {
 	display: block;
-	--spot-color: color-mix(in srgb, var(--ink) 4%, transparent);
+	--spot-color: color-mix(in srgb, var(--crust) 35%, transparent);
 }
 
 [data-style="glassmorphism"] .nb-spot::after {
 	display: block;
-	--spot-color: color-mix(in srgb, var(--accent-surface) 16%, transparent);
+	/* The sheen lands on a card that is already one step down the ramp, so the
+	   accent tint has to stay shallow to leave the label its AAA. */
+	--spot-color: color-mix(in srgb, var(--accent-surface) 2.5%, transparent);
 }
 
 [data-style="xp"] .nb-spot::after {

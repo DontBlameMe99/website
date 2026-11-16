@@ -23,8 +23,14 @@ every accent hue on the theme page. A second screenshot with the text fill made
 transparent gives the colors actually painted behind each run, so translucent
 fills, gradients, and backdrop blur are measured as rendered. Anything below
 WCAG AA fails and blocks the PR. Anything above AA but below AAA is reported as
-a warning. It needs Chromium: the dev shell has it, and CI installs Chrome. Set
-`CHROME_BIN` to point at another binary.
+a warning. The palette ink is tuned so the whole neutral ramp (`--text`,
+`--subtext*`, `--overlay*`) clears AAA on the surfaces it renders on, in both
+states. Accents keep the contrast their palette publishes (AA): a chip label on
+an accent fill, or an accent-colored link, is part of the scheme's identity, and
+lifting an accent to 7:1 means replacing the palette's accent with a pastel or
+a much darker version. Those warnings are expected. It needs Chromium: the dev
+shell has it, and CI installs Chrome. Set `CHROME_BIN` to point at another
+binary.
 
 Use `CONTRAST_ONLY=<substring>` to run a single page or theme while debugging,
 and `CONTRAST_WORKERS` to change the number of browser workers. CI splits the

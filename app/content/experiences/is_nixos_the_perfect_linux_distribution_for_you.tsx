@@ -123,15 +123,15 @@ function ConfigFile({ on }: { on: boolean }) {
 								transition={{ duration: 0.2 }}
 								className="flex gap-2 rounded-none border-l-2 border-green/60 bg-green/10 px-1"
 							>
-								<span className="w-4 shrink-0 select-none text-right text-green">
+								<span className="w-4 shrink-0 select-none text-right text-text">
 									{toggleNumber}
 								</span>
-								<span className="w-2 shrink-0 select-none text-green">+</span>
+								<span className="w-2 shrink-0 select-none text-text">+</span>
 								<span className="whitespace-pre text-text">
 									{visible}
 									<motion.span
 										aria-hidden="true"
-										className="text-accent"
+										className="text-text"
 										animate={reduced ? undefined : { opacity: [1, 0.1, 1] }}
 										transition={
 											reduced

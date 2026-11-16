@@ -7,7 +7,13 @@
 
 export type Mode = "dark" | "light";
 export type StyleId = "neobrutalist" | "flat";
-export type SchemeId = "frappe" | "macchiato" | "mocha" | "latte";
+export type SchemeId =
+	| "frappe"
+	| "macchiato"
+	| "mocha"
+	| "nord"
+	| "latte"
+	| "nord-light";
 
 export type Style = {
 	id: StyleId;
@@ -55,10 +61,22 @@ export const SCHEMES: readonly ColorScheme[] = [
 		blurb: "Deep and saturated.",
 	},
 	{
+		id: "nord",
+		label: "Nord",
+		mode: "dark",
+		blurb: "Arctic blues on Polar Night.",
+	},
+	{
 		id: "latte",
 		label: "Catppuccin Latte",
 		mode: "light",
 		blurb: "Creamy light, with strong contrast.",
+	},
+	{
+		id: "nord-light",
+		label: "Nord Light",
+		mode: "light",
+		blurb: "Snow Storm, with deep frost.",
 	},
 ];
 

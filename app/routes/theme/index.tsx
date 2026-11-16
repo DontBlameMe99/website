@@ -15,7 +15,7 @@ export const meta = () =>
 	seo({
 		title: "Theme",
 		description:
-			"Pick the interface style and the Catppuccin colorscheme used in dark and light.",
+			"Pick the interface style and the colorscheme used in dark and light.",
 	});
 
 const SWATCHES = [

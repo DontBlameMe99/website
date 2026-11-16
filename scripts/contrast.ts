@@ -387,6 +387,26 @@ async function auditState(
 		await chrome.evaluate(
 			`(async () => { window.scrollTo(0, ${position}); await ${frame}; (${finishAnimations.toString()})(); await ${frame}; (${setTextMask.toString()})(true); await ${frame}; return true })()`,
 		);
+		// A lazy image can start loading when this tile scrolls into view. It
+		// would paint between the two frames and be mistaken for text ink.
+		const imagesReady = await chrome.evaluate<boolean>(`(async () => {
+			const pending = () => Array.from(document.images).filter((img) => !img.complete);
+			if (!pending().length) return true;
+			await Promise.race([
+				Promise.all(pending().map((img) => new Promise((resolve) => {
+					img.addEventListener("load", resolve, { once: true });
+					img.addEventListener("error", resolve, { once: true });
+				}))),
+				new Promise((resolve) => setTimeout(resolve, 5000)),
+			]);
+			return pending().length === 0;
+		})()`);
+		if (!imagesReady) {
+			errors.push(
+				`${combo.label} ${page} ${state} at scroll ${position}: an image did not finish loading`,
+			);
+			continue;
+		}
 		const visible = await chrome.screenshot();
 		await chrome.evaluate(
 			`(async () => { (${setTextMask.toString()})(false); (${setTextHidden.toString()})(true); await ${frame}; (${finishAnimations.toString()})(); await ${frame}; return true })()`,

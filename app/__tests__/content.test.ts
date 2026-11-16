@@ -49,7 +49,7 @@ describe("post sources", () => {
 			expect(source).toContain("export const meta =");
 			expect(source).toContain("export const sections");
 			expect(source).not.toMatch(/^#{1,6} /m);
-			expect(source).not.toMatch(/<p>\s*#{1,6} /);
+			expect(source).not.toMatch(/<p>\s*(?:\{\s*")?#{1,6} /);
 			expect(source).not.toContain("#link(");
 			expect(source).not.toContain("#image(");
 			expect(source).not.toContain("window-shadow");

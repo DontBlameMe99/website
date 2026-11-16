@@ -104,7 +104,7 @@ export default function ProjectsPage() {
 				index="03"
 				label="Projects"
 				title="Projects"
-				lead="Things I build and keep running. Everything here is one click away from the code."
+				lead="Things I build. Everything is Open Source."
 			/>
 
 			<ul className="mt-14 grid gap-6 sm:grid-cols-2">

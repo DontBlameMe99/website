@@ -798,14 +798,10 @@
 		rgb(255 255 255 / 0) 1px
 	);
 
-	/* Edges and fills follow the chrome, not the ink. */
+	/* Edge chrome only: the page keeps the audited crust so muted and hover
+	   ink from any palette keeps the contrast it has in the other styles. */
 	--edge: color-mix(in srgb, var(--blue) 45%, var(--ink));
-	--page-surface: color-mix(in srgb, var(--base) 92%, var(--blue));
-	--page-image: linear-gradient(
-		180deg,
-		color-mix(in srgb, var(--blue) 10%, transparent),
-		transparent 30rem
-	);
+	--page-surface: var(--crust);
 	--panel-surface: var(--base);
 	--well-surface: var(--mantle);
 	--panel-edge: var(--bw) var(--line-style) var(--xp-chrome);
@@ -841,6 +837,17 @@
 		color-mix(in srgb, var(--blue) 8%, var(--base)),
 		color-mix(in srgb, var(--blue) 18%, var(--base))
 	);
+}
+
+/* The tint pushes the bar toward the palette's muted and hover ink, so those
+   labels use one step stronger text and full text on hover. Measured across
+   all ten schemes: 4.87:1 and 5.81:1 at worst. */
+[data-style="xp"] .nb-chrome nav a:not(:where([aria-current="page"])) {
+	color: var(--subtext1);
+}
+
+[data-style="xp"] .nb-chrome a:hover {
+	color: var(--text);
 }
 
 /* The era's dotted focus rectangle. The ring token is page-level, so it stays

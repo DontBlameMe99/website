@@ -1099,6 +1099,12 @@
 	color: var(--green);
 }
 
+/* The hover fill is the chip tone, where green is too dim for 11px text in
+   every palette. The border still carries the copied state. */
+.prose-dbm .code-block__copy[data-copied]:hover {
+	color: var(--text);
+}
+
 .prose-dbm .code-block pre {
 	margin: 0;
 	border: 0;

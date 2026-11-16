@@ -103,9 +103,9 @@ export function RewardLoop() {
 						key={item.label}
 						className="flex items-start gap-2 text-[11px] leading-relaxed"
 					>
-						<span className="mt-0.5 text-mauve">{item.icon}</span>
+						<span className="mt-0.5 text-accent">{item.icon}</span>
 						<span className="min-w-0 text-subtext0">
-							<span className="text-mauve">{item.label}</span> {item.caption}
+							<span className="text-accent">{item.label}</span> {item.caption}
 						</span>
 					</li>
 				))}
@@ -197,7 +197,7 @@ export function SlotMachine() {
 							style={{
 								borderColor:
 									outcome === "hit"
-										? "color-mix(in srgb, var(--mauve) 60%, transparent)"
+										? "color-mix(in srgb, var(--accent-surface) 60%, transparent)"
 										: "var(--color-border)",
 							}}
 						>
@@ -224,7 +224,7 @@ export function SlotMachine() {
 					onClick={pull}
 					disabled={spinning}
 					aria-label="Pull the lever"
-					className="group grid h-16 w-10 place-items-end justify-center border border-border bg-surface0/40 pb-1 transition-colors hover:border-mauve/50 disabled:opacity-60"
+					className="group grid h-16 w-10 place-items-end justify-center border border-border bg-surface0/40 pb-1 transition-colors hover:border-accent/50 disabled:opacity-60"
 				>
 					<motion.span
 						className="flex flex-col items-center"
@@ -232,7 +232,7 @@ export function SlotMachine() {
 						animate={reduced ? undefined : { rotate: spinning ? 24 : 0 }}
 						transition={{ type: "spring", stiffness: 320, damping: 16 }}
 					>
-						<span className="size-3 bg-mauve" />
+						<span className="size-3 bg-accent" />
 						<span className="h-9 w-1 bg-surface2 group-hover:bg-overlay0" />
 					</motion.span>
 				</button>
@@ -249,7 +249,7 @@ export function SlotMachine() {
 						animate={{ opacity: 1, y: 0 }}
 						exit={reduced ? undefined : { opacity: 0, y: -4 }}
 						transition={{ duration: 0.16 }}
-						className={outcome === "hit" ? "text-mauve" : "text-overlay1"}
+						className={outcome === "hit" ? "text-accent" : "text-overlay1"}
 					>
 						{status}
 					</motion.span>
@@ -341,7 +341,9 @@ export function MinimalPhone() {
 											>
 												<span
 													style={{
-														color: minimal ? "var(--mauve)" : "var(--overlay1)",
+														color: minimal
+															? "var(--accent-surface)"
+															: "var(--overlay1)",
 													}}
 												>
 													{app.icon}

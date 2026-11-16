@@ -15,7 +15,7 @@ function WritingList() {
 				<SectionLabel>Writing</SectionLabel>
 				<Link
 					to="/blog"
-					className="inline-flex min-h-6 items-center gap-1 py-1 text-meta uppercase tracking-[0.12em] hover:text-mauve"
+					className="inline-flex min-h-6 items-center gap-1 py-1 text-meta uppercase tracking-[0.12em] hover:text-accent"
 				>
 					All {posts.length}
 					<ArrowRight aria-hidden="true" className="size-3" />
@@ -30,7 +30,7 @@ function WritingList() {
 							className="group grid gap-x-4 gap-y-1 py-5 sm:grid-cols-[minmax(0,1fr)_7rem]"
 						>
 							<span className="min-w-0">
-								<span className="block text-[1.0625rem] font-bold leading-snug tracking-[-0.02em] text-text transition-colors group-hover:bg-mauve group-hover:text-on-accent">
+								<span className="block text-[1.0625rem] font-bold leading-snug tracking-[-0.02em] text-text transition-colors group-hover:bg-accent group-hover:text-on-accent">
 									{post.title}
 								</span>
 								<span className="mt-1.5 block text-meta">
@@ -60,7 +60,7 @@ function ProjectsRail() {
 				<p className="text-label text-subtext0">Projects</p>
 				<Link
 					to="/projects"
-					className="inline-flex min-h-6 items-center gap-1 py-1 text-meta uppercase tracking-[0.12em] hover:text-mauve"
+					className="inline-flex min-h-6 items-center gap-1 py-1 text-meta uppercase tracking-[0.12em] hover:text-accent"
 				>
 					All
 					<ArrowRight aria-hidden="true" className="size-3" />
@@ -80,7 +80,7 @@ function ProjectsRail() {
 							>
 								<span className="flex min-w-0 items-center gap-2">
 									<Icon className="size-3.5 shrink-0 text-subtext0" />
-									<span className="truncate text-[13px] font-semibold text-text transition-colors group-hover:text-mauve">
+									<span className="truncate text-[13px] font-semibold text-text transition-colors group-hover:text-accent">
 										{project.name}
 									</span>
 								</span>

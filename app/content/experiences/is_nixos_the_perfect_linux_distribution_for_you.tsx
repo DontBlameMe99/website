@@ -131,7 +131,7 @@ function ConfigFile({ on }: { on: boolean }) {
 									{visible}
 									<motion.span
 										aria-hidden="true"
-										className="text-mauve"
+										className="text-accent"
 										animate={reduced ? undefined : { opacity: [1, 0.1, 1] }}
 										transition={
 											reduced

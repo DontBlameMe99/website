@@ -1,14 +1,17 @@
 import { describe, expect, test } from "bun:test";
 import {
+	ACCENT_HUES,
 	DARK_SCHEMES,
 	DEFAULT_PREFS,
+	inkOn,
 	isSchemeForMode,
 	LIGHT_SCHEMES,
+	resolveAccent,
 	resolvePrefs,
 	SCHEMES,
-	schemeForMode,
-	STYLES,
 	STORAGE_KEYS,
+	STYLES,
+	schemeForMode,
 	themeBootScript,
 	withScheme,
 } from "../lib/themes";
@@ -76,12 +79,14 @@ describe("resolvePrefs", () => {
 				style: "flat",
 				darkScheme: "frappe",
 				lightScheme: "latte",
+				accent: "sky",
 			}),
 		).toEqual({
 			mode: "light",
 			style: "flat",
 			darkScheme: "frappe",
 			lightScheme: "latte",
+			accent: { kind: "hue", hue: "sky" },
 		});
 	});
 
@@ -107,6 +112,32 @@ describe("resolvePrefs", () => {
 	});
 });
 
+describe("accent", () => {
+	test("a hue name points at the palette instead of carrying a hex", () => {
+		expect(resolveAccent("sky")).toEqual({ kind: "hue", hue: "sky" });
+		expect(resolveAccent("mauve")).toEqual({ kind: "hue", hue: "mauve" });
+	});
+
+	test("a hex is kept as a custom color, lowercased", () => {
+		expect(resolveAccent("#7AA2F7")).toEqual({
+			kind: "custom",
+			hex: "#7aa2f7",
+		});
+	});
+
+	test("anything else falls back to the default accent", () => {
+		for (const value of ["", "purple", "#12345", "rgb(1,2,3)", null, 7]) {
+			expect(resolveAccent(value)).toEqual(DEFAULT_PREFS.accent);
+		}
+	});
+
+	test("a custom fill gets an ink it can carry", () => {
+		expect(inkOn("#f9e2af")).toBe("#11111b");
+		expect(inkOn("#767676")).toBe("#ffffff");
+		expect(inkOn("#3d2f6b")).toBe("#ffffff");
+	});
+});
+
 describe("boot script", () => {
 	// It runs before the app module loads, so it must know every id on its own.
 	test("knows every storage key and every id", () => {
@@ -119,8 +150,13 @@ describe("boot script", () => {
 		for (const style of STYLES) {
 			expect(themeBootScript).toContain(style.id);
 		}
+		for (const hue of ACCENT_HUES) {
+			expect(themeBootScript).toContain(`"${hue}"`);
+		}
 		expect(themeBootScript).toContain("dataset.style");
 		expect(themeBootScript).toContain("dataset.scheme");
+		expect(themeBootScript).toContain("dataset.accent");
+		expect(themeBootScript).toContain("0.192");
 	});
 
 	test("falls back to the same defaults the app uses", () => {

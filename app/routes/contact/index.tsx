@@ -69,7 +69,7 @@ export default function ContactPage() {
 						href={`mailto:${CONTACT.email}`}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="mt-6 block break-all text-lg font-extrabold tracking-[-0.02em] text-text transition-colors hover:text-mauve"
+						className="mt-6 block break-all text-lg font-extrabold tracking-[-0.02em] text-text transition-colors hover:text-accent"
 					>
 						{CONTACT.email}
 					</a>
@@ -90,7 +90,7 @@ export default function ContactPage() {
 						href={CONTACT.matrix}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="mt-6 block text-lg font-extrabold tracking-[-0.02em] text-text transition-colors hover:text-mauve"
+						className="mt-6 block text-lg font-extrabold tracking-[-0.02em] text-text transition-colors hover:text-accent"
 					>
 						Find me on Matrix
 					</a>
@@ -110,7 +110,7 @@ export default function ContactPage() {
 										href={social.href}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="nb-chip group text-subtext0 transition-colors hover:bg-mauve hover:text-on-accent"
+										className="nb-chip group text-subtext0 transition-colors hover:bg-accent hover:text-on-accent"
 									>
 										<Icon className="size-3.5 shrink-0" />
 										{social.label}

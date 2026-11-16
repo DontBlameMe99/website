@@ -7,7 +7,7 @@ import { Chip, Switch } from "~/components/post/kit";
 
 function Fill({
 	value,
-	accent = "var(--mauve)",
+	accent = "var(--accent-surface)",
 }: {
 	value: number;
 	accent?: string;
@@ -42,7 +42,7 @@ export function IdentitySplit() {
 			on="aliases: five addresses"
 			initial={false}
 			label="e-mail aliases"
-			accent="var(--mauve)"
+			accent="var(--accent-surface)"
 		>
 			{(separate) => {
 				const accent = separate ? "var(--green)" : "var(--peach)";
@@ -97,7 +97,7 @@ export function IdentitySplit() {
 						</ul>
 
 						<div className="flex items-start gap-2  text-[11px] leading-relaxed text-overlay1">
-							<UserRound className="mt-0.5 size-3 shrink-0 text-mauve" />
+							<UserRound className="mt-0.5 size-3 shrink-0 text-accent" />
 							<span>
 								{separate
 									? "each site only ever sees its own address"

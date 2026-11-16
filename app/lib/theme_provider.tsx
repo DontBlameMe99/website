@@ -8,14 +8,17 @@ import {
 	useState,
 } from "react";
 import {
+	type Accent,
+	accentToStored,
 	DEFAULT_PREFS,
+	inkOn,
 	type Mode,
 	resolvePrefs,
 	type SchemeId,
-	schemeForMode,
-	type StoredPrefs,
 	STORAGE_KEYS,
+	type StoredPrefs,
 	type StyleId,
+	schemeForMode,
 	type ThemePrefs,
 	withScheme,
 } from "~/lib/themes";
@@ -29,6 +32,7 @@ type ThemeContextValue = ThemePrefs & {
 	setStyle: (style: StyleId) => void;
 	/** Saves a scheme for its own brightness. The mode does not change. */
 	setScheme: (scheme: SchemeId) => void;
+	setAccent: (accent: Accent) => void;
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
@@ -43,6 +47,7 @@ const readStored = (): StoredPrefs => {
 			style: localStorage.getItem(STORAGE_KEYS.style),
 			darkScheme: localStorage.getItem(STORAGE_KEYS.darkScheme),
 			lightScheme: localStorage.getItem(STORAGE_KEYS.lightScheme),
+			accent: localStorage.getItem(STORAGE_KEYS.accent),
 		};
 	} catch {
 		// Storage can be blocked. Fall through to the defaults.
@@ -62,12 +67,13 @@ const writePrefs = (prefs: ThemePrefs) => {
 		localStorage.setItem(STORAGE_KEYS.style, prefs.style);
 		localStorage.setItem(STORAGE_KEYS.darkScheme, prefs.darkScheme);
 		localStorage.setItem(STORAGE_KEYS.lightScheme, prefs.lightScheme);
+		localStorage.setItem(STORAGE_KEYS.accent, accentToStored(prefs.accent));
 	} catch {
 		// The theme still applies for this page view.
 	}
 };
 
-/** Every visible surface reads its color and shape from these two attributes. */
+/** Every visible surface reads its color and shape from these attributes. */
 const apply = (prefs: ThemePrefs) => {
 	const root = document.documentElement;
 	root.classList.toggle("dark", prefs.mode === "dark");
@@ -78,6 +84,18 @@ const apply = (prefs: ThemePrefs) => {
 		prefs.darkScheme,
 		prefs.lightScheme,
 	);
+
+	// A hue is an attribute the palette re-resolves per scheme. A hex has to be
+	// written over it, and it brings its own ink.
+	if (prefs.accent.kind === "custom") {
+		delete root.dataset.accent;
+		root.style.setProperty("--accent-surface", prefs.accent.hex);
+		root.style.setProperty("--on-accent", inkOn(prefs.accent.hex));
+	} else {
+		root.style.removeProperty("--accent-surface");
+		root.style.removeProperty("--on-accent");
+		root.dataset.accent = prefs.accent.hue;
+	}
 
 	const page = getComputedStyle(root).getPropertyValue("--page-surface").trim();
 	if (page) {
@@ -130,6 +148,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 			setMode: (mode) => commit((current) => ({ ...current, mode })),
 			setStyle: (style) => commit((current) => ({ ...current, style })),
 			setScheme: (scheme) => commit((current) => withScheme(current, scheme)),
+			setAccent: (accent) => commit((current) => ({ ...current, accent })),
 		}),
 		[prefs, commit],
 	);

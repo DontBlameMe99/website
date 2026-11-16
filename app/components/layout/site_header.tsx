@@ -6,7 +6,7 @@ import { cn } from "~/lib/utils";
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
 	cn(
-		"inline-flex items-center px-1 py-2 text-[11px] uppercase tracking-[0.06em] transition-colors hover:text-mauve sm:px-1.5 sm:text-meta sm:tracking-[0.12em]",
+		"inline-flex items-center px-1 py-2 text-[11px] uppercase tracking-[0.06em] transition-colors hover:text-accent sm:px-1.5 sm:text-meta sm:tracking-[0.12em]",
 		isActive
 			? "text-text underline decoration-2 underline-offset-[6px]"
 			: "text-subtext0",
@@ -20,7 +20,7 @@ export function SiteHeader() {
 					to="/"
 					end
 					aria-label={`${SITE.name}, home`}
-					className="flex min-w-0 items-center gap-2 text-[11px] font-extrabold uppercase tracking-[-0.01em] text-text transition-colors hover:text-mauve sm:text-[13px]"
+					className="flex min-w-0 items-center gap-2 text-[11px] font-extrabold uppercase tracking-[-0.01em] text-text transition-colors hover:text-accent sm:text-[13px]"
 				>
 					<img
 						src="/images/logo.svg"
@@ -53,11 +53,11 @@ export function SiteHeader() {
 					<span />
 				</span>
 			</div>
-			{/* The reading bar is the header's bottom rule: mauve behind you,
+			{/* The reading bar is the header's bottom rule: accent behind you,
 			    edge ahead. It moves with the two-row mobile header instead of
 			    crossing it. */}
 			<div className="relative h-[var(--bw)] bg-[var(--edge)]">
-				<ScrollProgress className="pointer-events-none absolute inset-0 bg-mauve" />
+				<ScrollProgress className="pointer-events-none absolute inset-0 bg-accent" />
 			</div>
 		</header>
 	);

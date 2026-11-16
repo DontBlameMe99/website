@@ -54,7 +54,7 @@ export default function ProjectsPage() {
 											{project.name}
 										</h2>
 									</div>
-									<span className="nb-chip shrink-0 bg-base text-subtext0">
+									<span className="nb-chip ml-auto shrink-0 bg-base text-subtext0">
 										<KindIcon className="size-3" />
 										{KIND[project.kind]}
 									</span>

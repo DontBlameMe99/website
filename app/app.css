@@ -665,11 +665,13 @@
 	background: color-mix(in srgb, var(--mauve) 14%, transparent);
 }
 
-/* A heading anchor that only shows up on hover or focus. */
+/* A heading anchor that only shows up on hover or focus, with the gutter it
+   needs so a title that fills its line never runs under it. */
 .heading-anchor {
 	position: absolute;
 	right: 0;
-	top: 0;
+	top: 50%;
+	transform: translateY(-50%);
 	display: flex;
 	height: 1.5rem;
 	width: 1.5rem;
@@ -686,6 +688,20 @@
 .group\/heading:hover .heading-anchor,
 .heading-anchor:focus-visible {
 	opacity: 1;
+}
+
+/* An h2 box also holds the number badge, so centering on the box puts the
+   anchor level with the badge. Pin it to the title's line instead. */
+.prose-dbm h2 .heading-anchor {
+	top: auto;
+	bottom: 0;
+	transform: none;
+}
+
+.prose-dbm h2,
+.prose-dbm h3,
+.prose-dbm h4 {
+	padding-right: 1.5rem;
 }
 
 /* No hover on touch: a visible-but-empty anchor just invites stray taps. */

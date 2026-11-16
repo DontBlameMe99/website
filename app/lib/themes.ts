@@ -12,8 +12,10 @@ export type SchemeId =
 	| "macchiato"
 	| "mocha"
 	| "nord"
+	| "mono"
 	| "latte"
-	| "nord-light";
+	| "nord-light"
+	| "mono-light";
 
 export type Style = {
 	id: StyleId;
@@ -67,6 +69,12 @@ export const SCHEMES: readonly ColorScheme[] = [
 		blurb: "Arctic blues on Polar Night.",
 	},
 	{
+		id: "mono",
+		label: "Monochrome",
+		mode: "dark",
+		blurb: "Greys only. Paper cut out of the dark.",
+	},
+	{
 		id: "latte",
 		label: "Catppuccin Latte",
 		mode: "light",
@@ -77,6 +85,12 @@ export const SCHEMES: readonly ColorScheme[] = [
 		label: "Nord Light",
 		mode: "light",
 		blurb: "Snow Storm, with deep frost.",
+	},
+	{
+		id: "mono-light",
+		label: "Monochrome Light",
+		mode: "light",
+		blurb: "The same greys, inverted onto white paper.",
 	},
 ];
 

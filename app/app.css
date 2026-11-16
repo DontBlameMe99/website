@@ -218,6 +218,42 @@
 	font-family: var(--font-sans);
 }
 
+[data-scheme="dracula"] {
+	color-scheme: dark;
+	/* Dracula Classic, official values. The palette has one purple and one cyan,
+	   so the extra cool slots reuse them. The label tone is lifted from the
+	   comment blue until it clears 4.5:1 on a panel; overlay0 stays the softer
+	   placeholder tone. Red is the tight accent at 4.5:1 on a panel, the rest
+	   have more room. */
+	--pink: #ff79c6;
+	--mauve: #bd93f9;
+	--red: #ff5555;
+	--maroon: #ff6e6e;
+	--peach: #ffb86c;
+	--yellow: #f1fa8c;
+	--green: #50fa7b;
+	--teal: #8be9fd;
+	--sky: #8be9fd;
+	--sapphire: #8be9fd;
+	--blue: #8be9fd;
+	--lavender: #bd93f9;
+	--text: #f8f8f2;
+	--subtext1: #e4e4ec;
+	--subtext0: #c8c9d6;
+	--overlay2: #b0b4c8;
+	--overlay1: #9ba0bf;
+	--overlay0: #959ab8;
+	--surface2: #6272a4;
+	--surface1: #44475a;
+	--surface0: #353747;
+	--base: #282a36;
+	--mantle: #242633;
+	--crust: #21222c;
+
+	--ink: var(--text);
+	--on-accent: #21222c;
+}
+
 [data-scheme="frappe"] {
 	color-scheme: dark;
 	/* Catppuccin Frappé, official values. */
@@ -349,6 +385,42 @@
 
 	--ink: #11111b;
 	--on-accent: #ffffff;
+}
+
+[data-scheme="alucard"] {
+	color-scheme: light;
+	/* Alucard, the official light companion: warm parchment, near-black ink,
+	   and deeper accents. The selection and line-highlight tones build the
+	   surface ramp. Maroon and lavender are deepened until every accent carries
+	   paper text at 4.5:1, and the muted steps are darkened off the comment tone
+	   until labels clear 4.5:1 on the page. */
+	--pink: #a3144d;
+	--mauve: #644ac9;
+	--red: #cb3a2a;
+	--maroon: #b83a2c;
+	--peach: #a34d14;
+	--yellow: #846e15;
+	--green: #14710a;
+	--teal: #036a96;
+	--sky: #036a96;
+	--sapphire: #036a96;
+	--blue: #036a96;
+	--lavender: #7058c9;
+	--text: #1f1f1f;
+	--subtext1: #3a3730;
+	--subtext0: #57523f;
+	--overlay2: #6c664b;
+	--overlay1: #625d44;
+	--overlay0: #57523c;
+	--surface2: #cfcfde;
+	--surface1: #d4cfbd;
+	--surface0: #e2deca;
+	--base: #fffbeb;
+	--mantle: #f5f0df;
+	--crust: #ede8d7;
+
+	--ink: var(--text);
+	--on-accent: #fffbeb;
 }
 
 [data-scheme="nord-light"] {

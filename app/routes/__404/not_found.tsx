@@ -3,13 +3,20 @@ import { Link } from "react-router";
 
 export function NotFound({ status = 404 }: { status?: number }) {
 	return (
-		<div className="nb-line-t pt-4">
+		<div className="nb-line-t pt-4 page-window">
 			<div className="flex items-baseline justify-between">
 				<span className="nb-chip nb-accent uppercase tracking-[0.1em]">
 					Error
 				</span>
-				<span className="text-meta uppercase tracking-[0.12em] tabular-nums">
-					{status}
+				<span className="flex items-center gap-3">
+					<span className="text-meta uppercase tracking-[0.12em] tabular-nums">
+						{status}
+					</span>
+					<span className="win-controls" aria-hidden="true">
+						<span />
+						<span />
+						<span />
+					</span>
 				</span>
 			</div>
 

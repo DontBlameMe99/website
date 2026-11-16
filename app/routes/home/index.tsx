@@ -97,10 +97,15 @@ function ProjectsRail() {
 export default function Home() {
 	return (
 		<div>
-			<header className="nb-line-t pt-4">
+			<header className="nb-line-t pt-4 page-window">
 				<div className="flex items-baseline justify-between gap-6">
 					<span className="nb-chip nb-accent uppercase tracking-[0.1em]">
 						01<span className="mx-1">/</span>Index
+					</span>
+					<span className="win-controls" aria-hidden="true">
+						<span />
+						<span />
+						<span />
 					</span>
 				</div>
 

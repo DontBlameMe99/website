@@ -46,6 +46,12 @@ export function SiteHeader() {
 				<span className="ml-auto sm:ml-0">
 					<ThemeToggle />
 				</span>
+
+				<span className="win-controls" aria-hidden="true">
+					<span />
+					<span />
+					<span />
+				</span>
 			</div>
 			{/* The reading bar is the header's bottom rule: mauve behind you,
 			    edge ahead. It moves with the two-row mobile header instead of

@@ -107,17 +107,24 @@ export default function PostPage() {
 		<article>
 			<div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_17rem] lg:gap-14">
 				<div className="min-w-0 max-w-[70ch]">
-					<header className="nb-line-t pt-4">
+					<header className="nb-line-t pt-4 page-window">
 						<div className="flex items-baseline justify-between gap-6">
 							<span className="nb-chip nb-accent uppercase tracking-[0.1em]">
 								Post
 							</span>
-							<time
-								dateTime={post.date}
-								className="text-meta uppercase tracking-[0.12em]"
-							>
-								{formatDate(post.date)}
-							</time>
+							<span className="flex items-center gap-3">
+								<time
+									dateTime={post.date}
+									className="text-meta uppercase tracking-[0.12em]"
+								>
+									{formatDate(post.date)}
+								</time>
+								<span className="win-controls" aria-hidden="true">
+									<span />
+									<span />
+									<span />
+								</span>
+							</span>
 						</div>
 
 						<h1 className="mt-12 max-w-[24ch] text-page-title text-text">

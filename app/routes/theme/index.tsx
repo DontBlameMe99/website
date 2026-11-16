@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { PageHeader, SectionLabel } from "~/components/layout/page_header";
 import { seo } from "~/lib/seo";
 import { useTheme } from "~/lib/theme_provider";
+import { startLiquidWipe } from "~/lib/theme_wipe";
 import {
 	ACCENT_HUES,
 	type Accent,
@@ -39,7 +40,21 @@ const ACTIVE = "outline outline-2 outline-accent";
 const FALLBACK_HEX = "#cba6f7";
 
 function Selected() {
-	return <span className="nb-chip nb-accent">Selected</span>;
+	return (
+		<span className="chip-in">
+			<span className="nb-chip nb-accent">Selected</span>
+		</span>
+	);
+}
+
+/** A change of style or palette spills out of the card that was clicked. */
+function wipeFrom(element: HTMLElement, apply: () => void) {
+	const rect = element.getBoundingClientRect();
+	startLiquidWipe(
+		rect.left + rect.width / 2,
+		rect.top + rect.height / 2,
+		apply,
+	);
 }
 
 /**
@@ -190,7 +205,10 @@ function StyleOption({ option }: { option: Style }) {
 		<button
 			type="button"
 			aria-pressed={active}
-			onClick={() => setStyle(option.id)}
+			onClick={(event) => {
+				if (active) return;
+				wipeFrom(event.currentTarget, () => setStyle(option.id));
+			}}
 			className={cn("nb-panel nb-lift p-6 text-left", active && ACTIVE)}
 		>
 			<span
@@ -231,13 +249,22 @@ function PaletteOption({
 	option: ColorScheme;
 	selected: boolean;
 }) {
-	const { style, accent, setScheme } = useTheme();
+	const { style, mode, accent, setScheme } = useTheme();
 
 	return (
 		<button
 			type="button"
 			aria-pressed={selected}
-			onClick={() => setScheme(option.id)}
+			onClick={(event) => {
+				if (selected) return;
+				// A palette for the other brightness is only saved for later, so it
+				// has nothing to wipe in.
+				if (option.mode !== mode) {
+					setScheme(option.id);
+					return;
+				}
+				wipeFrom(event.currentTarget, () => setScheme(option.id));
+			}}
 			{...accentScope(accent)}
 			data-scheme={option.id}
 			data-style={style}

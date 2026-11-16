@@ -6,7 +6,7 @@ import { cn } from "~/lib/utils";
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
 	cn(
-		"inline-flex items-center px-1 py-2 text-[11px] uppercase tracking-[0.06em] transition-colors hover:text-accent sm:px-1.5 sm:text-meta sm:tracking-[0.12em]",
+		"nav-link inline-flex items-center px-1 py-2 text-[11px] uppercase tracking-[0.06em] transition-colors hover:text-accent sm:px-1.5 sm:text-meta sm:tracking-[0.12em]",
 		isActive
 			? "text-text underline decoration-2 underline-offset-[6px]"
 			: "text-subtext0",

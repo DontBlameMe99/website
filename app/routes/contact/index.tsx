@@ -1,7 +1,7 @@
-import { ArrowUpRight, Copy, Mail } from "lucide-react";
-import { useState } from "react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import { PageHeader } from "~/components/layout/page_header";
 import { MatrixIcon, socialIcon } from "~/components/shared/icons";
+import { CopyStateIcon, useCopy } from "~/components/ui/copy_state";
 import { seo } from "~/lib/seo";
 import { CONTACT, SOCIALS } from "~/lib/site";
 
@@ -17,26 +17,16 @@ const ELSEWHERE = SOCIALS.filter(
 );
 
 function CopyEmail() {
-	const [copied, setCopied] = useState(false);
-
-	const copy = async () => {
-		try {
-			await navigator.clipboard.writeText(CONTACT.email);
-			setCopied(true);
-			setTimeout(() => setCopied(false), 1600);
-		} catch {
-			// Clipboard can be blocked. The address stays visible either way.
-		}
-	};
+	const { copied, copy } = useCopy(1600);
 
 	return (
 		<>
 			<button
 				type="button"
-				onClick={copy}
+				onClick={() => copy(CONTACT.email)}
 				className="nb-button min-w-20 justify-center py-1.5 text-[11px] uppercase tracking-[0.08em]"
 			>
-				<Copy aria-hidden="true" className="size-3" />
+				<CopyStateIcon copied={copied} />
 				{copied ? "Copied" : "Copy"}
 			</button>
 			<span role="status" className="sr-only">
@@ -79,20 +69,21 @@ export default function ContactPage() {
 				</section>
 
 				<section className="nb-panel p-6">
-					<div className="flex items-baseline justify-between">
-						<p className="flex items-center gap-1.5 text-label text-subtext0">
-							<MatrixIcon className="size-3.5" />
-							Matrix
-						</p>
-						<ArrowUpRight aria-hidden="true" className="size-4 text-subtext0" />
-					</div>
+					<p className="flex items-center gap-1.5 text-label text-subtext0">
+						<MatrixIcon className="size-3.5" />
+						Matrix
+					</p>
 					<a
 						href={CONTACT.matrix}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="mt-6 block text-lg font-extrabold tracking-[-0.02em] text-text transition-colors hover:text-accent"
+						className="mt-6 flex items-center justify-between gap-4 text-lg font-extrabold tracking-[-0.02em] text-text transition-colors hover:text-accent"
 					>
 						Find me on Matrix
+						<ArrowUpRight
+							aria-hidden="true"
+							className="icon-nudge-up size-4 shrink-0 text-subtext0"
+						/>
 					</a>
 					<p className="mt-3 text-[13px] leading-relaxed text-subtext0">
 						End to end encrypted, no phone number.
@@ -112,7 +103,7 @@ export default function ContactPage() {
 										rel="noopener noreferrer"
 										className="nb-chip group text-subtext0 transition-colors hover:bg-accent hover:text-on-accent"
 									>
-										<Icon className="size-3.5 shrink-0" />
+										<Icon className="icon-tilt size-3.5 shrink-0" />
 										{social.label}
 									</a>
 								</li>

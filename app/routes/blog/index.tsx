@@ -1,11 +1,6 @@
-import {
-	ArrowDownWideNarrow,
-	ArrowUpNarrowWide,
-	Clock,
-	Search,
-	X,
-} from "lucide-react";
-import { useMemo, useState } from "react";
+import { ArrowDownWideNarrow, Clock, Search, X } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { PageHeader } from "~/components/layout/page_header";
 import { allTags, formatDate, posts } from "~/lib/posts";
@@ -19,11 +14,50 @@ export const meta = () =>
 			"Everything DontBlameMe has written down: privacy, Linux, NixOS, note taking, keyboards, and the psychology of the feed.",
 	});
 
+const TAG_SPRING = { type: "spring", stiffness: 380, damping: 30 } as const;
+
+/** One chip whose accent fill is shared, so it travels between tags. */
+function TagChip({
+	label,
+	selected,
+	onClick,
+}: {
+	label: string;
+	selected: boolean;
+	onClick: () => void;
+}) {
+	return (
+		<button
+			type="button"
+			onClick={onClick}
+			aria-pressed={selected}
+			className={cn(
+				"relative isolate nb-chip transition-colors",
+				selected
+					? "bg-accent text-on-accent"
+					: "text-subtext0 hover:bg-surface0 hover:text-text",
+			)}
+		>
+			{selected ? (
+				<motion.span
+					layoutId="blog-tag"
+					className="absolute inset-0 -z-10 bg-accent"
+					transition={TAG_SPRING}
+				/>
+			) : null}
+			{label}
+		</button>
+	);
+}
+
 export default function BlogIndex() {
 	const [params] = useSearchParams();
 	const [query, setQuery] = useState("");
 	const [tag, setTag] = useState<string | null>(params.get("tag"));
 	const [newestFirst, setNewestFirst] = useState(true);
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => setMounted(true), []);
 
 	const filtered = useMemo(() => {
 		const needle = query.trim().toLowerCase();
@@ -66,7 +100,7 @@ export default function BlogIndex() {
 							aria-label="Clear filter"
 							tabIndex={query ? 0 : -1}
 							className={cn(
-								"grid size-6 shrink-0 place-items-center text-subtext0 transition-colors hover:text-text",
+								"grid size-6 shrink-0 place-items-center text-subtext0 transition hover:rotate-90 hover:text-text",
 								!query && "invisible",
 							)}
 						>
@@ -79,88 +113,92 @@ export default function BlogIndex() {
 							aria-live="polite"
 							className="min-w-14 text-right text-meta tabular-nums"
 						>
-							{filtered.length} / {posts.length}
+							<motion.span
+								key={filtered.length}
+								className="inline-block"
+								initial={mounted ? { opacity: 0 } : false}
+								animate={{ opacity: 1 }}
+								transition={{ duration: 0.15, ease: "easeOut" }}
+							>
+								{filtered.length}
+							</motion.span>{" "}
+							/ {posts.length}
 						</span>
 						<button
 							type="button"
 							onClick={() => setNewestFirst((value) => !value)}
 							className="nb-button min-w-28 justify-center py-1.5 text-[11px] uppercase tracking-[0.08em]"
 						>
-							{newestFirst ? (
-								<ArrowDownWideNarrow className="size-3.5" />
-							) : (
-								<ArrowUpNarrowWide className="size-3.5" />
-							)}
+							<ArrowDownWideNarrow
+								className={cn(
+									"size-3.5 transition-transform duration-[var(--motion-hover)]",
+									!newestFirst && "rotate-180",
+								)}
+							/>
 							{newestFirst ? "Newest" : "Oldest"}
 						</button>
 					</div>
 				</div>
 
 				<div className="flex flex-wrap gap-2">
-					<button
-						type="button"
+					<TagChip
+						label="All"
+						selected={tag === null}
 						onClick={() => setTag(null)}
-						aria-pressed={tag === null}
-						className={cn(
-							"nb-chip transition-colors",
-							tag === null
-								? "nb-accent"
-								: "text-subtext0 hover:bg-surface0 hover:text-text",
-						)}
-					>
-						All
-					</button>
+					/>
 					{allTags.map((value) => (
-						<button
+						<TagChip
 							key={value}
-							type="button"
+							label={value}
+							selected={tag === value}
 							onClick={() => setTag(tag === value ? null : value)}
-							aria-pressed={tag === value}
-							className={cn(
-								"nb-chip transition-colors",
-								tag === value
-									? "nb-accent"
-									: "text-subtext0 hover:bg-surface0 hover:text-text",
-							)}
-						>
-							{value}
-						</button>
+						/>
 					))}
 				</div>
 			</div>
 
 			{filtered.length ? (
-				<ul className="mt-10 grid gap-6 sm:grid-cols-2">
-					{filtered.map((post) => (
-						<li key={post.slug} className="flex">
-							<Link
-								to={`/blog/${post.slug}`}
-								className="nb-panel nb-lift group flex h-full w-full flex-col p-6"
+				<motion.ul layout className="relative mt-10 grid gap-6 sm:grid-cols-2">
+					<AnimatePresence initial={false} mode="popLayout">
+						{filtered.map((post) => (
+							<motion.li
+								layout
+								key={post.slug}
+								className="flex"
+								initial={{ opacity: 0, y: 6 }}
+								animate={{ opacity: 1, y: 0 }}
+								exit={{ opacity: 0, scale: 0.98 }}
+								transition={{ duration: 0.18, ease: "easeOut" }}
 							>
-								<div className="flex items-start justify-between gap-4">
-									<h2 className="text-xl font-bold leading-[1.1] tracking-[-0.02em] text-text transition-colors group-hover:text-accent">
-										{post.title}
-									</h2>
-									<span className="flex shrink-0 items-center gap-1 text-label text-subtext0">
-										<Clock aria-hidden="true" className="size-3" />
-										{post.minutes} min
-									</span>
-								</div>
+								<Link
+									to={`/blog/${post.slug}`}
+									className="nb-panel nb-lift group flex h-full w-full flex-col p-6"
+								>
+									<div className="flex items-start justify-between gap-4">
+										<h2 className="text-xl font-bold leading-[1.1] tracking-[-0.02em] text-text transition-colors group-hover:text-accent">
+											{post.title}
+										</h2>
+										<span className="flex shrink-0 items-center gap-1 text-label text-subtext0">
+											<Clock aria-hidden="true" className="size-3" />
+											{post.minutes} min
+										</span>
+									</div>
 
-								<p className="mt-3 text-[13px] leading-relaxed text-subtext0">
-									{post.summary}
-								</p>
+									<p className="mt-3 text-[13px] leading-relaxed text-subtext0">
+										{post.summary}
+									</p>
 
-								<div className="mt-auto flex items-baseline justify-between gap-4 nb-line-t pt-3 text-meta">
-									<time dateTime={post.date}>{formatDate(post.date)}</time>
-									<span className="text-right">
-										{post.tags.map((value) => `#${value}`).join(" ")}
-									</span>
-								</div>
-							</Link>
-						</li>
-					))}
-				</ul>
+									<div className="mt-auto flex items-baseline justify-between gap-4 nb-line-t pt-3 text-meta">
+										<time dateTime={post.date}>{formatDate(post.date)}</time>
+										<span className="text-right">
+											{post.tags.map((value) => `#${value}`).join(" ")}
+										</span>
+									</div>
+								</Link>
+							</motion.li>
+						))}
+					</AnimatePresence>
+				</motion.ul>
 			) : (
 				<div className="mt-12 nb-panel p-8">
 					<p className="text-sm text-subtext0">Nothing matches that filter.</p>

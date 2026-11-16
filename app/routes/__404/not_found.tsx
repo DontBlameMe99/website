@@ -34,12 +34,12 @@ export function NotFound({ status = 404 }: { status?: number }) {
 
 			<div className="mt-10 flex flex-wrap gap-3">
 				<Link to="/" className="nb-button nb-accent">
-					<ArrowLeft className="size-4" />
+					<ArrowLeft className="icon-nudge-left size-4" />
 					Index
 				</Link>
 				<Link to="/blog" className="nb-button">
 					Read the writing
-					<ArrowRight className="size-4" />
+					<ArrowRight className="icon-nudge size-4" />
 				</Link>
 			</div>
 		</div>

@@ -1,4 +1,5 @@
 import { ArrowLeft, ArrowRight, Clock, Type } from "lucide-react";
+import { motion } from "motion/react";
 import { Link, useParams } from "react-router";
 import { SectionLabel } from "~/components/layout/page_header";
 import { useActiveHeading } from "~/hooks/use_active_heading";
@@ -31,7 +32,7 @@ function PostNav({
 					className="nb-panel nb-lift group flex flex-col gap-3 p-5"
 				>
 					<span className="inline-flex items-center gap-2 text-label text-subtext0">
-						<ArrowLeft className="size-3" />
+						<ArrowLeft className="icon-nudge-left size-3" />
 						Older
 					</span>
 					<span className="text-sm font-bold leading-snug text-text group-hover:text-accent">
@@ -48,7 +49,7 @@ function PostNav({
 				>
 					<span className="inline-flex items-center gap-2 text-label text-subtext0">
 						Newer
-						<ArrowRight className="size-3" />
+						<ArrowRight className="icon-nudge size-3" />
 					</span>
 					<span className="text-sm font-bold leading-snug text-text group-hover:text-accent">
 						{next.title}
@@ -62,22 +63,31 @@ function PostNav({
 function Toc({
 	sections,
 	active,
+	markerId,
 	className,
 }: {
 	sections: { id: string; text: string; level: number }[];
 	active: string | null;
+	markerId: string;
 	className?: string;
 }) {
 	return (
-		<nav aria-label="On this page" className={className}>
+		<motion.nav layoutScroll aria-label="On this page" className={className}>
 			<ul className="[&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-b-rule [&>li]:rounded-none">
 				{sections.map((section) => (
-					<li key={section.id}>
+					<li key={section.id} className="relative">
+						{active === section.id ? (
+							<motion.span
+								layoutId={markerId}
+								className="absolute inset-y-0 left-0 w-0.5 bg-accent"
+								transition={{ type: "spring", stiffness: 380, damping: 30 }}
+							/>
+						) : null}
 						<a
 							href={`#${section.id}`}
 							aria-current={active === section.id ? "true" : undefined}
 							className={cn(
-								"block py-2 text-[11px] leading-relaxed transition-colors",
+								"block py-2 pl-2 text-[11px] leading-relaxed transition-colors",
 								section.level >= 5 ? "pl-6" : section.level >= 3 && "pl-3",
 								active === section.id
 									? "text-accent underline decoration-2 underline-offset-4"
@@ -89,7 +99,7 @@ function Toc({
 					</li>
 				))}
 			</ul>
-		</nav>
+		</motion.nav>
 	);
 }
 
@@ -157,6 +167,7 @@ export default function PostPage() {
 						<Toc
 							sections={post.sections}
 							active={active}
+							markerId="post-toc-mobile"
 							className="mt-3 max-h-64 overflow-y-auto overscroll-contain"
 						/>
 					</details>
@@ -168,7 +179,7 @@ export default function PostPage() {
 					<PostNav previous={previous} next={next} />
 
 					<Link to="/blog" className="nb-button mt-10">
-						<ArrowLeft className="size-4" />
+						<ArrowLeft className="icon-nudge-left size-4" />
 						All writing
 					</Link>
 				</div>
@@ -179,6 +190,7 @@ export default function PostPage() {
 						<Toc
 							sections={post.sections}
 							active={active}
+							markerId="post-toc-desktop"
 							className="mt-3 min-h-0 overflow-y-auto overscroll-contain pr-1"
 						/>
 

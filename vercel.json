@@ -5,6 +5,15 @@
 	"installCommand": "bun install --frozen-lockfile",
 	"buildCommand": "bun run build",
 	"outputDirectory": "build/client",
+	"git": {
+		"deploymentEnabled": {
+			"main": true,
+			"**": false
+		}
+	},
+	"github": {
+		"silent": true
+	},
 	"routes": [
 		{ "handle": "filesystem" },
 		{ "src": "/(.*)", "status": 404, "dest": "/404/index.html" }

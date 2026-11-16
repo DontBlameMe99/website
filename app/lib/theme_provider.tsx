@@ -41,17 +41,27 @@ const systemMode = (): Mode =>
 	window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 
 /**
- * A surface token as a plain color. Reading the custom property back gives
+ * A surface token as a plain sRGB color. Reading the custom property back gives
  * whatever the style wrote, which can be a scheme-dependent function like
- * light-dark(); a used color resolves it. `theme-color` takes a color only.
+ * light-dark(); a used color resolves it, and the canvas turns that into the
+ * `rgb()` form `theme-color` parses everywhere.
  */
 const usedColor = (node: Element, token: string): string => {
 	const probe = document.createElement("span");
 	probe.style.color = `var(${token})`;
 	node.appendChild(probe);
-	const color = getComputedStyle(probe).color;
+	const used = getComputedStyle(probe).color;
 	probe.remove();
-	return color;
+
+	const canvas = document.createElement("canvas");
+	canvas.width = 1;
+	canvas.height = 1;
+	const context = canvas.getContext("2d", { willReadFrequently: true });
+	if (!context) return used;
+	context.fillStyle = used;
+	context.fillRect(0, 0, 1, 1);
+	const [r, g, b] = context.getImageData(0, 0, 1, 1).data;
+	return `rgb(${r}, ${g}, ${b})`;
 };
 
 const readStored = (): StoredPrefs => {
@@ -69,11 +79,11 @@ const readStored = (): StoredPrefs => {
 	}
 };
 
-/** Saved choices, or the OS for brightness when there is no saved choice. */ const storedPrefs =
-	(): ThemePrefs =>
-		typeof window === "undefined"
-			? DEFAULT_PREFS
-			: resolvePrefs(readStored(), systemMode());
+/** Saved choices, or the OS for brightness when there is no saved choice. */
+const storedPrefs = (): ThemePrefs =>
+	typeof window === "undefined"
+		? DEFAULT_PREFS
+		: resolvePrefs(readStored(), systemMode());
 
 const writePrefs = (prefs: ThemePrefs) => {
 	try {

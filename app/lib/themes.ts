@@ -14,10 +14,12 @@ export type SchemeId =
 	| "nord"
 	| "mono"
 	| "gruvbox-dark"
+	| "solarized-dark"
 	| "latte"
 	| "nord-light"
 	| "mono-light"
-	| "gruvbox-light";
+	| "gruvbox-light"
+	| "solarized-light";
 
 export type Style = {
 	id: StyleId;
@@ -83,6 +85,12 @@ export const SCHEMES: readonly ColorScheme[] = [
 		blurb: "Warm brown, with bright retro accents.",
 	},
 	{
+		id: "solarized-dark",
+		label: "Solarized Dark",
+		mode: "dark",
+		blurb: "Deep blue canvas, calm teal ink.",
+	},
+	{
 		id: "latte",
 		label: "Catppuccin Latte",
 		mode: "light",
@@ -105,6 +113,12 @@ export const SCHEMES: readonly ColorScheme[] = [
 		label: "Gruvbox Light",
 		mode: "light",
 		blurb: "Creamy tan, with deep retro inks.",
+	},
+	{
+		id: "solarized-light",
+		label: "Solarized Light",
+		mode: "light",
+		blurb: "Warm cream canvas, calm teal ink.",
 	},
 ];
 

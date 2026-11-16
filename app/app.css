@@ -1549,10 +1549,7 @@
 		color-mix(in srgb, var(--mauve) 9%, #fff),
 		color-mix(in srgb, var(--mauve) 8%, var(--base))
 	);
-	--well-surface: light-dark(
-		color-mix(in srgb, var(--mauve) 4%, #fff),
-		color-mix(in srgb, var(--mauve) 6%, var(--mantle))
-	);
+	--well-surface: var(--mantle);
 	--accent-surface: var(--mauve);
 
 	/* A tint sits between the palette and the base it was chosen against, so

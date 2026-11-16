@@ -36,6 +36,7 @@ export type StyleId =
 	| "flat"
 	| "glassmorphism"
 	| "xp"
+	| "msdos"
 	| "material"
 	| "skeuomorphic";
 export type SchemeId =
@@ -89,6 +90,11 @@ export const STYLES: readonly Style[] = [
 		id: "xp",
 		label: "Windows XP",
 		blurb: "Luna chrome: glossy buttons, beveled fields, rounded windows.",
+	},
+	{
+		id: "msdos",
+		label: "MS-DOS",
+		blurb: "Monospace text, scanlines, and a blinking cursor.",
 	},
 	{
 		id: "material",

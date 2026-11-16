@@ -1911,6 +1911,362 @@
 	outline-offset: 2px;
 }
 
+/* --- MS-DOS ---------------------------------------------------------------
+
+   A text-mode skin, not a new palette. Monospace type, square corners,
+   double-line boxes, reverse-video controls, and a static scanline texture
+   carry the era. The colorscheme's own text, surfaces, and accent stay in
+   charge, so every palette keeps its real colors and previews stay honest. */
+[data-style="msdos"] {
+	--bw: 1px;
+	--bw-heavy: 3px;
+	--lift: 0px;
+	--press: 0px;
+	--font-sans: "JetBrains Mono NF", ui-monospace, "Courier New", monospace;
+	/* A blocky bar, finished from the shared scrollbar tokens. */
+	--scrollbar-size: 14px;
+	--scrollbar-radius: 0px;
+	--scrollbar-thumb: var(--accent-surface);
+	--scrollbar-thumb-image: none;
+	--scrollbar-thumb-line: 1px solid var(--edge);
+	--scrollbar-thumb-shadow: none;
+	--scrollbar-track: var(--page-surface);
+	--scrollbar-track-shadow: none;
+
+	/* Scanlines live in the surface image, behind the glyphs, so the palette's
+	   measured text contrast is untouched. */
+	--dos-scan: light-dark(rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.045));
+	--page-image: repeating-linear-gradient(
+		to bottom,
+		transparent 0 2px,
+		var(--dos-scan) 2px 3px
+	);
+	--panel-image: var(--page-image);
+	--plain-image: var(--page-image);
+	--well-image: var(--page-image);
+
+	/* A pair of hairlines: the border plus the inset rule. */
+	--shadow-hard: inset 0 0 0 1px var(--edge);
+	--shadow-hard-lg: inset 0 0 0 1px var(--edge);
+	--shadow-hard-sm: none;
+	--shadow-well: none;
+
+	--hover-edge: var(--accent-surface);
+}
+
+@keyframes dos-blink {
+	0%,
+	49% {
+		opacity: 1;
+	}
+
+	50%,
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes dos-cursor-out {
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes dos-type {
+	from {
+		clip-path: inset(0 100% 0 0);
+	}
+
+	to {
+		clip-path: inset(0 0 0 0);
+	}
+}
+
+/* The header is a menu bar on the palette's own chrome tone. */
+[data-style="msdos"] header.nb-chrome {
+	background-color: var(--surface0);
+	background-image: var(--plain-image);
+	border: 0;
+	border-bottom: 1px solid var(--accent-surface);
+	border-radius: 0;
+	box-shadow: none;
+}
+
+[data-style="msdos"] header.nb-chrome nav a {
+	padding: 0.35rem 0.55rem;
+	color: var(--text);
+	letter-spacing: 0.08em;
+	text-decoration: none;
+}
+
+[data-style="msdos"] header.nb-chrome nav a:hover {
+	background-color: var(--text);
+	color: var(--page-surface);
+}
+
+[data-style="msdos"] header.nb-chrome nav a[aria-current="page"] {
+	background-color: var(--accent-surface);
+	color: var(--on-accent);
+	text-decoration: none;
+}
+
+/* The brand keeps its mark, with a text-mode cursor after it. */
+[data-style="msdos"] header.nb-chrome > div > a:first-child {
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+[data-style="msdos"] header.nb-chrome > div > a:first-child:hover {
+	color: var(--text);
+}
+
+[data-style="msdos"] header.nb-chrome > div > a:first-child::after {
+	content: "";
+	display: inline-block;
+	width: 0.5em;
+	height: 1em;
+	margin-left: 0.35rem;
+	background-color: var(--accent-surface);
+	vertical-align: -0.12em;
+	animation: dos-blink 1.06s steps(1) infinite;
+}
+
+/* The reading bar is a segmented loader in the accent color. */
+[data-style="msdos"] header.nb-chrome > .relative {
+	height: 5px;
+	background-color: var(--surface0);
+	border-top: 1px solid var(--accent-surface);
+}
+
+[data-style="msdos"] header.nb-chrome > .relative .bg-accent {
+	background-color: var(--accent-surface);
+	background-image: repeating-linear-gradient(
+		90deg,
+		var(--accent-surface) 0 6px,
+		transparent 6px 9px
+	);
+}
+
+[data-style="msdos"] .nav-link::after {
+	content: none;
+}
+
+/* A page masthead is a double-line box with a title bar. */
+[data-style="msdos"] .page-window {
+	padding: 0 0 1.5rem;
+	border: 1px solid var(--edge);
+	border-radius: 0;
+	background-color: var(--panel-surface);
+	background-image: var(--panel-image);
+	box-shadow: var(--shadow-hard);
+}
+
+[data-style="msdos"] .page-window > div:first-child {
+	align-items: center;
+	min-height: 30px;
+	padding: 0.3rem 0.6rem;
+	border-bottom: 1px solid var(--accent-surface);
+	background-color: var(--surface0);
+	background-image: var(--plain-image);
+	color: var(--text);
+	text-transform: uppercase;
+}
+
+[data-style="msdos"] .page-window > div:first-child :is(.text-meta, time) {
+	color: var(--text);
+}
+
+[data-style="msdos"] .page-window > div:first-child .nb-chip {
+	border-color: var(--accent-surface);
+	background-color: var(--accent-surface);
+	background-image: none;
+	box-shadow: none;
+	color: var(--on-accent);
+	text-shadow: none;
+}
+
+[data-style="msdos"] .page-window > h1,
+[data-style="msdos"] .page-window > p {
+	margin-inline: 1.5rem;
+}
+
+[data-style="msdos"] .page-window > h1 {
+	margin-top: 2rem;
+}
+
+[data-style="msdos"] .page-window > div:not(:first-child) {
+	margin-inline: 1.5rem;
+}
+
+/* Titles type themselves in, then the cursor blinks out. */
+[data-style="msdos"] .page-window h1 {
+	text-transform: uppercase;
+	letter-spacing: -0.01em;
+	text-shadow: 0 0 10px
+		color-mix(in srgb, var(--accent-surface) 28%, transparent);
+	animation: dos-type 900ms steps(28, end);
+}
+
+[data-style="msdos"] .page-window h1::after {
+	content: "";
+	display: inline-block;
+	width: 0.45em;
+	height: 0.82em;
+	margin-left: 0.18em;
+	background-color: var(--accent-surface);
+	vertical-align: baseline;
+	animation:
+		dos-blink 1.06s steps(1) 4,
+		dos-cursor-out 1ms 4.3s forwards;
+}
+
+[data-style="msdos"] .text-display,
+[data-style="msdos"] .text-page-title {
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	line-height: 1.05;
+}
+
+[data-style="msdos"] .text-label {
+	letter-spacing: 0.1em;
+}
+
+[data-style="msdos"] p.text-label::before {
+	content: "> " / "";
+	color: color-mix(in srgb, var(--accent-surface) 65%, var(--text));
+}
+
+/* Controls snap instead of easing. */
+[data-style="msdos"] .nb-lift {
+	transition: none;
+}
+
+[data-style="msdos"] .nb-lift:hover {
+	border-color: var(--accent-surface);
+}
+
+[data-style="msdos"] .nb-button {
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	transition: none;
+}
+
+[data-style="msdos"] .nb-button.nb-accent {
+	border-color: var(--accent-surface);
+}
+
+[data-style="msdos"] .nb-chip {
+	background-color: transparent;
+	background-image: none;
+	color: var(--text);
+	text-transform: uppercase;
+	transition: none;
+}
+
+[data-style="msdos"] .nb-chip:is(.nb-accent, .bg-accent) {
+	border-color: var(--accent-surface);
+	background-color: var(--accent-surface);
+	color: var(--on-accent);
+}
+
+[data-style="msdos"] .nb-chip:not(.nb-accent):not(.bg-accent):hover {
+	border-color: var(--text);
+	background-color: var(--text);
+	color: var(--page-surface);
+}
+
+[data-style="msdos"] .nb-input {
+	background-color: var(--page-surface);
+	background-image: var(--page-image);
+	caret-color: var(--accent-surface);
+}
+
+[data-style="msdos"] :focus-visible {
+	outline: 1px dotted var(--focus-ring);
+	outline-offset: 3px;
+}
+
+[data-style="msdos"] a[href="#main-content"]:focus {
+	background-color: var(--accent-surface);
+	color: var(--on-accent);
+}
+
+/* Prose is a terminal: a prompt for bullets, bracketed numbers, and the
+   palette's own links and code colors. */
+[data-style="msdos"] .prose-dbm a {
+	color: var(--text);
+	text-decoration-color: currentColor;
+	text-decoration-thickness: 1px;
+	transition: none;
+}
+
+[data-style="msdos"] .prose-dbm h4 {
+	color: var(--subtext0);
+}
+
+[data-style="msdos"] .prose-dbm ul > li::before {
+	content: ">";
+	font-size: 0.7em;
+	line-height: 2.3;
+	color: color-mix(in srgb, var(--accent-surface) 65%, var(--text));
+}
+
+[data-style="msdos"] .prose-dbm h2::before {
+	content: "[" counter(section, decimal-leading-zero) "]";
+	border: 0;
+	background: transparent;
+	padding: 0;
+	box-shadow: none;
+	color: color-mix(in srgb, var(--accent-surface) 65%, var(--text));
+	font-size: 0.8125rem;
+}
+
+[data-style="msdos"] .prose-dbm .code-block {
+	background-image: var(--well-image);
+}
+
+[data-style="msdos"] .prose-dbm .code-block__bar {
+	border-bottom-color: var(--accent-surface);
+	background-color: var(--surface0);
+	background-image: var(--plain-image);
+	color: var(--text);
+}
+
+[data-style="msdos"] .prose-dbm .code-block__copy {
+	border-color: var(--edge);
+	color: var(--text);
+}
+
+[data-style="msdos"] .prose-dbm .code-block__copy:hover {
+	background-color: var(--accent-surface);
+	color: var(--on-accent);
+}
+
+[data-style="msdos"] .prose-dbm .code-block__copy[data-copied]:hover {
+	color: var(--on-accent);
+}
+
+/* The footer is a status bar on the palette's own chrome tone. */
+[data-style="msdos"] footer.nb-line-t {
+	border-top: 1px solid var(--accent-surface);
+	background-color: var(--surface0);
+	background-image: var(--plain-image);
+}
+
+[data-style="msdos"] footer :is(p, span, a, .text-label) {
+	color: var(--text);
+}
+
+[data-style="msdos"] footer .text-label::before {
+	content: "";
+}
+
+[data-style="msdos"] footer a:not(.nb-chip):hover {
+	background-color: var(--accent-surface);
+	color: var(--on-accent);
+	text-decoration-color: var(--on-accent);
+}
+
 /* A figure's frame throws its ambient shadow onto the page under the caption,
    and that caption then reads against a darker surface than it sits on. The
    frame keeps the bevel and the seam and gives up the outer shadow. */

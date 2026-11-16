@@ -40,6 +40,30 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 const systemMode = (): Mode =>
 	window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 
+/**
+ * A surface token as a plain sRGB color. Reading the custom property back gives
+ * whatever the style wrote, which can be a scheme-dependent function like
+ * light-dark(); a used color resolves it, and the canvas turns that into the
+ * `rgb()` form `theme-color` parses everywhere.
+ */
+const usedColor = (node: Element, token: string): string => {
+	const probe = document.createElement("span");
+	probe.style.color = `var(${token})`;
+	node.appendChild(probe);
+	const used = getComputedStyle(probe).color;
+	probe.remove();
+
+	const canvas = document.createElement("canvas");
+	canvas.width = 1;
+	canvas.height = 1;
+	const context = canvas.getContext("2d", { willReadFrequently: true });
+	if (!context) return used;
+	context.fillStyle = used;
+	context.fillRect(0, 0, 1, 1);
+	const [r, g, b] = context.getImageData(0, 0, 1, 1).data;
+	return `rgb(${r}, ${g}, ${b})`;
+};
+
 const readStored = (): StoredPrefs => {
 	try {
 		return {
@@ -97,7 +121,8 @@ const apply = (prefs: ThemePrefs) => {
 		root.dataset.accent = prefs.accent.hue;
 	}
 
-	const page = getComputedStyle(root).getPropertyValue("--page-surface").trim();
+	// A style may write a scheme-dependent function here, so read a used color.
+	const page = usedColor(root, "--page-surface");
 	if (page) {
 		// There is one meta per color-scheme query for the pre-hydration paint.
 		for (const meta of document.querySelectorAll<HTMLMetaElement>(

@@ -191,6 +191,10 @@
 	--shadow-hard: 4px 4px 0 var(--ink);
 	--shadow-hard-lg: 6px 6px 0 var(--ink);
 	--shadow-hard-sm: 2px 2px 0 var(--ink);
+	/* A well carries its own shadow, so a style can recess it without touching
+	   the panel shadow. */
+	--shadow-well: var(--shadow-hard);
+	--label-shadow: none;
 	--page-surface: var(--crust);
 	--page-image: none;
 	--panel-surface: var(--base);
@@ -1517,6 +1521,151 @@
 	outline-offset: 2px;
 }
 
+[data-style="skeuomorphic"] {
+	/* Shape: molded corners, a 2px seam, and two pixels of travel under a
+	   press. Height comes from a bevel that hugs the edge plus a shadow
+	   underneath, so no glyph ever sits on a highlight. */
+	--bw: 2px;
+	--bw-heavy: 8px;
+	--radius: 12px;
+	--lift: -1px;
+	--press: 2px;
+
+	/* A seam is a shade of the surface, not a drawn line. */
+	--edge: light-dark(
+		color-mix(in srgb, var(--crust) 60%, #000),
+		color-mix(in srgb, var(--crust) 45%, #000)
+	);
+
+	/* The page is the material the surfaces sit on, so a dark page goes
+	   darker than the palette's own crust and a light one keeps it. */
+	--page-surface: light-dark(
+		var(--crust),
+		color-mix(in srgb, var(--crust) 55%, #000)
+	);
+
+	/* One geometry, two lightings. A lit surface throws a hard shade at the
+	   floor, a soft shadow under it, and the slab of its own body; a dark
+	   surface shows the light on the bevel instead. Every layer keeps its
+	   position and only its color changes, so dark and light read as the same
+	   object under two lamps rather than as an inverted image. */
+	--shadow-hard:
+		inset 0 3px 0 light-dark(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5)),
+		inset 0 -3px 0 light-dark(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.55)),
+		0 6px 0
+		light-dark(
+			color-mix(in srgb, var(--crust) 40%, #000),
+			color-mix(in srgb, var(--base) 45%, var(--crust))
+		),
+		0 2px 5px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0)),
+		0 20px 32px -12px light-dark(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.9));
+	--shadow-hard-lg:
+		inset 0 3px 0 light-dark(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.65)),
+		inset 0 -3px 0 light-dark(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.55)),
+		0 8px 0
+		light-dark(
+			color-mix(in srgb, var(--crust) 40%, #000),
+			color-mix(in srgb, var(--base) 45%, var(--crust))
+		),
+		0 4px 9px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0)),
+		0 28px 42px -14px light-dark(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.95));
+	--button-hover-shadow:
+		inset 0 2px 0 light-dark(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.7)),
+		inset 0 -2px 0 light-dark(rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.55)),
+		0 5px 0
+		light-dark(
+			color-mix(in srgb, var(--crust) 40%, #000),
+			color-mix(in srgb, var(--base) 45%, var(--crust))
+		),
+		0 3px 6px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0)),
+		0 12px 18px -8px light-dark(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8));
+	--shadow-hard-sm:
+		inset 0 2px 0 light-dark(
+			rgba(255, 255, 255, 0.95),
+			rgba(255, 255, 255, 0.55)
+		),
+		inset 0 -2px 0 light-dark(rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.55)),
+		0 4px 0
+		light-dark(
+			color-mix(in srgb, var(--crust) 40%, #000),
+			color-mix(in srgb, var(--base) 45%, var(--crust))
+		),
+		0 2px 4px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0)),
+		0 10px 16px -8px light-dark(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8));
+
+	/* A well is cut into the surface: the light only reaches its floor from
+	   above, and its far wall catches a rim. */
+	--shadow-well:
+		inset 0 3px 7px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.6)),
+		inset 0 1px 0 light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.45)),
+		inset 0 -2px 0
+		light-dark(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.14));
+	--button-press-shadow:
+		inset 0 3px 7px light-dark(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.65)),
+		inset 0 1px 0 light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.5)),
+		0 2px 0
+		light-dark(
+			color-mix(in srgb, var(--crust) 40%, #000),
+			color-mix(in srgb, var(--base) 45%, var(--crust))
+		);
+
+	/* Fills curve away from the light. The panel and control bodies only darken
+	   toward the floor and their shine lives in the first few pixels of the
+	   edge: palettes like Nord tune their muted text to exactly 4.5:1 against
+	   the surface, so nothing may lighten the area a glyph sits on. */
+	--page-image: radial-gradient(
+		130% 80% at 50% -10%,
+		light-dark(rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.3)),
+		transparent 62%
+	);
+	--panel-image: linear-gradient(
+		180deg,
+		light-dark(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4)) 0,
+		light-dark(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08)) 6px,
+		light-dark(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)) 14px,
+		light-dark(rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.28)) 100%
+	);
+	--well-image: light-dark(
+		linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 55%),
+		linear-gradient(180deg, rgba(0, 0, 0, 0.08), transparent 55%)
+	);
+	--plain-image: linear-gradient(
+		180deg,
+		light-dark(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.5)) 0,
+		light-dark(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)) 2px,
+		transparent 4px,
+		light-dark(rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.2)) 100%
+	);
+	/* An accent fill is chosen for its ink, and a picked hex can be either
+	   polarity, so nothing is painted over it. */
+	--accent-image: none;
+	--input-shadow: var(--shadow-well);
+	--label-shadow: 0 1px 0
+		light-dark(rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0.55));
+
+	/* Interaction moves a plain control toward white under a hover and toward
+	   black under a press, which a surface reads as a lift and a press. */
+	--hover-edge: color-mix(in srgb, var(--mauve) 40%, var(--edge));
+	--hover-fill: light-dark(
+		color-mix(in srgb, #fff 8%, var(--plain-surface)),
+		color-mix(in srgb, #000 6%, var(--plain-surface))
+	);
+	--press-fill: light-dark(
+		color-mix(in srgb, #000 6%, var(--plain-surface)),
+		color-mix(in srgb, #000 12%, var(--plain-surface))
+	);
+	--card-hover-fill: light-dark(
+		color-mix(in srgb, #fff 6%, var(--panel-surface)),
+		color-mix(in srgb, #000 5%, var(--panel-surface))
+	);
+	/* The accent keeps its color under a pointer. Its ink is chosen for the
+	   fill, and a visitor can pick any accent, so a tint could move the fill
+	   toward that ink; the slab and the inset press carry the feedback instead. */
+	--accent-hover-fill: var(--accent-surface);
+	--accent-press-fill: var(--accent-surface);
+	--scrollbar: var(--surface2);
+}
+
 [data-style="material"] {
 	/* Material You starts from one color and tints everything with it, so the
 	   palette stays untouched while every surface becomes a tone of --mauve.
@@ -1703,6 +1852,15 @@
 	outline-offset: 2px;
 }
 
+/* A figure's frame throws its ambient shadow onto the page under the caption,
+   and that caption then reads against a darker surface than it sits on. The
+   frame keeps the bevel and the seam and gives up the outer shadow. */
+[data-style="skeuomorphic"] .prose-dbm img {
+	box-shadow:
+		inset 0 2px 0 light-dark(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5)),
+		inset 0 -2px 0 light-dark(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.55));
+}
+
 /* The focus ring keeps the page's ink even inside a palette card, where the
    scoped --ink is that card's text color. Declared on :root only, so it
    resolves there and is inherited as a concrete color. */
@@ -1883,7 +2041,7 @@
 	border-radius: var(--well-radius);
 	background-color: var(--well-surface);
 	background-image: var(--well-image);
-	box-shadow: var(--shadow-hard);
+	box-shadow: var(--shadow-well);
 	backdrop-filter: var(--backdrop);
 }
 
@@ -1919,6 +2077,7 @@
 	font-weight: var(--button-weight);
 	line-height: 1.2;
 	box-shadow: var(--shadow-hard-sm);
+	text-shadow: var(--label-shadow);
 	backdrop-filter: var(--backdrop);
 	transition:
 		transform var(--motion-quick) ease,
@@ -1953,6 +2112,7 @@
 	font-weight: 600;
 	line-height: 1.4;
 	letter-spacing: 0.04em;
+	text-shadow: var(--label-shadow);
 	backdrop-filter: var(--backdrop);
 }
 
@@ -1973,6 +2133,9 @@
 .nb-accent.nb-accent {
 	background-color: var(--accent-surface);
 	background-image: var(--accent-image);
+	/* An accent fill picks its own light, so an emboss would have to guess at
+	   it: the label sits flat on the fill. */
+	text-shadow: none;
 	color: var(--on-accent);
 
 	&:hover {

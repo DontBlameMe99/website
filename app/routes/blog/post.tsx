@@ -168,7 +168,7 @@ export default function PostPage() {
 							sections={post.sections}
 							active={active}
 							markerId="post-toc-mobile"
-							className="mt-3 max-h-64 overflow-y-auto overscroll-contain"
+							className="mt-3 max-h-64 overflow-y-auto overscroll-contain pl-1 -ml-1"
 						/>
 					</details>
 
@@ -191,7 +191,7 @@ export default function PostPage() {
 							sections={post.sections}
 							active={active}
 							markerId="post-toc-desktop"
-							className="mt-3 min-h-0 overflow-y-auto overscroll-contain pr-1"
+							className="mt-3 min-h-0 overflow-y-auto overscroll-contain pl-1 -ml-1 pr-1"
 						/>
 
 						<div className="mt-6">

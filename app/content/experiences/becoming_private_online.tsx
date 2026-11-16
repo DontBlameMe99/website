@@ -74,7 +74,7 @@ export function IdentitySplit() {
 									<span className="shrink-0  text-[11px] text-subtext0">
 										{site}
 									</span>
-									<span className="min-w-4 flex-1 border-t border-dashed border-border/70" />
+									<span className="min-w-4 flex-1 rounded-none border-t border-dashed border-border/70" />
 									<span className="relative inline-flex shrink-0 overflow-hidden">
 										<AnimatePresence mode="popLayout" initial={false}>
 											<motion.span

@@ -326,7 +326,7 @@ export function LearningCurve() {
 			<div className="flex items-center justify-between gap-2  text-[11px] text-overlay1">
 				<span>wpm</span>
 				<span className="inline-flex items-center gap-1.5">
-					<span className="inline-block w-4 border-t border-dashed border-overlay1" />
+					<span className="inline-block w-4 rounded-none border-t border-dashed border-overlay1" />
 					100 wpm before the switch
 				</span>
 			</div>

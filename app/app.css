@@ -129,10 +129,14 @@
 	--blue: #89b4fa;
 	--lavender: #b4befe;
 	--text: #cdd6f4;
-	--subtext1: #bac2de;
-	--subtext0: #a6adc8;
-	--overlay2: #9399b2;
-	--overlay1: #9ba0b8;
+	--subtext1-base: #bac2de;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #a6adc8;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #9399b2;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #9ba0b8;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #8f94ad;
 	--surface2: #585b70;
 	--surface1: #45475a;
@@ -178,7 +182,9 @@
 	--bw-heavy: 10px;
 	--line-style: solid;
 	--edge: var(--ink);
+	--control-edge: var(--edge);
 	--radius: 0px;
+	--control-radius: var(--radius);
 	--lift: -2px;
 	--press: 2px;
 	--backdrop: none;
@@ -244,10 +250,14 @@
 	--blue: #8be9fd;
 	--lavender: #bd93f9;
 	--text: #f8f8f2;
-	--subtext1: #e4e4ec;
-	--subtext0: #c8c9d6;
-	--overlay2: #b0b4c8;
-	--overlay1: #9ba0bf;
+	--subtext1-base: #e4e4ec;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #c8c9d6;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #b0b4c8;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #9ba0bf;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #959ab8;
 	--surface2: #6272a4;
 	--surface1: #44475a;
@@ -276,11 +286,15 @@
 	--blue: #8caaee;
 	--lavender: #babbf1;
 	--text: #c6d0f5;
-	--subtext1: #b5bfe2;
-	--subtext0: #a5adce;
-	--overlay2: #949cbb;
+	--subtext1-base: #b5bfe2;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #a5adce;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #949cbb;
+	--overlay2: var(--overlay2-base);
 	/* Official #838ba7 is 3.65:1 on base; this clears 4.5 for 11px labels. */
-	--overlay1: #9aa2c0;
+	--overlay1-base: #9aa2c0;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #737994;
 	--surface2: #626880;
 	--surface1: #51576d;
@@ -309,11 +323,15 @@
 	--blue: #8aadf4;
 	--lavender: #b7bdf8;
 	--text: #cad3f5;
-	--subtext1: #b8c0e0;
-	--subtext0: #a5adcb;
-	--overlay2: #939ab7;
+	--subtext1-base: #b8c0e0;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #a5adcb;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #939ab7;
+	--overlay2: var(--overlay2-base);
 	/* Official #8087a2 is 4.14:1 on base; this clears 4.5 for 11px labels. */
-	--overlay1: #8e96b1;
+	--overlay1-base: #8e96b1;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #6e738d;
 	--surface2: #5b6078;
 	--surface1: #494d64;
@@ -344,10 +362,14 @@
 	--blue: #7fa0cd;
 	--lavender: #a7bee2;
 	--text: #eceff4;
-	--subtext1: #e5e9f0;
-	--subtext0: #d8dee9;
-	--overlay2: #b4bfce;
-	--overlay1: #96a2b4;
+	--subtext1-base: #e5e9f0;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #d8dee9;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #b4bfce;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #96a2b4;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #909daf;
 	--surface2: #4c566a;
 	--surface1: #434c5e;
@@ -377,10 +399,14 @@
 	--blue: #1a56d6;
 	--lavender: #4f58c9;
 	--text: #41445c;
-	--subtext1: #4c4f69;
-	--subtext0: #565a72;
-	--overlay2: #5c5f77;
-	--overlay1: #565a72;
+	--subtext1-base: #4c4f69;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #565a72;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #5c5f77;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #565a72;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #545870;
 	--surface2: #acb0be;
 	--surface1: #bcc0cc;
@@ -413,10 +439,14 @@
 	--blue: #036a96;
 	--lavender: #7058c9;
 	--text: #1f1f1f;
-	--subtext1: #3a3730;
-	--subtext0: #57523f;
-	--overlay2: #6c664b;
-	--overlay1: #625d44;
+	--subtext1-base: #3a3730;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #57523f;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #6c664b;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #625d44;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #57523c;
 	--surface2: #cfcfde;
 	--surface1: #d4cfbd;
@@ -446,10 +476,14 @@
 	--blue: #3a5f91;
 	--lavender: #4e5d8b;
 	--text: #2e3440;
-	--subtext1: #3b4252;
-	--subtext0: #434c5e;
-	--overlay2: #4c566a;
-	--overlay1: #525d6f;
+	--subtext1-base: #3b4252;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #434c5e;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #4c566a;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #525d6f;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #556075;
 	--surface2: #b3bfd1;
 	--surface1: #c1cbda;
@@ -479,10 +513,14 @@
 	--blue: #e6e6e6;
 	--lavender: #ececec;
 	--text: #ededed;
-	--subtext1: #cfcfcf;
-	--subtext0: #b4b4b4;
-	--overlay2: #ababab;
-	--overlay1: #9a9a9a;
+	--subtext1-base: #cfcfcf;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #b4b4b4;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #ababab;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #9a9a9a;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #868686;
 	--surface2: #3b3b3b;
 	--surface1: #2f2f2f;
@@ -511,10 +549,14 @@
 	--blue: #262626;
 	--lavender: #202020;
 	--text: #1a1a1a;
-	--subtext1: #373737;
-	--subtext0: #444444;
-	--overlay2: #4a4a4a;
-	--overlay1: #565656;
+	--subtext1-base: #373737;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #444444;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #4a4a4a;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #565656;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #626262;
 	--surface2: #b7b7b7;
 	--surface1: #c7c7c7;
@@ -552,10 +594,14 @@
 	--blue: #6fa8a2;
 	--lavender: #bdae93;
 	--text: #fbf1c7;
-	--subtext1: #ebdbb2;
-	--subtext0: #d5c4a1;
-	--overlay2: #bdae93;
-	--overlay1: #b2a38c;
+	--subtext1-base: #ebdbb2;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #d5c4a1;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #bdae93;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #b2a38c;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #a89984;
 	--surface2: #665c54;
 	--surface1: #504945;
@@ -585,10 +631,14 @@
 	--blue: #076678;
 	--lavender: #685d54;
 	--text: #282828;
-	--subtext1: #3c3836;
-	--subtext0: #504945;
-	--overlay2: #5b534c;
-	--overlay1: #615951;
+	--subtext1-base: #3c3836;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #504945;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #5b534c;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #615951;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #665c54;
 	--surface2: #a89984;
 	--surface1: #bdae93;
@@ -629,10 +679,14 @@
 	--blue: #3496da;
 	--lavender: #8387cd;
 	--text: #a8b6b6;
-	--subtext1: #93a1a1;
-	--subtext0: #93a1a1;
-	--overlay2: #a8b6b6;
-	--overlay1: #93a1a1;
+	--subtext1-base: #93a1a1;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #93a1a1;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #a8b6b6;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #93a1a1;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #93a1a1;
 	--surface2: #657b83;
 	--surface1: #586e75;
@@ -672,10 +726,14 @@
 	--blue: #7fbbb3;
 	--lavender: #b1bdb4;
 	--text: #d3c6aa;
-	--subtext1: #d3c6aa;
-	--subtext0: #9da9a0;
-	--overlay2: #9da9a0;
-	--overlay1: #9da9a0;
+	--subtext1-base: #d3c6aa;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #9da9a0;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #9da9a0;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #9da9a0;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #96a29a;
 	--surface2: #475258;
 	--surface1: #3d484d;
@@ -706,10 +764,14 @@
 	--blue: #2076b3;
 	--lavender: #6369c0;
 	--text: #073642;
-	--subtext1: #4d666e;
-	--subtext0: #4d666e;
-	--overlay2: #4d666e;
-	--overlay1: #4d666e;
+	--subtext1-base: #4d666e;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #4d666e;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #4d666e;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #4d666e;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #4d666e;
 	--surface2: #839496;
 	--surface1: #93a1a1;
@@ -741,10 +803,14 @@
 	--blue: #2a6b8f;
 	--lavender: #5c6491;
 	--text: #4f5d64;
-	--subtext1: #4f5d64;
-	--subtext0: #55636a;
-	--overlay2: #55636a;
-	--overlay1: #59676f;
+	--subtext1-base: #4f5d64;
+	--subtext1: var(--subtext1-base);
+	--subtext0-base: #55636a;
+	--subtext0: var(--subtext0-base);
+	--overlay2-base: #55636a;
+	--overlay2: var(--overlay2-base);
+	--overlay1-base: #59676f;
+	--overlay1: var(--overlay1-base);
 	--overlay0: #5e6b70;
 	--surface2: #bdc3af;
 	--surface1: #e0dcc7;
@@ -1451,6 +1517,192 @@
 	outline-offset: 2px;
 }
 
+[data-style="material"] {
+	/* Material You starts from one color and tints everything with it, so the
+	   palette stays untouched while every surface becomes a tone of --mauve.
+	   Depth is Material's soft elevation, never an ink offset, so nothing moves
+	   on press. */
+	--bw: 1px;
+	--bw-heavy: 4px;
+	--radius: 24px;
+	--control-radius: 999px;
+	--lift: 0px;
+	--press: 0px;
+	--shadow-hard: 0 1px 4px rgb(0 0 0 / 0.37);
+	--shadow-hard-lg: 0 2px 2px rgb(0 0 0 / 0.2), 0 6px 10px rgb(0 0 0 / 0.3);
+	--shadow-hard-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+	--backdrop: none;
+	--scrollbar: color-mix(in srgb, var(--mauve) 45%, var(--surface2));
+
+	/* Surface roles, low to high: page, container, container-high, well. A
+	   light scheme lightens toward paper, a dark one lifts the base, so a tint
+	   never lands between the text and its background. */
+	--page-surface: light-dark(
+		color-mix(in srgb, var(--mauve) 3%, #fff),
+		color-mix(in srgb, var(--mauve) 4%, var(--base))
+	);
+	--panel-surface: light-dark(
+		color-mix(in srgb, var(--mauve) 6%, #fff),
+		color-mix(in srgb, var(--mauve) 8%, var(--base))
+	);
+	--plain-surface: light-dark(
+		color-mix(in srgb, var(--mauve) 9%, #fff),
+		color-mix(in srgb, var(--mauve) 8%, var(--base))
+	);
+	--well-surface: var(--mantle);
+	--accent-surface: var(--mauve);
+
+	/* A tint sits between the palette and the base it was chosen against, so
+	   every muted tone leans toward --text. The palette blocks keep the raw
+	   values in `-base`, which keeps a scoped preview resolving its own. */
+	--subtext1: color-mix(in srgb, var(--subtext1-base) 60%, var(--text));
+	--subtext0: color-mix(in srgb, var(--subtext0-base) 60%, var(--text));
+	--overlay2: color-mix(in srgb, var(--overlay2-base) 60%, var(--text));
+	--overlay1: color-mix(in srgb, var(--overlay1-base) 60%, var(--text));
+
+	/* Quiet rules, a control edge that still reads, and the ink state layer
+	   Material uses for hover and press. */
+	--edge: color-mix(in srgb, var(--ink) 14%, transparent);
+	--control-edge: color-mix(in srgb, var(--ink) 50%, transparent);
+	--button-edge: var(--bw) var(--line-style) var(--control-edge);
+	--hover-edge: color-mix(in srgb, var(--mauve) 70%, transparent);
+	--hover-fill: color-mix(in srgb, var(--ink) 8%, var(--plain-surface));
+	--press-fill: color-mix(in srgb, var(--ink) 12%, var(--plain-surface));
+	--card-hover-fill: color-mix(in srgb, var(--ink) 6%, var(--panel-surface));
+	--accent-hover-fill: color-mix(
+		in srgb,
+		var(--ink) 10%,
+		var(--accent-surface)
+	);
+	--accent-press-fill: color-mix(
+		in srgb,
+		var(--ink) 16%,
+		var(--accent-surface)
+	);
+}
+
+/* Controls read their own radius, so a style can make them pills while panels
+   keep the card radius, and a nested preview still resolves its own shape. */
+[data-style] .nb-button,
+[data-style] .nb-chip,
+[data-style] .nb-input {
+	border-radius: var(--control-radius);
+}
+
+/* A rule color set in @theme is inlined, so it never sees a style's edge.
+   Material's dividers are faint, and these rows have to match the prose ones. */
+[data-style="material"] .border-rule {
+	border-color: var(--edge);
+}
+
+/* --- Material, past the tokens -------------------------------------------
+
+   Material You is behavior too: a tinted app bar and footer, the current
+   destination in a pill, filled chips whose labels stay on-surface, cards that
+   rise one elevation level on hover, and calmer type. These rules key on the
+   page's data-style, so they name page chrome only; a nested preview keeps its
+   own tokens and shape. */
+
+[data-style="material"] header.sticky {
+	border-radius: 0;
+	background-color: light-dark(
+		color-mix(in srgb, var(--mauve) 5%, #fff),
+		color-mix(in srgb, var(--mauve) 6%, var(--base))
+	);
+}
+
+[data-style="material"] footer {
+	background-color: light-dark(
+		color-mix(in srgb, var(--mauve) 4%, #fff),
+		color-mix(in srgb, var(--mauve) 5%, var(--base))
+	);
+}
+
+[data-style="material"] nav[aria-label="Primary"] {
+	gap: 0.3rem;
+}
+
+[data-style="material"] nav[aria-label="Primary"] a {
+	border-radius: 999px;
+	padding: 0.45rem 0.9rem;
+	text-decoration: none;
+}
+
+[data-style="material"] nav[aria-label="Primary"] a:hover {
+	background-color: color-mix(in srgb, var(--ink) 7%, transparent);
+}
+
+[data-style="material"] nav[aria-label="Primary"] a[aria-current="page"] {
+	background-color: color-mix(in srgb, var(--mauve) 12%, var(--base));
+	color: var(--text);
+}
+
+/* Four pills have to fit a 320px phone, so they tighten before they wrap. */
+@media (max-width: 39.99rem) {
+	[data-style="material"] nav[aria-label="Primary"] a {
+		padding-inline: 0.6rem;
+	}
+}
+
+/* A chip's fill is a tone, so its label stays on-surface to keep AA. The hover
+   fill is a tone too: a chip never swaps to a full accent under that label. */
+[data-style="material"] .nb-chip:not(.nb-accent):not(.bg-accent) {
+	color: var(--text);
+}
+
+[data-style="material"] .nb-chip:not(.nb-accent):not(.bg-accent):hover {
+	background-color: color-mix(in srgb, var(--mauve) 12%, var(--plain-surface));
+}
+
+/* The field fill is a tone, so its placeholder keeps the on-surface tone: every
+   palette clears 4.5:1 on that fill, while --overlay0 falls to 2.9:1. */
+[data-style="material"] .nb-input input::placeholder {
+	color: var(--text);
+}
+
+/* Accent text also sits on the tint: lean it toward the text tone so a small
+   label keeps its AA, while fills keep the palette's own accent. */
+[data-style="material"] .text-accent {
+	color: color-mix(in srgb, var(--mauve) 65%, var(--text));
+}
+
+/* The two palette accents the content uses as text get the same lift. */
+[data-style="material"] .text-red {
+	color: color-mix(in srgb, var(--red) 75%, var(--text));
+}
+
+[data-style="material"] .text-green {
+	color: color-mix(in srgb, var(--green) 75%, var(--text));
+}
+
+/* The bullets and markers are accent text too; keep them above AA on the
+   tinted page. */
+[data-style="material"] .prose-dbm ul > li::before,
+[data-style="material"] .prose-dbm ol > li::marker {
+	color: color-mix(in srgb, var(--mauve) 65%, var(--text));
+}
+
+[data-style="material"] .text-display,
+[data-style="material"] .text-page-title {
+	font-weight: 700;
+	letter-spacing: -0.015em;
+}
+
+[data-style="material"] .text-label {
+	font-weight: 600;
+	letter-spacing: 0.08em;
+}
+
+[data-style="material"] :focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+
+[data-style="material"] .search-field:has(input:focus-visible) {
+	outline-width: 3px;
+	outline-offset: 2px;
+}
+
 /* The focus ring keeps the page's ink even inside a palette card, where the
    scoped --ink is that card's text color. Declared on :root only, so it
    resolves there and is inherited as a concrete color. */
@@ -1462,6 +1714,12 @@
 	* {
 		border-color: var(--color-border);
 		border-radius: var(--radius);
+	}
+
+	/* An icon is a drawing, not a surface: a small SVG with the style radius
+	   and its default overflow clips its own corners. */
+	svg {
+		border-radius: 0;
 	}
 
 	html {
@@ -1687,7 +1945,7 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 0.35rem;
-	border: var(--bw) var(--line-style) var(--edge);
+	border: var(--bw) var(--line-style) var(--control-edge);
 	background-color: var(--plain-surface);
 	background-image: var(--plain-image);
 	padding: 0.15rem 0.45rem;
@@ -1699,7 +1957,7 @@
 }
 
 @utility nb-input {
-	border: var(--bw) var(--line-style) var(--edge);
+	border: var(--bw) var(--line-style) var(--control-edge);
 	background-color: var(--plain-surface);
 	background-image: var(--plain-image);
 	box-shadow: var(--input-shadow);
@@ -1938,7 +2196,7 @@
 }
 
 .prose-dbm .code-block__copy {
-	border: 1px solid var(--ink);
+	border: 1px solid var(--control-edge);
 	padding: 0.1rem 0.4rem;
 	font: inherit;
 	letter-spacing: inherit;

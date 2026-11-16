@@ -196,11 +196,7 @@
 	--shadow-well: var(--shadow-hard);
 	--label-shadow: none;
 	--page-surface: var(--crust);
-	--page-image: radial-gradient(
-		130% 80% at 50% -10%,
-		light-dark(rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.3)),
-		transparent 62%
-	);
+	--page-image: none;
 	--panel-surface: var(--base);
 	--panel-image: none;
 	--panel-edge: var(--bw) var(--line-style) var(--edge);

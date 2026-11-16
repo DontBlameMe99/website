@@ -6,6 +6,14 @@ import { PAGES, SITE } from "../lib/site";
 const noRawAmpersands = (xml: string) =>
 	expect(xml).not.toMatch(/&(?!(amp|lt|gt|quot|apos);)/);
 
+const escaped = (value: string) =>
+	value
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&apos;");
+
 describe("feeds", () => {
 	test("rss lists every post", () => {
 		const xml = rss();
@@ -13,7 +21,7 @@ describe("feeds", () => {
 		expect(xml).toContain('<rss version="2.0"');
 		for (const post of posts) {
 			expect(xml).toContain(`<link>${SITE.url}/blog/${post.slug}</link>`);
-			expect(xml).toContain(post.summary.replace(/&/g, "&amp;"));
+			expect(xml).toContain(escaped(post.summary));
 		}
 		noRawAmpersands(xml);
 	});

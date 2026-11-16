@@ -1,0 +1,146 @@
+name: WCAG
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wcag-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  CONTRAST_BASE: ${{ github.event.pull_request.base.sha }}
+  CONTRAST_FULL: ${{ github.event_name == 'push' && '1' || '' }}
+
+jobs:
+  shard:
+    name: contrast ${{ matrix.shard }}/4
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+
+      # The plan reads the diff and decides which surfaces the change can
+      # affect. A docs-only PR stops here.
+      - name: Plan the affected surfaces
+        id: plan
+        env:
+          CONTRAST_JSON: report-${{ matrix.shard }}.json
+        run: bun scripts/contrast/plan-cli.ts --out plan.json >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        if: steps.plan.outputs.skipped != 'true'
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        if: steps.plan.outputs.skipped != 'true'
+        run: bun run build
+
+      - uses: browser-actions/setup-chrome@v1
+        if: steps.plan.outputs.skipped != 'true'
+        id: chrome
+        with:
+          chrome-version: stable
+
+      - name: Check text contrast
+        if: steps.plan.outputs.skipped != 'true'
+        env:
+          CHROME_BIN: ${{ steps.chrome.outputs.chrome-path }}
+          CONTRAST_WORKERS: "4"
+          CONTRAST_SHARD: ${{ matrix.shard }}/4
+          CONTRAST_PLAN: plan.json
+          CONTRAST_JSON: report-${{ matrix.shard }}.json
+        run: bun run contrast
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wcag-report-${{ matrix.shard }}
+          path: report-${{ matrix.shard }}.json
+          if-no-files-found: warn
+          retention-days: 7
+
+  contrast:
+    name: WCAG contrast
+    needs: shard
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: wcag-report-*
+          merge-multiple: true
+          path: reports
+
+      - name: Build the report
+        run: node scripts/contrast/report.mjs reports --out comment.md --result result.txt --shards 4
+
+      - name: Add the report to the job summary
+        if: always()
+        run: cat comment.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Update the pull request comment
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/github-script@v8
+        env:
+          COMMENT_PATH: comment.md
+        with:
+          script: |
+            const fs = require('node:fs')
+            if (!fs.existsSync(process.env.COMMENT_PATH)) return
+            const body = fs.readFileSync(process.env.COMMENT_PATH, 'utf8')
+            const marker = '<!-- wcag-contrast-report -->'
+            const { owner, repo } = context.repo
+            const issue_number = context.payload.pull_request.number
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            })
+            const existing = comments.find(
+              (comment) => comment.body?.includes(marker) && comment.user?.type === 'Bot',
+            )
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              })
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body })
+            }
+
+      - name: Require every shard and a clean report
+        if: always()
+        run: |
+          if [ "${{ needs.shard.result }}" != "success" ]; then
+            echo "At least one contrast shard failed."
+            exit 1
+          fi
+          result="$(cat result.txt 2>/dev/null || echo missing)"
+          if [ "$result" != "pass" ]; then
+            echo "The contrast report is $result."
+            exit 1
+          fi

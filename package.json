@@ -7,7 +7,8 @@
 		"build": "NODE_ENV=production react-router build",
 		"typecheck": "react-router typegen && tsc",
 		"test": "bun test",
-		"verify": "bun test && bun run typecheck && bun run build"
+		"verify": "bun test && bun run typecheck && bun run build",
+		"contrast": "bun scripts/contrast.ts"
 	},
 	"dependencies": {
 		"@react-router/node": "^8.5.1",

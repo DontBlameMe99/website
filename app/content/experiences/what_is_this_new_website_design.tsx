@@ -172,19 +172,19 @@ export function NoteGraphFigure() {
 						transition={{ duration: 0.14 }}
 					>
 						{active === null ? (
-							<span className="text-overlay0">hover a note</span>
+							<span className="text-overlay1">hover a note</span>
 						) : (
 							<>
 								<Chip>{hexId(active)}</Chip>
 								<span className="text-subtext0">
 									note {String(active + 1).padStart(2, "0")}
 								</span>
-								<span className="text-overlay0">links {neighbours.size}</span>
+								<span className="text-overlay1">links {neighbours.size}</span>
 							</>
 						)}
 					</motion.span>
 				</AnimatePresence>
-				<span className="ml-auto tabular-nums text-overlay0">
+				<span className="ml-auto tabular-nums text-overlay1">
 					{BASE_EDGES.length} edges
 				</span>
 			</div>

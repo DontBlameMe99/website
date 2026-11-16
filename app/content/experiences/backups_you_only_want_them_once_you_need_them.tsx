@@ -105,7 +105,7 @@ export function RetentionBoard() {
 
 				<Bars data={RETENTION} accent={MAUVE} />
 
-				<div className="text-[9px] leading-relaxed text-overlay0">
+				<div className="text-[9px] leading-relaxed text-overlay1">
 					Both repositories get the same schedule. The remote one is written
 					over ssh.
 				</div>

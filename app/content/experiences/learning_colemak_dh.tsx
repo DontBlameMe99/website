@@ -146,7 +146,7 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 										? `color-mix(in srgb, ${finger.color} 26%, transparent)`
 										: `color-mix(in srgb, ${finger.color} 7%, transparent)`,
 									color: active
-										? "var(--text)"
+										? "var(--ink)"
 										: `color-mix(in srgb, ${finger.color} 45%, var(--text))`,
 									boxShadow: active ? `0 0 0 1px ${finger.color}` : undefined,
 								}}
@@ -198,10 +198,9 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 			<div className="mt-3 space-y-1.5 border border-border/60 bg-surface0/30 p-2.5">
 				<div className="flex flex-wrap items-center gap-2  text-[11px]">
 					<span
-						className="inline-flex size-5 items-center justify-center border leading-none"
+						className="inline-flex size-5 items-center justify-center border leading-none text-text"
 						style={{
 							borderColor: toFinger.color,
-							color: toFinger.color,
 							backgroundColor: `color-mix(in srgb, ${toFinger.color} 14%, transparent)`,
 						}}
 					>
@@ -235,13 +234,13 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 						{entry.label}
 					</span>
 				))}
-				<span className="text-overlay0">home row shaded</span>
-				<span className="text-overlay0">
+				<span className="text-overlay1">home row shaded</span>
+				<span className="text-overlay1">
 					click a key to trace where it went
 				</span>
 			</div>
 
-			<p className="mt-2  text-[11px] leading-relaxed text-overlay0">
+			<p className="mt-2  text-[11px] leading-relaxed text-overlay1">
 				Letters only, punctuation slots dimmed. The dashed outline and dot mark
 				where the selected key sits in the other layout.
 			</p>

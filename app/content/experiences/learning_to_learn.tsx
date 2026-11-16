@@ -46,7 +46,7 @@ export function HourAccumulator() {
 							</motion.span>
 							<span className="text-[11px] text-overlay1">hours / year</span>
 						</div>
-						<div className="mt-1  text-[11px] text-overlay0">
+						<div className="mt-1  text-[11px] text-overlay1">
 							{minutes} min a day, every day
 						</div>
 					</div>

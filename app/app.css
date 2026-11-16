@@ -570,14 +570,16 @@
    with the page darkest in the dark scheme and lightest in the light one.
 
    Everforest has seven hues, so pink and maroon borrow its purple and red, sky,
-   sapphire, and blue share its one blue, and lavender takes its sage grey.
+   sapphire, and blue share its one blue, and lavender takes its sage grey. Pink
+   leans toward magenta so the pinky and ring keys read apart, and lavender is
+   lightened off the neutral labels so a figure can still tell them apart.
    Every accent clears 4.5:1 as text on the panel and carries the scheme's own
    ink at 4.5:1 as a fill. */
 [data-scheme="everforest-dark"] {
 	color-scheme: dark;
 	/* Everforest Dark, medium contrast: hard bg_dim as the page, medium bg_dim
 	   as the well, bg0 as the panel, and bg1 to bg3 as the raised tones. */
-	--pink: #d699b6;
+	--pink: #d59bd0;
 	--mauve: #d699b6;
 	--red: #e67e80;
 	--maroon: #e67e80;
@@ -588,13 +590,13 @@
 	--sky: #7fbbb3;
 	--sapphire: #7fbbb3;
 	--blue: #7fbbb3;
-	--lavender: #9da9a0;
+	--lavender: #b1bdb4;
 	--text: #d3c6aa;
 	--subtext1: #d3c6aa;
 	--subtext0: #9da9a0;
 	--overlay2: #9da9a0;
 	--overlay1: #9da9a0;
-	--overlay0: #859289;
+	--overlay0: #96a29a;
 	--surface2: #475258;
 	--surface1: #3d484d;
 	--surface0: #343f44;
@@ -663,7 +665,7 @@
 	--subtext0: #55636a;
 	--overlay2: #55636a;
 	--overlay1: #5c6a72;
-	--overlay0: #646f74;
+	--overlay0: #5e6b70;
 	--surface2: #bdc3af;
 	--surface1: #e0dcc7;
 	--surface0: #e6e2cc;

@@ -337,7 +337,7 @@ export function MinimalPhone() {
 													stiffness: 420,
 													damping: 32,
 												}}
-												className="flex flex-col items-center gap-1 border border-border/60 bg-surface0/40 px-1 py-1.5"
+												className="flex flex-col items-center gap-1 border border-border/60 bg-surface0/20 px-1 py-1.5"
 											>
 												<span
 													style={{

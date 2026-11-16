@@ -142,12 +142,14 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 									borderColor: active
 										? finger.color
 										: `color-mix(in srgb, ${finger.color} 32%, var(--color-border))`,
-									backgroundColor: active
-										? `color-mix(in srgb, ${finger.color} 26%, transparent)`
-										: `color-mix(in srgb, ${finger.color} 7%, transparent)`,
-									color: active
-										? "var(--ink)"
-										: `color-mix(in srgb, ${finger.color} 45%, var(--text))`,
+									// A selected key is a solid accent fill with the palette's own
+									// ink, the same pair the Chip below uses. A tint would put the
+									// letter under AAA once an ink ramp is tuned to it.
+									// Only the selected key takes a fill: a tint under a label eats
+									// the AAA the palette's ink is tuned to, so the finger color
+									// stays in the border and the legend.
+									backgroundColor: active ? finger.color : "transparent",
+									color: active ? "var(--on-accent)" : "var(--text)",
 									boxShadow: active ? `0 0 0 1px ${finger.color}` : undefined,
 								}}
 								transition={
@@ -198,10 +200,10 @@ function LayoutBoard({ colemak }: { colemak: boolean }) {
 			<div className="mt-3 space-y-1.5 border border-border/60 bg-surface0/30 p-2.5">
 				<div className="flex flex-wrap items-center gap-2  text-[11px]">
 					<span
-						className="inline-flex size-5 items-center justify-center border leading-none text-text"
+						className="inline-flex size-5 items-center justify-center border leading-none text-on-accent"
 						style={{
 							borderColor: toFinger.color,
-							backgroundColor: `color-mix(in srgb, ${toFinger.color} 14%, transparent)`,
+							backgroundColor: toFinger.color,
 						}}
 					>
 						{selected}

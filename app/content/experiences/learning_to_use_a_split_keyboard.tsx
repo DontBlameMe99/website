@@ -158,7 +158,7 @@ export function LayersFigure() {
 							{keycaps.map((cap, index) => (
 								<div
 									key={index}
-									className="relative grid aspect-square place-items-center overflow-hidden border border-border bg-surface0/60"
+									className="relative grid aspect-square place-items-center overflow-hidden border border-border bg-surface0/40"
 								>
 									<AnimatePresence mode="popLayout" initial={false}>
 										<motion.span
@@ -177,9 +177,9 @@ export function LayersFigure() {
 						</div>
 
 						<div className="flex items-center gap-1.5">
-							<div className="relative grid h-7 w-16 place-items-center overflow-hidden border border-accent/40 bg-accent/10">
+							<div className="relative grid h-7 w-16 place-items-center overflow-hidden border border-accent/40 bg-accent/2">
 								<motion.span
-									className="absolute inset-0 bg-accent/25"
+									className="absolute inset-0 bg-accent/2"
 									animate={{ opacity: raised ? 1 : 0 }}
 									transition={{ duration: reduced ? 0 : 0.18 }}
 								/>

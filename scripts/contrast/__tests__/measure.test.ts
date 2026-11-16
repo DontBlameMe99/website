@@ -3,6 +3,7 @@ import {
 	composite,
 	contrastRatio,
 	hex,
+	measureInk,
 	parseColor,
 	requirements,
 } from "../measure";
@@ -72,5 +73,46 @@ describe("requirements", () => {
 		expect(requirements(24, 400).aa).toBe(3);
 		expect(requirements(18.66, 700).aa).toBe(3);
 		expect(requirements(18.66, 400).aa).toBe(4.5);
+	});
+});
+
+describe("measureInk masks", () => {
+	const bitmap = (pixels: [number, number, number][]) => ({
+		width: pixels.length,
+		height: 1,
+		data: new Uint8Array(pixels.flatMap(([r, g, b]) => [r, g, b, 255])),
+	});
+
+	test("a second mask finds ink over a background that matches the first", () => {
+		const magenta = { r: 255, g: 0, b: 255 };
+		const lime = { r: 0, g: 255, b: 0 };
+		const hidden = bitmap([
+			[255, 0, 255],
+			[255, 0, 255],
+			[0, 0, 0],
+		]);
+		const maskA = bitmap([
+			[255, 0, 255],
+			[255, 0, 255],
+			[255, 0, 255],
+		]);
+		const maskB = bitmap([
+			[0, 255, 0],
+			[0, 255, 0],
+			[0, 255, 0],
+		]);
+		const sample = measureInk(
+			[
+				{ image: maskA, color: magenta },
+				{ image: maskB, color: lime },
+			],
+			hidden,
+			{ x: 0, y: 0, w: 3, h: 1 },
+			{ r: 255, g: 255, b: 255 },
+			1,
+		);
+		expect(sample).not.toBeNull();
+		expect(sample?.bg).toEqual(magenta);
+		expect(sample?.contrast).toBeLessThan(4.5);
 	});
 });

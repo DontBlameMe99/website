@@ -299,8 +299,8 @@ export function scanPage(): Scan {
 	};
 }
 
-/** Paints every glyph in one fixed color so coverage never depends on the text color. */
-export function setTextMask(on: boolean): boolean {
+/** Paints every glyph in one chosen color so coverage never depends on the text color. */
+export function setTextMask(color: string | null): string | null {
 	const ID = "__wcag_text_mask";
 	let tag = document.getElementById(ID) as HTMLStyleElement | null;
 	if (!tag) {
@@ -308,18 +308,22 @@ export function setTextMask(on: boolean): boolean {
 		tag.id = ID;
 		tag.textContent = [
 			"*,*::before,*::after,*::marker{",
-			"-webkit-text-fill-color:#ff00ff !important;",
+			"-webkit-text-fill-color:var(--wcag-mask) !important;",
 			"text-shadow:none !important;",
 			"}",
-			"svg text{fill:#ff00ff !important}",
-			"input::placeholder,textarea::placeholder,::marker{color:#ff00ff !important}",
+			"svg text{fill:var(--wcag-mask) !important}",
+			"input::placeholder,textarea::placeholder,::marker{color:var(--wcag-mask) !important}",
 		].join("");
 		document.head.appendChild(tag);
 	}
-	tag.disabled = !on;
-	return tag.disabled;
+	if (!color) {
+		tag.disabled = true;
+		return null;
+	}
+	document.documentElement.style.setProperty("--wcag-mask", color);
+	tag.disabled = false;
+	return color;
 }
-
 /** Hides every glyph while keeping every box, border, and background intact. */
 export function setTextHidden(hidden: boolean): boolean {
 	const ID = "__wcag_text_hidden";

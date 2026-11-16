@@ -33,7 +33,10 @@ const VIEWPORT = { width: 1280, height: 1600 };
 const SCALE = 0.5;
 // The mask frame paints every glyph in this color. It is far enough from any
 // page color to detect ink even when the text and its background match.
-const MASK: Rgb = { r: 255, g: 0, b: 255 };
+const MASK_A_COLOR = "#ff00ff";
+const MASK_B_COLOR = "#00ff00";
+const MASK_A: Rgb = { r: 255, g: 0, b: 255 };
+const MASK_B: Rgb = { r: 0, g: 255, b: 0 };
 const IMAGE = {
 	width: Math.round(VIEWPORT.width * SCALE),
 	height: Math.round(VIEWPORT.height * SCALE),
@@ -385,7 +388,7 @@ async function auditState(
 		const regionTop = position > 0 ? position + scan.headerBottom : position;
 		const regionBottom = Math.min(position + cssHeight, scan.height);
 		await chrome.evaluate(
-			`(async () => { window.scrollTo(0, ${position}); await ${frame}; (${finishAnimations.toString()})(); await ${frame}; (${setTextMask.toString()})(true); await ${frame}; return true })()`,
+			`(async () => { window.scrollTo(0, ${position}); await ${frame}; (${finishAnimations.toString()})(); await ${frame}; return true })()`,
 		);
 		// A lazy image can start loading when this tile scrolls into view. It
 		// would paint between the two frames and be mistaken for text ink.
@@ -407,18 +410,32 @@ async function auditState(
 			);
 			continue;
 		}
-		const visible = await chrome.screenshot();
 		await chrome.evaluate(
-			`(async () => { (${setTextMask.toString()})(false); (${setTextHidden.toString()})(true); await ${frame}; (${finishAnimations.toString()})(); await ${frame}; return true })()`,
+			`(async () => { (${setTextHidden.toString()})(true); await ${frame}; (${finishAnimations.toString()})(); await ${frame}; return true })()`,
 		);
 		const hidden = await chrome.screenshot();
 		await chrome.evaluate(
-			`(async () => { (${setTextHidden.toString()})(false); return true })()`,
+			`(async () => { (${setTextHidden.toString()})(false); (${setTextMask.toString()})(${JSON.stringify(
+				MASK_A_COLOR,
+			)}); await ${frame}; return true })()`,
+		);
+		const maskA = await chrome.screenshot();
+		await chrome.evaluate(
+			`(async () => { (${setTextMask.toString()})(${JSON.stringify(
+				MASK_B_COLOR,
+			)}); await ${frame}; return true })()`,
+		);
+		const maskB = await chrome.screenshot();
+		await chrome.evaluate(
+			`(async () => { (${setTextMask.toString()})(null); return true })()`,
 		);
 
-		if (visible.width !== width || visible.height !== height) {
+		const bad = [hidden, maskA, maskB].find(
+			(shot) => shot.width !== width || shot.height !== height,
+		);
+		if (bad) {
 			errors.push(
-				`${combo.label} ${page} ${state}: screenshot is ${visible.width}x${visible.height}, expected ${width}x${height}`,
+				`${combo.label} ${page} ${state}: screenshot is ${bad.width}x${bad.height}, expected ${width}x${height}`,
 			);
 			continue;
 		}
@@ -452,10 +469,12 @@ async function auditState(
 			const local = clampRect(toImage(rect), width, height);
 			if (!local) return null;
 			const ink = measureInk(
-				visible,
+				[
+					{ image: maskA, color: MASK_A },
+					{ image: maskB, color: MASK_B },
+				],
 				hidden,
 				local,
-				MASK,
 				fg,
 				effective,
 				ignore,
@@ -579,7 +598,13 @@ async function auditState(
 			for (let x = 0; x < width; x++) {
 				const index = y * width + x;
 				if (mask[index]) continue;
-				if (maxChannelDiff(visible, hidden, index) <= 3) continue;
+				if (
+					Math.max(
+						maxChannelDiff(maskA, hidden, index),
+						maxChannelDiff(maskB, hidden, index),
+					) <= 3
+				)
+					continue;
 				leftover++;
 				if (!first) first = { x: x / SCALE, y: position + y / SCALE };
 			}

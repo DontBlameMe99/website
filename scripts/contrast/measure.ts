@@ -107,24 +107,24 @@ export type Sample = { bg: Rgb; contrast: number };
  * measurement. When the foreground is translucent, its rendered color is read
  * off the densest ink pixel instead of from the computed style.
  */
+export type Masked = { image: BitmapLike; color: Rgb };
+
 export function measureInk(
-	visible: BitmapLike,
+	masks: Masked[],
 	hidden: BitmapLike,
 	rect: { x: number; y: number; w: number; h: number },
-	mask: Rgb,
 	fg: Rgb,
 	alpha: number,
 	ignore?: Uint8Array,
 ): Sample | null {
 	const x0 = Math.max(0, Math.floor(rect.x));
 	const y0 = Math.max(0, Math.floor(rect.y));
-	const x1 = Math.min(visible.width, Math.ceil(rect.x + rect.w));
-	const y1 = Math.min(visible.height, Math.ceil(rect.y + rect.h));
+	const x1 = Math.min(hidden.width, Math.ceil(rect.x + rect.w));
+	const y1 = Math.min(hidden.height, Math.ceil(rect.y + rect.h));
 	if (x1 <= x0 || y1 <= y0) return null;
 
-	const v = visible.data;
 	const h = hidden.data;
-	const width = visible.width;
+	const width = hidden.width;
 
 	let peakDist = -1;
 	let peakBg: Rgb | null = null;
@@ -139,37 +139,44 @@ export function measureInk(
 		let index = y * width + x0;
 		for (let x = x0; x < x1; x++, i += 4, index++) {
 			if (ignore?.[index]) continue;
-			const vb = v[i + 2];
 			const hb = h[i + 2];
-			const d = Math.max(
-				Math.abs(v[i] - h[i]),
-				Math.abs(v[i + 1] - h[i + 1]),
-				Math.abs(vb - hb),
-			);
-			if (d <= 3) continue;
-
 			const bg = { r: h[i], g: h[i + 1], b: hb };
+			let bestDist = 0;
+			let bestCoverage = 0;
+			for (const masked of masks) {
+				const m = masked.image.data;
+				const mi = i;
+				const dist = Math.max(
+					Math.abs(m[mi] - bg.r),
+					Math.abs(m[mi + 1] - bg.g),
+					Math.abs(m[mi + 2] - bg.b),
+				);
+				if (dist > bestDist) bestDist = dist;
+				// The two mask colors catch a background that matches either
+				// one. Coverage is one for a fully covered glyph pixel.
+				const dr = masked.color.r - bg.r;
+				const dg = masked.color.g - bg.g;
+				const db = masked.color.b - bg.b;
+				const denominator = dr * dr + dg * dg + db * db;
+				if (denominator < 16) continue;
+				const coverage =
+					((m[mi] - bg.r) * dr +
+						(m[mi + 1] - bg.g) * dg +
+						(m[mi + 2] - bg.b) * db) /
+					denominator;
+				if (coverage > bestCoverage) bestCoverage = coverage;
+			}
+			if (bestDist <= 3) continue;
+
 			if (x1 - x0 <= 4 || y1 - y0 <= 4) {
 				const key = (bg.r << 16) | (bg.g << 8) | bg.b;
 				counts.set(key, (counts.get(key) ?? 0) + 1);
 			}
-			if (d > peakDist) {
-				peakDist = d;
+			if (bestDist > peakDist) {
+				peakDist = bestDist;
 				peakBg = bg;
 			}
-
-			// The visible frame paints every glyph in the mask color, so
-			// coverage does not depend on the text color and a background that
-			// happens to match it still produces ink.
-			const dr = mask.r - bg.r;
-			const dg = mask.g - bg.g;
-			const db = mask.b - bg.b;
-			const denominator = dr * dr + dg * dg + db * db;
-			if (denominator < 16) continue;
-			const coverage =
-				((v[i] - bg.r) * dr + (v[i + 1] - bg.g) * dg + (vb - bg.b) * db) /
-				denominator;
-			if (coverage < 0.5) continue;
+			if (bestCoverage < 0.5) continue;
 
 			const ink = composite(fg, bg, alpha);
 			const ratio = contrastRatio(ink, bg);

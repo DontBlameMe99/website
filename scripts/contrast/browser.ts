@@ -328,13 +328,12 @@ export class Chrome {
 		});
 	}
 
-	private once(method: string): Promise<void> {
-		return new Promise((resolveOnce, rejectOnce) => {
-			const remove = () =>
-				this.listeners.set(
-					method,
-					(this.listeners.get(method) ?? []).filter((item) => item !== waiter),
-				);
+	private waitFor(method: string): {
+		promise: Promise<void>;
+		cancel: () => void;
+	} {
+		let remove = () => {};
+		const promise = new Promise<void>((resolveOnce, rejectOnce) => {
 			const waiter: Waiter = {
 				run: () => {
 					remove();
@@ -345,11 +344,17 @@ export class Chrome {
 					rejectOnce(error);
 				},
 			};
+			remove = () =>
+				this.listeners.set(
+					method,
+					(this.listeners.get(method) ?? []).filter((item) => item !== waiter),
+				);
 			this.listeners.set(method, [
 				...(this.listeners.get(method) ?? []),
 				waiter,
 			]);
 		});
+		return { promise, cancel: () => remove() };
 	}
 
 	async evaluate<T = unknown>(expression: string): Promise<T> {
@@ -371,9 +376,19 @@ export class Chrome {
 	}
 
 	async goto(path: string): Promise<void> {
-		const loaded = this.once("Page.loadEventFired");
-		await this.send("Page.navigate", { url: `${this.baseUrl}${path}` });
-		await withTimeout(loaded, COMMAND_TIMEOUT_MS, "Page load timed out");
+		const loaded = this.waitFor("Page.loadEventFired");
+		// The navigation can reject first and take the load waiter down with it.
+		loaded.promise.catch(() => {});
+		try {
+			await this.send("Page.navigate", { url: `${this.baseUrl}${path}` });
+			await withTimeout(
+				loaded.promise,
+				COMMAND_TIMEOUT_MS,
+				"Page load timed out",
+			);
+		} finally {
+			loaded.cancel();
+		}
 	}
 
 	async screenshot(): Promise<Bitmap> {

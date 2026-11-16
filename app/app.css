@@ -501,6 +501,82 @@
 	--on-accent: #ffffff;
 }
 
+/* Solarized keeps one canvas: the page, panels, and wells share the scheme's
+   background tone, so a muted tone only has to clear the canvas and the
+   highlight tone that fills inline code, table headers, and figure tints. Only
+   --surface1 and --surface2 are strokes and bars, never text.
+
+   Accents keep their Solarized hue and move only as far as 4.5:1 against that
+   canvas, since each one doubles as a fill carrying --on-accent text. */
+[data-scheme="solarized-dark"] {
+	color-scheme: dark;
+	/* Solarized Dark. Red, orange, magenta, violet, and blue are lifted off
+	   their official values for 4.5:1 on base03, and the ink ramp runs one step
+	   brighter than base1/base0 so small text still clears 4.5:1 on a tinted
+	   fill or inside a chip. */
+	--pink: #dd629d;
+	--mauve: #2aa198;
+	--red: #e56462;
+	--maroon: #e8652f;
+	--peach: #e8652f;
+	--yellow: #b58900;
+	--green: #859900;
+	--teal: #2aa198;
+	--sky: #2aa198;
+	--sapphire: #3496da;
+	--blue: #3496da;
+	--lavender: #8387cd;
+	--text: #a8b6b6;
+	--subtext1: #93a1a1;
+	--subtext0: #93a1a1;
+	--overlay2: #a8b6b6;
+	--overlay1: #93a1a1;
+	--overlay0: #93a1a1;
+	--surface2: #657b83;
+	--surface1: #586e75;
+	--surface0: #073642;
+	--base: #002b36;
+	--mantle: #002b36;
+	--crust: #002b36;
+
+	--ink: var(--text);
+	--on-accent: #002b36;
+}
+
+[data-scheme="solarized-light"] {
+	color-scheme: light;
+	/* Solarized Light, deepened the same way: the muted tones run below base01,
+	   so prose still clears 4.5:1 on the accent tint a blockquote paints, and
+	   every accent is pulled until it clears 4.5:1 on base3. */
+	--pink: #cf2d7c;
+	--mauve: #217e77;
+	--red: #d12723;
+	--maroon: #c44815;
+	--peach: #c44815;
+	--yellow: #8f6c00;
+	--green: #697800;
+	--teal: #217e77;
+	--sky: #217e77;
+	--sapphire: #2076b3;
+	--blue: #2076b3;
+	--lavender: #6369c0;
+	--text: #073642;
+	--subtext1: #4d666e;
+	--subtext0: #4d666e;
+	--overlay2: #4d666e;
+	--overlay1: #4d666e;
+	--overlay0: #4d666e;
+	--surface2: #839496;
+	--surface1: #93a1a1;
+	--surface0: #eee8d5;
+	--base: #fdf6e3;
+	--mantle: #fdf6e3;
+	--crust: #fdf6e3;
+
+	--ink: #002b36;
+	--on-accent: #fdf6e3;
+}
+
 [data-style="flat"] {
 	/* Shape only: the palette above is untouched, so any scheme works here. */
 	--bw: 1px;
@@ -1021,6 +1097,12 @@
 .prose-dbm .code-block__copy[data-copied] {
 	border-color: var(--green);
 	color: var(--green);
+}
+
+/* The hover fill is the chip tone, where green is too dim for 11px text in
+   every palette. The border still carries the copied state. */
+.prose-dbm .code-block__copy[data-copied]:hover {
+	color: var(--text);
 }
 
 .prose-dbm .code-block pre {

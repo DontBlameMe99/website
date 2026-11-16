@@ -6,7 +6,7 @@
  */
 
 export type Mode = "dark" | "light";
-export type StyleId = "neobrutalist" | "flat";
+export type StyleId = "neobrutalist" | "flat" | "glassmorphism";
 export type SchemeId =
 	| "frappe"
 	| "macchiato"
@@ -44,6 +44,11 @@ export const STYLES: readonly Style[] = [
 		id: "flat",
 		label: "Flat",
 		blurb: "Hairline rules, soft corners, no shadows.",
+	},
+	{
+		id: "glassmorphism",
+		label: "Glassmorphism",
+		blurb: "Frosted panes, soft light, an aurora behind them.",
 	},
 ];
 

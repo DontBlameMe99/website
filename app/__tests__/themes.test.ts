@@ -88,7 +88,7 @@ describe("resolvePrefs", () => {
 	test("falls back for missing or junk values", () => {
 		const prefs = resolvePrefs({
 			mode: "sepia",
-			style: "glassmorphism",
+			style: "claymorphism",
 			darkScheme: "latte",
 			lightScheme: null,
 		});

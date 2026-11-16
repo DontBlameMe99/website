@@ -153,7 +153,9 @@
    style needs no edit here.
 
    Every token is listed, including ones a built-in style leaves alone, so a
-   nested preview cannot inherit a page's shape or fill.
+   nested preview cannot inherit a page's shape or fill. A token that only feeds
+   another reset token, like the aurora colors behind --page-image, needs no
+   line here.
 
    Fills are a color plus an image. Keeping them separate means a transient
    hover utility can still override the color, and a style that wants a gradient
@@ -608,6 +610,155 @@
 	);
 }
 
+[data-style="glassmorphism"] {
+	/* Material, not just shape: translucent fills under a heavy blur, hairlines
+	   instead of ink, a specular rim on every edge, and an aurora on the page
+	   for the panes to refract. The radius and the rim are borrowed from Apple's
+	   Liquid Glass; the lensing needs an SVG displacement filter, which costs a
+	   compositor layer per pane, so the material leans on blur and light. */
+	--bw: 1px;
+	--bw-heavy: 2px;
+	--radius: 28px;
+	--lift: 0px;
+	--press: 0px;
+	--backdrop: blur(60px) saturate(180%) brightness(1.05);
+
+	/* The aurora is the scheme's own surface tinted with its accents, so the
+	   wash stays inside the palette instead of dragging in a fixed hue. It is
+	   sized so the 11px muted labels that sit straight on the page keep 4.5:1 on
+	   every palette. A dark scheme loses contrast faster per point of accent
+	   mix, which is why the two sides are not symmetric. light-dark() reads the
+	   scheme's own color-scheme, so a new palette needs no line here. Keep
+	   color-scheme on the [data-scheme] blocks: the build lowers light-dark() to
+	   a variable pair that they define. */
+	--aurora-mauve: light-dark(
+		color-mix(in srgb, var(--mauve) 7%, var(--crust)),
+		color-mix(in srgb, var(--mauve) 12%, var(--crust))
+	);
+	--aurora-blue: light-dark(
+		color-mix(in srgb, var(--blue) 6%, var(--crust)),
+		color-mix(in srgb, var(--blue) 11%, var(--crust))
+	);
+	--aurora-wash: light-dark(
+		color-mix(in srgb, var(--sapphire) 5%, var(--crust)),
+		color-mix(in srgb, var(--sapphire) 9%, var(--crust))
+	);
+	--aurora-pink: light-dark(
+		color-mix(in srgb, var(--pink) 6%, var(--crust)),
+		color-mix(in srgb, var(--pink) 10%, var(--crust))
+	);
+
+	--page-image:
+		radial-gradient(
+			56rem 44rem at 12% -6%,
+			var(--aurora-mauve),
+			transparent 72%
+		),
+		radial-gradient(52rem 40rem at 88% 2%, var(--aurora-blue), transparent 72%),
+		linear-gradient(
+			160deg,
+			var(--aurora-wash) 0%,
+			var(--aurora-mauve) 45%,
+			var(--aurora-pink) 100%
+		);
+
+	/* A pane leans away from the text color, so it never eats contrast: lighter
+	   than the paper in a light scheme, darker than the night in a dark one. It
+	   stays light on the fill because the blur, not the paint, is what makes it
+	   glass. */
+	--panel-surface: light-dark(
+		color-mix(in srgb, var(--base) 52%, transparent),
+		color-mix(in srgb, var(--mantle) 62%, transparent)
+	);
+	--well-surface: light-dark(
+		color-mix(in srgb, var(--mantle) 48%, transparent),
+		color-mix(in srgb, var(--crust) 56%, transparent)
+	);
+	--plain-surface: light-dark(
+		color-mix(in srgb, var(--base) 46%, transparent),
+		color-mix(in srgb, var(--mantle) 52%, transparent)
+	);
+
+	/* Liquid Glass casts a soft drop shadow and catches light on its rim. The rim
+	   is directional, the way a lens is: a bright specular line along the top,
+	   faint light down both sides, and a dark inner edge at the bottom, so the
+	   pane reads as a slab of glass rather than a rectangle. The drop shadow is
+	   black in every scheme, because a palette's crust is pale in the light
+	   ones. */
+	--edge: color-mix(in srgb, var(--ink) 18%, transparent);
+	--shadow-hard:
+		0 24px 60px -24px rgb(0 0 0 / 0.5), inset 0 1px 0 rgb(255 255 255 / 0.5),
+		inset 1px 0 0 rgb(255 255 255 / 0.12), inset -1px 0 0 rgb(
+			255 255 255 / 0.12
+		),
+		inset 0 -1px 0 rgb(0 0 0 / 0.25);
+	--shadow-hard-lg:
+		0 32px 80px -28px rgb(0 0 0 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.6),
+		inset 1px 0 0 rgb(255 255 255 / 0.16), inset -1px 0 0 rgb(
+			255 255 255 / 0.16
+		),
+		inset 0 -1px 0 rgb(0 0 0 / 0.3);
+	--shadow-hard-sm:
+		0 14px 34px -16px rgb(0 0 0 / 0.45),
+		inset 0 1px 0 rgb(255 255 255 / 0.4),
+		inset 1px 0 0 rgb(255 255 255 / 0.1), inset -1px 0 0 rgb(255 255 255 / 0.1),
+		inset 0 -1px 0 rgb(0 0 0 / 0.2);
+
+	/* A pane brightens under the pointer, the way a lit surface does. */
+	--hover-edge: color-mix(in srgb, var(--mauve) 45%, var(--edge));
+	--hover-fill: color-mix(in srgb, var(--ink) 12%, var(--plain-surface));
+	--press-fill: color-mix(in srgb, var(--ink) 18%, var(--plain-surface));
+	--card-hover-fill: color-mix(in srgb, var(--ink) 8%, var(--panel-surface));
+	--accent-hover-fill: color-mix(
+		in srgb,
+		var(--ink) 14%,
+		var(--accent-surface)
+	);
+	--accent-press-fill: color-mix(
+		in srgb,
+		var(--ink) 22%,
+		var(--accent-surface)
+	);
+	--scrollbar: color-mix(in srgb, var(--ink) 45%, transparent);
+}
+
+/* The aurora is a fixed layer under the content, so the panes keep the same
+   light behind them from the first fold to the last instead of drifting as the
+   page scrolls. */
+[data-style="glassmorphism"] body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	background-image: var(--page-image);
+	pointer-events: none;
+}
+
+/* A card that scopes its own scheme previews that palette, so it sits on that
+   palette's own page: a translucent pane over another scheme's page would mix
+   two palettes in one card and drop its text below 4.5:1. */
+[data-style="glassmorphism"] .nb-panel[data-scheme] {
+	background-color: var(--page-surface);
+}
+
+/* Glass keeps the sticky header a pane, so whatever scrolls under it blurs.
+   Full bleed, so its corners stay square. */
+[data-style="glassmorphism"] .site-header {
+	/* The header scrolls over anything, including a light card on a dark page, so
+	   it keeps a small show-through and not more: at 62% the muted nav links fell
+	   to about 2.9:1 over a pale card. */
+	background-color: color-mix(in srgb, var(--page-surface) 82%, transparent);
+	background-image: none;
+	backdrop-filter: var(--backdrop);
+	border-radius: 0;
+}
+
+/* The layer above paints the aurora, so the body must not paint it too. A body
+   background reaches the canvas when the root has none, which doubles it. */
+[data-style="glassmorphism"] body {
+	background-image: none;
+}
+
 /* The focus ring keeps the page's ink even inside a palette card, where the
    scoped --ink is that card's text color. Declared on :root only, so it
    resolves there and is inherited as a concrete color. */
@@ -727,16 +878,22 @@
 	border: var(--bw) var(--line-style) var(--edge);
 }
 
+/* A rule on one side is a straight line: a radius turns its ends into hooks.
+   These are the utilities and prose rules; a raw `border-b` divider still picks
+   up the style radius. */
 @utility nb-line-t {
 	border-top: var(--bw) var(--line-style) var(--edge);
+	border-radius: 0;
 }
 
 @utility nb-line-b {
 	border-bottom: var(--bw) var(--line-style) var(--edge);
+	border-radius: 0;
 }
 
 @utility nb-line-l {
 	border-left: var(--bw) var(--line-style) var(--edge);
+	border-radius: 0;
 }
 
 @utility nb-callout {
@@ -901,6 +1058,7 @@
 	margin-top: 3.25em;
 	padding-top: 1em;
 	border-top: var(--bw) var(--line-style) var(--edge);
+	border-radius: 0;
 	font-size: clamp(1.375rem, 2vw + 0.5rem, 1.625rem);
 	color: var(--text);
 	counter-increment: section;
@@ -1069,6 +1227,7 @@
 	justify-content: space-between;
 	gap: 1rem;
 	border-bottom: var(--bw) var(--line-style) var(--edge);
+	border-radius: 0;
 	padding: 0.4rem 0.7rem;
 	font-size: 0.6875rem;
 	font-weight: 700;
@@ -1154,6 +1313,7 @@
 .prose-dbm hr {
 	border: 0;
 	border-top: var(--bw) var(--line-style) var(--edge);
+	border-radius: 0;
 }
 
 /* Images never exceed the measure or the viewport, and always take a line of
@@ -1305,7 +1465,7 @@
 	}
 }
 
-/* Square thumbs, so the range inputs match the rest of the borders. */
+/* The thumb takes the style radius, so it is square where the style is. */
 input[type="range"]::-webkit-slider-thumb {
 	appearance: none;
 	width: 18px;

@@ -14,7 +14,7 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
 
 export function SiteHeader() {
 	return (
-		<header className="sticky top-0 z-40 nb-page">
+		<header className="site-header sticky top-0 z-40 nb-page">
 			<div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 sm:h-16 sm:flex-nowrap sm:gap-10 sm:px-5 sm:py-0">
 				<NavLink
 					to="/"

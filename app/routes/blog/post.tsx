@@ -70,7 +70,7 @@ function Toc({
 }) {
 	return (
 		<nav aria-label="On this page" className={className}>
-			<ul className="[&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-b-rule">
+			<ul className="[&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-b-rule [&>li]:rounded-none">
 				{sections.map((section) => (
 					<li key={section.id}>
 						<a

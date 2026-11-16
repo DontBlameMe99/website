@@ -215,7 +215,8 @@
 	--subtext1: #b5bfe2;
 	--subtext0: #a5adce;
 	--overlay2: #949cbb;
-	--overlay1: #838ba7;
+	/* Official #838ba7 is 3.65:1 on base; this clears 4.5 for 11px labels. */
+	--overlay1: #9aa2c0;
 	--overlay0: #737994;
 	--surface2: #626880;
 	--surface1: #51576d;
@@ -247,7 +248,8 @@
 	--subtext1: #b8c0e0;
 	--subtext0: #a5adcb;
 	--overlay2: #939ab7;
-	--overlay1: #8087a2;
+	/* Official #8087a2 is 4.14:1 on base; this clears 4.5 for 11px labels. */
+	--overlay1: #8e96b1;
 	--overlay0: #6e738d;
 	--surface2: #5b6078;
 	--surface1: #494d64;

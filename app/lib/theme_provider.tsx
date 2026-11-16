@@ -94,6 +94,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	// one. The boot script has already painted the saved theme; the effect below
 	// adopts it into React state and applies it from then on.
 	const [prefs, setPrefs] = useState<ThemePrefs>(DEFAULT_PREFS);
+	const latest = useRef(prefs);
 	const painted = useRef(false);
 
 	useEffect(() => {
@@ -101,6 +102,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	}, []);
 
 	useEffect(() => {
+		latest.current = prefs;
 		if (!painted.current) {
 			painted.current = true;
 			return;
@@ -108,8 +110,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		apply(prefs);
 	}, [prefs]);
 
-	/** Applies and persists in one step, so a view transition sees the new paint. */
-	const commit = useCallback((next: ThemePrefs) => {
+	/**
+	 * Applies and persists in one step, so a view transition sees the new paint.
+	 * The update reads the newest prefs, not this render's: the header calls it
+	 * from the view transition's async callback.
+	 */
+	const commit = useCallback((update: (current: ThemePrefs) => ThemePrefs) => {
+		const next = update(latest.current);
+		latest.current = next;
 		apply(next);
 		writePrefs(next);
 		setPrefs(next);
@@ -119,9 +127,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		() => ({
 			...prefs,
 			scheme: schemeForMode(prefs.mode, prefs.darkScheme, prefs.lightScheme),
-			setMode: (mode) => commit({ ...prefs, mode }),
-			setStyle: (style) => commit({ ...prefs, style }),
-			setScheme: (scheme) => commit(withScheme(prefs, scheme)),
+			setMode: (mode) => commit((current) => ({ ...current, mode })),
+			setStyle: (style) => commit((current) => ({ ...current, style })),
+			setScheme: (scheme) => commit((current) => withScheme(current, scheme)),
 		}),
 		[prefs, commit],
 	);

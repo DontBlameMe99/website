@@ -107,19 +107,29 @@ function changedFiles(base: string): string[] | null {
 	return output.split("\0").filter(Boolean);
 }
 
-function changedLines(base: string, file: string): number[] | null {
+function changedLines(
+	base: string,
+	file: string,
+): { lines: number[]; deletion: boolean } | null {
 	const output = git(["diff", "-U0", `${base}...HEAD`, "--", file]);
 	if (output === null) return null;
 	const lines = new Set<number>();
+	let deletion = false;
 	for (const line of output.split("\n")) {
 		const match = /^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/u.exec(line);
 		if (!match) continue;
 		const start = Number(match[1]);
 		const count = match[2] === undefined ? 1 : Number(match[2]);
-		if (count === 0) lines.add(start);
-		else for (let index = 0; index < count; index++) lines.add(start + index);
+		if (count === 0) {
+			// A deletion has no new-side lines to map. The old side could have
+			// been any theme, so the safe answer is the full matrix.
+			deletion = true;
+			lines.add(start);
+		} else {
+			for (let index = 0; index < count; index++) lines.add(start + index);
+		}
 	}
-	return [...lines];
+	return { lines: [...lines], deletion };
 }
 
 type CssBlock = {
@@ -284,13 +294,13 @@ export function planFor({
 	for (const file of visual) {
 		if (file === "app/app.css") {
 			css = true;
-			const lines = changedLines(base, file);
-			if (!lines || lines.length === 0) {
+			const changed = changedLines(base, file);
+			if (!changed || changed.lines.length === 0 || changed.deletion) {
 				everyCombo = everyAccent = true;
 				continue;
 			}
 			const blocks = cssBlocks(readFileSync(file, "utf8"));
-			for (const line of lines) {
+			for (const line of changed.lines) {
 				const block = blocks.find(
 					(item) => line >= item.start && line <= item.end,
 				);

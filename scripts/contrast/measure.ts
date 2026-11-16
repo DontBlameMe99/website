@@ -111,6 +111,7 @@ export function measureInk(
 	visible: BitmapLike,
 	hidden: BitmapLike,
 	rect: { x: number; y: number; w: number; h: number },
+	mask: Rgb,
 	fg: Rgb,
 	alpha: number,
 	ignore?: Uint8Array,
@@ -126,7 +127,6 @@ export function measureInk(
 	const width = visible.width;
 
 	let peakDist = -1;
-	let peakColor: Rgb | null = null;
 	let peakBg: Rgb | null = null;
 	let worst: number | null = null;
 	let worstBg: Rgb | null = null;
@@ -155,15 +155,15 @@ export function measureInk(
 			}
 			if (d > peakDist) {
 				peakDist = d;
-				peakColor = { r: v[i], g: v[i + 1], b: vb };
 				peakBg = bg;
 			}
 
-			// Half coverage or better. Edges fade to the background and would
-			// otherwise report the contrast of a half-transparent glyph.
-			const dr = fg.r - bg.r;
-			const dg = fg.g - bg.g;
-			const db = fg.b - bg.b;
+			// The visible frame paints every glyph in the mask color, so
+			// coverage does not depend on the text color and a background that
+			// happens to match it still produces ink.
+			const dr = mask.r - bg.r;
+			const dg = mask.g - bg.g;
+			const db = mask.b - bg.b;
 			const denominator = dr * dr + dg * dg + db * db;
 			if (denominator < 16) continue;
 			const coverage =
@@ -171,8 +171,7 @@ export function measureInk(
 				denominator;
 			if (coverage < 0.5) continue;
 
-			const ink =
-				alpha < 1 ? { r: v[i], g: v[i + 1], b: vb } : composite(fg, bg, alpha);
+			const ink = composite(fg, bg, alpha);
 			const ratio = contrastRatio(ink, bg);
 			if (worst === null || ratio < worst) {
 				worst = ratio;
@@ -217,13 +216,10 @@ export function measureInk(
 	if (worst === null) {
 		// No core pixels: either the glyphs are too thin to reach half coverage
 		// or the text is not painted at all. Fall back to the densest pixel.
-		if (peakColor === null || peakBg === null) return null;
+		if (peakBg === null) return null;
 		return {
 			bg: peakBg,
-			contrast: contrastRatio(
-				alpha < 1 ? peakColor : composite(fg, peakBg, alpha),
-				peakBg,
-			),
+			contrast: contrastRatio(composite(fg, peakBg, alpha), peakBg),
 		};
 	}
 

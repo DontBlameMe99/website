@@ -263,16 +263,17 @@ export function scanPage(): Scan {
 			};
 			const rect = clipped(el, raw);
 			if (rect.w < 2 || rect.h < 2) return;
+			const pseudoAlpha = opacity(el) * Number(pcs.opacity);
 			pseudos.push({
 				id: nextPseudo++,
 				rect,
 				color: pcs.color,
-				alpha: opacity(el),
+				alpha: pseudoAlpha,
 				size: Number.parseFloat(pcs.fontSize),
 				weight: Number.parseInt(pcs.fontWeight, 10) || 400,
 				label,
 				element: describe(el),
-				background: ownFill(pcs, opacity(el)),
+				background: ownFill(pcs, pseudoAlpha),
 				pinned: pinned(el),
 				clipped:
 					Math.abs(raw.x - rect.x) > 0.5 ||
@@ -296,6 +297,27 @@ export function scanPage(): Scan {
 		runs,
 		pseudos,
 	};
+}
+
+/** Paints every glyph in one fixed color so coverage never depends on the text color. */
+export function setTextMask(on: boolean): boolean {
+	const ID = "__wcag_text_mask";
+	let tag = document.getElementById(ID) as HTMLStyleElement | null;
+	if (!tag) {
+		tag = document.createElement("style");
+		tag.id = ID;
+		tag.textContent = [
+			"*,*::before,*::after,*::marker{",
+			"-webkit-text-fill-color:#ff00ff !important;",
+			"text-shadow:none !important;",
+			"}",
+			"svg text{fill:#ff00ff !important}",
+			"input::placeholder,textarea::placeholder,::marker{color:#ff00ff !important}",
+		].join("");
+		document.head.appendChild(tag);
+	}
+	tag.disabled = !on;
+	return tag.disabled;
 }
 
 /** Hides every glyph while keeping every box, border, and background intact. */

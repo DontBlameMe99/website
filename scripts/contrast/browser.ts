@@ -110,10 +110,38 @@ export async function serveStatic(root: string): Promise<StaticServer> {
 	};
 }
 
+const COMMAND_TIMEOUT_MS = 30_000;
+
 type Pending = {
 	resolve: (value: unknown) => void;
 	reject: (error: Error) => void;
+	timer: ReturnType<typeof setTimeout>;
 };
+
+type Waiter = {
+	run: () => void;
+	reject: (error: Error) => void;
+};
+
+function withTimeout<T>(
+	promise: Promise<T>,
+	ms: number,
+	message: string,
+): Promise<T> {
+	return new Promise<T>((resolve, reject) => {
+		const timer = setTimeout(() => reject(new Error(message)), ms);
+		promise.then(
+			(value) => {
+				clearTimeout(timer);
+				resolve(value);
+			},
+			(error) => {
+				clearTimeout(timer);
+				reject(error);
+			},
+		);
+	});
+}
 
 export class Chrome {
 	private constructor(
@@ -204,6 +232,12 @@ export class Chrome {
 		socket.addEventListener("message", (event) =>
 			chrome.receive(String(event.data)),
 		);
+		socket.addEventListener("close", () =>
+			chrome.failAll(new Error("Chromium disconnected")),
+		);
+		socket.addEventListener("error", () =>
+			chrome.failAll(new Error("Chromium disconnected")),
+		);
 		await chrome.send("Page.enable");
 		await chrome.send("Runtime.enable");
 		await chrome.send("Emulation.setDeviceMetricsOverride", {
@@ -222,8 +256,23 @@ export class Chrome {
 	}
 
 	private nextId = 1;
+	private disconnected = false;
 	private readonly pending = new Map<number, Pending>();
-	private readonly listeners = new Map<string, (() => void)[]>();
+	private readonly listeners = new Map<string, Waiter[]>();
+
+	private failAll(error: Error) {
+		if (this.disconnected) return;
+		this.disconnected = true;
+		for (const pending of this.pending.values()) {
+			clearTimeout(pending.timer);
+			pending.reject(error);
+		}
+		this.pending.clear();
+		for (const waiters of this.listeners.values()) {
+			for (const waiter of waiters) waiter.reject(error);
+		}
+		this.listeners.clear();
+	}
 
 	private receive(raw: string) {
 		const message = JSON.parse(raw) as {
@@ -236,43 +285,69 @@ export class Chrome {
 			const pending = this.pending.get(message.id);
 			if (!pending) return;
 			this.pending.delete(message.id);
+			clearTimeout(pending.timer);
 			if (message.error)
 				pending.reject(new Error(JSON.stringify(message.error)));
 			else pending.resolve(message.result);
 			return;
 		}
 		if (!message.method) return;
-		for (const listener of this.listeners.get(message.method) ?? []) listener();
+		for (const waiter of this.listeners.get(message.method) ?? []) waiter.run();
 	}
 
 	send<T = unknown>(
 		method: string,
 		params: Record<string, unknown> = {},
 	): Promise<T> {
+		if (this.disconnected)
+			return Promise.reject(new Error("Chromium disconnected"));
 		return new Promise<T>((send, failed) => {
 			const id = this.nextId++;
+			const timer = setTimeout(() => {
+				if (!this.pending.delete(id)) return;
+				failed(new Error(`CDP ${method} timed out`));
+			}, COMMAND_TIMEOUT_MS);
 			this.pending.set(id, {
-				resolve: (value) => send(value as T),
-				reject: failed,
+				resolve: (value) => {
+					clearTimeout(timer);
+					send(value as T);
+				},
+				reject: (error) => {
+					clearTimeout(timer);
+					failed(error);
+				},
+				timer,
 			});
-			this.socket.send(JSON.stringify({ id, method, params }));
+			try {
+				this.socket.send(JSON.stringify({ id, method, params }));
+			} catch (error) {
+				if (!this.pending.delete(id)) return;
+				clearTimeout(timer);
+				failed(error instanceof Error ? error : new Error(String(error)));
+			}
 		});
 	}
 
 	private once(method: string): Promise<void> {
-		return new Promise((resolveOnce) => {
-			const listener = () => {
+		return new Promise((resolveOnce, rejectOnce) => {
+			const remove = () =>
 				this.listeners.set(
 					method,
-					(this.listeners.get(method) ?? []).filter(
-						(item) => item !== listener,
-					),
+					(this.listeners.get(method) ?? []).filter((item) => item !== waiter),
 				);
-				resolveOnce();
+			const waiter: Waiter = {
+				run: () => {
+					remove();
+					resolveOnce();
+				},
+				reject: (error) => {
+					remove();
+					rejectOnce(error);
+				},
 			};
 			this.listeners.set(method, [
 				...(this.listeners.get(method) ?? []),
-				listener,
+				waiter,
 			]);
 		});
 	}
@@ -298,7 +373,7 @@ export class Chrome {
 	async goto(path: string): Promise<void> {
 		const loaded = this.once("Page.loadEventFired");
 		await this.send("Page.navigate", { url: `${this.baseUrl}${path}` });
-		await loaded;
+		await withTimeout(loaded, COMMAND_TIMEOUT_MS, "Page load timed out");
 	}
 
 	async screenshot(): Promise<Bitmap> {
@@ -314,6 +389,7 @@ export class Chrome {
 	}
 
 	async close(): Promise<void> {
+		this.failAll(new Error("Chromium closed"));
 		try {
 			this.socket.close();
 		} catch {

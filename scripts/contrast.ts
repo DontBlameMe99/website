@@ -22,6 +22,7 @@ import {
 	scanPage,
 	setHover,
 	setTextHidden,
+	setTextMask,
 	unpinSticky,
 } from "./contrast/scan";
 
@@ -30,6 +31,9 @@ const VIEWPORT = { width: 1280, height: 1600 };
 // from computed style, not from the glyph pixels, so the sample only needs to
 // locate ink and read the surface behind it.
 const SCALE = 0.5;
+// The mask frame paints every glyph in this color. It is far enough from any
+// page color to detect ink even when the text and its background match.
+const MASK: Rgb = { r: 255, g: 0, b: 255 };
 const IMAGE = {
 	width: Math.round(VIEWPORT.width * SCALE),
 	height: Math.round(VIEWPORT.height * SCALE),
@@ -381,11 +385,11 @@ async function auditState(
 		const regionTop = position > 0 ? position + scan.headerBottom : position;
 		const regionBottom = Math.min(position + cssHeight, scan.height);
 		await chrome.evaluate(
-			`(async () => { window.scrollTo(0, ${position}); await ${frame}; (${finishAnimations.toString()})(); await ${frame}; return true })()`,
+			`(async () => { window.scrollTo(0, ${position}); await ${frame}; (${finishAnimations.toString()})(); await ${frame}; (${setTextMask.toString()})(true); await ${frame}; return true })()`,
 		);
 		const visible = await chrome.screenshot();
 		await chrome.evaluate(
-			`(async () => { (${setTextHidden.toString()})(true); await ${frame}; (${finishAnimations.toString()})(); await ${frame}; return true })()`,
+			`(async () => { (${setTextMask.toString()})(false); (${setTextHidden.toString()})(true); await ${frame}; (${finishAnimations.toString()})(); await ${frame}; return true })()`,
 		);
 		const hidden = await chrome.screenshot();
 		await chrome.evaluate(
@@ -427,7 +431,15 @@ async function auditState(
 			}
 			const local = clampRect(toImage(rect), width, height);
 			if (!local) return null;
-			const ink = measureInk(visible, hidden, local, fg, effective, ignore);
+			const ink = measureInk(
+				visible,
+				hidden,
+				local,
+				MASK,
+				fg,
+				effective,
+				ignore,
+			);
 			if (ink) return { ratio: ink.contrast, fg, bg: ink.bg };
 			// A clipped or overlapped rect can lose its ink to something painted
 			// above it. Only a fully visible box can prove text is invisible.
@@ -638,61 +650,84 @@ async function worker(baseUrl: string, assigned: Job[]): Promise<Result> {
 	};
 
 	try {
-		await chrome.goto("/");
+		try {
+			await chrome.goto("/");
+		} catch (error) {
+			errors.push(
+				`initial page: ${error instanceof Error ? error.message : String(error)}`,
+			);
+		}
 		for (const job of assigned) {
 			const started = performance.now();
-			await prepareJob(chrome, job.combo, job.page, job.accent);
+			let failed = false;
+			try {
+				await prepareJob(chrome, job.combo, job.page, job.accent);
 
-			const baseScan = await chrome.evaluate<Scan>(
-				`(${scanPage.toString()})()`,
-			);
-			await auditState(
-				chrome,
-				baseScan,
-				"base",
-				job.page,
-				job.combo,
-				record,
-				errors,
-				notes,
-			);
+				const baseScan = await chrome.evaluate<Scan>(
+					`(${scanPage.toString()})()`,
+				);
+				await auditState(
+					chrome,
+					baseScan,
+					"base",
+					job.page,
+					job.combo,
+					record,
+					errors,
+					notes,
+				);
 
-			await chrome.evaluate(
-				`(async () => { window.scrollTo(0, 0); await ${frame}; (${setHover.toString()})(true); await ${frame}; (${finishAnimations.toString()})(); await ${frame}; return true })()`,
-			);
-			const hoverScan = await chrome.evaluate<Scan>(
-				`(${scanPage.toString()})()`,
-			);
-			await auditState(
-				chrome,
-				hoverScan,
-				"hover",
-				job.page,
-				job.combo,
-				record,
-				errors,
-				notes,
-			);
-			await chrome.evaluate(`(${setHover.toString()})(false)`);
-			await chrome.evaluate(`(${restorePinned.toString()})()`);
+				await chrome.evaluate(
+					`(async () => { window.scrollTo(0, 0); await ${frame}; (${setHover.toString()})(true); await ${frame}; (${finishAnimations.toString()})(); await ${frame}; return true })()`,
+				);
+				const hoverScan = await chrome.evaluate<Scan>(
+					`(${scanPage.toString()})()`,
+				);
+				await auditState(
+					chrome,
+					hoverScan,
+					"hover",
+					job.page,
+					job.combo,
+					record,
+					errors,
+					notes,
+				);
 
-			const measured = baseScan.runs.length + hoverScan.runs.length;
-			runs += measured;
-			const entry = coverage[job.combo.label] ?? { pages: 0, runs: 0 };
-			entry.pages += 1;
-			entry.runs += measured;
-			coverage[job.combo.label] = entry;
-			progress.done++;
-			const seconds = ((performance.now() - started) / 1000).toFixed(1);
-			const below = findings.filter(
-				(item) =>
-					item.page === job.page &&
-					item.combo === job.combo.label &&
-					item.ratio < item.aa,
-			).length;
-			console.log(
-				`[${String(progress.done).padStart(3)}/${progress.total}] ${job.combo.label} ${job.page} ${seconds}s${below ? ` (${below} below AA)` : ""}`,
-			);
+				const measured = baseScan.runs.length + hoverScan.runs.length;
+				runs += measured;
+				const entry = coverage[job.combo.label] ?? { pages: 0, runs: 0 };
+				entry.pages += 1;
+				entry.runs += measured;
+				coverage[job.combo.label] = entry;
+			} catch (error) {
+				failed = true;
+				errors.push(
+					`${job.combo.label} ${job.page}: ${error instanceof Error ? error.message : String(error)}`,
+				);
+			} finally {
+				try {
+					await chrome.evaluate(`(${setHover.toString()})(false)`);
+				} catch {
+					// the browser may already be gone
+				}
+				try {
+					await chrome.evaluate(`(${restorePinned.toString()})()`);
+				} catch {
+					// the browser may already be gone
+				}
+				progress.done++;
+				const seconds = ((performance.now() - started) / 1000).toFixed(1);
+				const below = findings.filter(
+					(item) =>
+						item.page === job.page &&
+						item.combo === job.combo.label &&
+						item.ratio < item.aa,
+				).length;
+				console.log(
+					`[${String(progress.done).padStart(3)}/${progress.total}] ${job.combo.label} ${job.page} ${seconds}s${below ? ` (${below} below AA)` : ""}${failed ? " (error)" : ""}`,
+				);
+			}
 		}
 	} finally {
 		await chrome.close();

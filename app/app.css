@@ -324,6 +324,13 @@
 	);
 }
 
+/* The focus ring keeps the page's ink even inside a palette card, where the
+   scoped --ink is that card's text color. Declared on :root only, so it
+   resolves there and is inherited as a concrete color. */
+:root {
+	--focus-ring: var(--ink);
+}
+
 @layer base {
 	* {
 		border-color: var(--color-border);
@@ -361,7 +368,7 @@
 
 	/* Ink, not the accent: it has to stay visible on accent fills too. */
 	:focus-visible {
-		outline: 2px solid var(--ink);
+		outline: 2px solid var(--focus-ring);
 		outline-offset: 3px;
 	}
 
@@ -583,7 +590,7 @@
 
 /* The field is the frame: focus belongs on the wrapper, not the bare input. */
 .search-field:has(input:focus-visible) {
-	outline: 2px solid var(--ink);
+	outline: 2px solid var(--focus-ring);
 	outline-offset: 3px;
 }
 

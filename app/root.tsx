@@ -9,6 +9,7 @@ import {
 } from "react-router";
 
 import "./app.css";
+import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { MotionConfig } from "motion/react";
 import { SiteFooter } from "~/components/layout/site_footer";
@@ -83,6 +84,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<ScrollRestoration />
 				<Scripts />
 				<SpeedInsights />
+				<Analytics />
 			</body>
 		</html>
 	);

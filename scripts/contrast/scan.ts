@@ -173,10 +173,14 @@ export function scanPage(): Scan {
 		if (rect.w < 2 || rect.h < 2) return;
 		const svg = el.namespaceURI === "http://www.w3.org/2000/svg";
 		const fill = cs.fill;
-		if (svg && (fill === "none" || fill.startsWith("url("))) {
-			// The mask must not paint text the scan never records.
-			el.setAttribute("data-wcag-skip", "");
-			return;
+		if (svg) {
+			if (fill === "none" || fill.startsWith("url(")) {
+				// The mask must not paint text the scan never records.
+				el.setAttribute("data-wcag-skip", "");
+				return;
+			}
+			// A hover state can make a skipped fill measurable again.
+			el.removeAttribute("data-wcag-skip");
 		}
 		const color = svg ? fill : cs.color;
 		const alpha = opacity(el);

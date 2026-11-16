@@ -2564,7 +2564,10 @@
 }
 
 .prose-dbm tbody tr:hover {
-	background: color-mix(in srgb, var(--accent-surface) 6%, transparent);
+	/* A row highlight is a state layer, so it moves off the surface instead of
+	   over it: an accent wash stacks on a tinted style page and takes a cell
+	   under AAA, while a light step up (or down, on dark) only adds contrast. */
+	background: light-dark(rgb(255 255 255 / 0.25), rgb(0 0 0 / 0.22));
 }
 
 /* A heading anchor that only shows up on hover or focus, with the gutter it

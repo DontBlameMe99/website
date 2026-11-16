@@ -8,7 +8,4 @@
 - SHA-256: `06b16db7a969135d48d38c49183be7fb88d4452e2a3011957c7851941f4e4879`.
 
 Coverage policy: Basic Latin, Latin-1 and the punctuation and symbols the site
-copy uses. A character outside the subset would fall back per glyph, which
-`app/lib/__tests__/montserrat_glyph_coverage.test.ts` guards against. Montserrat
-is not an emoji or music font, so unsupported characters keep the system
-fallback.
+copy uses. A character outside the subset falls back per glyph.

@@ -4,84 +4,126 @@ import {
 	useContext,
 	useEffect,
 	useMemo,
+	useRef,
 	useState,
 } from "react";
+import {
+	DEFAULT_PREFS,
+	type Mode,
+	resolvePrefs,
+	type SchemeId,
+	schemeForMode,
+	type StoredPrefs,
+	STORAGE_KEYS,
+	type StyleId,
+	type ThemePrefs,
+	withScheme,
+} from "~/lib/themes";
 
-export type Theme = "dark" | "light";
+export { themeBootScript } from "~/lib/themes";
 
-export const THEME_STORAGE_KEY = "dbm-theme";
-
-type ThemeContextValue = {
-	theme: Theme;
-	setTheme: (theme: Theme) => void;
-	toggle: () => void;
+type ThemeContextValue = ThemePrefs & {
+	/** The scheme the current mode resolves to. */
+	scheme: SchemeId;
+	setMode: (mode: Mode) => void;
+	setStyle: (style: StyleId) => void;
+	/** Saves a scheme for its own brightness. The mode does not change. */
+	setScheme: (scheme: SchemeId) => void;
 };
 
-const ThemeContext = createContext<ThemeContextValue>({
-	theme: "dark",
-	setTheme: () => {
-		throw new Error("setTheme must be called inside ThemeProvider");
-	},
-	toggle: () => {
-		throw new Error("toggle must be called inside ThemeProvider");
-	},
-});
+const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-const readStored = (): Theme | null => {
-	try {
-		const stored = localStorage.getItem(THEME_STORAGE_KEY);
-		if (stored === "dark" || stored === "light") return stored;
-	} catch {
-		// Storage can be blocked. Fall through to the OS preference.
-	}
-	return null;
-};
-
-const systemTheme = (): Theme =>
+const systemMode = (): Mode =>
 	window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 
-const initialTheme = (): Theme =>
-	typeof window === "undefined" ? "dark" : (readStored() ?? systemTheme());
+const readStored = (): StoredPrefs => {
+	try {
+		return {
+			mode: localStorage.getItem(STORAGE_KEYS.mode),
+			style: localStorage.getItem(STORAGE_KEYS.style),
+			darkScheme: localStorage.getItem(STORAGE_KEYS.darkScheme),
+			lightScheme: localStorage.getItem(STORAGE_KEYS.lightScheme),
+		};
+	} catch {
+		// Storage can be blocked. Fall through to the defaults.
+		return {};
+	}
+};
+
+/** Saved choices, or the OS for brightness when there is no saved choice. */
+const storedPrefs = (): ThemePrefs =>
+	typeof window === "undefined"
+		? DEFAULT_PREFS
+		: resolvePrefs(readStored(), systemMode());
+
+const writePrefs = (prefs: ThemePrefs) => {
+	try {
+		localStorage.setItem(STORAGE_KEYS.mode, prefs.mode);
+		localStorage.setItem(STORAGE_KEYS.style, prefs.style);
+		localStorage.setItem(STORAGE_KEYS.darkScheme, prefs.darkScheme);
+		localStorage.setItem(STORAGE_KEYS.lightScheme, prefs.lightScheme);
+	} catch {
+		// The theme still applies for this page view.
+	}
+};
+
+/** Every visible surface reads its color and shape from these two attributes. */
+const apply = (prefs: ThemePrefs) => {
+	const root = document.documentElement;
+	root.classList.toggle("dark", prefs.mode === "dark");
+	root.classList.toggle("light", prefs.mode === "light");
+	root.dataset.style = prefs.style;
+	root.dataset.scheme = schemeForMode(
+		prefs.mode,
+		prefs.darkScheme,
+		prefs.lightScheme,
+	);
+
+	const page = getComputedStyle(root).getPropertyValue("--page-surface").trim();
+	if (page) {
+		// There is one meta per color-scheme query for the pre-hydration paint.
+		for (const meta of document.querySelectorAll<HTMLMetaElement>(
+			'meta[name="theme-color"]',
+		))
+			meta.content = page;
+	}
+};
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-	const [theme, setThemeState] = useState<Theme>(initialTheme);
+	// Start from the defaults so the first client render matches the prerendered
+	// one. The boot script has already painted the saved theme; the effect below
+	// adopts it into React state and applies it from then on.
+	const [prefs, setPrefs] = useState<ThemePrefs>(DEFAULT_PREFS);
+	const painted = useRef(false);
 
-	const apply = useCallback((next: Theme) => {
-		const root = document.documentElement;
-		root.classList.remove("light", "dark");
-		root.classList.add(next);
-
-		const meta = document.querySelector<HTMLMetaElement>(
-			'meta[name="theme-color"]',
-		);
-		if (meta)
-			meta.content = getComputedStyle(root).getPropertyValue("--base").trim();
+	useEffect(() => {
+		setPrefs(storedPrefs());
 	}, []);
 
 	useEffect(() => {
-		apply(theme);
-	}, [theme, apply]);
+		if (!painted.current) {
+			painted.current = true;
+			return;
+		}
+		apply(prefs);
+	}, [prefs]);
 
-	const setTheme = useCallback(
-		(next: Theme) => {
-			apply(next);
-			try {
-				localStorage.setItem(THEME_STORAGE_KEY, next);
-			} catch {
-				// ignore
-			}
-			setThemeState(next);
-		},
-		[apply],
-	);
+	/** Applies and persists in one step, so a view transition sees the new paint. */
+	const commit = useCallback((next: ThemePrefs) => {
+		apply(next);
+		writePrefs(next);
+		setPrefs(next);
+	}, []);
 
-	const value = useMemo(
+	const value = useMemo<ThemeContextValue>(
 		() => ({
-			theme,
-			setTheme,
-			toggle: () => setTheme(theme === "dark" ? "light" : "dark"),
+			...prefs,
+			scheme: schemeForMode(prefs.mode, prefs.darkScheme, prefs.lightScheme),
+			setMode: (mode) => commit({ ...prefs, mode }),
+			setStyle: (style) => commit({ ...prefs, style }),
+			setScheme: (scheme) => commit(withScheme(prefs, scheme)),
 		}),
-		[theme, setTheme],
+		[prefs, commit],
 	);
 
 	return (
@@ -90,18 +132,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useTheme() {
-	return useContext(ThemeContext);
+	const value = useContext(ThemeContext);
+	if (!value) throw new Error("useTheme must be called inside ThemeProvider");
+	return value;
 }
-
-/** Runs before hydration so the first paint already has the right palette. */
-export const themeBootScript = `
-	(function () {
-		var theme;
-		try { theme = localStorage.getItem('${THEME_STORAGE_KEY}'); } catch (e) {}
-		if (theme !== 'light' && theme !== 'dark') {
-			theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-		}
-		document.documentElement.classList.remove('light', 'dark');
-		document.documentElement.classList.add(theme);
-	})();
-`;

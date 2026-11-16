@@ -12,12 +12,12 @@ const FALLBACK_MS = 300;
 
 /** A square button that wipes the next palette in as a rectangle. */
 export function ThemeToggle() {
-	const { theme, setTheme } = useTheme();
+	const { mode, setMode } = useTheme();
 	const ref = useRef<HTMLButtonElement>(null);
 	// Only a run that owns the class advances the token. Runs that bail out
 	// early must not, or the owner's cleanup would no-op forever.
 	const runs = useRef(0);
-	const nextTheme = theme === "dark" ? "light" : "dark";
+	const nextTheme = mode === "dark" ? "light" : "dark";
 
 	const toggle = () => {
 		const doc = document as DocumentWithTransitions;
@@ -36,7 +36,7 @@ export function ThemeToggle() {
 			reduced ||
 			document.visibilityState !== "visible"
 		) {
-			setTheme(nextTheme);
+			setMode(nextTheme);
 			return;
 		}
 
@@ -61,7 +61,7 @@ export function ThemeToggle() {
 			ran = true;
 			// React must commit before the browser captures the new snapshot,
 			// otherwise the wipe shows the palette it just replaced.
-			flushSync(() => setTheme(nextTheme));
+			flushSync(() => setMode(nextTheme));
 		};
 
 		let transition: ViewTransition;
@@ -71,7 +71,7 @@ export function ThemeToggle() {
 			// Starting can throw (for example on a document that is not fully
 			// active). Flip the theme and leave nothing disabled behind.
 			cleanup();
-			setTheme(nextTheme);
+			setMode(nextTheme);
 			return;
 		}
 
@@ -112,7 +112,7 @@ export function ThemeToggle() {
 			onClick={toggle}
 			aria-label="Switch color theme"
 			title="Switch color theme"
-			className="nb-button h-8 w-8 shrink-0 justify-center bg-base p-0 sm:h-9 sm:w-9"
+			className="nb-button h-8 w-8 shrink-0 justify-center p-0 sm:h-9 sm:w-9"
 		>
 			<Moon aria-hidden="true" className="size-3.5 light:hidden" />
 			<Sun aria-hidden="true" className="hidden size-3.5 light:block" />

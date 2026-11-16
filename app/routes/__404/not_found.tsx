@@ -3,9 +3,9 @@ import { Link } from "react-router";
 
 export function NotFound({ status = 404 }: { status?: number }) {
 	return (
-		<div className="border-t-2 border-ink pt-4">
+		<div className="nb-line-t pt-4">
 			<div className="flex items-baseline justify-between">
-				<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-on-accent">
+				<span className="nb-chip nb-accent uppercase tracking-[0.1em]">
 					Error
 				</span>
 				<span className="text-meta uppercase tracking-[0.12em] tabular-nums">
@@ -26,11 +26,11 @@ export function NotFound({ status = 404 }: { status?: number }) {
 			</p>
 
 			<div className="mt-10 flex flex-wrap gap-3">
-				<Link to="/" className="nb-button bg-mauve text-on-accent">
+				<Link to="/" className="nb-button nb-accent">
 					<ArrowLeft className="size-4" />
 					Index
 				</Link>
-				<Link to="/blog" className="nb-button bg-base text-text">
+				<Link to="/blog" className="nb-button">
 					Read the writing
 					<ArrowRight className="size-4" />
 				</Link>

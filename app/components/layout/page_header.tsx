@@ -24,9 +24,9 @@ export function PageHeader({
 	className,
 }: PageHeaderProps) {
 	return (
-		<header className={cn("border-t-2 border-ink pt-4", className)}>
+		<header className={cn("nb-line-t pt-4", className)}>
 			<div className="flex items-baseline justify-between gap-6">
-				<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-on-accent">
+				<span className="nb-chip nb-accent uppercase tracking-[0.1em]">
 					{index}
 					<span className="mx-1">/</span>
 					{label}
@@ -53,12 +53,7 @@ export function SectionLabel({
 	className?: string;
 }) {
 	return (
-		<p
-			className={cn(
-				"border-b-2 border-ink pb-2 text-label text-text",
-				className,
-			)}
-		>
+		<p className={cn("nb-line-b pb-2 text-label text-text", className)}>
 			{children}
 		</p>
 	);

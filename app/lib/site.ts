@@ -74,6 +74,7 @@ export const NAV = [
 	{ label: "Blog", to: "/blog" },
 	{ label: "Projects", to: "/projects" },
 	{ label: "Contact", to: "/contact" },
+	{ label: "Theme", to: "/theme" },
 ] as const;
 
 export const TOPICS = [

@@ -107,9 +107,9 @@ export default function PostPage() {
 		<article>
 			<div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_17rem] lg:gap-14">
 				<div className="min-w-0 max-w-[70ch]">
-					<header className="border-t-2 border-ink pt-4">
+					<header className="nb-line-t pt-4">
 						<div className="flex items-baseline justify-between gap-6">
-							<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-on-accent">
+							<span className="nb-chip nb-accent uppercase tracking-[0.1em]">
 								Post
 							</span>
 							<time
@@ -127,16 +127,16 @@ export default function PostPage() {
 						<p className="mt-6 max-w-[52ch] text-lead">{post.summary}</p>
 
 						<div className="mt-7 flex flex-wrap items-center gap-2">
-							<span className="nb-chip bg-base text-subtext0">
+							<span className="nb-chip text-subtext0">
 								<Clock aria-hidden="true" className="size-3" />
 								{post.minutes} min read
 							</span>
-							<span className="nb-chip bg-base text-subtext0">
+							<span className="nb-chip text-subtext0">
 								<Type aria-hidden="true" className="size-3" />
 								{post.words.toLocaleString("en-US")} words
 							</span>
 							{post.tags.map((tag) => (
-								<span key={tag} className="nb-chip bg-base text-subtext0">
+								<span key={tag} className="nb-chip text-subtext0">
 									#{tag}
 								</span>
 							))}
@@ -160,7 +160,7 @@ export default function PostPage() {
 
 					<PostNav previous={previous} next={next} />
 
-					<Link to="/blog" className="nb-button mt-10 bg-base text-text">
+					<Link to="/blog" className="nb-button mt-10">
 						<ArrowLeft className="size-4" />
 						All writing
 					</Link>

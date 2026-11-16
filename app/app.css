@@ -66,7 +66,6 @@
 	--color-blue: var(--blue);
 	--color-lavender: var(--lavender);
 
-	--color-background: var(--crust);
 	--color-foreground: var(--text);
 	--color-card: var(--base);
 	--color-card-foreground: var(--text);
@@ -76,17 +75,44 @@
 	--color-accent-foreground: var(--crust);
 	--color-destructive: var(--red);
 
-	/* Neobrutalism: borders and shadows use the same ink, never a blur. */
-	--color-ink: var(--ink);
 	--color-on-accent: var(--on-accent);
 	--color-post-accent: var(--post-accent);
-	--color-border: var(--ink);
+	--color-border: var(--edge);
 	--color-rule: color-mix(in srgb, var(--ink) 30%, transparent);
 	--color-input: var(--ink);
 	--color-ring: var(--mauve);
 }
 
-:root {
+/* --- themes ---------------------------------------------------------------
+
+   Two independent axes ride on <html>:
+
+   data-scheme  the palette (Mocha, Latte, ...): the raw colors, shared by every
+                style. Scoped to the attribute, not to html, so the theme page
+                can preview a scheme inside any card.
+   data-style   everything else a UI style owns: border weight and style, edge
+                color, corner radius, lift, shadows, backdrop blur, the fill of
+                every surface, and scrollbar color. Also attribute scoped, for
+                the same reason.
+
+   The defaults live in :root and need no block. A scheme or style that differs
+   from the default only has to override the tokens it changes. Keep the
+   [data-scheme] and [data-style] blocks after the :root blocks: same
+   specificity, so source order is what makes them win.
+
+   An element that scopes data-scheme must scope data-style too. A token like
+   --panel-surface is a resolved value once inherited, so without the style
+   attribute a preview would keep the page's fill under another palette.
+
+   A style that needs more than a token (a gradient, a glossy pseudo-element, a
+   title bar) adds plain rules scoped to its attribute, for example
+   `[data-style="xp"] .nb-button:not(.nb-accent) { background-image: ... }`.
+   Those rules win over the utility classes because they are unlayered, which is
+   also why components must never paint their own fill on an nb-* surface. */
+
+/* Mocha is the default dark, so its palette answers for :root as well. */
+:root,
+[data-scheme="mocha"] {
 	color-scheme: dark;
 	/* Catppuccin Mocha with Malva (mauve) as the only accent. */
 	--pink: #f5c2e7;
@@ -119,12 +145,122 @@
 	--on-accent: #11111b;
 	/* Figures inside posts tint themselves with this. */
 	--post-accent: var(--mauve);
+}
+
+/* Style tokens: the values every style starts from. Matching any data-style
+   element, not a list of ids, makes a style preview self-contained: it resets
+   to these values, then the style's own block adds what it changes. A new
+   style needs no edit here.
+
+   Every token is listed, including ones a built-in style leaves alone, so a
+   nested preview cannot inherit a page's shape or fill.
+
+   Fills are a color plus an image. Keeping them separate means a transient
+   hover utility can still override the color, and a style that wants a gradient
+   only has to set the image.
+
+   Type is fair game too: a style may override --font-sans on its own block. */
+:root,
+[data-style] {
+	--bw: 2px;
+	--bw-heavy: 10px;
+	--line-style: solid;
+	--edge: var(--ink);
+	--radius: 0px;
+	--lift: -2px;
+	--press: 2px;
+	--backdrop: none;
 	--shadow-hard: 4px 4px 0 var(--ink);
 	--shadow-hard-lg: 6px 6px 0 var(--ink);
 	--shadow-hard-sm: 2px 2px 0 var(--ink);
+	--page-surface: var(--crust);
+	--page-image: none;
+	--panel-surface: var(--base);
+	--panel-image: none;
+	--well-surface: var(--mantle);
+	--well-image: none;
+	--plain-surface: var(--base);
+	--plain-image: none;
+	--accent-surface: var(--mauve);
+	--accent-image: none;
+	--hover-edge: var(--edge);
+	--hover-fill: var(--plain-surface);
+	--press-fill: var(--plain-surface);
+	--card-hover-fill: var(--panel-surface);
+	--accent-hover-fill: var(--accent-surface);
+	--accent-press-fill: var(--accent-surface);
+	--scrollbar: var(--ink);
+
+	/* The @theme value resolves once on :root; redeclaring it here lets a
+	   nested style scope re-resolve the default border color too. */
+	--color-border: var(--edge);
 }
 
-.light {
+[data-scheme="frappe"] {
+	color-scheme: dark;
+	/* Catppuccin Frappé, official values. */
+	--pink: #f4b8e4;
+	--mauve: #ca9ee6;
+	--red: #e78284;
+	--maroon: #ea999c;
+	--peach: #ef9f76;
+	--yellow: #e5c890;
+	--green: #a6d189;
+	--teal: #81c8be;
+	--sky: #99d1db;
+	--sapphire: #85c1dc;
+	--blue: #8caaee;
+	--lavender: #babbf1;
+	--text: #c6d0f5;
+	--subtext1: #b5bfe2;
+	--subtext0: #a5adce;
+	--overlay2: #949cbb;
+	--overlay1: #838ba7;
+	--overlay0: #737994;
+	--surface2: #626880;
+	--surface1: #51576d;
+	--surface0: #414559;
+	--base: #303446;
+	--mantle: #292c3c;
+	--crust: #232634;
+
+	--ink: var(--text);
+	--on-accent: #292c3c;
+}
+
+[data-scheme="macchiato"] {
+	color-scheme: dark;
+	/* Catppuccin Macchiato, official values. */
+	--pink: #f5bde6;
+	--mauve: #c6a0f6;
+	--red: #ed8796;
+	--maroon: #ee99a0;
+	--peach: #f5a97f;
+	--yellow: #eed49f;
+	--green: #a6da95;
+	--teal: #8bd5ca;
+	--sky: #91d7e3;
+	--sapphire: #7dc4e4;
+	--blue: #8aadf4;
+	--lavender: #b7bdf8;
+	--text: #cad3f5;
+	--subtext1: #b8c0e0;
+	--subtext0: #a5adcb;
+	--overlay2: #939ab7;
+	--overlay1: #8087a2;
+	--overlay0: #6e738d;
+	--surface2: #5b6078;
+	--surface1: #494d64;
+	--surface0: #363a4f;
+	--base: #24273a;
+	--mantle: #1e2030;
+	--crust: #181926;
+
+	--ink: var(--text);
+	--on-accent: #1e2030;
+}
+
+[data-scheme="latte"] {
 	color-scheme: light;
 	/* Catppuccin Latte, deepened until every accent carries white text at 4.5:1
 	   and every muted tone clears 4.5:1 on the page background. */
@@ -157,10 +293,41 @@
 	--on-accent: #ffffff;
 }
 
+[data-style="flat"] {
+	/* Shape only: the palette above is untouched, so any scheme works here. */
+	--bw: 1px;
+	--bw-heavy: 2px;
+	--radius: 6px;
+	--lift: 0px;
+	--press: 0px;
+	--shadow-hard: none;
+	--shadow-hard-lg: none;
+	--shadow-hard-sm: none;
+	--scrollbar: var(--surface2);
+
+	/* Nothing lifts, so an interaction has to tint instead: a hairline edge
+	   that firms up on hover, and fills that lean toward the text color. */
+	--edge: color-mix(in srgb, var(--ink) 50%, transparent);
+	--hover-edge: color-mix(in srgb, var(--mauve) 55%, var(--edge));
+	--hover-fill: color-mix(in srgb, var(--ink) 6%, var(--plain-surface));
+	--press-fill: color-mix(in srgb, var(--ink) 12%, var(--plain-surface));
+	--card-hover-fill: color-mix(in srgb, var(--ink) 4%, var(--panel-surface));
+	--accent-hover-fill: color-mix(
+		in srgb,
+		var(--ink) 14%,
+		var(--accent-surface)
+	);
+	--accent-press-fill: color-mix(
+		in srgb,
+		var(--ink) 20%,
+		var(--accent-surface)
+	);
+}
+
 @layer base {
 	* {
 		border-color: var(--color-border);
-		border-radius: 0;
+		border-radius: var(--radius);
 	}
 
 	html {
@@ -176,7 +343,8 @@
 
 	body {
 		overflow-x: clip;
-		background-color: var(--color-background);
+		background-color: var(--page-surface);
+		background-image: var(--page-image);
 		color: var(--color-foreground);
 		font-family: var(--font-sans);
 		font-size: 1rem;
@@ -188,7 +356,7 @@
 
 	::selection {
 		background: var(--mauve);
-		color: var(--crust);
+		color: var(--on-accent);
 	}
 
 	/* Ink, not the accent: it has to stay visible on accent fills too. */
@@ -258,12 +426,64 @@
 	font-variant-numeric: tabular-nums;
 }
 
-/* --- neobrutalist surfaces ----------------------------------------------- */
+/* --- themed surfaces ------------------------------------------------------ */
+
+/* Every edge and fill below is a token read, never a literal, so a style swap
+   redraws the whole surface. Components hand these classes the surface and do
+   not paint over them, which is what lets a style replace the fill wholesale. */
+
+@utility nb-line {
+	border: var(--bw) var(--line-style) var(--edge);
+}
+
+@utility nb-line-t {
+	border-top: var(--bw) var(--line-style) var(--edge);
+}
+
+@utility nb-line-b {
+	border-bottom: var(--bw) var(--line-style) var(--edge);
+}
+
+@utility nb-line-l {
+	border-left: var(--bw) var(--line-style) var(--edge);
+}
+
+@utility nb-callout {
+	border: var(--bw) var(--line-style) var(--edge);
+	border-left-width: var(--bw-heavy);
+}
+
+@utility nb-shadow-sm {
+	box-shadow: var(--shadow-hard-sm);
+}
 
 @utility nb-panel {
-	border: 2px solid var(--ink);
-	background: var(--base);
+	border: var(--bw) var(--line-style) var(--edge);
+	background-color: var(--panel-surface);
+	background-image: var(--panel-image);
 	box-shadow: var(--shadow-hard);
+	backdrop-filter: var(--backdrop);
+}
+
+/* The page fill, for the body and anything that has to match it. */
+@utility nb-page {
+	background-color: var(--page-surface);
+	background-image: var(--page-image);
+}
+
+/* A plain fill without the rest of a control: image tiles, small boxes. */
+@utility nb-fill {
+	background-color: var(--plain-surface);
+	background-image: var(--plain-image);
+}
+
+/* A panel that sits on the recessed tone instead of the page base. */
+@utility nb-well {
+	border: var(--bw) var(--line-style) var(--edge);
+	background-color: var(--well-surface);
+	background-image: var(--well-image);
+	box-shadow: var(--shadow-hard);
+	backdrop-filter: var(--backdrop);
 }
 
 @utility nb-lift {
@@ -274,12 +494,13 @@
 		color 120ms ease;
 
 	&:hover {
-		transform: translate(-2px, -2px);
+		transform: translate(var(--lift), var(--lift));
 		box-shadow: var(--shadow-hard-lg);
+		background-color: var(--card-hover-fill);
 	}
 
 	&:active {
-		transform: translate(2px, 2px);
+		transform: translate(var(--press), var(--press));
 		box-shadow: var(--shadow-hard-sm);
 	}
 }
@@ -288,26 +509,33 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 0.5rem;
-	border: 2px solid var(--ink);
+	border: var(--bw) var(--line-style) var(--edge);
+	background-color: var(--plain-surface);
+	background-image: var(--plain-image);
 	padding: 0.5rem 0.85rem;
 	font-size: 0.8125rem;
 	font-weight: 700;
 	line-height: 1.2;
 	box-shadow: var(--shadow-hard-sm);
+	backdrop-filter: var(--backdrop);
 	transition:
 		transform 100ms ease,
 		box-shadow 100ms ease,
+		border-color 100ms ease,
 		background-color 100ms ease,
 		color 100ms ease;
 
 	&:hover {
-		transform: translate(-1px, -1px);
+		transform: translate(var(--lift), var(--lift));
 		box-shadow: var(--shadow-hard);
+		border-color: var(--hover-edge);
+		background-color: var(--hover-fill);
 	}
 
 	&:active {
-		transform: translate(2px, 2px);
+		transform: translate(var(--press), var(--press));
 		box-shadow: none;
+		background-color: var(--press-fill);
 	}
 }
 
@@ -315,19 +543,42 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 0.35rem;
-	border: 2px solid var(--ink);
+	border: var(--bw) var(--line-style) var(--edge);
+	background-color: var(--plain-surface);
+	background-image: var(--plain-image);
 	padding: 0.15rem 0.45rem;
 	font-size: 0.6875rem;
 	font-weight: 600;
 	line-height: 1.4;
 	letter-spacing: 0.04em;
+	backdrop-filter: var(--backdrop);
 }
 
 @utility nb-input {
-	border: 2px solid var(--ink);
-	background: var(--base);
+	border: var(--bw) var(--line-style) var(--edge);
+	background-color: var(--plain-surface);
+	background-image: var(--plain-image);
 	padding: 0.55rem 0.7rem;
 	font-size: 0.875rem;
+	backdrop-filter: var(--backdrop);
+}
+
+/* The accent fill for a themed surface: `nb-button nb-accent`. Unlayered and
+   therefore ahead of the utilities, so it does not depend on which class
+   Tailwind emits first. Doubled on purpose: a style's own `[data-style] .nb-*`
+   rule has the same weight, and an accent button must keep its accent. */
+.nb-accent.nb-accent {
+	background-color: var(--accent-surface);
+	background-image: var(--accent-image);
+	color: var(--on-accent);
+
+	&:hover {
+		background-color: var(--accent-hover-fill);
+	}
+
+	&:active {
+		background-color: var(--accent-press-fill);
+	}
 }
 
 /* The field is the frame: focus belongs on the wrapper, not the bare input. */
@@ -358,7 +609,7 @@
 .prose-dbm h2 {
 	margin-top: 3.25em;
 	padding-top: 1em;
-	border-top: 2px solid var(--ink);
+	border-top: var(--bw) var(--line-style) var(--edge);
 	font-size: clamp(1.375rem, 2vw + 0.5rem, 1.625rem);
 	color: var(--text);
 	counter-increment: section;
@@ -369,7 +620,7 @@
 	display: flex;
 	width: max-content;
 	margin-bottom: 0.7em;
-	border: 1.5px solid var(--ink);
+	border: var(--bw) var(--line-style) var(--edge);
 	background: var(--mauve);
 	padding: 0.2em 0.45em;
 	font-size: 0.6875rem;
@@ -489,8 +740,8 @@
 }
 
 .prose-dbm blockquote {
-	border: 2px solid var(--ink);
-	border-left-width: 10px;
+	border: var(--bw) var(--line-style) var(--edge);
+	border-left-width: var(--bw-heavy);
 	background: color-mix(in srgb, var(--mauve) 10%, transparent);
 	padding: 0.9em 1.1em;
 	color: var(--subtext1);
@@ -499,7 +750,7 @@
 .prose-dbm code {
 	font-size: 0.86em;
 	background: var(--surface0);
-	border: 1px solid var(--ink);
+	border: 1px var(--line-style) var(--edge);
 	color: var(--text);
 	padding: 0.1em 0.35em;
 	overflow-wrap: anywhere;
@@ -516,7 +767,7 @@
 /* A code block is a panel with a language bar, not a bare pre. */
 .prose-dbm .code-block {
 	margin: 1.75em 0;
-	border: 2px solid var(--ink);
+	border: var(--bw) var(--line-style) var(--edge);
 	background: var(--mantle);
 	box-shadow: var(--shadow-hard-sm);
 }
@@ -526,7 +777,7 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
-	border-bottom: 2px solid var(--ink);
+	border-bottom: var(--bw) var(--line-style) var(--edge);
 	padding: 0.4rem 0.7rem;
 	font-size: 0.6875rem;
 	font-weight: 700;
@@ -605,7 +856,7 @@
 
 .prose-dbm hr {
 	border: 0;
-	border-top: 2px solid var(--ink);
+	border-top: var(--bw) var(--line-style) var(--edge);
 }
 
 /* Images never exceed the measure or the viewport, and always take a line of
@@ -617,7 +868,7 @@
 	height: auto;
 	max-height: 70vh;
 	background: var(--surface0);
-	border: 2px solid var(--ink);
+	border: var(--bw) var(--line-style) var(--edge);
 	box-shadow: var(--shadow-hard);
 }
 
@@ -641,7 +892,7 @@
 .prose-dbm .table-wrap {
 	margin: 1.75em 0;
 	overflow-x: auto;
-	border: 2px solid var(--ink);
+	border: var(--bw) var(--line-style) var(--edge);
 	box-shadow: var(--shadow-hard-sm);
 }
 
@@ -653,7 +904,7 @@
 
 .prose-dbm th,
 .prose-dbm td {
-	border: 1px solid var(--ink);
+	border: 1px var(--line-style) var(--edge);
 	padding: 0.5em 0.7em;
 	text-align: left;
 }
@@ -734,12 +985,16 @@
 @layer base {
 	/* This one has to sit in a layer: unlayered declarations beat every
 	   utility, so buttons would keep the browser's 16px font and inherit the
-	   wrong text color. */
+	   wrong text color. Preflight squares off form controls, so the style's
+	   radius has to win here too. */
 	button,
 	input,
-	summary {
+	select,
+	summary,
+	textarea {
 		font: inherit;
 		color: inherit;
+		border-radius: var(--radius);
 	}
 
 	input::placeholder {
@@ -759,8 +1014,9 @@ input[type="range"]::-webkit-slider-thumb {
 	width: 18px;
 	height: 18px;
 	background: var(--mauve);
-	border: 2px solid var(--ink);
-	box-shadow: 2px 2px 0 var(--ink);
+	border: var(--bw) var(--line-style) var(--edge);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow-hard-sm);
 	cursor: grab;
 }
 
@@ -768,9 +1024,9 @@ input[type="range"]::-moz-range-thumb {
 	width: 18px;
 	height: 18px;
 	background: var(--mauve);
-	border: 2px solid var(--ink);
-	border-radius: 0;
-	box-shadow: 2px 2px 0 var(--ink);
+	border: var(--bw) var(--line-style) var(--edge);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow-hard-sm);
 	cursor: grab;
 }
 
@@ -785,7 +1041,7 @@ input[type="range"]::-moz-range-thumb {
 		background: transparent;
 	}
 	::-webkit-scrollbar-thumb {
-		background-color: var(--ink);
+		background-color: var(--scrollbar);
 		background-clip: padding-box;
 		border: 3px solid transparent;
 	}
@@ -794,7 +1050,7 @@ input[type="range"]::-moz-range-thumb {
 @supports not selector(::-webkit-scrollbar-thumb) {
 	* {
 		scrollbar-width: thin;
-		scrollbar-color: var(--ink) transparent;
+		scrollbar-color: var(--scrollbar) transparent;
 	}
 }
 

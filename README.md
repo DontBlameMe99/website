@@ -2,10 +2,16 @@
 
 Personal site and blog of DontBlameMe.
 
-Neobrutalist shell: flat surfaces, 2px ink borders, hard offset shadows, square
-corners, one heavy grotesque doing all the typographic work. Catppuccin Mocha
-and Latte with Malva (mauve) as the only accent, used sparingly on links, labels
-and buttons. Montserrat everywhere, JetBrains Mono only inside code.
+Neobrutalist shell by default: flat surfaces, 2px ink borders, hard offset
+shadows, square corners, one heavy grotesque doing all the typographic work.
+Montserrat everywhere, JetBrains Mono only inside code, and Malva (mauve) as the
+only accent, used sparingly on links, labels and buttons.
+
+`/theme` switches the shape (Neobrutalist, Flat) and the Catppuccin colorscheme
+for each brightness (Frappé, Macchiato, Mocha for dark; Latte for light). The
+two axes are independent, the choice is per device, and the header toggle flips
+dark and light. A style owns a lot more than geometry: edges, fills, backdrop
+blur, and type, all through tokens in `app/app.css`.
 
 ## Development
 
@@ -38,5 +44,5 @@ by that post. Images live in `public/posts/<slug>/` and are capped by
 
 - `app/components/layout/` header, footer, page masthead, theme toggle
 - `app/components/post/` prose primitives and the shared figure kit
-- `app/routes/` index, writing, post, projects, contact, 404
-- `app/lib/` post registry view, theme, slug helper
+- `app/routes/` index, writing, post, projects, contact, theme, 404
+- `app/lib/` post registry view, theme provider and palette catalog, slug helper

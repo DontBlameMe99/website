@@ -10,6 +10,7 @@ export default {
 			"/projects",
 			"/contact",
 			"/disclosure",
+			"/theme",
 			"/404",
 			...postSlugs.map((slug) => `/blog/${slug}`),
 		];

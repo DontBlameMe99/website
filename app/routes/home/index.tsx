@@ -24,7 +24,7 @@ function WritingList() {
 
 			<ul>
 				{posts.slice(0, 6).map((post) => (
-					<li key={post.slug} className="border-b-2 border-ink">
+					<li key={post.slug} className="nb-line-b">
 						<Link
 							to={`/blog/${post.slug}`}
 							className="group grid gap-x-4 gap-y-1 py-5 sm:grid-cols-[minmax(0,1fr)_7rem]"
@@ -45,7 +45,7 @@ function WritingList() {
 				))}
 			</ul>
 
-			<Link to="/blog" className="nb-button mt-8 bg-base text-text">
+			<Link to="/blog" className="nb-button mt-8">
 				Read all writing
 				<ArrowRight className="size-4" />
 			</Link>
@@ -97,9 +97,9 @@ function ProjectsRail() {
 export default function Home() {
 	return (
 		<div>
-			<header className="border-t-2 border-ink pt-4">
+			<header className="nb-line-t pt-4">
 				<div className="flex items-baseline justify-between gap-6">
-					<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-on-accent">
+					<span className="nb-chip nb-accent uppercase tracking-[0.1em]">
 						01<span className="mx-1">/</span>Index
 					</span>
 				</div>
@@ -111,18 +111,18 @@ export default function Home() {
 						the tools I keep rebuilding.
 					</p>
 					<div className="mt-9 flex flex-wrap items-center gap-3">
-						<Link to="/blog" className="nb-button bg-mauve text-on-accent">
+						<Link to="/blog" className="nb-button nb-accent">
 							Read the writing
 							<ArrowRight className="size-4" />
 						</Link>
-						<Link to="/projects" className="nb-button bg-base text-text">
+						<Link to="/projects" className="nb-button">
 							Projects
 						</Link>
 						<a
 							href="mailto:contact@dontblameme.dev"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="nb-button bg-base text-text"
+							className="nb-button"
 						>
 							<Mail aria-hidden="true" className="size-4" />
 							Email

@@ -194,6 +194,10 @@
 	/* A well carries its own shadow, so a style can recess it without touching
 	   the panel shadow. */
 	--shadow-well: var(--shadow-hard);
+	/* Material texture, and the emboss on a control's label. Resetting both
+	   keeps a nested style preview from inheriting another style's surface. */
+	--grain: none;
+	--label-shadow: none;
 	--page-surface: var(--crust);
 	--page-image: none;
 	--panel-surface: var(--base);
@@ -1519,65 +1523,146 @@
 	outline: 1px dotted var(--focus-ring);
 	outline-offset: 2px;
 [data-style="skeuomorphic"] {
-	/* Shape: corners as molded bevels and a hairline seam. Nothing slides, so
-	   depth comes from light alone and a control never moves under the
-	   pointer. */
-	--bw: 1px;
-	--bw-heavy: 5px;
-	--radius: 10px;
-	--lift: 0px;
-	--press: 0px;
+	/* Shape: molded corners, a 2px seam, and two pixels of travel under a
+	   press. Height comes from a bevel that hugs the edge plus a shadow
+	   underneath, so no glyph ever sits on a highlight. */
+	--bw: 2px;
+	--bw-heavy: 8px;
+	--radius: 12px;
+	--lift: -1px;
+	--press: 2px;
 
 	/* A seam is a shade of the surface, not a drawn line. */
-	--edge: color-mix(in srgb, var(--crust) 60%, #000);
+	--edge: light-dark(
+		color-mix(in srgb, var(--crust) 60%, #000),
+		color-mix(in srgb, var(--crust) 45%, #000)
+	);
 
-	/* Two lights on every raised surface: a catch along the top edge where the
-	   light lands, a shade along the bottom where it does not, and a soft
-	   shadow underneath. Black and white keep the same light on every palette,
-	   dark or light. */
+	/* The page is the material the surfaces sit on, so a dark page goes
+	   darker than the palette's own crust and a light one keeps it. */
+	--page-surface: light-dark(
+		var(--crust),
+		color-mix(in srgb, var(--crust) 55%, #000)
+	);
+
+	/* One geometry, two lightings. A lit surface throws a hard shade at the
+	   floor, a soft shadow under it, and the slab of its own body; a dark
+	   surface shows the light on the bevel instead. Every layer keeps its
+	   position and only its color changes, so dark and light read as the same
+	   object under two lamps rather than as an inverted image. */
 	--shadow-hard:
-		inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(0, 0, 0, 0.45),
-		0 2px 4px rgba(0, 0, 0, 0.4), 0 10px 24px -10px rgba(0, 0, 0, 0.8);
+		inset 0 3px 0 light-dark(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5)),
+		inset 0 -3px 0 light-dark(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.55)),
+		0 6px 0
+		light-dark(
+			color-mix(in srgb, var(--crust) 40%, #000),
+			color-mix(in srgb, var(--base) 45%, var(--crust))
+		),
+		0 2px 5px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0)),
+		0 20px 32px -12px light-dark(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.9));
 	--shadow-hard-lg:
-		inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 -1px 0 rgba(0, 0, 0, 0.45),
-		0 3px 6px rgba(0, 0, 0, 0.4), 0 16px 32px -12px rgba(0, 0, 0, 0.85);
+		inset 0 3px 0 light-dark(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.65)),
+		inset 0 -3px 0 light-dark(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.55)),
+		0 8px 0
+		light-dark(
+			color-mix(in srgb, var(--crust) 40%, #000),
+			color-mix(in srgb, var(--base) 45%, var(--crust))
+		),
+		0 4px 9px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0)),
+		0 28px 42px -14px light-dark(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.95));
+	--button-hover-shadow:
+		inset 0 2px 0 light-dark(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.7)),
+		inset 0 -2px 0 light-dark(rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.55)),
+		0 5px 0
+		light-dark(
+			color-mix(in srgb, var(--crust) 40%, #000),
+			color-mix(in srgb, var(--base) 45%, var(--crust))
+		),
+		0 3px 6px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0)),
+		0 12px 18px -8px light-dark(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8));
 	--shadow-hard-sm:
-		inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(0, 0, 0, 0.35),
-		0 1px 2px rgba(0, 0, 0, 0.45);
+		inset 0 2px 0 light-dark(
+			rgba(255, 255, 255, 0.95),
+			rgba(255, 255, 255, 0.55)
+		),
+		inset 0 -2px 0 light-dark(rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.55)),
+		0 4px 0
+		light-dark(
+			color-mix(in srgb, var(--crust) 40%, #000),
+			color-mix(in srgb, var(--base) 45%, var(--crust))
+		),
+		0 2px 4px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0)),
+		0 10px 16px -8px light-dark(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8));
 
-	/* Seams, wells, and presses keep the same light: the catch and shade above,
-	   then a shadow that only a raised surface throws. */
+	/* A well is cut into the surface: the light only reaches its floor from
+	   above, and its far wall catches a rim. */
 	--shadow-well:
-		inset 0 2px 6px rgba(0, 0, 0, 0.45),
-		inset 0 -1px 0 rgba(255, 255, 255, 0.06);
-	--button-press-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
+		inset 0 3px 7px light-dark(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.6)),
+		inset 0 1px 0 light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.45)),
+		inset 0 -2px 0
+		light-dark(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.14));
+	--button-press-shadow:
+		inset 0 3px 7px light-dark(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.65)),
+		inset 0 1px 0 light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.5)),
+		0 2px 0
+		light-dark(
+			color-mix(in srgb, var(--crust) 40%, #000),
+			color-mix(in srgb, var(--base) 45%, var(--crust))
+		);
 
-	/* Fills curve away from the light instead of switching tone flatly. The
-	   panel, well, plain and accent fills only darken: a light top would undercut
-	   the muted text that palettes like Nord and Nord Light tune to exactly
-	   4.5:1, and that text can sit at the top of a panel. The page glow sits
-	   behind every surface, so it only lifts the page a little. */
-	--page-image: radial-gradient(
-		120% 90% at 50% 0%,
-		rgba(255, 255, 255, 0.06),
-		transparent 60%
-	);
-	--panel-image: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.08));
-	/* The recess is carried by the inset shadow: a darker well floor would eat
-	   the contrast of the muted text that sits in a well. */
-	--well-image: linear-gradient(180deg, rgba(0, 0, 0, 0.06), transparent);
-	--plain-image: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.1));
-	/* The accent gloss is a band along the top edge, inside the padding, so a
-	   light or a dark text color never sits on the highlight. */
-	--accent-image: linear-gradient(
-		180deg,
-		rgba(255, 255, 255, 0.2) 0%,
-		rgba(255, 255, 255, 0) 10%,
-		rgba(0, 0, 0, 0.12) 100%
-	);
+	/* Grain, at the level where it reads as a material and not as dirt. */
+	--grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)' opacity='0.05'/%3E%3C/svg%3E");
+
+	/* Fills curve away from the light. The panel and control bodies only darken
+	   toward the floor and their shine lives in the first few pixels of the
+	   edge: palettes like Nord tune their muted text to exactly 4.5:1 against
+	   the surface, so nothing may lighten the area a glyph sits on. */
+	--page-image:
+		var(--grain),
+		radial-gradient(
+			130% 80% at 50% -10%,
+			light-dark(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.12)),
+			transparent 62%
+		);
+	--panel-image:
+		linear-gradient(
+			180deg,
+			light-dark(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4)) 0,
+			light-dark(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08)) 6px,
+			light-dark(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)) 14px,
+			light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.28)) 100%
+		),
+		var(--grain);
+	--well-image:
+		linear-gradient(
+			180deg,
+			light-dark(rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0.08)),
+			light-dark(rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0)) 55%
+		),
+		var(--grain);
+	--plain-image:
+		linear-gradient(
+			180deg,
+			light-dark(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.5)) 0,
+			light-dark(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)) 2px,
+			light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.2)) 100%
+		),
+		var(--grain);
+	--accent-image:
+		linear-gradient(
+			180deg,
+			light-dark(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.55)) 0,
+			light-dark(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.12)) 3px,
+			transparent 4px,
+			light-dark(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.08)) 100%
+		),
+		var(--grain);
+	--input-shadow: var(--shadow-well);
+	--label-shadow: 0 1px 0
+		light-dark(rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0.55));
 
 	/* Interaction moves a plain control toward white under a hover and toward
-	   black under a press, which a light surface reads as a lift and a press. */
+	   black under a press, which a surface reads as a lift and a press. */
 	--hover-edge: color-mix(in srgb, var(--mauve) 40%, var(--edge));
 	--hover-fill: color-mix(in srgb, #fff 7%, var(--plain-surface));
 	--press-fill: color-mix(in srgb, #000 12%, var(--plain-surface));
@@ -1996,6 +2081,7 @@
 	font-weight: var(--button-weight);
 	line-height: 1.2;
 	box-shadow: var(--shadow-hard-sm);
+	text-shadow: var(--label-shadow);
 	backdrop-filter: var(--backdrop);
 	transition:
 		transform var(--motion-quick) ease,
@@ -2030,6 +2116,7 @@
 	font-weight: 600;
 	line-height: 1.4;
 	letter-spacing: 0.04em;
+	text-shadow: var(--label-shadow);
 	backdrop-filter: var(--backdrop);
 }
 

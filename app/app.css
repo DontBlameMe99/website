@@ -92,8 +92,8 @@
                 can preview a scheme inside any card.
    data-style   everything else a UI style owns: border weight and style, edge
                 color, corner radius, lift, shadows, backdrop blur, the fill of
-                every surface, and scrollbar color. Also attribute scoped, for
-                the same reason.
+                every surface, and the shape of the scrollbar. Also attribute
+                scoped, for the same reason.
 
    The defaults live in :root and need no block. A scheme or style that differs
    from the default only has to override the tokens it changes. Keep the
@@ -225,7 +225,18 @@
 	--card-hover-fill: var(--panel-surface);
 	--accent-hover-fill: var(--accent-surface);
 	--accent-press-fill: var(--accent-surface);
-	--scrollbar: var(--ink);
+
+	/* Scrollbar: one geometry for every style, finished from tokens. The
+	   gutter is a transparent border on the thumb, so a wide track can hold a
+	   slim bar. These values are Neobrutalist's: a hard ink block. */
+	--scrollbar-size: 14px;
+	--scrollbar-radius: 0px;
+	--scrollbar-thumb: var(--ink);
+	--scrollbar-thumb-image: none;
+	--scrollbar-thumb-line: 2px solid transparent;
+	--scrollbar-thumb-shadow: none;
+	--scrollbar-track: transparent;
+	--scrollbar-track-shadow: none;
 
 	/* The @theme value resolves once on :root; redeclaring it here lets a
 	   nested style scope re-resolve the default border color too. */
@@ -879,7 +890,10 @@
 	--shadow-hard: none;
 	--shadow-hard-lg: none;
 	--shadow-hard-sm: none;
-	--scrollbar: var(--surface2);
+	--scrollbar-size: 10px;
+	--scrollbar-radius: 999px;
+	--scrollbar-thumb: var(--surface2);
+	--scrollbar-thumb-line: 3px solid transparent;
 
 	/* Nothing lifts, so an interaction has to tint instead: a hairline edge
 	   that firms up on hover, and fills that lean toward the text color. */
@@ -999,7 +1013,12 @@
 		var(--ink) 22%,
 		var(--accent-surface)
 	);
-	--scrollbar: color-mix(in srgb, var(--ink) 45%, transparent);
+	/* A glass bar: a slim pill with the same specular rim as the panes. */
+	--scrollbar-size: 14px;
+	--scrollbar-radius: 999px;
+	--scrollbar-thumb: color-mix(in srgb, var(--ink) 45%, transparent);
+	--scrollbar-thumb-line: 4px solid transparent;
+	--scrollbar-thumb-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45);
 }
 
 /* The aurora is a fixed layer under the content, so the panes keep the same
@@ -1139,8 +1158,17 @@
 	--overlay1: var(--subtext0);
 
 	--shadow-hard-sm: inset 0 0 0 1px #fff;
-	--scrollbar: #d6d3c2;
 	--backdrop: none;
+
+	/* Luna chrome: a beveled thumb in a sunken track, with arrow buttons. */
+	--scrollbar-size: 16px;
+	--scrollbar-radius: 0px;
+	--scrollbar-thumb: #d6d3c2;
+	--scrollbar-thumb-image: linear-gradient(90deg, #fdfdfd, #d8d0c4);
+	--scrollbar-thumb-line: 1px solid #aca899;
+	--scrollbar-thumb-shadow: inset 0 0 0 1px #fff;
+	--scrollbar-track: #f1efe2;
+	--scrollbar-track-shadow: inset 1px 0 0 #aca899;
 }
 
 /* Dark schemes keep the prose links on a light Luna blue. */
@@ -1490,11 +1518,6 @@
 	color: #1a6b1a;
 }
 
-/* The taskbar buttons in the footer. */
-[data-style="xp"] .prose-dbm .code-block pre {
-	scrollbar-color: #aca899 #f1efe2;
-}
-
 [data-style="xp"] ::selection {
 	background: var(--xp-select);
 	color: #fff;
@@ -1663,7 +1686,19 @@
 	   toward that ink; the slab and the inset press carry the feedback instead. */
 	--accent-hover-fill: var(--accent-surface);
 	--accent-press-fill: var(--accent-surface);
-	--scrollbar: var(--surface2);
+
+	/* A molded elevator in a groove: the bevel is the same light-and-shade
+	   pair the slabs use, and the track is cut into the surface. */
+	--scrollbar-size: 16px;
+	--scrollbar-radius: 6px;
+	--scrollbar-thumb: var(--surface2);
+	--scrollbar-thumb-shadow:
+		inset 0 2px 0
+		light-dark(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5)),
+		inset 0 -2px 0 light-dark(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.5));
+	--scrollbar-track: var(--well-surface);
+	--scrollbar-track-shadow: inset 0 2px 4px
+		light-dark(rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.45));
 }
 
 [data-style="material"] {
@@ -1681,7 +1716,12 @@
 	--shadow-hard-lg: 0 2px 2px rgb(0 0 0 / 0.2), 0 6px 10px rgb(0 0 0 / 0.3);
 	--shadow-hard-sm: 0 1px 2px rgb(0 0 0 / 0.3);
 	--backdrop: none;
-	--scrollbar: color-mix(in srgb, var(--mauve) 45%, var(--surface2));
+
+	/* Material's scrollbar is a slim tinted pill, with no visible track. */
+	--scrollbar-size: 14px;
+	--scrollbar-radius: 999px;
+	--scrollbar-thumb: color-mix(in srgb, var(--mauve) 45%, var(--surface2));
+	--scrollbar-thumb-line: 4px solid transparent;
 
 	/* Surface roles, low to high: page, container, container-high, well. A
 	   light scheme lightens toward paper, a dark one lifts the base, so a tint
@@ -2391,18 +2431,16 @@
 	border: 0;
 	box-shadow: none;
 	background: transparent;
-	scrollbar-width: thin;
-	scrollbar-color: var(--surface2) transparent;
-}
-
-/* A code block gets a slim bar, not the site's 12px one. */
-.prose-dbm .code-block pre::-webkit-scrollbar {
-	height: 6px;
-}
-
-.prose-dbm .code-block pre::-webkit-scrollbar-thumb {
-	background-color: var(--surface2);
-	border: 0;
+	/* The block is already a well, so its bar is a hairline in the block's own
+	   ink, not the style's full-size bar. Only the size and the finish drop:
+	   the corner stays the style's own. */
+	--scrollbar-size: 6px;
+	--scrollbar-thumb: var(--surface2);
+	--scrollbar-thumb-image: none;
+	--scrollbar-thumb-line: 0;
+	--scrollbar-thumb-shadow: none;
+	--scrollbar-track: transparent;
+	--scrollbar-track-shadow: none;
 }
 
 .tok-comment {
@@ -2785,49 +2823,46 @@ input[type="range"]::-moz-range-thumb {
 	cursor: grab;
 }
 
-/* --- scrollbar ----------------------------------------------------------- */
+/* --- scrollbar -----------------------------------------------------------
+
+   One geometry for every style, finished from tokens: the track width, the
+   thumb's radius, edge, bevel and gutter, and the track's own fill. The bar is
+   chrome around the widget, so each style answers with its own shape: a hard
+   ink block for Neobrutalist, a hairline pill for Flat, a lens for Glass, a
+   tinted pill for Material, a molded elevator for Skeuomorphic, and Luna
+   chrome for XP. */
 
 @supports selector(::-webkit-scrollbar-thumb) {
 	::-webkit-scrollbar {
-		width: 12px;
-		height: 12px;
+		width: var(--scrollbar-size);
+		height: var(--scrollbar-size);
 	}
 	::-webkit-scrollbar-track {
-		background: transparent;
+		background-color: var(--scrollbar-track);
+		box-shadow: var(--scrollbar-track-shadow);
 	}
 	::-webkit-scrollbar-thumb {
-		background-color: var(--scrollbar);
+		background-color: var(--scrollbar-thumb);
+		background-image: var(--scrollbar-thumb-image);
 		background-clip: padding-box;
-		border: 3px solid transparent;
+		border: var(--scrollbar-thumb-line);
+		border-radius: var(--scrollbar-radius);
+		box-shadow: var(--scrollbar-thumb-shadow);
 	}
 }
 
-@supports not selector(::-webkit-scrollbar-thumb) {
-	* {
-		scrollbar-width: thin;
-		scrollbar-color: var(--scrollbar) transparent;
-	}
-}
-
-/* XP scrollbars: 16px chrome with a beveled thumb and arrow buttons. */
+/* XP scrollbars: Luna's arrow buttons. This is the one part of a scrollbar a
+   token cannot gate, because a scrollbar box belongs to the engine, not to the
+   page, so the rules are scoped to XP instead. A descendant selector also
+   reaches the page's own bar. */
 @supports selector(::-webkit-scrollbar-thumb) {
-	[data-style="xp"] ::-webkit-scrollbar {
-		width: 16px;
-		height: 16px;
-	}
-	[data-style="xp"] ::-webkit-scrollbar-track {
-		background: #f1efe2;
-		box-shadow: inset 1px 0 0 #aca899;
-	}
-	[data-style="xp"] ::-webkit-scrollbar-thumb {
-		background-color: #d6d3c2;
-		background-image: linear-gradient(90deg, #fdfdfd, #d8d0c4);
-		border: 1px solid #aca899;
-		box-shadow: inset 0 0 0 1px #fff;
-	}
-	[data-style="xp"] ::-webkit-scrollbar-button:single-button {
+	/* A code block's bar is a hairline and takes no buttons, so the pre is out:
+	   any rule that names a button part creates one, and the engine sizes it
+	   past the bar. */
+	[data-style="xp"] :not(pre)::-webkit-scrollbar-button:single-button {
+		/* WebKit needs the box declared before it paints an arrow in it. */
 		display: block;
-		height: 16px;
+		height: var(--scrollbar-size);
 		border: 1px solid #aca899;
 		background-color: #ece9d8;
 		background-repeat: no-repeat;
@@ -2835,33 +2870,27 @@ input[type="range"]::-moz-range-thumb {
 		box-shadow: inset 0 0 0 1px #fff;
 	}
 	[data-style="xp"]
-		::-webkit-scrollbar-button:single-button:vertical:decrement {
+		:not(pre)::-webkit-scrollbar-button:single-button:vertical:decrement {
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 5 4 0 8 5Z' fill='%23000'/%3E%3C/svg%3E");
 	}
 	[data-style="xp"]
-		::-webkit-scrollbar-button:single-button:vertical:increment {
+		:not(pre)::-webkit-scrollbar-button:single-button:vertical:increment {
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0 8 0 4 5Z' fill='%23000'/%3E%3C/svg%3E");
 	}
 	[data-style="xp"]
-		::-webkit-scrollbar-button:single-button:horizontal:decrement {
+		:not(pre)::-webkit-scrollbar-button:single-button:horizontal:decrement {
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='8'%3E%3Cpath d='M5 0 0 4 5 8Z' fill='%23000'/%3E%3C/svg%3E");
 	}
 	[data-style="xp"]
-		::-webkit-scrollbar-button:single-button:horizontal:increment {
+		:not(pre)::-webkit-scrollbar-button:single-button:horizontal:increment {
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='8'%3E%3Cpath d='M0 0 5 4 0 8Z' fill='%23000'/%3E%3C/svg%3E");
 	}
-	/* Code blocks keep their slim bar. */
-	[data-style="xp"] .prose-dbm .code-block pre::-webkit-scrollbar {
-		height: 6px;
-	}
-	[data-style="xp"] .prose-dbm .code-block pre::-webkit-scrollbar-thumb {
-		border: 0;
-		background-color: #aca899;
-		background-image: none;
-		box-shadow: none;
-	}
-	[data-style="xp"] .prose-dbm .code-block pre::-webkit-scrollbar-button {
-		display: none;
+}
+
+@supports not selector(::-webkit-scrollbar-thumb) {
+	* {
+		scrollbar-width: thin;
+		scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 	}
 }
 

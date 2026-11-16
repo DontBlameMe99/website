@@ -146,6 +146,12 @@
 	--on-accent: #11111b;
 	/* Figures inside posts tint themselves with this. */
 	--post-accent: var(--accent-surface);
+
+	/* Motion. Durations only: curves live with the effect that needs one, and
+	   the liquid wipe bakes its own ease into its frames. */
+	--motion-quick: 120ms;
+	--motion-hover: 150ms;
+	--motion-base: 180ms;
 }
 
 /* Style tokens: the values every style starts from. Matching any data-style
@@ -1422,8 +1428,11 @@
 	color: #fff;
 }
 
-/* A hot chip gets the pale blue of a hovering Luna control. */
-[data-style="xp"] .nb-chip:not(.nb-accent):hover {
+/* A hot chip gets the pale blue of a hovering Luna control. A pressed chip
+   whose fill is the accent, like the active blog tag, keeps its own ink. The
+   :where keeps the specificity below the footer's own chip rule. */
+[data-style="xp"]
+.nb-chip:not(.nb-accent):where(:not([aria-pressed="true"])):hover {
 	background-color: #d8e4f8;
 	color: #000;
 }
@@ -1620,10 +1629,10 @@
 
 @utility nb-lift {
 	transition:
-		transform 120ms ease,
-		box-shadow 120ms ease,
-		background-color 120ms ease,
-		color 120ms ease;
+		transform var(--motion-quick) ease,
+		box-shadow var(--motion-quick) ease,
+		background-color var(--motion-quick) ease,
+		color var(--motion-quick) ease;
 
 	&:hover {
 		transform: translate(var(--lift), var(--lift));
@@ -1652,11 +1661,11 @@
 	box-shadow: var(--shadow-hard-sm);
 	backdrop-filter: var(--backdrop);
 	transition:
-		transform 100ms ease,
-		box-shadow 100ms ease,
-		border-color 100ms ease,
-		background-color 100ms ease,
-		color 100ms ease;
+		transform var(--motion-quick) ease,
+		box-shadow var(--motion-quick) ease,
+		border-color var(--motion-quick) ease,
+		background-color var(--motion-quick) ease,
+		color var(--motion-quick) ease;
 
 	&:hover {
 		transform: translate(var(--lift), var(--lift));
@@ -1810,8 +1819,8 @@
 	text-decoration-color: var(--accent-surface);
 	box-decoration-break: clone;
 	transition:
-		background-color 120ms ease,
-		color 120ms ease;
+		background-color var(--motion-quick) ease,
+		color var(--motion-quick) ease;
 }
 
 .prose-dbm a:hover {
@@ -1934,8 +1943,8 @@
 	color: var(--subtext0);
 	cursor: pointer;
 	transition:
-		color 120ms,
-		background-color 120ms;
+		color var(--motion-quick),
+		background-color var(--motion-quick);
 }
 
 .prose-dbm .code-block__copy:hover {
@@ -2066,7 +2075,7 @@
 }
 
 .prose-dbm tbody tr {
-	transition: background-color 120ms ease;
+	transition: background-color var(--motion-quick) ease;
 }
 
 .prose-dbm tbody tr:hover {
@@ -2090,7 +2099,7 @@
 	font-weight: 800;
 	text-decoration: none;
 	opacity: 0;
-	transition: opacity 120ms ease;
+	transition: opacity var(--motion-quick) ease;
 }
 
 .group\/heading:hover .heading-anchor,
@@ -2125,6 +2134,182 @@
 	&::-webkit-scrollbar {
 		display: none;
 	}
+}
+
+/* --- icon motion ---------------------------------------------------------- */
+
+/* Hover feedback lives on the link or button that owns the icon, so no
+   component needs a group wrapper. The class name is the whole API. */
+.icon-nudge,
+.icon-nudge-up,
+.icon-nudge-left,
+.icon-tilt {
+	transition: transform var(--motion-hover) ease-out;
+}
+
+@media (hover: hover) {
+	:is(a, button):hover .icon-nudge {
+		transform: translateX(2px);
+	}
+
+	:is(a, button):hover .icon-nudge-up {
+		transform: translate(2px, -2px);
+	}
+
+	:is(a, button):hover .icon-nudge-left {
+		transform: translateX(-2px);
+	}
+
+	:is(a, button):hover .icon-tilt {
+		transform: rotate(-8deg);
+	}
+}
+
+/* A pointer-tracked sheen, painted only by the styles with a surface that can
+   catch light. The project card writes the two coordinates. */
+.nb-spot {
+	position: relative;
+}
+
+.nb-spot::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	display: none;
+	border-radius: inherit;
+	background: radial-gradient(
+		circle at var(--spot-x, 50%) var(--spot-y, 50%),
+		var(--spot-color),
+		transparent 60%
+	);
+	opacity: 0;
+	transition: opacity var(--motion-base) ease-out;
+	pointer-events: none;
+}
+
+.nb-spot > * {
+	position: relative;
+	z-index: 1;
+}
+
+[data-style="flat"] .nb-spot::after {
+	display: block;
+	--spot-color: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+
+[data-style="glassmorphism"] .nb-spot::after {
+	display: block;
+	--spot-color: color-mix(in srgb, var(--accent-surface) 16%, transparent);
+}
+
+[data-style="xp"] .nb-spot::after {
+	display: block;
+	--spot-color: rgb(255 255 255 / 0.1);
+}
+
+@media (hover: hover) {
+	.nb-spot:hover::after {
+		opacity: 1;
+	}
+}
+
+/* The nav's active item already carries a text underline, so the hover rule
+   only grows a line for the rest. XP paints a wash instead. */
+.nav-link {
+	position: relative;
+}
+
+.nav-link::after {
+	content: "";
+	position: absolute;
+	left: 0.25rem;
+	right: 0.25rem;
+	bottom: 0.15rem;
+	height: 2px;
+	background: currentColor;
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform var(--motion-hover) ease-out;
+}
+
+@media (hover: hover) {
+	.nav-link:hover::after {
+		transform: scaleX(1);
+	}
+}
+
+.nav-link[aria-current="page"]::after,
+[data-style="xp"] .nav-link::after {
+	content: none;
+}
+
+/* The selected mark pops in on the theme page. */
+@keyframes chip-in {
+	from {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.chip-in {
+	display: inline-flex;
+	animation: chip-in var(--motion-base) ease-out both;
+}
+
+/* The home hero arrives in four steps instead of one flat fade. */
+@keyframes hero-in {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.hero-step {
+	animation: hero-in var(--motion-base) ease-out both;
+}
+
+.hero-step-1 {
+	animation-delay: 0ms;
+}
+
+.hero-step-2 {
+	animation-delay: 30ms;
+}
+
+.hero-step-3 {
+	animation-delay: 60ms;
+}
+
+.hero-step-4 {
+	animation-delay: 90ms;
+}
+
+/* The two theme glyphs have no inline state before hydration, so the class the
+   boot script already set decides which one shows. Motion takes over on mount. */
+.theme-moon {
+	opacity: 1;
+}
+
+.theme-sun {
+	opacity: 0;
+}
+
+.light .theme-moon {
+	opacity: 0;
+}
+
+.light .theme-sun {
+	opacity: 1;
 }
 
 /* --- controls ------------------------------------------------------------ */
@@ -2296,6 +2481,12 @@ html.theme-switching *::after {
 		animation-iteration-count: 1 !important;
 		transition-duration: 0.01ms !important;
 		scroll-behavior: auto !important;
+	}
+
+	/* The end state is already on screen, so the steps must not wait out
+	   their delays. */
+	.hero-step {
+		animation: none !important;
 	}
 
 	::view-transition-old(*),

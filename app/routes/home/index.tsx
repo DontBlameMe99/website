@@ -18,7 +18,7 @@ function WritingList() {
 					className="inline-flex min-h-6 items-center gap-1 py-1 text-meta uppercase tracking-[0.12em] hover:text-accent"
 				>
 					All {posts.length}
-					<ArrowRight aria-hidden="true" className="size-3" />
+					<ArrowRight aria-hidden="true" className="icon-nudge size-3" />
 				</Link>
 			</div>
 
@@ -47,7 +47,7 @@ function WritingList() {
 
 			<Link to="/blog" className="nb-button mt-8">
 				Read all writing
-				<ArrowRight className="size-4" />
+				<ArrowRight className="icon-nudge size-4" />
 			</Link>
 		</section>
 	);
@@ -79,12 +79,12 @@ function ProjectsRail() {
 								className="group flex items-center justify-between gap-4 border-b border-rule py-2.5 last:border-b-0"
 							>
 								<span className="flex min-w-0 items-center gap-2">
-									<Icon className="size-3.5 shrink-0 text-subtext0" />
+									<Icon className="icon-tilt size-3.5 shrink-0 text-subtext0" />
 									<span className="truncate text-[13px] font-semibold text-text transition-colors group-hover:text-accent">
 										{project.name}
 									</span>
 								</span>
-								<ArrowUpRight className="size-3.5 shrink-0 text-subtext0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+								<ArrowUpRight className="icon-nudge-up size-3.5 shrink-0 text-subtext0" />
 							</a>
 						</li>
 					);
@@ -99,7 +99,7 @@ export default function Home() {
 		<div>
 			<header className="nb-line-t pt-4 page-window">
 				<div className="flex items-baseline justify-between gap-6">
-					<span className="nb-chip nb-accent uppercase tracking-[0.1em]">
+					<span className="nb-chip nb-accent hero-step hero-step-1 uppercase tracking-[0.1em]">
 						01<span className="mx-1">/</span>Index
 					</span>
 					<span className="win-controls" aria-hidden="true">
@@ -110,15 +110,17 @@ export default function Home() {
 				</div>
 
 				<div className="mt-12">
-					<h1 className="text-display text-text">{SITE.name}</h1>
-					<p className="mt-7 max-w-[52ch] text-lead">
+					<h1 className="text-display hero-step hero-step-2 text-text">
+						{SITE.name}
+					</h1>
+					<p className="mt-7 max-w-[52ch] hero-step hero-step-3 text-lead">
 						Self-taught developer. I write about privacy, Linux, note taking and
 						the tools I keep rebuilding.
 					</p>
-					<div className="mt-9 flex flex-wrap items-center gap-3">
+					<div className="mt-9 flex hero-step hero-step-4 flex-wrap items-center gap-3">
 						<Link to="/blog" className="nb-button nb-accent">
 							Read the writing
-							<ArrowRight className="size-4" />
+							<ArrowRight className="icon-nudge size-4" />
 						</Link>
 						<Link to="/projects" className="nb-button">
 							Projects
@@ -129,7 +131,7 @@ export default function Home() {
 							rel="noopener noreferrer"
 							className="nb-button"
 						>
-							<Mail aria-hidden="true" className="size-4" />
+							<Mail aria-hidden="true" className="icon-tilt size-4" />
 							Email
 						</a>
 					</div>

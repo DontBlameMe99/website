@@ -14,7 +14,7 @@ export function SiteFooter() {
 							href="/rss.xml"
 							className="nb-chip transition-colors hover:bg-accent hover:text-on-accent"
 						>
-							<Rss className="size-3.5 shrink-0" />
+							<Rss className="icon-tilt size-3.5 shrink-0" />
 							RSS
 						</a>
 					</li>
@@ -28,7 +28,7 @@ export function SiteFooter() {
 									rel="noopener noreferrer"
 									className="nb-chip group transition-colors hover:bg-accent hover:text-on-accent"
 								>
-									<Icon className="size-3.5 shrink-0" />
+									<Icon className="icon-tilt size-3.5 shrink-0" />
 									{social.label}
 								</a>
 							</li>

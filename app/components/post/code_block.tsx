@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { CopyStateIcon, useCopy } from "~/components/ui/copy_state";
 
 type Kind = "plain" | "comment" | "string" | "keyword" | "number" | "command";
 
@@ -69,17 +69,7 @@ export function CodeBlock({ lang, code }: { lang: string; code: string }) {
 	const key = LANGUAGE_ALIASES[lang] ?? lang;
 	const spec = LANGUAGES[key];
 	const body = code.replace(/^\n/, "").replace(/\n\s*$/, "");
-	const [copied, setCopied] = useState(false);
-
-	const copy = async () => {
-		try {
-			await navigator.clipboard.writeText(body);
-		} catch {
-			return;
-		}
-		setCopied(true);
-		setTimeout(() => setCopied(false), 1500);
-	};
+	const { copied, copy } = useCopy();
 
 	return (
 		<div className="code-block not-prose">
@@ -87,10 +77,11 @@ export function CodeBlock({ lang, code }: { lang: string; code: string }) {
 				<span>{spec?.label ?? lang}</span>
 				<button
 					type="button"
-					className="code-block__copy"
+					className="code-block__copy inline-flex items-center gap-1"
 					data-copied={copied ? "" : undefined}
-					onClick={copy}
+					onClick={() => copy(body)}
 				>
+					<CopyStateIcon copied={copied} />
 					{copied ? "Copied" : "Copy"}
 				</button>
 				<span role="status" className="sr-only">

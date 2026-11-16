@@ -42,7 +42,7 @@ function Frame({
 }) {
 	return (
 		<div className="not-prose my-6 overflow-hidden border border-border bg-base">
-			<div className="flex items-center gap-2 border-b border-border bg-mantle/70 px-3 py-2">
+			<div className="flex items-center gap-2 rounded-none border-b border-border bg-mantle/70 px-3 py-2">
 				<span className="flex shrink-0 items-center gap-1.5" aria-hidden>
 					<span className="size-2.5 bg-[var(--traffic-red)]" />
 					<span className="size-2.5 bg-[var(--traffic-yellow)]" />
@@ -55,7 +55,7 @@ function Frame({
 			</div>
 			<div className="p-3 sm:p-4">{children}</div>
 			{footer ? (
-				<div className="border-t border-border/70 px-3 py-2  text-[11px] text-overlay1">
+				<div className="rounded-none border-t border-border/70 px-3 py-2  text-[11px] text-overlay1">
 					{footer}
 				</div>
 			) : null}

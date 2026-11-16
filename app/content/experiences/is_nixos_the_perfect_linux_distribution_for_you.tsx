@@ -121,7 +121,7 @@ function ConfigFile({ on }: { on: boolean }) {
 								initial={reduced ? false : { opacity: 0, y: -3 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.2 }}
-								className="flex gap-2 border-l-2 border-green/60 bg-green/10 px-1"
+								className="flex gap-2 rounded-none border-l-2 border-green/60 bg-green/10 px-1"
 							>
 								<span className="w-4 shrink-0 select-none text-right text-green">
 									{toggleNumber}

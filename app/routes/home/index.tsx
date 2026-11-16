@@ -30,7 +30,7 @@ function WritingList() {
 							className="group grid gap-x-4 gap-y-1 py-5 sm:grid-cols-[minmax(0,1fr)_7rem]"
 						>
 							<span className="min-w-0">
-								<span className="block text-[1.0625rem] font-bold leading-snug tracking-[-0.02em] text-text transition-colors group-hover:bg-accent group-hover:text-on-accent">
+								<span className="-mx-2 -my-0.5 block px-2 py-0.5 text-[1.0625rem] font-bold leading-snug tracking-[-0.02em] text-text transition-colors group-hover:bg-accent group-hover:text-on-accent">
 									{post.title}
 								</span>
 								<span className="mt-1.5 block text-meta">
@@ -76,7 +76,7 @@ function ProjectsRail() {
 								href={project.href}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="group flex items-center justify-between gap-4 border-b border-rule py-2.5 last:border-b-0"
+								className="group flex items-center justify-between gap-4 rounded-none border-b border-rule py-2.5 last:border-b-0"
 							>
 								<span className="flex min-w-0 items-center gap-2">
 									<Icon className="icon-tilt size-3.5 shrink-0 text-subtext0" />

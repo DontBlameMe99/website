@@ -31,7 +31,12 @@ export type Accent =
 	| { kind: "custom"; hex: string };
 
 export type Mode = "dark" | "light";
-export type StyleId = "neobrutalist" | "flat" | "glassmorphism" | "xp";
+export type StyleId =
+	| "neobrutalist"
+	| "flat"
+	| "glassmorphism"
+	| "xp"
+	| "material";
 export type SchemeId =
 	| "frappe"
 	| "macchiato"
@@ -83,6 +88,11 @@ export const STYLES: readonly Style[] = [
 		id: "xp",
 		label: "Windows XP",
 		blurb: "Luna chrome: glossy buttons, beveled fields, rounded windows.",
+	},
+	{
+		id: "material",
+		label: "Material",
+		blurb: "Tonal fills, soft elevation, pill controls.",
 	},
 ];
 

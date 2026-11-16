@@ -201,7 +201,7 @@ export function Tabs({
 						onKeyDown={onKeyDown}
 						onClick={() => setActive(tab.id)}
 						className={cn(
-							"relative px-2.5 py-1.5 text-[11px] transition-colors",
+							"relative isolate px-2.5 py-1.5 text-[11px] transition-colors",
 							tab.id === current?.id
 								? "text-on-accent"
 								: "text-overlay1 hover:bg-surface0/60 hover:text-text",

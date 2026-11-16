@@ -106,7 +106,7 @@ export default function Home() {
 			<header className="border-t-2 border-ink pt-4">
 				<div className="flex items-baseline justify-between gap-6">
 					<span className="nb-chip bg-mauve uppercase tracking-[0.1em] text-on-accent">
-						01<span className="mx-1 opacity-40">/</span>Index
+						01<span className="mx-1">/</span>Index
 					</span>
 				</div>
 

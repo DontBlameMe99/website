@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Chip, Panel, Range, Switch } from "~/components/post/kit";
 import { cn } from "~/lib/utils";
 
-const ACCENT = "var(--mauve)";
+const ACCENT = "var(--accent-surface)";
 
 /* --- hero: the halves drift apart --------------------------------------- */
 
@@ -20,7 +20,7 @@ function Half({ side }: { side: "left" | "right" }) {
 							className={cn(
 								"aspect-square border",
 								home
-									? "border-mauve/40 bg-mauve/20"
+									? "border-accent/40 bg-accent/20"
 									: "border-border bg-surface0/80",
 							)}
 						/>
@@ -177,13 +177,13 @@ export function LayersFigure() {
 						</div>
 
 						<div className="flex items-center gap-1.5">
-							<div className="relative grid h-7 w-16 place-items-center overflow-hidden border border-mauve/40 bg-mauve/10">
+							<div className="relative grid h-7 w-16 place-items-center overflow-hidden border border-accent/40 bg-accent/10">
 								<motion.span
-									className="absolute inset-0 bg-mauve/25"
+									className="absolute inset-0 bg-accent/25"
 									animate={{ opacity: raised ? 1 : 0 }}
 									transition={{ duration: reduced ? 0 : 0.18 }}
 								/>
-								<span className="relative  text-[11px] text-mauve">layer</span>
+								<span className="relative  text-[11px] text-accent">layer</span>
 							</div>
 							<div className="grid h-7 flex-1 place-items-center border border-border bg-surface0/40  text-[11px] text-overlay0">
 								space

@@ -52,6 +52,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			className="dark"
 			data-style="neobrutalist"
 			data-scheme="mocha"
+			data-accent="mauve"
 			suppressHydrationWarning
 		>
 			<head>
@@ -76,7 +77,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			<body className="min-h-dvh text-text antialiased">
 				<a
 					href="#main-content"
-					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-mauve focus:px-3 focus:py-1.5 focus:text-xs focus:font-semibold focus:text-on-accent"
+					className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-accent focus:px-3 focus:py-1.5 focus:text-xs focus:font-semibold focus:text-on-accent"
 				>
 					Skip to content
 				</a>

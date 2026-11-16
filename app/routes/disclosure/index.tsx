@@ -33,7 +33,7 @@ function Split({ label, items }: { label: string; items: string[] }) {
 					>
 						<span
 							aria-hidden="true"
-							className="mt-[0.5em] size-1.5 shrink-0 bg-mauve"
+							className="mt-[0.5em] size-1.5 shrink-0 bg-accent"
 						/>
 						{item}
 					</li>
@@ -62,7 +62,7 @@ export default function DisclosurePage() {
 				Questions, or found a mistake? Reach out at{" "}
 				<a
 					href={`mailto:${CONTACT.email}`}
-					className="font-semibold text-text underline decoration-mauve decoration-2 underline-offset-4 transition-colors hover:text-mauve"
+					className="font-semibold text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent"
 				>
 					{CONTACT.email}
 				</a>

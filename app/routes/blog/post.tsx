@@ -34,7 +34,7 @@ function PostNav({
 						<ArrowLeft className="size-3" />
 						Older
 					</span>
-					<span className="text-sm font-bold leading-snug text-text group-hover:text-mauve">
+					<span className="text-sm font-bold leading-snug text-text group-hover:text-accent">
 						{previous.title}
 					</span>
 				</Link>
@@ -50,7 +50,7 @@ function PostNav({
 						Newer
 						<ArrowRight className="size-3" />
 					</span>
-					<span className="text-sm font-bold leading-snug text-text group-hover:text-mauve">
+					<span className="text-sm font-bold leading-snug text-text group-hover:text-accent">
 						{next.title}
 					</span>
 				</Link>
@@ -80,7 +80,7 @@ function Toc({
 								"block py-2 text-[11px] leading-relaxed transition-colors",
 								section.level >= 5 ? "pl-6" : section.level >= 3 && "pl-3",
 								active === section.id
-									? "text-mauve underline decoration-2 underline-offset-4"
+									? "text-accent underline decoration-2 underline-offset-4"
 									: "text-subtext0 hover:text-text",
 							)}
 						>

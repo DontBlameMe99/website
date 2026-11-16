@@ -138,7 +138,7 @@ export default function BlogIndex() {
 								className="nb-panel nb-lift group flex h-full w-full flex-col p-6"
 							>
 								<div className="flex items-start justify-between gap-4">
-									<h2 className="text-xl font-bold leading-[1.1] tracking-[-0.02em] text-text transition-colors group-hover:text-mauve">
+									<h2 className="text-xl font-bold leading-[1.1] tracking-[-0.02em] text-text transition-colors group-hover:text-accent">
 										{post.title}
 									</h2>
 									<span className="flex shrink-0 items-center gap-1 text-label text-subtext0">

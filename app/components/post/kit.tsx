@@ -23,7 +23,7 @@ export function Panel({
 		<div className={cn("not-prose my-8 overflow-hidden nb-well", className)}>
 			{title ? (
 				<div className="flex items-center gap-2 nb-line-b kit-titlebar px-3 py-2">
-					<span className="text-mauve">{icon}</span>
+					<span className="text-accent">{icon}</span>
 					<span className="text-[11px] uppercase tracking-[0.14em] text-overlay1">
 						{title}
 					</span>
@@ -41,7 +41,7 @@ export function Panel({
 
 export function Chip({
 	children,
-	accent = "var(--mauve)",
+	accent = "var(--accent-surface)",
 	className,
 }: {
 	children: React.ReactNode;
@@ -85,7 +85,7 @@ export function Stat({
 
 export function Bars({
 	data,
-	accent = "var(--mauve)",
+	accent = "var(--accent-surface)",
 	max,
 	format = (value: number) => String(value),
 }: {
@@ -142,7 +142,7 @@ export function Bars({
 export function Tabs({
 	tabs,
 	label = "Tabs",
-	accent = "var(--mauve)",
+	accent = "var(--accent-surface)",
 }: {
 	tabs: { id: string; label: string; content: React.ReactNode }[];
 	label?: string;
@@ -245,7 +245,7 @@ export function Switch({
 	off,
 	label,
 	children,
-	accent = "var(--mauve)",
+	accent = "var(--accent-surface)",
 	initial = false,
 }: {
 	on: string;
@@ -298,7 +298,7 @@ export function Range({
 	max = 100,
 	step = 1,
 	label,
-	accent = "var(--mauve)",
+	accent = "var(--accent-surface)",
 }: {
 	value: number;
 	onChange: (value: number) => void;
@@ -336,7 +336,7 @@ export function Range({
 export function Callout({
 	children,
 	icon,
-	accent = "var(--mauve)",
+	accent = "var(--accent-surface)",
 }: {
 	children: React.ReactNode;
 	icon?: React.ReactNode;
@@ -362,7 +362,7 @@ export function Callout({
 
 export function Sparkline({
 	points,
-	accent = "var(--mauve)",
+	accent = "var(--accent-surface)",
 	height = 64,
 	label,
 }: {

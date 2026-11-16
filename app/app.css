@@ -71,7 +71,7 @@
 	--color-card-foreground: var(--text);
 	--color-muted: var(--surface0);
 	--color-muted-foreground: var(--overlay1);
-	--color-accent: var(--mauve);
+	--color-accent: var(--accent-surface);
 	--color-accent-foreground: var(--crust);
 	--color-destructive: var(--red);
 
@@ -80,7 +80,7 @@
 	--color-border: var(--edge);
 	--color-rule: color-mix(in srgb, var(--ink) 30%, transparent);
 	--color-input: var(--ink);
-	--color-ring: var(--mauve);
+	--color-ring: var(--accent-surface);
 }
 
 /* --- themes ---------------------------------------------------------------
@@ -114,7 +114,8 @@
 :root,
 [data-scheme="mocha"] {
 	color-scheme: dark;
-	/* Catppuccin Mocha with Malva (mauve) as the only accent. */
+	/* Catppuccin Mocha. Mauve is the default accent, and the only accent
+	   until the visitor picks another hue below. */
 	--pink: #f5c2e7;
 	--mauve: #cba6f7;
 	--red: #f38ba8;
@@ -144,7 +145,7 @@
 	/* Text that sits on a saturated accent fill. */
 	--on-accent: #11111b;
 	/* Figures inside posts tint themselves with this. */
-	--post-accent: var(--mauve);
+	--post-accent: var(--accent-surface);
 }
 
 /* Style tokens: the values every style starts from. Matching any data-style
@@ -598,6 +599,48 @@
 	--on-accent: #fdf6e3;
 }
 
+/* The accent is a pointer at one of the hues above, so a pick travels with the
+   scheme instead of carrying a hex around. Mauve is the default and needs no
+   attribute, but a preview that scopes data-scheme has to re-resolve the
+   inherited value, so it gets a block too. These come after the [data-style]
+   reset on purpose: same specificity, and the accent wins. */
+[data-accent="pink"] {
+	--accent-surface: var(--pink);
+}
+[data-accent="mauve"] {
+	--accent-surface: var(--mauve);
+}
+[data-accent="red"] {
+	--accent-surface: var(--red);
+}
+[data-accent="maroon"] {
+	--accent-surface: var(--maroon);
+}
+[data-accent="peach"] {
+	--accent-surface: var(--peach);
+}
+[data-accent="yellow"] {
+	--accent-surface: var(--yellow);
+}
+[data-accent="green"] {
+	--accent-surface: var(--green);
+}
+[data-accent="teal"] {
+	--accent-surface: var(--teal);
+}
+[data-accent="sky"] {
+	--accent-surface: var(--sky);
+}
+[data-accent="sapphire"] {
+	--accent-surface: var(--sapphire);
+}
+[data-accent="blue"] {
+	--accent-surface: var(--blue);
+}
+[data-accent="lavender"] {
+	--accent-surface: var(--lavender);
+}
+
 [data-style="flat"] {
 	/* Shape only: the palette above is untouched, so any scheme works here. */
 	--bw: 1px;
@@ -613,7 +656,7 @@
 	/* Nothing lifts, so an interaction has to tint instead: a hairline edge
 	   that firms up on hover, and fills that lean toward the text color. */
 	--edge: color-mix(in srgb, var(--ink) 50%, transparent);
-	--hover-edge: color-mix(in srgb, var(--mauve) 55%, var(--edge));
+	--hover-edge: color-mix(in srgb, var(--accent-surface) 55%, var(--edge));
 	--hover-fill: color-mix(in srgb, var(--ink) 6%, var(--plain-surface));
 	--press-fill: color-mix(in srgb, var(--ink) 12%, var(--plain-surface));
 	--card-hover-fill: color-mix(in srgb, var(--ink) 4%, var(--panel-surface));
@@ -724,7 +767,7 @@
 		inset 0 -1px 0 rgb(0 0 0 / 0.2);
 
 	/* A pane brightens under the pointer, the way a lit surface does. */
-	--hover-edge: color-mix(in srgb, var(--mauve) 45%, var(--edge));
+	--hover-edge: color-mix(in srgb, var(--accent-surface) 45%, var(--edge));
 	--hover-fill: color-mix(in srgb, var(--ink) 12%, var(--plain-surface));
 	--press-fill: color-mix(in srgb, var(--ink) 18%, var(--plain-surface));
 	--card-hover-fill: color-mix(in srgb, var(--ink) 8%, var(--panel-surface));
@@ -839,9 +882,7 @@
 	--button-image: var(--xp-btn-face);
 	--button-ink: #000;
 	--button-weight: 400;
-	--accent-surface: var(--xp-select);
 	--accent-image: none;
-	--chip-accent-ink: #fff;
 	--xp-link: #0b3fb5;
 	--input-shadow: inset 1px 1px 2px rgb(0 0 0 / 0.15);
 	--hover-edge: var(--xp-border);
@@ -1156,15 +1197,6 @@
 	text-decoration-color: var(--xp-link);
 }
 
-[data-style="xp"] .prose-dbm h2::before {
-	background: var(--xp-select);
-	color: #fff;
-}
-
-[data-style="xp"] .prose-dbm ul > li::before {
-	color: var(--xp-select);
-}
-
 [data-style="xp"] .prose-dbm .code-block__bar {
 	border-bottom: 1px solid var(--xp-field);
 	background-color: var(--xp-silver);
@@ -1254,7 +1286,7 @@
 	}
 
 	::selection {
-		background: var(--mauve);
+		background: var(--accent-surface);
 		color: var(--on-accent);
 	}
 
@@ -1536,7 +1568,7 @@
 	width: max-content;
 	margin-bottom: 0.7em;
 	border: var(--bw) var(--line-style) var(--edge);
-	background: var(--mauve);
+	background: var(--accent-surface);
 	padding: 0.2em 0.45em;
 	font-size: 0.6875rem;
 	font-weight: 700;
@@ -1583,7 +1615,7 @@
 	text-decoration: underline;
 	text-decoration-thickness: 2px;
 	text-underline-offset: 3px;
-	text-decoration-color: var(--mauve);
+	text-decoration-color: var(--accent-surface);
 	box-decoration-break: clone;
 	transition:
 		background-color 120ms ease,
@@ -1591,7 +1623,7 @@
 }
 
 .prose-dbm a:hover {
-	background: var(--mauve);
+	background: var(--accent-surface);
 	color: var(--on-accent);
 	text-decoration-color: var(--on-accent);
 }
@@ -1641,7 +1673,7 @@
 	left: -1.25em;
 	font-size: 0.6em;
 	line-height: 2.4;
-	color: var(--mauve);
+	color: var(--accent-surface);
 }
 
 .prose-dbm ol {
@@ -1649,7 +1681,7 @@
 }
 
 .prose-dbm ol > li::marker {
-	color: var(--mauve);
+	color: var(--accent-surface);
 	font-weight: 700;
 	font-variant-numeric: tabular-nums;
 }
@@ -1657,7 +1689,7 @@
 .prose-dbm blockquote {
 	border: var(--bw) var(--line-style) var(--edge);
 	border-left-width: var(--bw-heavy);
-	background: color-mix(in srgb, var(--mauve) 10%, transparent);
+	background: color-mix(in srgb, var(--accent-surface) 10%, transparent);
 	padding: 0.9em 1.1em;
 	color: var(--subtext1);
 }
@@ -1846,7 +1878,7 @@
 }
 
 .prose-dbm tbody tr:hover {
-	background: color-mix(in srgb, var(--mauve) 14%, transparent);
+	background: color-mix(in srgb, var(--accent-surface) 14%, transparent);
 }
 
 /* A heading anchor that only shows up on hover or focus, with the gutter it
@@ -1861,7 +1893,7 @@
 	width: 1.5rem;
 	align-items: center;
 	justify-content: center;
-	color: var(--mauve);
+	color: var(--accent-surface);
 	font-size: 0.8em;
 	font-weight: 800;
 	text-decoration: none;
@@ -1936,7 +1968,7 @@ input[type="range"]::-webkit-slider-thumb {
 	appearance: none;
 	width: 18px;
 	height: 18px;
-	background: var(--mauve);
+	background: var(--accent-surface);
 	border: var(--bw) var(--line-style) var(--edge);
 	border-radius: var(--radius);
 	box-shadow: var(--shadow-hard-sm);
@@ -1946,7 +1978,7 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]::-moz-range-thumb {
 	width: 18px;
 	height: 18px;
-	background: var(--mauve);
+	background: var(--accent-surface);
 	border: var(--bw) var(--line-style) var(--edge);
 	border-radius: var(--radius);
 	box-shadow: var(--shadow-hard-sm);

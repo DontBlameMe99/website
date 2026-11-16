@@ -12,7 +12,7 @@ export function SiteFooter() {
 					<li>
 						<a
 							href="/rss.xml"
-							className="nb-chip transition-colors hover:bg-mauve hover:text-on-accent"
+							className="nb-chip transition-colors hover:bg-accent hover:text-on-accent"
 						>
 							<Rss className="size-3.5 shrink-0" />
 							RSS
@@ -26,7 +26,7 @@ export function SiteFooter() {
 									href={social.href}
 									target="_blank"
 									rel="noopener noreferrer"
-									className="nb-chip group transition-colors hover:bg-mauve hover:text-on-accent"
+									className="nb-chip group transition-colors hover:bg-accent hover:text-on-accent"
 								>
 									<Icon className="size-3.5 shrink-0" />
 									{social.label}
@@ -45,7 +45,7 @@ export function SiteFooter() {
 					</p>
 					<Link
 						to="/disclosure"
-						className="text-sm font-semibold text-text underline decoration-mauve decoration-2 underline-offset-4 transition-colors hover:text-mauve"
+						className="text-sm font-semibold text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent"
 					>
 						How it's made
 					</Link>

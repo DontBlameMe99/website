@@ -49,7 +49,7 @@ export default function ProjectsPage() {
 											height={40}
 											className="size-10 shrink-0 nb-line nb-fill object-cover"
 										/>
-										<h2 className="min-w-0 break-words text-2xl font-extrabold leading-tight tracking-[-0.03em] text-text transition-colors group-hover:text-mauve">
+										<h2 className="min-w-0 break-words text-2xl font-extrabold leading-tight tracking-[-0.03em] text-text transition-colors group-hover:text-accent">
 											{project.name}
 										</h2>
 									</div>
@@ -69,7 +69,7 @@ export default function ProjectsPage() {
 											.replace(/^https?:\/\//, "")
 											.replace(/\/$/, "")}
 									</span>
-									<ArrowUpRight className="size-4 shrink-0 text-subtext0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-mauve" />
+									<ArrowUpRight className="size-4 shrink-0 text-subtext0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
 								</span>
 							</a>
 						</li>
@@ -85,7 +85,7 @@ export default function ProjectsPage() {
 						href="https://git.dontblameme.dev"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="bg-mauve px-1 font-semibold text-on-accent no-underline transition-colors hover:bg-text"
+						className="bg-accent px-1 font-semibold text-on-accent no-underline transition-colors hover:bg-text hover:text-crust"
 					>
 						<CodebergIcon className="mr-1 inline-block size-3.5 align-[-0.125em]" />
 						my Codeberg profile

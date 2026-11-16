@@ -40,7 +40,7 @@ export function HourAccumulator() {
 								initial={reduced ? false : { scale: 0.86, opacity: 0.5 }}
 								animate={{ scale: 1, opacity: 1 }}
 								transition={{ type: "spring", stiffness: 420, damping: 24 }}
-								className="inline-block  text-3xl leading-none tabular-nums text-mauve"
+								className="inline-block  text-3xl leading-none tabular-nums text-accent"
 							>
 								{hours}
 							</motion.span>
@@ -66,7 +66,7 @@ export function HourAccumulator() {
 							key={index}
 							className={cn(
 								"size-[5px] transition-colors duration-500 motion-reduce:transition-none sm:size-[6px]",
-								index < filled ? "bg-mauve" : "bg-surface0",
+								index < filled ? "bg-accent" : "bg-surface0",
 							)}
 						/>
 					))}

@@ -36,11 +36,13 @@ export type SchemeId =
 	| "frappe"
 	| "macchiato"
 	| "mocha"
+	| "dracula"
 	| "nord"
 	| "mono"
 	| "gruvbox-dark"
 	| "solarized-dark"
 	| "latte"
+	| "alucard"
 	| "nord-light"
 	| "mono-light"
 	| "gruvbox-light"
@@ -102,6 +104,12 @@ export const SCHEMES: readonly ColorScheme[] = [
 		blurb: "Deep and saturated.",
 	},
 	{
+		id: "dracula",
+		label: "Dracula",
+		mode: "dark",
+		blurb: "Violet night, with bright saturated inks.",
+	},
+	{
 		id: "nord",
 		label: "Nord",
 		mode: "dark",
@@ -130,6 +138,12 @@ export const SCHEMES: readonly ColorScheme[] = [
 		label: "Catppuccin Latte",
 		mode: "light",
 		blurb: "Creamy light, with strong contrast.",
+	},
+	{
+		id: "alucard",
+		label: "Alucard",
+		mode: "light",
+		blurb: "Dracula's daylight twin: purple ink on warm parchment.",
 	},
 	{
 		id: "nord-light",

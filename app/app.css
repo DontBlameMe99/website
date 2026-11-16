@@ -262,6 +262,40 @@
 	--on-accent: #1e2030;
 }
 
+[data-scheme="nord"] {
+	color-scheme: dark;
+	/* Nord: Polar Night surfaces, Snow Storm text, Frost and Aurora accents,
+	   lightened where the site sets them as text until each clears 4.5:1.
+	   Sapphire, blue, and overlay0 are the tight ones at 4.6:1 on the panels. */
+	--pink: #c69ec0;
+	--mauve: #bd97b6;
+	--red: #de8790;
+	--maroon: #ce8a92;
+	--peach: #d68f79;
+	--yellow: #ebcb8b;
+	--green: #a3be8c;
+	--teal: #8fbcbb;
+	--sky: #88c0d0;
+	--sapphire: #81a1c1;
+	--blue: #7fa0cd;
+	--lavender: #a7bee2;
+	--text: #eceff4;
+	--subtext1: #e5e9f0;
+	--subtext0: #d8dee9;
+	--overlay2: #b4bfce;
+	--overlay1: #96a2b4;
+	--overlay0: #909daf;
+	--surface2: #4c566a;
+	--surface1: #434c5e;
+	--surface0: #3b4252;
+	--base: #2e3440;
+	--mantle: #292e39;
+	--crust: #232831;
+
+	--ink: var(--text);
+	--on-accent: #232831;
+}
+
 [data-scheme="latte"] {
 	color-scheme: light;
 	/* Catppuccin Latte, deepened until every accent carries white text at 4.5:1
@@ -293,6 +327,39 @@
 
 	--ink: #11111b;
 	--on-accent: #ffffff;
+}
+
+[data-scheme="nord-light"] {
+	color-scheme: light;
+	/* Nord Light, deepened until every accent carries Snow Storm text at 4.5:1
+	   and every muted tone clears 4.5:1 on the page background. */
+	--pink: #8a4e77;
+	--mauve: #7d5578;
+	--red: #a33f4a;
+	--maroon: #8f4a52;
+	--peach: #914a2b;
+	--yellow: #71600f;
+	--green: #456b31;
+	--teal: #2a6663;
+	--sky: #246677;
+	--sapphire: #3b5f8c;
+	--blue: #3a5f91;
+	--lavender: #4e5d8b;
+	--text: #2e3440;
+	--subtext1: #3b4252;
+	--subtext0: #434c5e;
+	--overlay2: #4c566a;
+	--overlay1: #525d6f;
+	--overlay0: #556075;
+	--surface2: #b3bfd1;
+	--surface1: #c1cbda;
+	--surface0: #cfd7e3;
+	--base: #eceff4;
+	--mantle: #e5e9f0;
+	--crust: #d8dee9;
+
+	--ink: #2e3440;
+	--on-accent: #eceff4;
 }
 
 [data-style="flat"] {

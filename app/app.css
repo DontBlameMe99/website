@@ -1649,11 +1649,11 @@
 
 /* A chip's fill is a tone, so its label stays on-surface to keep AA. The hover
    fill is a tone too: a chip never swaps to a full accent under that label. */
-[data-style="material"] .nb-chip:not(.nb-accent) {
+[data-style="material"] .nb-chip:not(.nb-accent):not(.bg-accent) {
 	color: var(--text);
 }
 
-[data-style="material"] .nb-chip:not(.nb-accent):hover {
+[data-style="material"] .nb-chip:not(.nb-accent):not(.bg-accent):hover {
 	background-color: color-mix(in srgb, var(--mauve) 12%, var(--plain-surface));
 }
 
@@ -1667,6 +1667,15 @@
    label keeps its AA, while fills keep the palette's own accent. */
 [data-style="material"] .text-accent {
 	color: color-mix(in srgb, var(--mauve) 65%, var(--text));
+}
+
+/* The two palette accents the content uses as text get the same lift. */
+[data-style="material"] .text-red {
+	color: color-mix(in srgb, var(--red) 75%, var(--text));
+}
+
+[data-style="material"] .text-green {
+	color: color-mix(in srgb, var(--green) 75%, var(--text));
 }
 
 [data-style="material"] .text-display,

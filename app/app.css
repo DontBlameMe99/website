@@ -2074,7 +2074,7 @@ html.theme-switching *::after {
 	transition: none !important;
 }
 
-/* The inset wipe is the only animation on the snapshots. A cross-fade here
+/* The blob wipe is the only animation on the snapshots. A cross-fade here
    fights it and reads as a flicker. */
 ::view-transition-old(root),
 ::view-transition-new(root) {

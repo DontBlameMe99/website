@@ -1522,6 +1522,8 @@
 [data-style="xp"] :focus-visible {
 	outline: 1px dotted var(--focus-ring);
 	outline-offset: 2px;
+}
+
 [data-style="skeuomorphic"] {
 	/* Shape: molded corners, a 2px seam, and two pixels of travel under a
 	   press. Height comes from a bevel that hugs the edge plus a shadow
@@ -1654,7 +1656,8 @@
 			light-dark(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.55)) 0,
 			light-dark(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.12)) 2px,
 			transparent 3px,
-			light-dark(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.08)) 100%
+			transparent calc(100% - 4px),
+			light-dark(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0)) 100%
 		),
 		var(--grain);
 	--input-shadow: var(--shadow-well);
@@ -2137,6 +2140,9 @@
 .nb-accent.nb-accent {
 	background-color: var(--accent-surface);
 	background-image: var(--accent-image);
+	/* An accent fill picks its own light, so an emboss would have to guess at
+	   it: the label sits flat on the fill. */
+	text-shadow: none;
 	color: var(--on-accent);
 
 	&:hover {

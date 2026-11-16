@@ -23,6 +23,18 @@ export const links = () => [
 	{ rel: "icon", href: "/images/logo.svg", type: "image/svg+xml" },
 	{ rel: "apple-touch-icon", href: "/images/avatar-square.png" },
 	{
+		rel: "alternate",
+		type: "application/rss+xml",
+		title: `${SITE.name} posts`,
+		href: "/rss.xml",
+	},
+	{
+		rel: "alternate",
+		type: "application/atom+xml",
+		title: `${SITE.name} posts`,
+		href: "/atom.xml",
+	},
+	{
 		rel: "preload",
 		href: "/fonts/montserrat/Montserrat-Variable.woff2",
 		as: "font",

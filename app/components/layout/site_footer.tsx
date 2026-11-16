@@ -1,3 +1,4 @@
+import { Rss } from "lucide-react";
 import { Link } from "react-router";
 import { socialIcon } from "~/components/shared/icons";
 import { SOCIALS } from "~/lib/site";
@@ -8,6 +9,15 @@ export function SiteFooter() {
 			<div className="mx-auto max-w-[1240px] px-5 py-12">
 				<p className="text-label text-subtext0">Elsewhere</p>
 				<ul className="mt-4 flex flex-wrap gap-2">
+					<li>
+						<a
+							href="/rss.xml"
+							className="nb-chip transition-colors hover:bg-mauve hover:text-on-accent"
+						>
+							<Rss className="size-3.5 shrink-0" />
+							RSS
+						</a>
+					</li>
 					{SOCIALS.map((social) => {
 						const Icon = socialIcon(social.icon);
 						return (

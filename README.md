@@ -41,6 +41,10 @@ Figures for a post live in `app/content/experiences/<slug>.tsx` and are imported
 by that post. Images live in `public/posts/<slug>/` and are capped by
 `app/app.css` so they fit the reading measure and the viewport.
 
+The post registry also builds `/rss.xml`, `/atom.xml` and `/sitemap.xml` at
+build time through the resource routes in `app/routes/`. The footer links to the
+RSS feed, and pages advertise both feeds through `<link rel="alternate">`.
+
 ## Layout
 
 - `app/components/layout/` header, footer, page masthead, theme toggle

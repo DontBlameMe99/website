@@ -188,23 +188,43 @@ const frame = `new Promise((resolve) => requestAnimationFrame(() => requestAnima
 async function settle(chrome: Chrome): Promise<void> {
 	await chrome.evaluate(`(async () => {
 		await document.fonts.ready;
-		await Promise.all(Array.from(document.images).map((img) =>
-			img.complete ? 0 : new Promise((resolve) => {
-				img.addEventListener("load", resolve, { once: true });
-				img.addEventListener("error", resolve, { once: true });
-				setTimeout(resolve, 2000);
-			})
-		));
 		const step = window.innerHeight * 0.85;
-		const height = document.documentElement.scrollHeight;
-		for (let y = 0; y < height; y += step) {
-			window.scrollTo(0, y);
-			await ${frame};
+		const images = () =>
+			Promise.all(
+				Array.from(document.images).map((img) =>
+					img.complete
+						? 0
+						: new Promise((resolve) => {
+								img.addEventListener("load", resolve, { once: true });
+								img.addEventListener("error", resolve, { once: true });
+								setTimeout(resolve, 3000);
+							}),
+				),
+			);
+		// Lazy images only start once they are near the viewport, and each one
+		// can change the page height. Walk the page, wait for what that starts,
+		// and repeat until the height holds.
+		for (let pass = 0; pass < 4; pass++) {
+			const height = document.documentElement.scrollHeight;
+			for (let y = 0; y < height; y += step) {
+				window.scrollTo(0, y);
+				await ${frame};
+			}
+			await images();
+			await new Promise((resolve) => setTimeout(resolve, 120));
+			if (document.documentElement.scrollHeight === height) break;
 		}
 		window.scrollTo(0, 0);
 		await ${frame};
+		let last = -1;
+		for (let i = 0; i < 20; i++) {
+			await new Promise((resolve) => setTimeout(resolve, 80));
+			const height = document.documentElement.scrollHeight;
+			if (height === last) break;
+			last = height;
+		}
 		(${finishAnimations.toString()})();
-		await new Promise((resolve) => setTimeout(resolve, 120));
+		await new Promise((resolve) => setTimeout(resolve, 100));
 		return document.documentElement.scrollHeight;
 	})()`);
 }

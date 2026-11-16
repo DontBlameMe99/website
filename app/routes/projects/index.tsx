@@ -24,7 +24,6 @@ export default function ProjectsPage() {
 			<PageHeader
 				index="03"
 				label="Projects"
-				meta={`${PROJECTS.length} entries`}
 				title="Projects"
 				lead="Things I build and keep running. Everything here is one click away from the code."
 			/>

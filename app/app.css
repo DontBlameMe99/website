@@ -637,6 +637,49 @@
 	--on-accent: #002b36;
 }
 
+/* Everforest is a warm, dusty palette: cream ink over a slate-green night, and
+   a cream page with forest inks. The three background tones read as one ramp,
+   with the page darkest in the dark scheme and lightest in the light one.
+
+   Everforest has seven hues, so pink and maroon borrow its purple and red, sky,
+   sapphire, and blue share its one blue, and lavender takes its sage grey. Pink
+   leans toward magenta so the pinky and ring keys read apart, and lavender
+   shifts toward blue-violet in the light scheme so a figure can still tell it
+   from the neutral labels. Every accent clears 4.5:1 as text on the panel and
+   carries the scheme's own ink at 4.5:1 as a fill. */
+[data-scheme="everforest-dark"] {
+	color-scheme: dark;
+	/* Everforest Dark, medium contrast: hard bg_dim as the page, medium bg_dim
+	   as the well, bg0 as the panel, and bg1 to bg3 as the raised tones. */
+	--pink: #d59bd0;
+	--mauve: #d699b6;
+	--red: #e67e80;
+	--maroon: #e67e80;
+	--peach: #e69875;
+	--yellow: #dbbc7f;
+	--green: #a7c080;
+	--teal: #83c092;
+	--sky: #7fbbb3;
+	--sapphire: #7fbbb3;
+	--blue: #7fbbb3;
+	--lavender: #b1bdb4;
+	--text: #d3c6aa;
+	--subtext1: #d3c6aa;
+	--subtext0: #9da9a0;
+	--overlay2: #9da9a0;
+	--overlay1: #9da9a0;
+	--overlay0: #96a29a;
+	--surface2: #475258;
+	--surface1: #3d484d;
+	--surface0: #343f44;
+	--base: #2d353b;
+	--mantle: #232a2e;
+	--crust: #1e2326;
+
+	--ink: var(--text);
+	--on-accent: #1e2326;
+}
+
 [data-scheme="solarized-light"] {
 	color-scheme: light;
 	/* Solarized Light, deepened the same way: the muted tones run below base01,
@@ -669,6 +712,41 @@
 
 	--ink: #002b36;
 	--on-accent: #fdf6e3;
+}
+
+[data-scheme="everforest-light"] {
+	color-scheme: light;
+	/* Everforest Light, medium contrast. The official fg and accents are
+	   deepened until prose clears 4.5:1 on the inline-code fill and every accent
+	   both reads on the page and carries white text. The tints keep their hue
+	   and only move in lightness. */
+	--pink: #a82f74;
+	--mauve: #b42688;
+	--red: #c5312e;
+	--maroon: #a63a2f;
+	--peach: #a94e0a;
+	--yellow: #7f5e00;
+	--green: #5c6b00;
+	--teal: #247154;
+	--sky: #2a6b8f;
+	--sapphire: #2a6b8f;
+	--blue: #2a6b8f;
+	--lavender: #5c6491;
+	--text: #4f5d64;
+	--subtext1: #4f5d64;
+	--subtext0: #55636a;
+	--overlay2: #55636a;
+	--overlay1: #5c6a72;
+	--overlay0: #5e6b70;
+	--surface2: #bdc3af;
+	--surface1: #e0dcc7;
+	--surface0: #e6e2cc;
+	--base: #fdf6e3;
+	--mantle: #f4f0d9;
+	--crust: #efebd4;
+
+	--ink: #3b484d;
+	--on-accent: #ffffff;
 }
 
 /* The accent is a pointer at one of the hues above, so a pick travels with the

@@ -513,7 +513,7 @@
 
 .prose-dbm .code-block__bar {
 	display: flex;
-	align-items: baseline;
+	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
 	border-bottom: 2px solid var(--ink);
@@ -523,6 +523,28 @@
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	color: var(--subtext0);
+}
+
+.prose-dbm .code-block__copy {
+	border: 1px solid var(--ink);
+	padding: 0.1rem 0.4rem;
+	font: inherit;
+	letter-spacing: inherit;
+	color: var(--subtext0);
+	cursor: pointer;
+	transition:
+		color 120ms,
+		background-color 120ms;
+}
+
+.prose-dbm .code-block__copy:hover {
+	background: var(--surface0);
+	color: var(--text);
+}
+
+.prose-dbm .code-block__copy[data-copied] {
+	border-color: var(--green);
+	color: var(--green);
 }
 
 .prose-dbm .code-block pre {

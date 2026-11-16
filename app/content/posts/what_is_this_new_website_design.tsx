@@ -38,6 +38,12 @@ export const sections: Section[] = [
 	{ id: "what-am-i-using-now", text: "What Am I Using Now", level: 3 },
 	{ id: "but-why-quartz", text: "But Why Quartz?", level: 4 },
 	{ id: "no-downsides-at-all", text: "No Downsides at All?", level: 4 },
+	{ id: "attachment-move-it", text: "Attachment? Move It", level: 5 },
+	{
+		id: "not-in-the-directory-too-bad",
+		text: "Not in the Directory? Too Bad",
+		level: 5,
+	},
 	{
 		id: "how-exactly-does-the-new-workflow-work",
 		text: "How Exactly Does the New Workflow Work",
@@ -372,7 +378,9 @@ export default function Post() {
 					" of my actual Vault. If I would be publishing my entire Vault, this wouldn't be an issue."
 				}
 			</blockquote>
-			<p>##### Attachment? Move It</p>
+			<PostHeading level={5} id="attachment-move-it">
+				Attachment? Move It
+			</PostHeading>
 			<p>
 				{
 					"If I wish to include an attachment into a blogpost, I actually have to "
@@ -402,7 +410,9 @@ export default function Post() {
 				<strong>a subdirectory in Quartz</strong>. I did this because I still
 				wish to keep those things separate (and I have a lot of personal notes).
 			</p>
-			<p>##### Not in the Directory? Too Bad</p>
+			<PostHeading level={5} id="not-in-the-directory-too-bad">
+				Not in the Directory? Too Bad
+			</PostHeading>
 			<p>
 				This issue I have directly connects with the attachment issue I just
 				mentioned.

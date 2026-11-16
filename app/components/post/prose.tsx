@@ -21,11 +21,11 @@ export function PostHeading({
 	id,
 	children,
 }: {
-	level: 2 | 3 | 4;
+	level: 2 | 3 | 4 | 5;
 	id: string;
 	children: React.ReactNode;
 }) {
-	const Tag = `h${level}` as "h2" | "h3" | "h4";
+	const Tag = `h${level}` as "h2" | "h3" | "h4" | "h5";
 	return (
 		<Tag id={id} className="group/heading relative">
 			<a

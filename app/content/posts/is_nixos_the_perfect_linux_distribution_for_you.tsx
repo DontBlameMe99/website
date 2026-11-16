@@ -23,6 +23,7 @@ export const sections: Section[] = [
 	{ id: "why-should-i-care", text: "Why Should I Care?", level: 2 },
 	{ id: "reproducible", text: "Reproducible", level: 3 },
 	{ id: "my-use-case", text: "My Use Case", level: 4 },
+	{ id: "my-current-workflow", text: "My Current Workflow", level: 5 },
 	{
 		id: "package-availability-and-stability",
 		text: "Package Availability and Stability",
@@ -199,7 +200,9 @@ export default function Post() {
 				This is where NixOS comes in, saves the day, and even treats me to a
 				snapshot system I have not even dreamed of.
 			</p>
-			<p>##### My Current Workflow</p>
+			<PostHeading level={5} id="my-current-workflow">
+				My Current Workflow
+			</PostHeading>
 			<p>
 				{
 					"If I want to install something, I add it to my correct config file and then simply enable a toggle on "

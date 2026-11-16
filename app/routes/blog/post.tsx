@@ -78,7 +78,7 @@ function Toc({
 							aria-current={active === section.id ? "true" : undefined}
 							className={cn(
 								"block py-2 text-[11px] leading-relaxed transition-colors",
-								section.level >= 3 && "pl-3",
+								section.level >= 5 ? "pl-6" : section.level >= 3 && "pl-3",
 								active === section.id
 									? "text-mauve underline decoration-2 underline-offset-4"
 									: "text-subtext0 hover:text-text",

@@ -200,7 +200,8 @@
 	h1,
 	h2,
 	h3,
-	h4 {
+	h4,
+	h5 {
 		font-weight: 700;
 		line-height: 1.05;
 		letter-spacing: -0.03em;
@@ -395,6 +396,15 @@
 	color: var(--overlay2);
 }
 
+.prose-dbm h5 {
+	margin-top: 1.6em;
+	font-size: 0.9375rem;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	color: var(--text);
+}
+
+.prose-dbm h5 + *,
 .prose-dbm h2 + *,
 .prose-dbm h3 + *,
 .prose-dbm h4 + * {

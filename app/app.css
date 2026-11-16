@@ -1552,10 +1552,11 @@
 		inset 0 -1px 0 rgba(255, 255, 255, 0.06);
 	--button-press-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
 
-	/* Fills curve away from the light instead of switching tone flatly. They
-	   only darken: a light top would undercut the muted text that palettes like
-	   Nord and Nord Light tune to exactly 4.5:1, and that text can sit at the
-	   top of a panel. */
+	/* Fills curve away from the light instead of switching tone flatly. The
+	   panel, well, plain and accent fills only darken: a light top would undercut
+	   the muted text that palettes like Nord and Nord Light tune to exactly
+	   4.5:1, and that text can sit at the top of a panel. The page glow sits
+	   behind every surface, so it only lifts the page a little. */
 	--page-image: radial-gradient(
 		120% 90% at 50% 0%,
 		rgba(255, 255, 255, 0.06),
@@ -1575,13 +1576,21 @@
 		rgba(0, 0, 0, 0.12) 100%
 	);
 
-	/* Hover catches more light and press loses it, so the color stays put. */
+	/* Interaction moves a plain control toward white under a hover and toward
+	   black under a press, which a light surface reads as a lift and a press. */
 	--hover-edge: color-mix(in srgb, var(--mauve) 40%, var(--edge));
 	--hover-fill: color-mix(in srgb, #fff 7%, var(--plain-surface));
 	--press-fill: color-mix(in srgb, #000 12%, var(--plain-surface));
 	--card-hover-fill: color-mix(in srgb, #fff 5%, var(--panel-surface));
-	--accent-hover-fill: color-mix(in srgb, #fff 10%, var(--accent-surface));
-	--accent-press-fill: color-mix(in srgb, #000 14%, var(--accent-surface));
+	/* The accent cannot do that: some palettes carry dark text on a light accent,
+	   some light text on a dark one, so it moves toward the ink instead, the one
+	   direction that adds contrast against on-accent in both. */
+	--accent-hover-fill: color-mix(in srgb, var(--ink) 6%, var(--accent-surface));
+	--accent-press-fill: color-mix(
+		in srgb,
+		var(--ink) 12%,
+		var(--accent-surface)
+	);
 	--scrollbar: var(--surface2);
 }
 

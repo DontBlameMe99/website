@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { socialIcon } from "~/components/shared/icons";
 import { SOCIALS } from "~/lib/site";
 
@@ -24,6 +25,21 @@ export function SiteFooter() {
 						);
 					})}
 				</ul>
+
+				<div className="mt-10 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+					<p className="text-sm text-subtext0">
+						The code is AI-assisted.{" "}
+						<span className="font-bold text-text">
+							Every word here is mine.
+						</span>
+					</p>
+					<Link
+						to="/disclosure"
+						className="text-sm font-semibold text-text underline decoration-mauve decoration-2 underline-offset-4 transition-colors hover:text-mauve"
+					>
+						How it's made
+					</Link>
+				</div>
 			</div>
 		</footer>
 	);

@@ -9,6 +9,7 @@ export default {
 			"/blog",
 			"/projects",
 			"/contact",
+			"/disclosure",
 			"/404",
 			...postSlugs.map((slug) => `/blog/${slug}`),
 		];

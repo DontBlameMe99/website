@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 type Kind = "plain" | "comment" | "string" | "keyword" | "number" | "command";
 
 type Spec = {
@@ -60,18 +62,40 @@ function tokenize(code: string, spec: Spec): { text: string; kind: Kind }[] {
 }
 
 /**
- * A code block with a language tab. Long lines stay reachable from the
- * keyboard because the `pre` itself scrolls.
+ * A code block with a language tab and a copy button. Long lines stay reachable
+ * from the keyboard because the `pre` itself scrolls.
  */
 export function CodeBlock({ lang, code }: { lang: string; code: string }) {
 	const key = LANGUAGE_ALIASES[lang] ?? lang;
 	const spec = LANGUAGES[key];
 	const body = code.replace(/^\n/, "").replace(/\n\s*$/, "");
+	const [copied, setCopied] = useState(false);
+
+	const copy = async () => {
+		try {
+			await navigator.clipboard.writeText(body);
+		} catch {
+			return;
+		}
+		setCopied(true);
+		setTimeout(() => setCopied(false), 1500);
+	};
 
 	return (
 		<div className="code-block not-prose">
 			<div className="code-block__bar">
 				<span>{spec?.label ?? lang}</span>
+				<button
+					type="button"
+					className="code-block__copy"
+					data-copied={copied ? "" : undefined}
+					onClick={copy}
+				>
+					{copied ? "Copied" : "Copy"}
+				</button>
+				<span role="status" className="sr-only">
+					{copied ? "Code copied to the clipboard" : ""}
+				</span>
 			</div>
 			{/* biome-ignore lint/a11y/noNoninteractiveTabindex: long lines scroll */}
 			<pre tabIndex={0}>

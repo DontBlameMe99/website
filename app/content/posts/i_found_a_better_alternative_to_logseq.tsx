@@ -1,9 +1,4 @@
 import { PostHeading, PostImage, Prose } from "~/components/post/prose";
-import {
-	FilesFigure,
-	GraphFigure,
-	ProblemsFigure,
-} from "~/content/experiences/i_found_a_better_alternative_to_logseq";
 import type { PostMeta, Section } from "~/lib/post_types";
 
 export const meta = {
@@ -235,7 +230,6 @@ export default function Post() {
 				, I did not care about this offer.
 			</p>
 			<p>Addressing the problems:</p>
-			<ProblemsFigure />
 			<PostHeading level={3} id="1-slow-performance-2">
 				1: Slow Performance
 			</PostHeading>
@@ -410,7 +404,6 @@ export default function Post() {
 					" files. Yes, a few ones (I would guess around 100 files) are missing, but apparently I don't need them."
 				}
 			</p>
-			<FilesFigure />
 			<PostHeading level={2} id="how-does-your-graph-look">
 				How Does Your Graph Look?
 			</PostHeading>
@@ -429,7 +422,6 @@ export default function Post() {
 				src="/posts/i_found_a_better_alternative_to_logseq/Pasted%20image%2020251017031716.webp"
 				alt={"The same notes in Obsidian: fewer links, three loose clusters"}
 			/>
-			<GraphFigure />
 			<PostHeading level={2} id="but-what-happened-to-your-blog-pipeline">
 				But What Happened to Your Blog Pipeline?
 			</PostHeading>

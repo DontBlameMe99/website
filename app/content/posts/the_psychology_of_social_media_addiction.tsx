@@ -1,6 +1,5 @@
 import { PostHeading, Prose } from "~/components/post/prose";
 import {
-	DayInPhone,
 	MinimalPhone,
 	RewardLoop,
 	SlotMachine,
@@ -158,7 +157,6 @@ export default function Post() {
 					{" each day logged in."}
 				</li>
 			</ul>
-			<DayInPhone />
 			<PostHeading level={2} id="but-why-is-social-media-so-addictive">
 				But Why Is Social Media So Addictive?
 			</PostHeading>

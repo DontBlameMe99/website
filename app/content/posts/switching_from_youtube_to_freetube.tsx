@@ -1,6 +1,5 @@
 import { PostHeading, Prose } from "~/components/post/prose";
 import {
-	MigrationChecklist,
 	ThumbnailPreference,
 	WhatFollowsYou,
 } from "~/content/experiences/switching_from_youtube_to_freetube";
@@ -376,7 +375,6 @@ export default function Post() {
 				and (the best part) is not tracking you. The last point (not tracking)
 				alone would be reason enough to use it for me.
 			</p>
-			<MigrationChecklist />
 			<PostHeading level={2} id="how-to-install-freetube">
 				How to Install FreeTube
 			</PostHeading>

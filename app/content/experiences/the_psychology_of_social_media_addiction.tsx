@@ -21,21 +21,13 @@ import {
 	Radio,
 	Repeat,
 	ShoppingBag,
-	Smartphone,
 	Sparkles,
 	ThumbsUp,
 	UserPlus,
 } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { type ReactNode, useEffect, useRef, useState } from "react";
-import {
-	Callout,
-	Chip,
-	Panel,
-	Range,
-	Stat,
-	Switch,
-} from "~/components/post/kit";
+import { Callout, Chip, Panel, Stat, Switch } from "~/components/post/kit";
 
 /* A window chrome keeps the hero in the same family as the site's desktop
    surfaces, without borrowing the interactive Window (no document writes). */
@@ -73,19 +65,6 @@ function Frame({
 
 /* --- the reward loop ------------------------------------------------------ */
 
-const RING_RADIUS = 42;
-
-function ringPoint(radius: number, degrees: number): [number, number] {
-	const radians = (degrees * Math.PI) / 180;
-	return [50 + radius * Math.cos(radians), 50 + radius * Math.sin(radians)];
-}
-
-function arcPath(from: number, to: number) {
-	const [x1, y1] = ringPoint(RING_RADIUS, from);
-	const [x2, y2] = ringPoint(RING_RADIUS, to);
-	return `M${x1.toFixed(2)} ${y1.toFixed(2)} A${RING_RADIUS} ${RING_RADIUS} 0 0 1 ${x2.toFixed(2)} ${y2.toFixed(2)}`;
-}
-
 const LOOP_STEPS = [
 	{
 		label: "trigger",
@@ -112,130 +91,25 @@ const LOOP_STEPS = [
 	},
 ];
 
-const LOOP_ANGLES = [225, 315, 45, 135];
-const LOOP_ARCS = LOOP_ANGLES.map((angle) => arcPath(angle + 14, angle + 76));
-const LOOP_SLOT = [
-	"col-start-1 row-start-1",
-	"col-start-3 row-start-1",
-	"col-start-3 row-start-3",
-	"col-start-1 row-start-3",
-];
-
 export function RewardLoop() {
-	const reduced = useReducedMotion();
-	const [active, setActive] = useState(0);
-	const step = LOOP_STEPS[active];
-
 	return (
 		<Frame
 			title="reward-loop.app"
 			footer="a sketch of the loop, not a measurement"
 		>
-			<div className="relative mx-auto w-full max-w-[16rem]">
-				<svg
-					viewBox="0 0 100 100"
-					className="absolute inset-0 size-full"
-					aria-hidden
-				>
-					<circle
-						cx="50"
-						cy="50"
-						r={RING_RADIUS}
-						fill="none"
-						stroke="var(--surface1)"
-						strokeWidth="0.5"
-						strokeDasharray="1.2 2.6"
-					/>
-					{LOOP_ARCS.map((path, index) => (
-						<motion.path
-							key={path}
-							d={path}
-							fill="none"
-							stroke={index === active ? "var(--mauve)" : "var(--surface2)"}
-							strokeWidth="0.9"
-							strokeLinecap="round"
-							initial={reduced ? false : { pathLength: 0, opacity: 0 }}
-							whileInView={reduced ? undefined : { pathLength: 1, opacity: 1 }}
-							viewport={{ once: true }}
-							transition={{
-								duration: 0.7,
-								delay: 0.1 + index * 0.12,
-								ease: "easeInOut",
-							}}
-						/>
-					))}
-				</svg>
-
-				<motion.div
-					className="pointer-events-none absolute inset-0"
-					style={{ transformOrigin: "50% 50%" }}
-					animate={reduced ? undefined : { rotate: 360 }}
-					transition={
-						reduced
-							? undefined
-							: { duration: 18, ease: "linear", repeat: Infinity }
-					}
-					aria-hidden
-				>
-					<span
-						className="absolute left-1/2 top-[8%] size-1.5 -translate-x-1/2 -translate-y-1/2 bg-mauve"
-						style={{ boxShadow: "0 0 10px var(--mauve)" }}
-					/>
-				</motion.div>
-
-				<div className="relative grid aspect-square w-full grid-cols-3 grid-rows-3 place-items-center">
-					<div className="col-start-2 row-start-2 flex flex-col items-center gap-1">
-						<Chip>the loop</Chip>
-						<span className="text-[9px] text-overlay0">click a node</span>
-					</div>
-
-					{LOOP_STEPS.map((item, index) => {
-						const selected = index === active;
-						return (
-							<button
-								key={item.label}
-								type="button"
-								onClick={() => setActive(index)}
-								aria-pressed={selected}
-								className={
-									"relative inline-flex items-center gap-1 border px-2 py-0.5  text-[11px] transition-colors " +
-									LOOP_SLOT[index] +
-									(selected
-										? " border-transparent text-on-accent"
-										: " border-border text-subtext0 hover:border-mauve/50 hover:text-text")
-								}
-							>
-								{selected ? (
-									<motion.span
-										layoutId="loop-node"
-										className="absolute inset-0 -z-10 bg-mauve"
-										transition={
-											reduced
-												? { duration: 0 }
-												: { type: "spring", stiffness: 380, damping: 30 }
-										}
-									/>
-								) : null}
-								{item.icon}
-								{item.label}
-							</button>
-						);
-					})}
-				</div>
-			</div>
-
-			<AnimatePresence mode="wait" initial={false}>
-				<motion.p
-					key={step.label}
-					initial={reduced ? false : { opacity: 0, y: 4 }}
-					animate={{ opacity: 1, y: 0 }}
-					exit={reduced ? undefined : { opacity: 0, y: -4 }}
-					transition={{ duration: 0.18 }}
-					className="mt-3 min-h-[2.5rem] text-center  text-[11px] leading-relaxed text-subtext0"
-				>
-					<span className="text-mauve">{step.label}</span> {step.caption}
-				</motion.p>
-			</AnimatePresence>
+			<ol className="space-y-2" style={{ listStyle: "none", paddingLeft: 0 }}>
+				{LOOP_STEPS.map((item) => (
+					<li
+						key={item.label}
+						className="flex items-start gap-2 text-[11px] leading-relaxed"
+					>
+						<span className="mt-0.5 text-mauve">{item.icon}</span>
+						<span className="min-w-0 text-subtext0">
+							<span className="text-mauve">{item.label}</span> {item.caption}
+						</span>
+					</li>
+				))}
+			</ol>
 		</Frame>
 	);
 }
@@ -308,7 +182,7 @@ export function SlotMachine() {
 		<Panel
 			title="slot-machine.app"
 			icon={<Dices className="size-3.5" />}
-			footer="a demo, not a measurement. odds fixed at 1 in 4. nothing leaves this page"
+			footer="odds fixed at 1 in 4. every miss is a near miss on purpose. nothing leaves this page."
 		>
 			<div className="flex items-center justify-between gap-2">
 				<motion.div
@@ -364,7 +238,10 @@ export function SlotMachine() {
 				</button>
 			</div>
 
-			<div className="mt-3 flex min-h-[1.25rem] items-center  text-[11px]">
+			<div
+				className="mt-3 flex min-h-[1.25rem] items-center  text-[11px]"
+				aria-live="polite"
+			>
 				<AnimatePresence mode="wait" initial={false}>
 					<motion.span
 						key={`${spin}-${outcome}`}
@@ -377,9 +254,6 @@ export function SlotMachine() {
 						{status}
 					</motion.span>
 				</AnimatePresence>
-				<span className="sr-only" aria-live="polite">
-					{status}
-				</span>
 			</div>
 
 			<div className="mt-3 grid grid-cols-2 gap-2">
@@ -391,115 +265,6 @@ export function SlotMachine() {
 				A toy, not a measurement. The payoff is unpredictable on purpose. A real
 				feed sets its own odds and never shows you the table.
 			</Callout>
-		</Panel>
-	);
-}
-
-/* --- one day, 24 hours --------------------------------------------------- */
-
-const DAY_CIRCUMFERENCE = 2 * Math.PI * 40;
-const DAY_DASH = `${DAY_CIRCUMFERENCE} ${DAY_CIRCUMFERENCE}`;
-
-const DAY_TICKS = Array.from({ length: 24 }, (_, index) => {
-	const angle = index * 15 - 90;
-	const [x1, y1] = ringPoint(41, angle);
-	const [x2, y2] = ringPoint(index % 6 === 0 ? 48 : 45.5, angle);
-	return { key: index, x1, y1, x2, y2, major: index % 6 === 0 };
-});
-
-function formatHours(value: number) {
-	const whole = Math.floor(value);
-	const minutes = Math.round((value - whole) * 60);
-	return minutes === 0 ? `${whole}h` : `${whole}h ${minutes}m`;
-}
-
-export function DayInPhone() {
-	const reduced = useReducedMotion();
-	const [hours, setHours] = useState(6);
-	const left = 24 - hours;
-	const accent = hours >= 8 ? "var(--peach)" : "var(--mauve)";
-	const offset = DAY_CIRCUMFERENCE * (1 - hours / 24);
-
-	return (
-		<Panel
-			title="one day, 24 hours"
-			icon={<Smartphone className="size-3.5" />}
-			footer="illustrative: phone time as one block, sleep counted inside the hours that are left"
-		>
-			<div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
-				<div className="relative aspect-square w-full max-w-[11rem] shrink-0">
-					<svg viewBox="0 0 100 100" className="size-full" aria-hidden>
-						<circle
-							cx="50"
-							cy="50"
-							r="40"
-							fill="none"
-							stroke="var(--surface0)"
-							strokeWidth="6"
-						/>
-						<g transform="rotate(-90 50 50)">
-							<motion.circle
-								cx="50"
-								cy="50"
-								r="40"
-								fill="none"
-								stroke={accent}
-								strokeWidth="6"
-								strokeLinecap="round"
-								strokeDasharray={DAY_DASH}
-								initial={false}
-								animate={{ strokeDashoffset: offset }}
-								transition={
-									reduced
-										? { duration: 0 }
-										: { type: "spring", stiffness: 140, damping: 24 }
-								}
-							/>
-						</g>
-						{DAY_TICKS.map((tick) => (
-							<line
-								key={tick.key}
-								x1={tick.x1}
-								y1={tick.y1}
-								x2={tick.x2}
-								y2={tick.y2}
-								stroke={tick.major ? "var(--overlay0)" : "var(--surface1)"}
-								strokeWidth={tick.major ? 0.7 : 0.4}
-								strokeLinecap="round"
-							/>
-						))}
-					</svg>
-					<div className="pointer-events-none absolute inset-0 grid place-items-center">
-						<div className="text-center">
-							<div className="text-lg tabular-nums leading-none text-text">
-								{left}h
-							</div>
-							<div className="mt-1  text-[9px] uppercase tracking-[0.1em] text-overlay1">
-								left in the day
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div className="w-full min-w-0 space-y-3">
-					<Range
-						value={hours}
-						onChange={setHours}
-						min={0}
-						max={16}
-						step={0.5}
-						label="hours on the phone"
-						accent={accent}
-					/>
-					<div className="grid grid-cols-2 gap-2">
-						<Stat label="on the phone" value={formatHours(hours)} />
-						<Stat label="elsewhere" value={formatHours(left)} />
-					</div>
-					<p className="text-[11px] leading-relaxed text-overlay1">
-						Drag the slider. The ring starts at midnight and fills clockwise.
-					</p>
-				</div>
-			</div>
 		</Panel>
 	);
 }
@@ -533,7 +298,12 @@ export function MinimalPhone() {
 	const reduced = useReducedMotion();
 
 	return (
-		<Switch on="minimal phone" off="everything installed" initial={false}>
+		<Switch
+			on="minimal phone"
+			off="everything installed"
+			label="phone apps"
+			initial
+		>
 			{(minimal) => {
 				const apps = minimal ? MINIMAL_APPS : FULL_APPS;
 				return (

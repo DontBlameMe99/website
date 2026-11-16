@@ -1,7 +1,6 @@
 import { CodeBlock } from "~/components/post/code_block";
 import { PostHeading, Prose } from "~/components/post/prose";
 import {
-	BackupSorter,
 	RecoveryChain,
 	RetentionBoard,
 } from "~/content/experiences/backups_you_only_want_them_once_you_need_them";
@@ -69,7 +68,6 @@ export default function Post() {
 					</ul>
 				</li>
 			</ul>
-			<BackupSorter />
 			<PostHeading level={2} id="a-little-story">
 				A Little Story
 			</PostHeading>

@@ -1,9 +1,5 @@
 import { PostHeading, Prose } from "~/components/post/prose";
-import {
-	IdentitySplit,
-	NothingToHide,
-	PrivacyMeter,
-} from "~/content/experiences/becoming_private_online";
+import { IdentitySplit } from "~/content/experiences/becoming_private_online";
 import type { PostMeta, Section } from "~/lib/post_types";
 
 export const meta = {
@@ -123,7 +119,6 @@ export default function Post() {
 				<strong>understand wrong</strong>, the rules might change. And then you
 				will maybe regret publishing your resource number X.
 			</p>
-			<NothingToHide />
 			<PostHeading
 				level={3}
 				id="okay-so-should-i-delete-everything-and-move-in-the-woods"
@@ -140,7 +135,6 @@ export default function Post() {
 			<p>
 				<strong>You will never achieve 100% Privacy though</strong>.
 			</p>
-			<PrivacyMeter />
 			<PostHeading level={2} id="first-steps">
 				First Steps
 			</PostHeading>

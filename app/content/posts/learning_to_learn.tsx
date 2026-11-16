@@ -1,8 +1,5 @@
 import { PostHeading, Prose } from "~/components/post/prose";
-import {
-	HourAccumulator,
-	MomentumTracker,
-} from "~/content/experiences/learning_to_learn";
+import { HourAccumulator } from "~/content/experiences/learning_to_learn";
 import type { PostMeta, Section } from "~/lib/post_types";
 
 export const meta = {
@@ -444,7 +441,6 @@ export default function Post() {
 				mean that you cannot learn. Everybody can easily, without much effort,
 				learn anything they want.
 			</blockquote>
-			<MomentumTracker />
 			<PostHeading level={2} id="conclusion">
 				Conclusion
 			</PostHeading>

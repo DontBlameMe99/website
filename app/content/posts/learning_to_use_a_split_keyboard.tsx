@@ -1,8 +1,6 @@
 import { PostHeading, Prose } from "~/components/post/prose";
 import {
-	AdaptationFigure,
 	LayersFigure,
-	MoonlanderFigure,
 	Stance,
 } from "~/content/experiences/learning_to_use_a_split_keyboard";
 import type { PostMeta, Section } from "~/lib/post_types";
@@ -217,7 +215,6 @@ export default function Post() {
 				}
 			</p>
 			<p>Just order and that's it.</p>
-			<MoonlanderFigure />
 			<PostHeading level={3} id="cost-comparison">
 				Cost Comparison
 			</PostHeading>
@@ -328,7 +325,6 @@ export default function Post() {
 				For me it took around 3 to 6 hours to become comfortable with the split
 				keyboard.
 			</p>
-			<AdaptationFigure />
 			<p>
 				Notably, prior experience with touch typing can be advantageous, as it
 				helps to adapt to the split layout more quickly.

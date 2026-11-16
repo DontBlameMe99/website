@@ -1,9 +1,5 @@
 import { PostHeading, Prose } from "~/components/post/prose";
-import {
-	HeroFigure,
-	NoteGraphFigure,
-	RedirectFigure,
-} from "~/content/experiences/what_is_this_new_website_design";
+import { NoteGraphFigure } from "~/content/experiences/what_is_this_new_website_design";
 import type { PostMeta, Section } from "~/lib/post_types";
 
 export const meta = {
@@ -209,7 +205,6 @@ export default function Post() {
 				As you are able to see, the entire website has changed a lot
 				design-wise.
 			</p>
-			<HeroFigure />
 			<p>
 				{
 					"It also has changed structurally, now including directories on the left-hand side, and clickable tags (every "
@@ -330,7 +325,6 @@ export default function Post() {
 				{"Whereas now it's like this: "}
 				<code>{"https://dontblameme.codeberg.page/Blog/my-blog-post"}</code>.
 			</p>
-			<RedirectFigure />
 			<p>
 				<strong>But please double-check if those links actually work.</strong>
 			</p>

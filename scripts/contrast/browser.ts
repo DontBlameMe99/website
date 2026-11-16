@@ -143,7 +143,8 @@ export class Chrome {
 			"--mute-audio",
 			"about:blank",
 		];
-		if (process.getuid?.() === 0) args.unshift("--no-sandbox");
+		if (process.getuid?.() === 0 || process.env.CI)
+			args.unshift("--no-sandbox");
 		args.unshift(binary);
 
 		let stderr = "";

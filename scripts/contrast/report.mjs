@@ -17,6 +17,7 @@ const number = (value) => value.toLocaleString("en-US");
 const ratio = (value) => `${(Math.floor(value * 100) / 100).toFixed(2)}:1`;
 const clean = (value, limit = 80) =>
 	String(value)
+		.replace(/\\/gu, "\\\\")
 		.replace(/\|/gu, "\\|")
 		.replace(/[\r\n]+/gu, " ")
 		.slice(0, limit);

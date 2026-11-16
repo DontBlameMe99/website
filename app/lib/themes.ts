@@ -13,9 +13,11 @@ export type SchemeId =
 	| "mocha"
 	| "nord"
 	| "mono"
+	| "gruvbox-dark"
 	| "latte"
 	| "nord-light"
-	| "mono-light";
+	| "mono-light"
+	| "gruvbox-light";
 
 export type Style = {
 	id: StyleId;
@@ -75,6 +77,12 @@ export const SCHEMES: readonly ColorScheme[] = [
 		blurb: "Greys only. Paper cut out of the dark.",
 	},
 	{
+		id: "gruvbox-dark",
+		label: "Gruvbox Dark",
+		mode: "dark",
+		blurb: "Warm brown, with bright retro accents.",
+	},
+	{
 		id: "latte",
 		label: "Catppuccin Latte",
 		mode: "light",
@@ -91,6 +99,12 @@ export const SCHEMES: readonly ColorScheme[] = [
 		label: "Monochrome Light",
 		mode: "light",
 		blurb: "The same greys, inverted onto white paper.",
+	},
+	{
+		id: "gruvbox-light",
+		label: "Gruvbox Light",
+		mode: "light",
+		blurb: "Creamy tan, with deep retro inks.",
 	},
 ];
 

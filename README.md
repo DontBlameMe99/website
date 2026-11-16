@@ -8,11 +8,9 @@ Montserrat everywhere, JetBrains Mono only inside code, and Malva (mauve) as the
 only accent, used sparingly on links, labels and buttons.
 
 `/theme` switches the shape (Neobrutalist, Flat) and the colorscheme for each
-brightness (Catppuccin Frappé, Macchiato, Mocha, Nord and Monochrome for dark;
-Catppuccin Latte, Nord Light and Monochrome Light for light). The two axes are
-independent, the choice is per device, and the header toggle flips dark and
-light. A style owns a lot more than geometry: edges, fills, backdrop blur, and
-type, all through tokens in `app/app.css`.
+brightness. The two axes are independent, the choice is per device, and the
+header toggle flips dark and light. A style owns a lot more than geometry:
+edges, fills, backdrop blur, and type, all through tokens in `app/app.css`.
 
 ## Development
 

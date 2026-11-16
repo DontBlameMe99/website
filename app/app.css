@@ -987,6 +987,8 @@
 	--font-sans: Tahoma, "Segoe UI", Verdana, sans-serif;
 
 	/* Fixed Luna chrome. Private to this block and its own rules. */
+	--xp-desktop-top: #79b4ef;
+	--xp-title-radius: 8px;
 	--xp-title: linear-gradient(
 		180deg,
 		#0997ff 0%,
@@ -1083,7 +1085,7 @@
 			#4f8f3a 26%,
 			transparent 55%
 		),
-		linear-gradient(180deg, #79b4ef 0%, #4a86d2 38%, #2b5ea8 100%);
+		linear-gradient(180deg, var(--xp-desktop-top) 0%, #4a86d2 38%, #2b5ea8 100%);
 	background-attachment: fixed;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -1108,10 +1110,43 @@
 	background-image: var(--xp-title);
 	border: 3px solid var(--xp-frame);
 	border-bottom: 0;
-	border-radius: 8px 8px 0 0;
+	border-radius: var(--xp-title-radius) var(--xp-title-radius) 0 0;
 	box-shadow:
 		inset 1px 1px 0 var(--xp-frame-light),
 		inset -1px 0 0 var(--xp-frame-dark);
+}
+
+/* The rounded corner leaves a sliver outside the frame. Content scrolled
+   under the title bar would fill it, so paint that sliver with the desktop
+   and mask out the arc the frame already draws. */
+[data-style="xp"] header.nb-chrome::before,
+[data-style="xp"] header.nb-chrome::after {
+	content: "";
+	position: absolute;
+	top: calc(-1 * var(--bw-heavy));
+	width: var(--xp-title-radius);
+	height: var(--xp-title-radius);
+	background-color: var(--xp-desktop-top);
+	pointer-events: none;
+}
+
+[data-style="xp"] header.nb-chrome::before {
+	left: calc(-1 * var(--bw-heavy));
+	mask-image: radial-gradient(
+		circle var(--xp-title-radius) at var(--xp-title-radius)
+			var(--xp-title-radius),
+		transparent calc(var(--xp-title-radius) - 0.5px),
+		#000 var(--xp-title-radius)
+	);
+}
+
+[data-style="xp"] header.nb-chrome::after {
+	right: calc(-1 * var(--bw-heavy));
+	mask-image: radial-gradient(
+		circle var(--xp-title-radius) at 0 var(--xp-title-radius),
+		transparent calc(var(--xp-title-radius) - 0.5px),
+		#000 var(--xp-title-radius)
+	);
 }
 
 [data-style="xp"] header.nb-chrome > div {

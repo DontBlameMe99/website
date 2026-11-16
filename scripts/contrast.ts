@@ -108,7 +108,14 @@ if (shard) {
 	const [index, count] = shard.split("/").map(Number);
 	if (!index || !count || index > count)
 		throw new Error(`CONTRAST_SHARD must be <1..n>/<n>, got "${shard}"`);
-	selected = combos.filter((_, comboIndex) => comboIndex % count === index - 1);
+	// Spread each style across every shard. Glassmorphism renders far slower
+	// than the flat styles, so grouping by catalog index keeps the shards even.
+	const shardOf = (combo: Combo) => {
+		const scheme = SCHEMES.findIndex((item) => item.id === combo.scheme);
+		const style = STYLES.findIndex((item) => item.id === combo.style);
+		return (scheme + style) % count;
+	};
+	selected = combos.filter((combo) => shardOf(combo) === index - 1);
 }
 
 const defaultAccent =

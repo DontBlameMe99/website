@@ -18,13 +18,13 @@ env:
 
 jobs:
   shard:
-    name: contrast ${{ matrix.shard }}/4
+    name: contrast ${{ matrix.shard }}/8
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        shard: [1, 2, 3, 4, 5, 6, 7, 8]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -61,7 +61,7 @@ jobs:
         env:
           CHROME_BIN: ${{ steps.chrome.outputs.chrome-path }}
           CONTRAST_WORKERS: "4"
-          CONTRAST_SHARD: ${{ matrix.shard }}/4
+          CONTRAST_SHARD: ${{ matrix.shard }}/8
           CONTRAST_PLAN: plan.json
           CONTRAST_JSON: report-${{ matrix.shard }}.json
         run: bun run contrast
@@ -93,7 +93,7 @@ jobs:
           path: reports
 
       - name: Build the report
-        run: node scripts/contrast/report.mjs reports --out comment.md --result result.txt --shards 4
+        run: node scripts/contrast/report.mjs reports --out comment.md --result result.txt --shards 8
 
       - name: Add the report to the job summary
         if: always()

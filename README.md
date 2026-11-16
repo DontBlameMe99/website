@@ -28,7 +28,7 @@ a warning. It needs Chromium: the dev shell has it, and CI installs Chrome. Set
 
 Use `CONTRAST_ONLY=<substring>` to run a single page or theme while debugging,
 and `CONTRAST_WORKERS` to change the number of browser workers. CI splits the
-combinations four ways with `CONTRAST_SHARD=<n>/4`.
+combinations eight ways with `CONTRAST_SHARD=<n>/8`.
 
 ## Content
 

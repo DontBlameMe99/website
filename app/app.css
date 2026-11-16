@@ -427,6 +427,80 @@
 	--on-accent: #ffffff;
 }
 
+/* Gruvbox on its own terms: the bright set is normal on a dark background and
+   the faded set is normal on a light one, so the two schemes share no accent
+   values. Gruvbox has seven hues, so pink, maroon, sapphire, blue, and lavender
+   borrow its second purple and second red, its ladder of blues, and its warm
+   grays. Every accent clears 4.5:1 on the surface that leaves it the least
+   room, the panel in dark and the page in light; a tuned one moved in lightness
+   and keeps the hue it started from. Pink leans further toward magenta than
+   gruvbox's own purple does, so the pinky and ring keys read apart. */
+[data-scheme="gruvbox-dark"] {
+	color-scheme: dark;
+	/* Bright accents, and the hard-contrast background ramp (dark0_hard as the
+	   page, dark0 as the well, dark0_soft as the panel). */
+	--pink: #d480b0;
+	--mauve: #d3869b;
+	--red: #fc6b5a;
+	--maroon: #eb7671;
+	--peach: #fe8019;
+	--yellow: #fabd2f;
+	--green: #b8bb26;
+	--teal: #8ec07c;
+	--sky: #83a598;
+	--sapphire: #56a6aa;
+	--blue: #6fa8a2;
+	--lavender: #bdae93;
+	--text: #fbf1c7;
+	--subtext1: #ebdbb2;
+	--subtext0: #d5c4a1;
+	--overlay2: #bdae93;
+	--overlay1: #b2a38c;
+	--overlay0: #a89984;
+	--surface2: #665c54;
+	--surface1: #504945;
+	--surface0: #3c3836;
+	--base: #32302f;
+	--mantle: #282828;
+	--crust: #1d2021;
+
+	--ink: var(--text);
+	--on-accent: #1d2021;
+}
+
+[data-scheme="gruvbox-light"] {
+	color-scheme: light;
+	/* The faded accents, deepened until they carry white text on an accent fill
+	   and still clear 4.5:1 as text on the page. */
+	--pink: #a0305f;
+	--mauve: #8f3f71;
+	--red: #9d0006;
+	--maroon: #a32011;
+	--peach: #ab3903;
+	--yellow: #84560f;
+	--green: #66620c;
+	--teal: #38694b;
+	--sky: #266872;
+	--sapphire: #36676a;
+	--blue: #076678;
+	--lavender: #685d54;
+	--text: #282828;
+	--subtext1: #3c3836;
+	--subtext0: #504945;
+	--overlay2: #5b534c;
+	--overlay1: #615951;
+	--overlay0: #665c54;
+	--surface2: #a89984;
+	--surface1: #bdae93;
+	--surface0: #d5c4a1;
+	--base: #fbf1c7;
+	--mantle: #f2e5bc;
+	--crust: #ebdbb2;
+
+	--ink: #282828;
+	--on-accent: #ffffff;
+}
+
 [data-style="flat"] {
 	/* Shape only: the palette above is untouched, so any scheme works here. */
 	--bw: 1px;

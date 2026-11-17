@@ -56,7 +56,7 @@ jobs:
         with:
           chrome-version: stable
 
-      - name: Check text contrast
+      - name: Check text contrast (WCAG AAA)
         if: steps.plan.outputs.skipped != 'true'
         env:
           CHROME_BIN: ${{ steps.chrome.outputs.chrome-path }}
@@ -74,6 +74,8 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
+  # The job name is the status check the branch rules require, so it keeps its
+  # name: the step and the report say that AAA is the floor.
   contrast:
     name: WCAG contrast
     needs: shard
@@ -136,11 +138,11 @@ jobs:
         if: always()
         run: |
           if [ "${{ needs.shard.result }}" != "success" ]; then
-            echo "At least one contrast shard failed."
+            echo "At least one contrast shard reported a pair below WCAG AAA."
             exit 1
           fi
           result="$(cat result.txt 2>/dev/null || echo missing)"
           if [ "$result" != "pass" ]; then
-            echo "The contrast report is $result."
+            echo "The contrast report is $result: WCAG AAA is required."
             exit 1
           fi

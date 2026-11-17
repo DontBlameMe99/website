@@ -777,10 +777,10 @@ async function worker(baseUrl: string, assigned: Job[]): Promise<Result> {
 					(item) =>
 						item.page === job.page &&
 						item.combo === job.combo.label &&
-						item.ratio < item.aa,
+						item.ratio < item.aaa,
 				).length;
 				console.log(
-					`[${String(progress.done).padStart(3)}/${progress.total}] ${job.combo.label} ${job.page} ${seconds}s${below ? ` (${below} below AA)` : ""}${failed ? " (error)" : ""}`,
+					`[${String(progress.done).padStart(3)}/${progress.total}] ${job.combo.label} ${job.page} ${seconds}s${below ? ` (${below} below AAA)` : ""}${failed ? " (error)" : ""}`,
 				);
 			}
 		}
@@ -836,19 +836,18 @@ for (const result of results) {
 	}
 }
 
-const belowAa = findings
-	.filter((finding) => finding.ratio < finding.aa)
-	.sort((a, b) => a.ratio - b.ratio);
-const aaaPairs = new Map<string, Finding>();
+// The gate is one color pair per scope and state, the same list the report
+// shows: gradients and antialiasing give the same text a handful of
+// near-identical backgrounds, and they all fail for the same reason.
+const pairs = new Map<string, Finding>();
 for (const finding of findings) {
-	if (finding.ratio < finding.aa) continue;
 	const key = [finding.combo, finding.state, finding.fg, finding.bg].join(
 		"\u0000",
 	);
-	const previous = aaaPairs.get(key);
-	if (!previous || finding.ratio < previous.ratio) aaaPairs.set(key, finding);
+	const previous = pairs.get(key);
+	if (!previous || finding.ratio < previous.ratio) pairs.set(key, finding);
 }
-const belowAaa = [...aaaPairs.values()].sort((a, b) => a.ratio - b.ratio);
+const belowAaa = [...pairs.values()].sort((a, b) => a.ratio - b.ratio);
 
 const seconds = ((performance.now() - started) / 1000).toFixed(1);
 await writeReport({
@@ -874,16 +873,17 @@ if (errors.length) {
 	if (errors.length > 20) summary.push(`  … and ${errors.length - 20} more`);
 }
 
-if (belowAa.length) {
-	summary.push("", `${belowAa.length} combinations are below WCAG AA:`);
-	for (const finding of belowAa.slice(0, 80)) {
+if (belowAaa.length) {
+	summary.push("", `${belowAaa.length} color pairs are below WCAG AAA:`);
+	for (const finding of belowAaa.slice(0, 80)) {
 		summary.push(
-			`  ${finding.combo} ${finding.page} [${finding.state}] ${finding.element} "${finding.text}" @${Math.round(finding.at.x)},${Math.round(finding.at.y)} ${finding.fg} on ${finding.bg} = ${formatRatio(finding.ratio)} (needs ${finding.aa}:1${finding.large ? ", large text" : ""})${finding.note ? ` [${finding.note}]` : ""}`,
+			`  ${finding.combo} ${finding.page} [${finding.state}] ${finding.element} "${finding.text}" @${Math.round(finding.at.x)},${Math.round(finding.at.y)} ${finding.fg} on ${finding.bg} = ${formatRatio(finding.ratio)} (needs ${finding.aaa}:1${finding.large ? ", large text" : ""})${finding.note ? ` [${finding.note}]` : ""}`,
 		);
 	}
-	if (belowAa.length > 80) summary.push(`  … and ${belowAa.length - 80} more`);
+	if (belowAaa.length > 80)
+		summary.push(`  … and ${belowAaa.length - 80} more`);
 } else if (!errors.length) {
-	summary.push("Every checked text run meets WCAG AA.");
+	summary.push("Every checked text run meets WCAG AAA.");
 }
 
 if (notes.length) {
@@ -895,52 +895,26 @@ if (notes.length) {
 	if (notes.length > 10) summary.push(`  … and ${notes.length - 10} more`);
 }
 
-if (belowAaa.length) {
-	summary.push(
-		"",
-		`${belowAaa.length} color pairs meet AA but are below AAA. Warnings only:`,
-	);
-	for (const finding of belowAaa.slice(0, 20)) {
-		summary.push(
-			`  ${finding.combo} ${finding.page} [${finding.state}] ${finding.fg} on ${finding.bg} = ${formatRatio(finding.ratio)} (AAA needs ${finding.aaa}:1)`,
-		);
-	}
-	if (belowAaa.length > 20)
-		summary.push(`  … and ${belowAaa.length - 20} more`);
-}
-
 console.log("");
 for (const line of summary) console.log(line);
 
 const escapeAnnotation = (value: string) =>
 	value.replaceAll("%", "%25").replaceAll("\r", "%0D").replaceAll("\n", "%0A");
-const annotate = (
-	level: "error" | "warning",
-	title: string,
-	message: string,
-) => {
+const annotate = (title: string, message: string) => {
 	console.log(
-		`::${level} title=${escapeAnnotation(title)}::${escapeAnnotation(message)}`,
+		`::error title=${escapeAnnotation(title)}::${escapeAnnotation(message)}`,
 	);
 };
-for (const finding of belowAa.slice(0, 20)) {
+for (const finding of belowAaa.slice(0, 20)) {
 	annotate(
-		"error",
-		`WCAG AA: ${finding.combo} ${finding.page}`,
-		`${finding.element} "${finding.text}": ${finding.fg} on ${finding.bg} = ${formatRatio(finding.ratio)}, needs ${finding.aa}:1`,
-	);
-}
-for (const finding of belowAaa.slice(0, 10)) {
-	annotate(
-		"warning",
 		`WCAG AAA: ${finding.combo} ${finding.page}`,
-		`${finding.element} "${finding.text}": ${finding.fg} on ${finding.bg} = ${formatRatio(finding.ratio)}, AAA needs ${finding.aaa}:1`,
+		`${finding.element} "${finding.text}": ${finding.fg} on ${finding.bg} = ${formatRatio(finding.ratio)}, needs ${finding.aaa}:1`,
 	);
 }
 
 if (process.env.GITHUB_STEP_SUMMARY) {
 	const markdown = [
-		"### WCAG contrast",
+		"### WCAG contrast (AAA)",
 		"",
 		`${SITE.name}: ${plan.summary}; ${jobs.length} page renders, base and hover.`,
 		"",
@@ -952,4 +926,4 @@ if (process.env.GITHUB_STEP_SUMMARY) {
 	await appendFile(process.env.GITHUB_STEP_SUMMARY, `${markdown.join("\n")}\n`);
 }
 
-if (errors.length || belowAa.length) process.exit(1);
+if (errors.length || belowAaa.length) process.exit(1);

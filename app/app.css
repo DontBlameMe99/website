@@ -1485,7 +1485,10 @@
 	color: #000;
 }
 
-[data-style="xp"] .nb-input input::placeholder {
+/* The field wrapper and the field itself can be the same element here, so the
+   placeholder is named directly as well. */
+[data-style="xp"] .nb-input::placeholder,
+[data-style="xp"] .nb-input :is(input, textarea)::placeholder {
 	color: #585858;
 }
 
@@ -1877,7 +1880,7 @@
 
 /* The field fill is a tone, so its placeholder keeps the on-surface tone: every
    palette clears 7:1 on that fill, while --overlay0 does not. */
-[data-style="material"] .nb-input input::placeholder {
+[data-style="material"] .nb-input :is(input, textarea)::placeholder {
 	color: var(--text);
 }
 
@@ -3203,7 +3206,8 @@
 		border-radius: var(--radius);
 	}
 
-	input::placeholder {
+	input::placeholder,
+	textarea::placeholder {
 		color: var(--overlay1);
 	}
 

@@ -98,7 +98,7 @@ function ValueField({
 				placeholder="default"
 				onChange={(event) => onChange(event.currentTarget.value)}
 				spellCheck={false}
-				className="nb-input min-w-0 font-mono text-[11px] placeholder:text-overlay0"
+				className="nb-input min-w-0 font-mono text-[11px]"
 			/>
 			<span className="truncate font-mono text-[10px] text-overlay0">
 				--{token}
@@ -359,7 +359,7 @@ export function ThemeShare() {
 				placeholder="Paste a theme file here."
 				spellCheck={false}
 				aria-label="Theme file"
-				className="nb-input mt-4 h-40 w-full resize-y font-mono text-[11px] placeholder:text-overlay0"
+				className="nb-input mt-4 h-40 w-full resize-y font-mono text-[11px]"
 			/>
 
 			<div className="mt-3 flex flex-wrap gap-2">

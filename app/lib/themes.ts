@@ -143,7 +143,7 @@ export const SCHEMES: readonly ColorScheme[] = [
 		id: "mono",
 		label: "Monochrome",
 		mode: "dark",
-		blurb: "Greys only. Paper cut out of the dark.",
+		blurb: "Greys, each with a whisper of its own hue.",
 	},
 	{
 		id: "gruvbox-dark",
@@ -185,7 +185,7 @@ export const SCHEMES: readonly ColorScheme[] = [
 		id: "mono-light",
 		label: "Monochrome Light",
 		mode: "light",
-		blurb: "The same greys, inverted onto white paper.",
+		blurb: "The same tinted greys, inverted onto white paper.",
 	},
 	{
 		id: "gruvbox-light",

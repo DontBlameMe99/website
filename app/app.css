@@ -247,11 +247,11 @@
 
 [data-scheme="dracula"] {
 	color-scheme: dark;
-	/* Dracula Classic, official values. The palette has one purple and one cyan,
-	   so the extra cool slots reuse them. The label and placeholder tones are
-	   lifted from the comment blue until each clears AAA on every surface it
-	   sits on. Red is the tight accent at 7:1 on a panel, the rest have more
-	   room. */
+	/* Dracula Classic, official values, with the cool slots mixed between its
+	   one cyan and its one purple so each name reads as its own hue. The label
+	   and placeholder tones are lifted from the comment blue until each clears
+	   AAA on every surface it sits on. Mauve and pink are the tight accents at
+	   7:1 on a panel, the rest have more room. */
 	--pink: #ff97d2;
 	--mauve: #cba9fa;
 	--red: #ff9e9e;
@@ -259,11 +259,11 @@
 	--peach: #ffb86c;
 	--yellow: #f1fa8c;
 	--green: #50fa7b;
-	--teal: #8be9fd;
+	--teal: #8dede0;
 	--sky: #8be9fd;
-	--sapphire: #8be9fd;
-	--blue: #8be9fd;
-	--lavender: #cba9fa;
+	--sapphire: #b1dfff;
+	--blue: #c4d9ff;
+	--lavender: #b5b1ff;
 	--text: #f8f8f2;
 	--subtext1-base: #e4e4ec;
 	--subtext1: var(--subtext1-base);
@@ -365,10 +365,12 @@
 	color-scheme: dark;
 	/* Nord: Polar Night surfaces, Snow Storm text, Frost and Aurora accents,
 	   lightened where the site sets them as text until each clears 7:1.
-	   Sapphire and blue are the tight accents on the panels, and the ink ramp is
-	   lifted the same way until every label clears AAA. */
+	   Aurora's purple is a pink-purple, so mauve and lavender are mixed between
+	   it and Frost's blues. Lavender and blue are the tight accents on the
+	   panels, and the ink ramp is lifted the same way until every label clears
+	   AAA. */
 	--pink: #d9bdd4;
-	--mauve: #d5bed1;
+	--mauve: #cbc1da;
 	--red: #ecb7bd;
 	--maroon: #e3bbc0;
 	--peach: #e6bbad;
@@ -378,7 +380,7 @@
 	--sky: #9fccd9;
 	--sapphire: #b4c7da;
 	--blue: #b3c6e1;
-	--lavender: #b2c6e6;
+	--lavender: #c1c1e5;
 	--text: #eceff4;
 	--subtext1-base: #e5e9f0;
 	--subtext1: var(--subtext1-base);
@@ -412,8 +414,8 @@
 	--yellow: #5d3f03;
 	--green: #1e4f16;
 	--teal: #094e49;
-	--sky: #094a66;
-	--sapphire: #094c59;
+	--sky: #004d59;
+	--sapphire: #1d4862;
 	--blue: #123e99;
 	--lavender: #31399e;
 	--text: #3c3e55;
@@ -441,20 +443,22 @@
 	color-scheme: light;
 	/* Alucard, the official light companion: warm parchment, near-black ink,
 	   and deeper accents. The selection and line-highlight tones build the
-	   surface ramp. Maroon and lavender are deepened until every accent carries
-	   paper text at 7:1, and the muted steps are darkened off the comment tone
-	   until labels clear AAA on the page. */
+	   surface ramp. The cool accents run from the official cyan to its blue, so
+	   teal, sky, sapphire, and blue each read as their own hue. Maroon and
+	   lavender are deepened until every accent carries paper text at 7:1, and
+	   the muted steps are darkened off the comment tone until labels clear AAA
+	   on the page. */
 	--pink: #911244;
-	--mauve: #4d33ac;
+	--mauve: #68269d;
 	--red: #8b251b;
 	--maroon: #872a21;
 	--peach: #78380f;
 	--yellow: #58490e;
 	--green: #105608;
-	--teal: #024f70;
-	--sky: #024f70;
+	--teal: #00554e;
+	--sky: #01525f;
 	--sapphire: #024f70;
-	--blue: #024f70;
+	--blue: #2f4877;
 	--lavender: #4e35a6;
 	--text: #1f1f1f;
 	--subtext1-base: #3a3730;
@@ -482,7 +486,7 @@
 	/* Nord Light, deepened until every accent carries Snow Storm text at 7:1
 	   and every muted tone clears AAA on the page background. */
 	--pink: #603654;
-	--mauve: #573b54;
+	--mauve: #4d3e5e;
 	--red: #732c34;
 	--maroon: #67353b;
 	--peach: #6a361f;
@@ -490,9 +494,9 @@
 	--green: #304b23;
 	--teal: #1f4b49;
 	--sky: #1b4a57;
-	--sapphire: #2b4565;
+	--sapphire: #1e4862;
 	--blue: #2b456a;
-	--lavender: #394365;
+	--lavender: #424063;
 	--text: #2e3440;
 	--subtext1-base: #393f4f;
 	--subtext1: var(--subtext1-base);
@@ -516,20 +520,21 @@
 
 [data-scheme="mono"] {
 	color-scheme: dark;
-	/* No hue at all: the accent is paper white, and every named color is a grey
-	   step that stays readable on its own. */
-	--pink: #e2e2e2;
-	--mauve: #f5f5f5;
-	--red: #d0d0d0;
-	--maroon: #c8c8c8;
-	--peach: #bdbdbd;
-	--yellow: #dadada;
-	--green: #c3c3c3;
-	--teal: #b8b8b8;
-	--sky: #cdcdcd;
-	--sapphire: #aeaeae;
-	--blue: #e6e6e6;
-	--lavender: #ececec;
+	/* The default palette's accent ramp with the hue drained out and a tint left
+	   behind, so every name still reads as its own hue. Each step stays
+	   readable on its own. */
+	--pink: #e6ccd9;
+	--mauve: #bfb4cc;
+	--red: #c6a9a6;
+	--maroon: #cdafb3;
+	--peach: #d9c0b1;
+	--yellow: #ebe5cb;
+	--green: #c5d6c1;
+	--teal: #b8d8d3;
+	--sky: #b4d3da;
+	--sapphire: #a7bfcf;
+	--blue: #a7b4ca;
+	--lavender: #c1c0d9;
 	--text: #ededed;
 	--subtext1-base: #cfcfcf;
 	--subtext1: var(--subtext1-base);
@@ -553,19 +558,19 @@
 
 [data-scheme="mono-light"] {
 	color-scheme: light;
-	/* The same ramp read the other way, with black as the one accent. */
-	--pink: #2a2a2a;
-	--mauve: #1a1a1a;
-	--red: #3a3a3a;
-	--maroon: #333333;
-	--peach: #454545;
-	--yellow: #2f2f2f;
-	--green: #3f3f3f;
-	--teal: #444444;
-	--sky: #363636;
-	--sapphire: #464646;
-	--blue: #262626;
-	--lavender: #202020;
+	/* The same ramp read the other way, with the same tint left in each step. */
+	--pink: #35222d;
+	--mauve: #42394d;
+	--red: #573e3c;
+	--maroon: #50383b;
+	--peach: #432f24;
+	--yellow: #221d08;
+	--green: #22301f;
+	--teal: #15322e;
+	--sky: #183339;
+	--sapphire: #2b404d;
+	--blue: #394456;
+	--lavender: #343448;
 	--text: #1a1a1a;
 	--subtext1-base: #373737;
 	--subtext1: var(--subtext1-base);
@@ -589,29 +594,30 @@
 
 /* Gruvbox on its own terms: the bright set is normal on a dark background and
    the faded set is normal on a light one, so the two schemes share no accent
-   values. Gruvbox has seven hues, so pink, maroon, sapphire, blue, and lavender
-   borrow its second purple and second red, its ladder of blues, and its warm
-   grays. Every accent clears 7:1 on the surface that leaves it the least
-   room, the panel in dark and the page in light, and carries --on-accent at
-   7:1 as a fill; a tuned one moved in lightness and keeps the hue it started
-   from. Pink leans further toward magenta than gruvbox's own purple does, so
-   the pinky and ring keys read apart. */
+   values. Gruvbox has seven hues, so the extra slots keep one of its colors'
+   lightness and chroma and move only its hue: mauve and lavender off its
+   purple, teal through blue along its one blue. Every accent clears 7:1 on the
+   surface that leaves it the least room, the panel in dark and the page in
+   light, and carries --on-accent at 7:1 as a fill; a tuned one moved in
+   lightness and keeps the hue it started from. Pink leans further toward
+   magenta than gruvbox's own purple does, so the pinky and ring keys read
+   apart. */
 [data-scheme="gruvbox-dark"] {
 	color-scheme: dark;
 	/* Bright accents, and the hard-contrast background ramp (dark0_hard as the
 	   page, dark0 as the well, dark0_soft as the panel). */
 	--pink: #e5b1ce;
-	--mauve: #e4b3c1;
+	--mauve: #cbb9e2;
 	--red: #fdaba2;
 	--maroon: #f3afac;
 	--peach: #feae6d;
 	--yellow: #fabd2f;
 	--green: #c3c728;
-	--teal: #a2cc93;
-	--sky: #aec5bc;
-	--sapphire: #97c9cb;
-	--blue: #a2c7c3;
-	--lavender: #cabfa9;
+	--teal: #75d1c5;
+	--sky: #a6c5cc;
+	--sapphire: #a0c4dc;
+	--blue: #b0bfd9;
+	--lavender: #bebdd6;
 	--text: #fbf1c7;
 	--subtext1-base: #ebdbb2;
 	--subtext1: var(--subtext1-base);
@@ -639,17 +645,17 @@
 	   and still clear 7:1 as text on the page. The ink ramp is lifted the same
 	   way, until every muted tone clears AAA. */
 	--pink: #772347;
-	--mauve: #6a2e54;
+	--mauve: #533771;
 	--red: #8c0005;
-	--maroon: #83190e;
+	--maroon: #811535;
 	--peach: #782802;
 	--yellow: #5d3c0b;
 	--green: #474509;
-	--teal: #274a35;
+	--teal: #174b45;
 	--sky: #1a4950;
-	--sapphire: #26484a;
-	--blue: #054a58;
-	--lavender: #49413b;
+	--sapphire: #2d4554;
+	--blue: #2e4164;
+	--lavender: #414055;
 	--text: #282828;
 	--subtext1-base: #3c3836;
 	--subtext1: var(--subtext1-base);
@@ -678,8 +684,9 @@
 
    Accents keep their Solarized hue and move only as far as 7:1 against that
    canvas, since each one doubles as a fill carrying --on-accent text. Solarized
-   has no purple, so mauve is the one mixed color: between its magenta and its
-   violet. */
+   has no purple, so mauve is mixed between its magenta and its violet. Maroon,
+   sky, and blue are mixed the same way from the red, cyan, and violet beside
+   them, so no two names share a value. */
 [data-scheme="solarized-dark"] {
 	color-scheme: dark;
 	/* Solarized Dark. Red, orange, magenta, violet, and blue are lifted off
@@ -689,14 +696,14 @@
 	--pink: #ea9dc2;
 	--mauve: #cfa5dd;
 	--red: #ef9f9e;
-	--maroon: #f1a07e;
+	--maroon: #f399a7;
 	--peach: #f1a07e;
 	--yellow: #e3ac00;
 	--green: #a6c000;
 	--teal: #34c8bd;
-	--sky: #34c8bd;
+	--sky: #33c3dc;
 	--sapphire: #7abbe7;
-	--blue: #7abbe7;
+	--blue: #93b3ee;
 	--lavender: #aeb1de;
 	--text: #b1bebe;
 	--subtext1-base: #b3bdbd;
@@ -723,28 +730,29 @@
    a cream page with forest inks. The three background tones read as one ramp,
    with the page darkest in the dark scheme and lightest in the light one.
 
-   Everforest has seven hues, so pink and maroon borrow its purple and red, sky,
-   sapphire, and blue share its one blue, and lavender takes its sage grey. Pink
-   leans toward magenta so the pinky and ring keys read apart, and lavender
-   shifts toward blue-violet in the light scheme so a figure can still tell it
-   from the neutral labels. Every accent clears 7:1 as text on the panel and
-   carries the scheme's own ink at 7:1 as a fill. */
+   Everforest has seven hues, so the extra slots keep one of its colors'
+   lightness and chroma and move only its hue: mauve and lavender off its
+   purple, teal through blue along its one blue. Maroon is its red with less
+   chroma and a browner hue, the same way the default palette separates the
+   two. Pink leans toward magenta so the pinky and ring keys read apart. Every
+   accent clears 7:1 as text on the panel and carries the scheme's own ink at
+   7:1 as a fill. */
 [data-scheme="everforest-dark"] {
 	color-scheme: dark;
 	/* Everforest Dark, medium contrast: hard bg_dim as the page, medium bg_dim
 	   as the well, bg0 as the panel, and bg1 to bg3 as the raised tones. */
 	--pink: #e1b8de;
-	--mauve: #e3bacd;
+	--mauve: #cfbfe4;
 	--red: #f1b6b8;
-	--maroon: #f1b6b8;
+	--maroon: #e6bbc0;
 	--peach: #eebaa2;
 	--yellow: #dec189;
 	--green: #b7cc97;
-	--teal: #a1d0ad;
-	--sky: #a2cec8;
-	--sapphire: #a2cec8;
-	--blue: #a2cec8;
-	--lavender: #bdc8c0;
+	--teal: #8ed2c8;
+	--sky: #a1ccd5;
+	--sapphire: #a8c9df;
+	--blue: #b3c4e3;
+	--lavender: #c2c2db;
 	--text: #d8ccb3;
 	--subtext1-base: #d8ccb3;
 	--subtext1: var(--subtext1-base);
@@ -774,14 +782,14 @@
 	--pink: #98215b;
 	--mauve: #77368d;
 	--red: #a01d1a;
-	--maroon: #903510;
+	--maroon: #902f45;
 	--peach: #903510;
 	--yellow: #674e00;
 	--green: #4c5600;
 	--teal: #185c57;
-	--sky: #185c57;
+	--sky: #185a66;
 	--sapphire: #185683;
-	--blue: #185683;
+	--blue: #345087;
 	--lavender: #4248a2;
 	--text: #073642;
 	--subtext1-base: #3d5057;
@@ -811,16 +819,16 @@
 	   both reads on the page and carries white text. The tints keep their hue
 	   and only move in lightness. */
 	--pink: #86255d;
-	--mauve: #891d67;
+	--mauve: #673197;
 	--red: #8f2322;
-	--maroon: #852e25;
+	--maroon: #852d41;
 	--peach: #7b3807;
 	--yellow: #604700;
 	--green: #455100;
 	--teal: #1b5540;
-	--sky: #1f506a;
+	--sky: #0a5460;
 	--sapphire: #1f506a;
-	--blue: #1f506a;
+	--blue: #364a6f;
 	--lavender: #444a6b;
 	--text: #3d484e;
 	--subtext1-base: #3d484e;

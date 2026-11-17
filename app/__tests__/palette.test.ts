@@ -74,6 +74,11 @@ for (const [, id, body] of source.matchAll(
 }
 
 describe("palette accents", () => {
+	test("the hue tables cover every accent", () => {
+		expect(Object.keys(HUE_CENTER).sort()).toEqual([...ACCENT_HUES].sort());
+		expect(Object.keys(HUE_SPREAD).sort()).toEqual([...ACCENT_HUES].sort());
+	});
+
 	test("every scheme defines every accent", () => {
 		const missing = SCHEMES.flatMap((scheme) =>
 			ACCENT_HUES.filter((name) => !palettes.get(scheme.id)?.[name]).map(

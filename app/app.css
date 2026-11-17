@@ -250,8 +250,8 @@
 	/* Dracula Classic, official values, with the cool slots mixed between its
 	   one cyan and its one purple so each name reads as its own hue. The label
 	   and placeholder tones are lifted from the comment blue until each clears
-	   AAA on every surface it sits on. Red and lavender are the tight accents
-	   at 7:1 on a panel, the rest have more room. */
+	   AAA on every surface it sits on. Mauve and pink are the tight accents at
+	   7:1 on a panel, the rest have more room. */
 	--pink: #ff97d2;
 	--mauve: #cba9fa;
 	--red: #ff9e9e;
@@ -732,9 +732,11 @@
 
    Everforest has seven hues, so the extra slots keep one of its colors'
    lightness and chroma and move only its hue: mauve and lavender off its
-   purple, teal through blue along its one blue. Pink leans toward magenta so
-   the pinky and ring keys read apart. Every accent clears 7:1 as text on the
-   panel and carries the scheme's own ink at 7:1 as a fill. */
+   purple, teal through blue along its one blue. Maroon is its red with less
+   chroma and a browner hue, the same way the default palette separates the
+   two. Pink leans toward magenta so the pinky and ring keys read apart. Every
+   accent clears 7:1 as text on the panel and carries the scheme's own ink at
+   7:1 as a fill. */
 [data-scheme="everforest-dark"] {
 	color-scheme: dark;
 	/* Everforest Dark, medium contrast: hard bg_dim as the page, medium bg_dim
@@ -742,7 +744,7 @@
 	--pink: #e1b8de;
 	--mauve: #cfbfe4;
 	--red: #f1b6b8;
-	--maroon: #f1b6b8;
+	--maroon: #e6bbc0;
 	--peach: #eebaa2;
 	--yellow: #dec189;
 	--green: #b7cc97;
@@ -819,7 +821,7 @@
 	--pink: #86255d;
 	--mauve: #673197;
 	--red: #8f2322;
-	--maroon: #852e25;
+	--maroon: #852d41;
 	--peach: #7b3807;
 	--yellow: #604700;
 	--green: #455100;

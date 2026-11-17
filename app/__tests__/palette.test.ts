@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { join } from "node:path";
 import { ACCENT_HUES, SCHEMES } from "../lib/themes";
 
 /**
@@ -58,7 +59,7 @@ const oklch = (hex: string) => {
 	return { chroma: Math.hypot(a, bb), hue };
 };
 
-const source = await Bun.file("app/app.css").text();
+const source = await Bun.file(join(import.meta.dir, "../app.css")).text();
 const palettes = new Map<string, Record<string, string>>();
 for (const [, id, body] of source.matchAll(
 	/\[data-scheme="([^"]+)"\]\s*\{([\s\S]*?)\n\}/g,
@@ -95,6 +96,20 @@ describe("palette accents", () => {
 			}),
 		);
 		expect(offHue).toEqual([]);
+	});
+
+	test("no two accents share a value", () => {
+		const copies = SCHEMES.flatMap((scheme) => {
+			const palette = palettes.get(scheme.id) ?? {};
+			const seen = new Map<string, string>();
+			return ACCENT_HUES.flatMap((name) => {
+				const hex = palette[name]?.toLowerCase();
+				const first = seen.get(hex);
+				seen.set(hex, name);
+				return first ? [`${scheme.id}: ${first} and ${name}`] : [];
+			});
+		});
+		expect(copies).toEqual([]);
 	});
 
 	test("no accent is a plain grey", () => {

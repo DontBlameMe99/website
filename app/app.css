@@ -3264,6 +3264,14 @@ input[type="range"]::-moz-range-thumb {
 	}
 }
 
+/* The engine's resize grip is a grey system triangle drawn in the scrollbar
+   corner, which reads as a stray pixel in every style. Paint it in the field's
+   own ink: a token inside the gradient does not resolve on a scrollbar part,
+   while currentColor does. */
+textarea::-webkit-resizer {
+	background: linear-gradient(135deg, transparent 0 45%, currentColor 45%);
+}
+
 /* XP scrollbars: Luna's arrow buttons. This is the one part of a scrollbar a
    token cannot gate, because a scrollbar box belongs to the engine, not to the
    page, so the rules are scoped to XP instead. A descendant selector also

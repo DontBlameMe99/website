@@ -33,6 +33,10 @@ Use `CONTRAST_ONLY=<substring>` to run a single page or theme while debugging,
 and `CONTRAST_WORKERS` to change the number of browser workers. CI splits the
 combinations eight ways with `CONTRAST_SHARD=<n>/8`.
 
+Custom palettes and styles are visitor data: they live in `localStorage` and are
+not part of the catalog, so the audit does not cover them. The theme page reports
+the same pairs while a visitor paints and saves regardless.
+
 ## Content
 
 Posts are React components in `app/content/posts/<slug>.tsx`. Each one exports

@@ -10,6 +10,7 @@ import {
 	resolvePrefs,
 	SCHEMES,
 	STORAGE_KEYS,
+	STYLE_VALUE_MAX,
 	STYLES,
 	schemeForMode,
 	themeBootScript,
@@ -157,6 +158,10 @@ describe("boot script", () => {
 		expect(themeBootScript).toContain("dataset.scheme");
 		expect(themeBootScript).toContain("dataset.accent");
 		expect(themeBootScript).toContain("0.192");
+	});
+
+	test("caps style values at the same length the validator enforces", () => {
+		expect(themeBootScript).toContain(String(STYLE_VALUE_MAX));
 	});
 
 	test("falls back to the same defaults the app uses", () => {

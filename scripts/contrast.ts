@@ -385,6 +385,7 @@ async function auditState(
 	const width = IMAGE.width;
 	const height = IMAGE.height;
 	const mask = new Uint8Array(width * height);
+	const loose = new Uint8Array(width * height);
 	const cssHeight = VIEWPORT.height;
 	const results = new Map<number, Measured>();
 	const pseudoResults = new Map<number, Measured>();
@@ -596,13 +597,14 @@ async function auditState(
 			if (local) claim(mask, width, height, local, 2);
 		}
 
-		// Text pixels left unclaimed mean the scanner missed a surface. A big
-		// cluster fails the audit; a handful of stray pixels at a clip edge is
-		// noted instead. The first rows sit against the clipped sticky-header
-		// edge, where antialiased slivers belong to the previous tile's overlap.
+		// Text pixels left unclaimed mean the scanner missed a surface. Antialiasing
+		// at a clip edge throws off a few isolated pixels, while a missed run paints
+		// a connected block of glyph ink. Follow the ink, and only a block fails.
+		// The first rows sit against the clipped sticky-header edge, where
+		// antialiased slivers belong to the previous tile's overlap.
 		const from = Math.max(0, Math.ceil((region.top - position) * SCALE) + 2);
 		const to = Math.min(height, Math.ceil((region.bottom - position) * SCALE));
-		let leftover = 0;
+		let total = 0;
 		let first: { x: number; y: number } | null = null;
 		for (let y = from; y < to; y++) {
 			for (let x = 0; x < width; x++) {
@@ -615,41 +617,60 @@ async function auditState(
 					) <= 3
 				)
 					continue;
-				leftover++;
+				loose[index] = 1;
+				total++;
 				if (!first) first = { x: x / SCALE, y: position + y / SCALE };
 			}
 		}
-		// Glyph ink forms clusters, so a few stray raster pixels at a clip edge
-		// are noise. A missed run is a block of glyph ink several pixels tall; a
-		// strip one or two pixels tall is a paint edge, such as a hairline that
-		// shifted a pixel between the capture pair. Only a block fails the audit.
-		if (leftover > 10 && first) {
+		let block = { size: 0, height: 0 };
+		const stack: number[] = [];
+		for (let y = from; y < to; y++) {
+			for (let x = 0; x < width; x++) {
+				if (!loose[y * width + x]) continue;
+				let size = 0;
+				let top = y;
+				let bottom = y;
+				loose[y * width + x] = 0;
+				stack.push(y * width + x);
+				while (stack.length) {
+					const index = stack.pop() as number;
+					const cx = index % width;
+					const cy = Math.floor(index / width);
+					size++;
+					top = Math.min(top, cy);
+					bottom = Math.max(bottom, cy);
+					if (cx > 0 && loose[index - 1]) {
+						loose[index - 1] = 0;
+						stack.push(index - 1);
+					}
+					if (cx + 1 < width && loose[index + 1]) {
+						loose[index + 1] = 0;
+						stack.push(index + 1);
+					}
+					if (cy > from && loose[index - width]) {
+						loose[index - width] = 0;
+						stack.push(index - width);
+					}
+					if (cy + 1 < to && loose[index + width]) {
+						loose[index + width] = 0;
+						stack.push(index + width);
+					}
+				}
+				if (size > block.size)
+					block = { size, height: (bottom - top + 1) / SCALE };
+			}
+		}
+		if (total > 10 && first) {
 			const near = await chrome.evaluate<string>(`(() => {
 				const stack = document.elementsFromPoint(${Math.round(first.x)}, ${Math.round(first.y - position)});
 				return stack.slice(0, 3).map((el) =>
 					el.tagName.toLowerCase() + "." + String(el.getAttribute("class") || "").split(/\\s+/).slice(0, 3).join(".")
 				).join(" < ");
 			})()`);
-			let top = Number.POSITIVE_INFINITY;
-			let bottom = 0;
-			for (let y = from; y < to; y++) {
-				for (let x = 0; x < width; x++) {
-					const index = y * width + x;
-					if (mask[index]) continue;
-					if (
-						Math.max(
-							maxChannelDiff(maskA, hidden, index),
-							maxChannelDiff(maskB, hidden, index),
-						) <= 3
-					)
-						continue;
-					top = Math.min(top, y);
-					bottom = Math.max(bottom, y);
-				}
-			}
-			const strip = (bottom - top + 1) / SCALE;
-			const message = `${combo.label} ${page} ${state} at scroll ${position}: ${leftover} text pixels were not attributed to any element (first at ${Math.round(first.x)},${Math.round(first.y)} in ${near}, ${Math.round(strip)}px tall)`;
-			if (leftover > 120 && strip > 3) errors.push(message);
+			const message = `${combo.label} ${page} ${state} at scroll ${position}: ${total} text pixels were not attributed to any element (first at ${Math.round(first.x)},${Math.round(first.y)} in ${near}; largest block ${block.size}px, ${Math.round(block.height)}px tall)`;
+			// A glyph cluster is at least a few pixels tall and a few dozen pixels
+			// of ink. A strip or a sprinkle of edges is neither.
+			if (block.size >= 30 && block.height >= 4) errors.push(message);
 			else notes.push(message);
 		}
 	}

@@ -196,7 +196,11 @@ const pickPalette = (value: unknown): CustomPalette | null => {
 	return palette;
 };
 
-/** A style is sparse: an absent token keeps whatever the defaults say. */
+/**
+ * A style is sparse: an absent token keeps whatever the defaults say. An empty
+ * object is still a style the visitor saved, so it stays one, and the boot
+ * script and the import check agree with that.
+ */
 const pickStyle = (value: unknown): CustomStyle | null => {
 	if (!value || typeof value !== "object") return null;
 	const style: CustomStyle = {};
@@ -204,7 +208,7 @@ const pickStyle = (value: unknown): CustomStyle | null => {
 		const item = (value as Record<string, unknown>)[token];
 		if (isCssValue(item)) style[token] = item.trim();
 	}
-	return Object.keys(style).length > 0 ? style : null;
+	return style;
 };
 
 /** Storage and pasted files are user-editable, so every value gets checked. */
@@ -543,11 +547,8 @@ export const readThemeFile = (
 	};
 	const prefs = resolvePrefs(stored);
 
-	// A style set with no values is an empty one, not a look to share.
-	const carries = (slot: "dark" | "light" | "style") =>
-		slot === "style"
-			? !!custom.style && Object.keys(custom.style).length > 0
-			: !!custom[slot];
+	// A set that is present is carried, even when every style field is empty.
+	const carries = (slot: "dark" | "light" | "style") => !!custom[slot];
 	const missing = (
 		[
 			["darkScheme", "dark"],

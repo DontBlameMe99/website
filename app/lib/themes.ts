@@ -509,13 +509,12 @@ export const themeBootScript = `
 		};
 		var styleOf = function (raw) {
 			if (!raw || typeof raw !== 'object') return null;
-			var out = null;
+			var out = {};
 			for (var token in raw) {
 				if (!Object.prototype.hasOwnProperty.call(raw, token)) continue;
 				var value = raw[token];
 				if (!valid(token, styles) || typeof value !== 'string') continue;
 				if (!value || value.length > ${STYLE_VALUE_MAX} || unsafe.test(value)) continue;
-				if (!out) out = {};
 				out[token] = value;
 			}
 			return out;

@@ -76,9 +76,10 @@ describe("resolveCustomTheme", () => {
 		expect(theme.style).toEqual({ bw: "3px" });
 	});
 
-	test("a style with nothing left resolves to no style at all", () => {
-		expect(resolveCustomTheme({ style: {} }).style).toBeNull();
-		expect(resolveCustomTheme({ style: { edge: "<" } }).style).toBeNull();
+	test("a style with nothing left is still a style", () => {
+		expect(resolveCustomTheme({ style: {} }).style).toEqual({});
+		expect(resolveCustomTheme({ style: { edge: "<" } }).style).toEqual({});
+		expect(resolveCustomTheme({ style: "flat" }).style).toBeNull();
 	});
 
 	test("junk input resolves to nothing at all", () => {
@@ -230,13 +231,17 @@ describe("theme files", () => {
 		expect(readThemeFile(JSON.stringify({ darkScheme: "custom" }))).toEqual({
 			error: "The file picks a custom dark set but does not carry one.",
 		});
-		expect(
-			readThemeFile(
-				JSON.stringify({ style: "custom", custom: { style: { edge: "<" } } }),
-			),
-		).toEqual({
+		expect(readThemeFile(JSON.stringify({ style: "custom" }))).toEqual({
 			error: "The file picks a custom style set but does not carry one.",
 		});
+	});
+
+	test("round-trips a custom style with every field cleared", () => {
+		const cleared = {
+			prefs: { ...DEFAULT_PREFS, style: "custom" as const },
+			custom: { dark: null, light: null, style: {} },
+		};
+		expect(readThemeFile(themeFile(cleared))).toEqual({ state: cleared });
 	});
 
 	test("refuses anything that is not a theme object", () => {

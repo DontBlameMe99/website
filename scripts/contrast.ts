@@ -620,7 +620,9 @@ async function auditState(
 			}
 		}
 		// Glyph ink forms clusters, so a few stray raster pixels at a clip edge
-		// are noise. A real missed run is an order of magnitude larger.
+		// are noise. A missed run is a block of glyph ink several pixels tall; a
+		// strip one or two pixels tall is a paint edge, such as a hairline that
+		// shifted a pixel between the capture pair. Only a block fails the audit.
 		if (leftover > 10 && first) {
 			const near = await chrome.evaluate<string>(`(() => {
 				const stack = document.elementsFromPoint(${Math.round(first.x)}, ${Math.round(first.y - position)});
@@ -628,8 +630,26 @@ async function auditState(
 					el.tagName.toLowerCase() + "." + String(el.getAttribute("class") || "").split(/\\s+/).slice(0, 3).join(".")
 				).join(" < ");
 			})()`);
-			const message = `${combo.label} ${page} ${state} at scroll ${position}: ${leftover} text pixels were not attributed to any element (first at ${Math.round(first.x)},${Math.round(first.y)} in ${near})`;
-			if (leftover > 120) errors.push(message);
+			let top = Number.POSITIVE_INFINITY;
+			let bottom = 0;
+			for (let y = from; y < to; y++) {
+				for (let x = 0; x < width; x++) {
+					const index = y * width + x;
+					if (mask[index]) continue;
+					if (
+						Math.max(
+							maxChannelDiff(maskA, hidden, index),
+							maxChannelDiff(maskB, hidden, index),
+						) <= 3
+					)
+						continue;
+					top = Math.min(top, y);
+					bottom = Math.max(bottom, y);
+				}
+			}
+			const strip = (bottom - top + 1) / SCALE;
+			const message = `${combo.label} ${page} ${state} at scroll ${position}: ${leftover} text pixels were not attributed to any element (first at ${Math.round(first.x)},${Math.round(first.y)} in ${near}, ${Math.round(strip)}px tall)`;
+			if (leftover > 120 && strip > 3) errors.push(message);
 			else notes.push(message);
 		}
 	}

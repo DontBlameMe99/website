@@ -22,14 +22,15 @@ hold up as evidence.
   button uses a view transition that can stall in a hidden tab, so set
   `localStorage.setItem("dbm-theme", "light")` and reload to inspect Latte.
 
-## Start and stop
+## Running a server
 
 ```sh
 ./scripts/dev.sh start
 ./scripts/dev.sh status
 ./scripts/dev.sh url
-./scripts/dev.sh stop
 ```
 
 `start` deletes `build/` first, picks a free port in 5200-5399, and prints the
-URL. State and logs live in `~/.cache/dbm-dev/`.
+URL. State and logs live in `~/.cache/dbm-dev/`. Never stop one by hand: it
+shuts itself down within a minute of its worktree being deleted, and the next
+`start` prunes the state of servers that are already gone.

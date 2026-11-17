@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# Start, stop, and inspect this worktree's dev server.
+# Start and inspect this worktree's dev server.
+#
+# A server stops itself once its worktree is deleted, so there is nothing to
+# stop by hand.
 #
 #   ./scripts/dev.sh start
 #   ./scripts/dev.sh status
-#   ./scripts/dev.sh stop
-#   ./scripts/dev.sh restart
 #   ./scripts/dev.sh url
 set -euo pipefail
 
@@ -18,6 +19,7 @@ pid_file="$state_dir/pid"
 port_file="$state_dir/port"
 log_file="$state_dir/dev.log"
 server_bin="$root/node_modules/.bin/react-router"
+poll_seconds=60
 
 die() {
 	echo "dev: $*" >&2
@@ -41,6 +43,37 @@ in_nix() {
 	return 0
 }
 
+# Kills the server recorded in this worktree's state, if the process is still
+# ours. The pid can be recycled, so check what it is running before signalling.
+stop_saved() {
+	local pid
+	pid="$(cat "$pid_file" 2>/dev/null || true)"
+	[[ -n $pid ]] || return 0
+	pid_alive "$pid" || return 0
+	grep -qaF -- "$server_bin" "/proc/$pid/cmdline" 2>/dev/null || return 0
+	kill -- -"$pid" 2>/dev/null || true
+	for _ in $(seq 1 50); do
+		pid_alive "$pid" || return 0
+		sleep 0.2
+	done
+	kill -9 -- -"$pid" 2>/dev/null || true
+}
+
+# Drops the state of servers that no longer run, which their own worktree would
+# otherwise never do once it is gone. A directory without a recorded pid belongs
+# to a start still in flight, so leave it alone.
+prune_state() {
+	local dir pid
+	for dir in "$cache_root"/*/; do
+		[[ $dir == "$state_dir/" ]] && continue
+		pid="$(cat "$dir/pid" 2>/dev/null || true)"
+		[[ -n $pid ]] || continue
+		if ! pid_alive "$pid"; then
+			rm -rf "$dir"
+		fi
+	done
+}
+
 start() {
 	if ! command -v bun >/dev/null; then
 		command -v nix >/dev/null || die "bun and nix are both unavailable."
@@ -48,6 +81,7 @@ start() {
 	fi
 
 	mkdir -p "$state_dir"
+	prune_state
 
 	if [[ -f $pid_file ]]; then
 		local saved_pid saved_port
@@ -58,6 +92,7 @@ start() {
 			echo "URL: $(url_of "$saved_port")"
 			return 0
 		fi
+		stop_saved
 		rm -f "$pid_file" "$port_file"
 	fi
 
@@ -77,7 +112,17 @@ start() {
 	[[ -n $port ]] || die "No free port between 5200 and 5399."
 
 	echo "Starting the dev server on port $port..."
-	setsid env NODE_ENV=development "$server_bin" dev --host 127.0.0.1 --port "$port" --strictPort \
+	# The watcher exits with the server, or takes the whole group down once this
+	# worktree is gone. It watches .git because the server itself recreates files
+	# under the root, and exec keeps the pid equal to the server's.
+	setsid bash -c '
+		if [ -e "$1/.git" ]; then
+			( while [ -e "$1/.git" ] && kill -0 $$; do sleep "$4"; done; kill -TERM 0 ) &
+		else
+			echo "dev: no .git under $1, this server will not stop itself." >&2
+		fi
+		exec env NODE_ENV=development "$2" dev --host 127.0.0.1 --port "$3" --strictPort
+	' _ "$root" "$server_bin" "$port" "$poll_seconds" \
 		>"$log_file" 2>&1 </dev/null &
 	local pid=$!
 	printf '%s\n' "$pid" >"$pid_file"
@@ -102,26 +147,6 @@ start() {
 	echo "Log: $log_file"
 }
 
-stop() {
-	[[ -f $pid_file ]] || {
-		echo "No dev server saved for this worktree."
-		return 0
-	}
-	local pid port
-	pid="$(cat "$pid_file")"
-	port="$(cat "$port_file" 2>/dev/null || true)"
-	if pid_alive "$pid"; then
-		kill "$pid" 2>/dev/null || true
-		for _ in $(seq 1 50); do
-			pid_alive "$pid" || break
-			sleep 0.2
-		done
-		pid_alive "$pid" && kill -9 "$pid" 2>/dev/null || true
-	fi
-	rm -f "$pid_file" "$port_file"
-	echo "Stopped port ${port:-unknown}."
-}
-
 status() {
 	[[ -f $pid_file ]] || die "No dev server for this worktree."
 	local pid port
@@ -141,12 +166,10 @@ url() {
 
 case "${1:-}" in
 	start) start ;;
-	stop) stop ;;
-	restart) stop; start ;;
 	status) status ;;
 	url) url ;;
 	*)
-		echo "usage: $0 {start|stop|restart|status|url}" >&2
+		echo "usage: $0 {start|status|url}" >&2
 		exit 2
 		;;
 esac

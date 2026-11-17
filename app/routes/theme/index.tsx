@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { PageHeader, SectionLabel } from "~/components/layout/page_header";
+import {
+	CustomPaletteEditor,
+	CustomStyleEditor,
+	ThemeShare,
+} from "~/components/theme/custom_editors";
+import type { CustomTheme } from "~/lib/custom_theme";
 import { seo } from "~/lib/seo";
 import { useTheme } from "~/lib/theme_provider";
 import { startLiquidWipe } from "~/lib/theme_wipe";
@@ -11,7 +17,8 @@ import {
 	DARK_SCHEMES,
 	inkOn,
 	LIGHT_SCHEMES,
-	type SchemeId,
+	type Mode,
+	type SchemeChoice,
 	STYLES,
 	type Style,
 } from "~/lib/themes";
@@ -21,7 +28,7 @@ export const meta = () =>
 	seo({
 		title: "Theme",
 		description:
-			"Pick the interface style, the colorscheme used in dark and light, and the accent color.",
+			"Pick the interface style, the colorscheme used in dark and light, and the accent color, or build your own palette and style.",
 	});
 
 const SWATCHES = [
@@ -72,6 +79,41 @@ function accentScope(accent: Accent): {
 			"--on-accent": inkOn(accent.hex),
 		} as React.CSSProperties,
 	};
+}
+
+/** Token values as inline custom properties. */
+function tokenStyle(
+	tokens: Record<string, string> | null,
+): Record<string, string> | undefined {
+	if (!tokens) return undefined;
+	const style: Record<string, string> = {};
+	for (const [token, value] of Object.entries(tokens))
+		style[`--${token}`] = value;
+	return style;
+}
+
+/**
+ * A preview of the visitor's own look cannot use an attribute block, because
+ * the tokens live in storage. Inline them, palette and style together.
+ */
+function customPreview(
+	mode: Mode,
+	custom: CustomTheme,
+	palette = true,
+): React.CSSProperties | undefined {
+	const tokens: Record<string, string> = {};
+	if (palette && custom[mode]) Object.assign(tokens, custom[mode]);
+	if (custom.style) Object.assign(tokens, custom.style);
+	if (!Object.keys(tokens).length) return undefined;
+
+	return {
+		...tokenStyle(tokens),
+		colorScheme: mode,
+		// The build lowers light-dark() to this pair, and a custom scope has no
+		// scheme block to declare it.
+		"--lightningcss-light": mode === "light" ? "initial" : " ",
+		"--lightningcss-dark": mode === "dark" ? "initial" : " ",
+	} as React.CSSProperties;
 }
 
 function AccentHueOption({ hue }: { hue: AccentHue }) {
@@ -249,7 +291,8 @@ function PaletteOption({
 	option: ColorScheme;
 	selected: boolean;
 }) {
-	const { style, mode, accent, setScheme } = useTheme();
+	const { style, mode, accent, custom, setScheme } = useTheme();
+	const scope = accentScope(accent);
 
 	return (
 		<button
@@ -265,9 +308,13 @@ function PaletteOption({
 				}
 				wipeFrom(event.currentTarget, () => setScheme(option.id));
 			}}
-			{...accentScope(accent)}
+			{...scope}
 			data-scheme={option.id}
 			data-style={style}
+			style={{
+				...tokenStyle(style === "custom" ? custom.style : null),
+				...scope.style,
+			}}
 			className={cn("nb-panel nb-lift p-6 text-left", selected && ACTIVE)}
 		>
 			<span aria-hidden="true" className="nb-line flex">
@@ -292,15 +339,17 @@ function PaletteOption({
 
 function PaletteGroup({
 	label,
+	mode,
 	options,
 	selected,
 }: {
 	label: string;
+	mode: Mode;
 	options: readonly ColorScheme[];
-	selected: SchemeId;
+	selected: SchemeChoice;
 }) {
-	const { mode } = useTheme();
-	const live = mode === options[0]?.mode;
+	const { mode: active } = useTheme();
+	const live = active === mode;
 
 	return (
 		<section>
@@ -317,13 +366,138 @@ function PaletteGroup({
 						selected={selected === option.id}
 					/>
 				))}
+				<CustomPaletteCard mode={mode} selected={selected === "custom"} />
 			</div>
+
+			{selected === "custom" ? (
+				<div className="mt-6">
+					<CustomPaletteEditor mode={mode} />
+				</div>
+			) : null}
 		</section>
 	);
 }
 
+/** A palette with no built-in preview: these colors come from storage. */
+function CustomPaletteCard({
+	mode,
+	selected,
+}: {
+	mode: Mode;
+	selected: boolean;
+}) {
+	const { custom, mode: active, accent, setScheme } = useTheme();
+	const palette = custom[mode];
+
+	const accentFill = accent.kind === "hue" ? palette?.[accent.hue] : accent.hex;
+	const tones: { key: string; color: string | undefined }[] = palette
+		? [
+				{ key: "crust", color: palette.crust },
+				{ key: "base", color: palette.base },
+				{ key: "surface0", color: palette.surface0 },
+				{ key: "surface1", color: palette.surface1 },
+				{ key: "accent", color: accentFill },
+				{ key: "text", color: palette.text },
+			]
+		: [];
+
+	return (
+		<button
+			type="button"
+			aria-pressed={selected}
+			onClick={(event) => {
+				if (selected) return;
+				// A palette for the other brightness is only saved for later, so it
+				// has nothing to wipe in.
+				if (mode !== active) {
+					setScheme("custom", mode);
+					return;
+				}
+				wipeFrom(event.currentTarget, () => setScheme("custom", mode));
+			}}
+			className={cn("nb-panel nb-lift p-6 text-left", selected && ACTIVE)}
+		>
+			<span
+				aria-hidden="true"
+				className={cn("nb-line flex", !palette && "border-dashed")}
+			>
+				{tones.map((tone) => (
+					<span
+						key={tone.key}
+						className="h-3 flex-1"
+						style={{ backgroundColor: tone.color }}
+					/>
+				))}
+			</span>
+
+			<span className="mt-4 flex items-baseline justify-between gap-4">
+				<span className="text-lg font-extrabold tracking-[-0.02em] text-text">
+					Custom
+				</span>
+				{selected ? <Selected /> : null}
+			</span>
+
+			<span className="mt-2 block text-[13px] leading-relaxed text-subtext0">
+				{palette
+					? "Your own palette. Every color is yours to edit."
+					: "Any colorscheme you like, starting from the one in use."}
+			</span>
+		</button>
+	);
+}
+
+/** The same preview the built-ins get, painted from the style in storage. */
+function CustomStyleCard({ selected }: { selected: boolean }) {
+	const { custom, mode, accent, darkScheme, lightScheme, setStyle } =
+		useTheme();
+	const scope = accentScope(accent);
+	const lives = (mode === "dark" ? darkScheme : lightScheme) === "custom";
+
+	return (
+		<button
+			type="button"
+			aria-pressed={selected}
+			onClick={(event) => {
+				if (selected) return;
+				wipeFrom(event.currentTarget, () => setStyle("custom"));
+			}}
+			className={cn("nb-panel nb-lift p-6 text-left", selected && ACTIVE)}
+		>
+			<span
+				{...scope}
+				data-style="custom"
+				style={{ ...customPreview(mode, custom, lives), ...scope.style }}
+				aria-hidden="true"
+				className="nb-well flex h-28 flex-col justify-between gap-2 p-3"
+			>
+				<span className="nb-panel flex items-center justify-between gap-2 p-2">
+					<span className="text-[11px] font-bold text-text">Panel</span>
+					<span className="nb-chip nb-accent">Chip</span>
+				</span>
+				<span className="flex items-center gap-2">
+					<span className="nb-button px-2 py-1 text-[11px]">Button</span>
+					<span className="text-[11px] text-subtext0">Body text</span>
+				</span>
+			</span>
+
+			<span className="mt-4 flex items-baseline justify-between gap-4">
+				<span className="text-lg font-extrabold tracking-[-0.02em] text-text">
+					Custom
+				</span>
+				{selected ? <Selected /> : null}
+			</span>
+
+			<span className="mt-2 block text-[13px] leading-relaxed text-subtext0">
+				{custom.style
+					? "Your own shape and material."
+					: "Build a look the catalog does not have."}
+			</span>
+		</button>
+	);
+}
+
 export default function ThemePage() {
-	const { darkScheme, lightScheme } = useTheme();
+	const { darkScheme, lightScheme, style } = useTheme();
 
 	return (
 		<div>
@@ -344,20 +518,31 @@ export default function ThemePage() {
 						{STYLES.map((option) => (
 							<StyleOption key={option.id} option={option} />
 						))}
+						<CustomStyleCard selected={style === "custom"} />
 					</div>
+
+					{style === "custom" ? (
+						<div className="mt-6">
+							<CustomStyleEditor />
+						</div>
+					) : null}
 				</section>
 
 				<PaletteGroup
 					label="Dark colorscheme"
+					mode="dark"
 					options={DARK_SCHEMES}
 					selected={darkScheme}
 				/>
 
 				<PaletteGroup
 					label="Light colorscheme"
+					mode="light"
 					options={LIGHT_SCHEMES}
 					selected={lightScheme}
 				/>
+
+				<ThemeShare />
 			</div>
 		</div>
 	);

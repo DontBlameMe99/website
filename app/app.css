@@ -940,7 +940,10 @@
 	--radius: 28px;
 	--lift: 0px;
 	--press: 0px;
-	--backdrop: blur(60px) saturate(180%) brightness(1.05);
+	/* Every pane below is painted with an opaque surface, so a blur behind it
+	   has nothing to show through. It still re-composites the scrolling content
+	   on every frame, which costs a third of the frame budget in this style. */
+	--backdrop: none;
 
 	/* The aurora is the scheme's own surface tinted with its accents, so the
 	   wash stays inside the palette instead of dragging in a fixed hue. It is
@@ -3175,21 +3178,58 @@
 }
 
 /* The two theme glyphs have no inline state before hydration, so the class the
-   boot script already set decides which one shows. Motion takes over on mount. */
+   boot script already set decides which one shows. */
 .theme-moon {
 	opacity: 1;
+	transform: none;
 }
 
 .theme-sun {
 	opacity: 0;
+	transform: rotate(90deg) scale(0.7);
 }
 
 .light .theme-moon {
 	opacity: 0;
+	transform: rotate(-90deg) scale(0.7);
 }
 
 .light .theme-sun {
 	opacity: 1;
+	transform: none;
+}
+
+/* One glyph crossfades into the other whether or not the click runs through the
+   liquid wipe. */
+.theme-moon,
+.theme-sun {
+	transition:
+		opacity 180ms ease-out,
+		transform 180ms ease-out;
+}
+
+/* The two copy glyphs swap in one grid cell, so the label beside them holds
+   still. This one is a class rather than a motion component so that a page
+   which only copies text does not load the animation runtime. */
+.copy-icon {
+	transition:
+		opacity 150ms ease-out,
+		transform 150ms ease-out;
+}
+
+.copy-icon-done {
+	opacity: 0;
+	transform: scale(0.8) rotate(-12deg);
+}
+
+.copy-state[data-copied="true"] .copy-icon-idle {
+	opacity: 0;
+	transform: scale(0.8) rotate(12deg);
+}
+
+.copy-state[data-copied="true"] .copy-icon-done {
+	opacity: 1;
+	transform: none;
 }
 
 /* --- controls ------------------------------------------------------------ */
@@ -3329,6 +3369,15 @@ html.theme-switching *,
 html.theme-switching *::before,
 html.theme-switching *::after {
 	transition: none !important;
+}
+
+/* The toggle glyphs still swap during the wipe, so the button reads the same as
+   it does on a switch that has no view transition. */
+html.theme-switching .theme-moon,
+html.theme-switching .theme-sun {
+	transition:
+		opacity 180ms ease-out,
+		transform 180ms ease-out !important;
 }
 
 /* The blob wipe is the only animation on the snapshots. A cross-fade here

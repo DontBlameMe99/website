@@ -15,6 +15,7 @@ function WritingList() {
 				<SectionLabel>Writing</SectionLabel>
 				<Link
 					to="/blog"
+					prefetch="render"
 					className="inline-flex min-h-6 items-center gap-1 py-1 text-meta uppercase tracking-[0.12em] hover:text-accent"
 				>
 					All {posts.length}
@@ -27,6 +28,7 @@ function WritingList() {
 					<li key={post.slug} className="nb-line-b">
 						<Link
 							to={`/blog/${post.slug}`}
+							prefetch="intent"
 							className="group grid gap-x-4 gap-y-1 py-5 sm:grid-cols-[minmax(0,1fr)_7rem]"
 						>
 							<span className="min-w-0">
@@ -45,7 +47,7 @@ function WritingList() {
 				))}
 			</ul>
 
-			<Link to="/blog" className="nb-button mt-8">
+			<Link to="/blog" prefetch="render" className="nb-button mt-8">
 				Read all writing
 				<ArrowRight className="icon-nudge size-4" />
 			</Link>
@@ -60,6 +62,7 @@ function ProjectsRail() {
 				<p className="text-label text-subtext0">Projects</p>
 				<Link
 					to="/projects"
+					prefetch="render"
 					className="inline-flex min-h-6 items-center gap-1 py-1 text-meta uppercase tracking-[0.12em] hover:text-accent"
 				>
 					All
@@ -118,11 +121,11 @@ export default function Home() {
 						the tools I keep rebuilding.
 					</p>
 					<div className="mt-9 flex hero-step hero-step-4 flex-wrap items-center gap-3">
-						<Link to="/blog" className="nb-button nb-accent">
+						<Link to="/blog" prefetch="render" className="nb-button nb-accent">
 							Read the writing
 							<ArrowRight className="icon-nudge size-4" />
 						</Link>
-						<Link to="/projects" className="nb-button">
+						<Link to="/projects" prefetch="render" className="nb-button">
 							Projects
 						</Link>
 						<a

@@ -1,0 +1,491 @@
+{
+	"skipped": false,
+	"full": true,
+	"reason": "",
+	"summary": "16/16 schemes, 7/7 styles, 19/19 routes, 12 accents on /theme",
+	"combos": [
+		{
+			"scheme": "frappe",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "frappe",
+			"style": "flat"
+		},
+		{
+			"scheme": "frappe",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "frappe",
+			"style": "xp"
+		},
+		{
+			"scheme": "frappe",
+			"style": "msdos"
+		},
+		{
+			"scheme": "frappe",
+			"style": "material"
+		},
+		{
+			"scheme": "frappe",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "macchiato",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "macchiato",
+			"style": "flat"
+		},
+		{
+			"scheme": "macchiato",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "macchiato",
+			"style": "xp"
+		},
+		{
+			"scheme": "macchiato",
+			"style": "msdos"
+		},
+		{
+			"scheme": "macchiato",
+			"style": "material"
+		},
+		{
+			"scheme": "macchiato",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "mocha",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "mocha",
+			"style": "flat"
+		},
+		{
+			"scheme": "mocha",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "mocha",
+			"style": "xp"
+		},
+		{
+			"scheme": "mocha",
+			"style": "msdos"
+		},
+		{
+			"scheme": "mocha",
+			"style": "material"
+		},
+		{
+			"scheme": "mocha",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "dracula",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "dracula",
+			"style": "flat"
+		},
+		{
+			"scheme": "dracula",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "dracula",
+			"style": "xp"
+		},
+		{
+			"scheme": "dracula",
+			"style": "msdos"
+		},
+		{
+			"scheme": "dracula",
+			"style": "material"
+		},
+		{
+			"scheme": "dracula",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "nord",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "nord",
+			"style": "flat"
+		},
+		{
+			"scheme": "nord",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "nord",
+			"style": "xp"
+		},
+		{
+			"scheme": "nord",
+			"style": "msdos"
+		},
+		{
+			"scheme": "nord",
+			"style": "material"
+		},
+		{
+			"scheme": "nord",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "mono",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "mono",
+			"style": "flat"
+		},
+		{
+			"scheme": "mono",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "mono",
+			"style": "xp"
+		},
+		{
+			"scheme": "mono",
+			"style": "msdos"
+		},
+		{
+			"scheme": "mono",
+			"style": "material"
+		},
+		{
+			"scheme": "mono",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "gruvbox-dark",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "gruvbox-dark",
+			"style": "flat"
+		},
+		{
+			"scheme": "gruvbox-dark",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "gruvbox-dark",
+			"style": "xp"
+		},
+		{
+			"scheme": "gruvbox-dark",
+			"style": "msdos"
+		},
+		{
+			"scheme": "gruvbox-dark",
+			"style": "material"
+		},
+		{
+			"scheme": "gruvbox-dark",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "solarized-dark",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "solarized-dark",
+			"style": "flat"
+		},
+		{
+			"scheme": "solarized-dark",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "solarized-dark",
+			"style": "xp"
+		},
+		{
+			"scheme": "solarized-dark",
+			"style": "msdos"
+		},
+		{
+			"scheme": "solarized-dark",
+			"style": "material"
+		},
+		{
+			"scheme": "solarized-dark",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "everforest-dark",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "everforest-dark",
+			"style": "flat"
+		},
+		{
+			"scheme": "everforest-dark",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "everforest-dark",
+			"style": "xp"
+		},
+		{
+			"scheme": "everforest-dark",
+			"style": "msdos"
+		},
+		{
+			"scheme": "everforest-dark",
+			"style": "material"
+		},
+		{
+			"scheme": "everforest-dark",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "latte",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "latte",
+			"style": "flat"
+		},
+		{
+			"scheme": "latte",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "latte",
+			"style": "xp"
+		},
+		{
+			"scheme": "latte",
+			"style": "msdos"
+		},
+		{
+			"scheme": "latte",
+			"style": "material"
+		},
+		{
+			"scheme": "latte",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "alucard",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "alucard",
+			"style": "flat"
+		},
+		{
+			"scheme": "alucard",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "alucard",
+			"style": "xp"
+		},
+		{
+			"scheme": "alucard",
+			"style": "msdos"
+		},
+		{
+			"scheme": "alucard",
+			"style": "material"
+		},
+		{
+			"scheme": "alucard",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "nord-light",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "nord-light",
+			"style": "flat"
+		},
+		{
+			"scheme": "nord-light",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "nord-light",
+			"style": "xp"
+		},
+		{
+			"scheme": "nord-light",
+			"style": "msdos"
+		},
+		{
+			"scheme": "nord-light",
+			"style": "material"
+		},
+		{
+			"scheme": "nord-light",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "mono-light",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "mono-light",
+			"style": "flat"
+		},
+		{
+			"scheme": "mono-light",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "mono-light",
+			"style": "xp"
+		},
+		{
+			"scheme": "mono-light",
+			"style": "msdos"
+		},
+		{
+			"scheme": "mono-light",
+			"style": "material"
+		},
+		{
+			"scheme": "mono-light",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "gruvbox-light",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "gruvbox-light",
+			"style": "flat"
+		},
+		{
+			"scheme": "gruvbox-light",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "gruvbox-light",
+			"style": "xp"
+		},
+		{
+			"scheme": "gruvbox-light",
+			"style": "msdos"
+		},
+		{
+			"scheme": "gruvbox-light",
+			"style": "material"
+		},
+		{
+			"scheme": "gruvbox-light",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "solarized-light",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "solarized-light",
+			"style": "flat"
+		},
+		{
+			"scheme": "solarized-light",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "solarized-light",
+			"style": "xp"
+		},
+		{
+			"scheme": "solarized-light",
+			"style": "msdos"
+		},
+		{
+			"scheme": "solarized-light",
+			"style": "material"
+		},
+		{
+			"scheme": "solarized-light",
+			"style": "skeuomorphic"
+		},
+		{
+			"scheme": "everforest-light",
+			"style": "neobrutalist"
+		},
+		{
+			"scheme": "everforest-light",
+			"style": "flat"
+		},
+		{
+			"scheme": "everforest-light",
+			"style": "glassmorphism"
+		},
+		{
+			"scheme": "everforest-light",
+			"style": "xp"
+		},
+		{
+			"scheme": "everforest-light",
+			"style": "msdos"
+		},
+		{
+			"scheme": "everforest-light",
+			"style": "material"
+		},
+		{
+			"scheme": "everforest-light",
+			"style": "skeuomorphic"
+		}
+	],
+	"routes": [
+		"/",
+		"/blog",
+		"/projects",
+		"/contact",
+		"/disclosure",
+		"/theme",
+		"/404",
+		"/blog/what_is_this_new_website_design",
+		"/blog/the_psychology_of_social_media_addiction",
+		"/blog/the_perfect_productivity_system",
+		"/blog/switching_from_youtube_to_freetube",
+		"/blog/replacing_obsidian_with_neovim_and_typst",
+		"/blog/learning_to_use_a_split_keyboard",
+		"/blog/learning_to_learn",
+		"/blog/learning_colemak_dh",
+		"/blog/is_nixos_the_perfect_linux_distribution_for_you",
+		"/blog/i_found_a_better_alternative_to_logseq",
+		"/blog/becoming_private_online",
+		"/blog/backups_you_only_want_them_once_you_need_them"
+	],
+	"accents": [
+		"pink",
+		"mauve",
+		"red",
+		"maroon",
+		"peach",
+		"yellow",
+		"green",
+		"teal",
+		"sky",
+		"sapphire",
+		"blue",
+		"lavender"
+	]
+}

@@ -1,5 +1,4 @@
 import { Check, Copy } from "lucide-react";
-import { motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /** Clipboard state for a copy control, shared by the code block and contact. */
@@ -29,36 +28,22 @@ export function useCopy(reset = 1500) {
 
 /**
  * The icon half of a copy control. Both glyphs share one grid cell, so the
- * label beside them never moves while they swap.
+ * label beside them never moves while they swap. The swap itself is a class,
+ * which keeps the motion runtime off pages that only copy text.
  */
 export function CopyStateIcon({ copied }: { copied: boolean }) {
 	return (
 		<span
 			aria-hidden="true"
-			className="relative inline-grid size-3 place-items-center"
+			data-copied={copied}
+			className="copy-state relative inline-grid size-3 place-items-center"
 		>
-			<motion.span
-				className="col-start-1 row-start-1 size-full"
-				animate={{
-					opacity: copied ? 0 : 1,
-					scale: copied ? 0.8 : 1,
-					rotate: copied ? 12 : 0,
-				}}
-				transition={{ duration: 0.15, ease: "easeOut" }}
-			>
+			<span className="copy-icon copy-icon-idle col-start-1 row-start-1 size-full">
 				<Copy className="size-full" />
-			</motion.span>
-			<motion.span
-				className="col-start-1 row-start-1 size-full"
-				animate={{
-					opacity: copied ? 1 : 0,
-					scale: copied ? 1 : 0.8,
-					rotate: copied ? 0 : -12,
-				}}
-				transition={{ duration: 0.15, ease: "easeOut" }}
-			>
+			</span>
+			<span className="copy-icon copy-icon-done col-start-1 row-start-1 size-full">
 				<Check className="size-full" />
-			</motion.span>
+			</span>
 		</span>
 	);
 }

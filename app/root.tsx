@@ -11,7 +11,6 @@ import {
 import "./app.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { MotionConfig } from "motion/react";
 import { SiteFooter } from "~/components/layout/site_footer";
 import { SiteHeader } from "~/components/layout/site_header";
 import { seo } from "~/lib/seo";
@@ -70,9 +69,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 					media="(prefers-color-scheme: light)"
 					content="#dce0e8"
 				/>
-				<script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
 				<Meta />
 				<Links />
+				{/* After the stylesheet link, so the browser starts the CSS request
+				    before it parses this script. It still runs before first paint. */}
+				<script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
 			</head>
 			<body className="min-h-dvh text-text antialiased">
 				<a
@@ -96,21 +97,19 @@ function Shell({ children }: { children: React.ReactNode }) {
 
 	return (
 		<ThemeProvider>
-			<MotionConfig reducedMotion="user">
-				<SiteHeader />
-				<main
-					id="main-content"
-					className="mx-auto w-full max-w-[1240px] px-5 pb-10 pt-10 sm:pt-14"
+			<SiteHeader />
+			<main
+				id="main-content"
+				className="mx-auto w-full max-w-[1240px] px-5 pb-10 pt-10 sm:pt-14"
+			>
+				<div
+					key={location.pathname}
+					className="animate-[page-in_180ms_ease-out]"
 				>
-					<div
-						key={location.pathname}
-						className="animate-[page-in_180ms_ease-out]"
-					>
-						{children}
-					</div>
-				</main>
-				<SiteFooter />
-			</MotionConfig>
+					{children}
+				</div>
+			</main>
+			<SiteFooter />
 		</ThemeProvider>
 	);
 }

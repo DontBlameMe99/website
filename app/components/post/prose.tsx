@@ -45,7 +45,17 @@ export function PostHeading({
  * carries the meaning. The caption repeats it for sighted readers, so it is
  * hidden from screen readers to avoid announcing the same sentence twice.
  */
-export function PostImage({ src, alt }: { src: string; alt: string }) {
+export function PostImage({
+	src,
+	alt,
+	width,
+	height,
+}: {
+	src: string;
+	alt: string;
+	width: number;
+	height: number;
+}) {
 	return (
 		<figure>
 			<a
@@ -54,7 +64,14 @@ export function PostImage({ src, alt }: { src: string; alt: string }) {
 				rel="noreferrer"
 				aria-label={alt ? `Open full size: ${alt}` : "Open full size"}
 			>
-				<img src={src} alt={alt} loading="lazy" decoding="async" />
+				<img
+					src={src}
+					alt={alt}
+					width={width}
+					height={height}
+					loading="lazy"
+					decoding="async"
+				/>
 			</a>
 			{alt ? <figcaption aria-hidden="true">{alt}</figcaption> : null}
 		</figure>

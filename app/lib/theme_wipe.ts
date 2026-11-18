@@ -40,10 +40,11 @@ export function startLiquidWipe(x: number, y: number, apply: () => void) {
 		document.visibilityState !== "visible"
 	) {
 		// Retire the earlier run so a late callback cannot replace this selection,
-		// and clear a class that run may have left behind.
+		// and clear a class that run may have left behind. There is no snapshot to
+		// catch here, so the state change does not need a synchronous commit.
 		runs++;
 		root.classList.remove("theme-switching");
-		flushSync(apply);
+		apply();
 		return;
 	}
 
@@ -75,7 +76,7 @@ export function startLiquidWipe(x: number, y: number, apply: () => void) {
 		// leave nothing disabled behind.
 		pending = null;
 		cleanup();
-		flushSync(apply);
+		apply();
 		return;
 	}
 

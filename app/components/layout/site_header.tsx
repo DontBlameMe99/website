@@ -37,7 +37,12 @@ export function SiteHeader() {
 					className="order-last flex w-full items-center gap-1 sm:order-none sm:ml-auto sm:w-auto sm:gap-7"
 				>
 					{NAV.filter((item) => item.to !== "/").map((item) => (
-						<NavLink key={item.to} to={item.to} className={linkClass}>
+						<NavLink
+							key={item.to}
+							to={item.to}
+							prefetch="render"
+							className={linkClass}
+						>
 							{item.label}
 						</NavLink>
 					))}

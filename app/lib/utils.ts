@@ -1,18 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
-import { extendTailwindMerge } from "tailwind-merge";
 
-const twMerge = extendTailwindMerge({
-	extend: {
-		classGroups: {
-			"font-size": [
-				{
-					text: ["label", "display", "page-title", "lead", "body", "meta"],
-				},
-			],
-		},
-	},
-});
-
+/** Joins class lists. Conflicting utilities are written as one branch, never
+ *  layered, so the stylesheet order is not what decides a conflict. */
 export function cn(...inputs: ClassValue[]) {
-	return twMerge(clsx(inputs));
+	return clsx(inputs);
 }

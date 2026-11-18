@@ -1,0 +1,1175 @@
+{
+	"version": 1,
+	"shard": "1/8",
+	"plan": {
+		"skipped": false,
+		"full": true,
+		"reason": "",
+		"summary": "16/16 schemes, 7/7 styles, 19/19 routes, 12 accents on /theme",
+		"combos": [
+			{
+				"scheme": "frappe",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "frappe",
+				"style": "flat"
+			},
+			{
+				"scheme": "frappe",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "frappe",
+				"style": "xp"
+			},
+			{
+				"scheme": "frappe",
+				"style": "msdos"
+			},
+			{
+				"scheme": "frappe",
+				"style": "material"
+			},
+			{
+				"scheme": "frappe",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "macchiato",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "macchiato",
+				"style": "flat"
+			},
+			{
+				"scheme": "macchiato",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "macchiato",
+				"style": "xp"
+			},
+			{
+				"scheme": "macchiato",
+				"style": "msdos"
+			},
+			{
+				"scheme": "macchiato",
+				"style": "material"
+			},
+			{
+				"scheme": "macchiato",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "mocha",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "mocha",
+				"style": "flat"
+			},
+			{
+				"scheme": "mocha",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "mocha",
+				"style": "xp"
+			},
+			{
+				"scheme": "mocha",
+				"style": "msdos"
+			},
+			{
+				"scheme": "mocha",
+				"style": "material"
+			},
+			{
+				"scheme": "mocha",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "dracula",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "dracula",
+				"style": "flat"
+			},
+			{
+				"scheme": "dracula",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "dracula",
+				"style": "xp"
+			},
+			{
+				"scheme": "dracula",
+				"style": "msdos"
+			},
+			{
+				"scheme": "dracula",
+				"style": "material"
+			},
+			{
+				"scheme": "dracula",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "nord",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "nord",
+				"style": "flat"
+			},
+			{
+				"scheme": "nord",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "nord",
+				"style": "xp"
+			},
+			{
+				"scheme": "nord",
+				"style": "msdos"
+			},
+			{
+				"scheme": "nord",
+				"style": "material"
+			},
+			{
+				"scheme": "nord",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "mono",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "mono",
+				"style": "flat"
+			},
+			{
+				"scheme": "mono",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "mono",
+				"style": "xp"
+			},
+			{
+				"scheme": "mono",
+				"style": "msdos"
+			},
+			{
+				"scheme": "mono",
+				"style": "material"
+			},
+			{
+				"scheme": "mono",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "gruvbox-dark",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "gruvbox-dark",
+				"style": "flat"
+			},
+			{
+				"scheme": "gruvbox-dark",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "gruvbox-dark",
+				"style": "xp"
+			},
+			{
+				"scheme": "gruvbox-dark",
+				"style": "msdos"
+			},
+			{
+				"scheme": "gruvbox-dark",
+				"style": "material"
+			},
+			{
+				"scheme": "gruvbox-dark",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "solarized-dark",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "solarized-dark",
+				"style": "flat"
+			},
+			{
+				"scheme": "solarized-dark",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "solarized-dark",
+				"style": "xp"
+			},
+			{
+				"scheme": "solarized-dark",
+				"style": "msdos"
+			},
+			{
+				"scheme": "solarized-dark",
+				"style": "material"
+			},
+			{
+				"scheme": "solarized-dark",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "everforest-dark",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "everforest-dark",
+				"style": "flat"
+			},
+			{
+				"scheme": "everforest-dark",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "everforest-dark",
+				"style": "xp"
+			},
+			{
+				"scheme": "everforest-dark",
+				"style": "msdos"
+			},
+			{
+				"scheme": "everforest-dark",
+				"style": "material"
+			},
+			{
+				"scheme": "everforest-dark",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "latte",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "latte",
+				"style": "flat"
+			},
+			{
+				"scheme": "latte",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "latte",
+				"style": "xp"
+			},
+			{
+				"scheme": "latte",
+				"style": "msdos"
+			},
+			{
+				"scheme": "latte",
+				"style": "material"
+			},
+			{
+				"scheme": "latte",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "alucard",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "alucard",
+				"style": "flat"
+			},
+			{
+				"scheme": "alucard",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "alucard",
+				"style": "xp"
+			},
+			{
+				"scheme": "alucard",
+				"style": "msdos"
+			},
+			{
+				"scheme": "alucard",
+				"style": "material"
+			},
+			{
+				"scheme": "alucard",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "nord-light",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "nord-light",
+				"style": "flat"
+			},
+			{
+				"scheme": "nord-light",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "nord-light",
+				"style": "xp"
+			},
+			{
+				"scheme": "nord-light",
+				"style": "msdos"
+			},
+			{
+				"scheme": "nord-light",
+				"style": "material"
+			},
+			{
+				"scheme": "nord-light",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "mono-light",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "mono-light",
+				"style": "flat"
+			},
+			{
+				"scheme": "mono-light",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "mono-light",
+				"style": "xp"
+			},
+			{
+				"scheme": "mono-light",
+				"style": "msdos"
+			},
+			{
+				"scheme": "mono-light",
+				"style": "material"
+			},
+			{
+				"scheme": "mono-light",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "gruvbox-light",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "gruvbox-light",
+				"style": "flat"
+			},
+			{
+				"scheme": "gruvbox-light",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "gruvbox-light",
+				"style": "xp"
+			},
+			{
+				"scheme": "gruvbox-light",
+				"style": "msdos"
+			},
+			{
+				"scheme": "gruvbox-light",
+				"style": "material"
+			},
+			{
+				"scheme": "gruvbox-light",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "solarized-light",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "solarized-light",
+				"style": "flat"
+			},
+			{
+				"scheme": "solarized-light",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "solarized-light",
+				"style": "xp"
+			},
+			{
+				"scheme": "solarized-light",
+				"style": "msdos"
+			},
+			{
+				"scheme": "solarized-light",
+				"style": "material"
+			},
+			{
+				"scheme": "solarized-light",
+				"style": "skeuomorphic"
+			},
+			{
+				"scheme": "everforest-light",
+				"style": "neobrutalist"
+			},
+			{
+				"scheme": "everforest-light",
+				"style": "flat"
+			},
+			{
+				"scheme": "everforest-light",
+				"style": "glassmorphism"
+			},
+			{
+				"scheme": "everforest-light",
+				"style": "xp"
+			},
+			{
+				"scheme": "everforest-light",
+				"style": "msdos"
+			},
+			{
+				"scheme": "everforest-light",
+				"style": "material"
+			},
+			{
+				"scheme": "everforest-light",
+				"style": "skeuomorphic"
+			}
+		],
+		"routes": [
+			"/",
+			"/blog",
+			"/projects",
+			"/contact",
+			"/disclosure",
+			"/theme",
+			"/404",
+			"/blog/what_is_this_new_website_design",
+			"/blog/the_psychology_of_social_media_addiction",
+			"/blog/the_perfect_productivity_system",
+			"/blog/switching_from_youtube_to_freetube",
+			"/blog/replacing_obsidian_with_neovim_and_typst",
+			"/blog/learning_to_use_a_split_keyboard",
+			"/blog/learning_to_learn",
+			"/blog/learning_colemak_dh",
+			"/blog/is_nixos_the_perfect_linux_distribution_for_you",
+			"/blog/i_found_a_better_alternative_to_logseq",
+			"/blog/becoming_private_online",
+			"/blog/backups_you_only_want_them_once_you_need_them"
+		],
+		"accents": [
+			"pink",
+			"mauve",
+			"red",
+			"maroon",
+			"peach",
+			"yellow",
+			"green",
+			"teal",
+			"sky",
+			"sapphire",
+			"blue",
+			"lavender"
+		]
+	},
+	"durationSeconds": 609.2,
+	"coverage": {
+		"frappe/neobrutalist": {
+			"pages": 19,
+			"runs": 8786
+		},
+		"frappe/neobrutalist@red": {
+			"pages": 1,
+			"runs": 270
+		},
+		"frappe/neobrutalist@green": {
+			"pages": 1,
+			"runs": 270
+		},
+		"frappe/neobrutalist@blue": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mocha/skeuomorphic": {
+			"pages": 19,
+			"runs": 8786
+		},
+		"mocha/skeuomorphic@peach": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mocha/skeuomorphic@sky": {
+			"pages": 1,
+			"runs": 270
+		},
+		"dracula/material": {
+			"pages": 19,
+			"runs": 8782
+		},
+		"dracula/material@red": {
+			"pages": 1,
+			"runs": 270
+		},
+		"dracula/material@green": {
+			"pages": 1,
+			"runs": 270
+		},
+		"dracula/material@blue": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord/msdos": {
+			"pages": 19,
+			"runs": 9628
+		},
+		"nord/msdos@peach": {
+			"pages": 1,
+			"runs": 280
+		},
+		"nord/msdos@sky": {
+			"pages": 1,
+			"runs": 280
+		},
+		"mono/xp": {
+			"pages": 19,
+			"runs": 8888
+		},
+		"mono/xp@red": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mono/xp@green": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mono/xp@blue": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-dark/glassmorphism": {
+			"pages": 19,
+			"runs": 8780
+		},
+		"gruvbox-dark/glassmorphism@peach": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-dark/glassmorphism@sky": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-dark/flat": {
+			"pages": 19,
+			"runs": 8780
+		},
+		"solarized-dark/flat@red": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-dark/flat@green": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-dark/flat@blue": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-dark/neobrutalist": {
+			"pages": 19,
+			"runs": 8786
+		},
+		"everforest-dark/neobrutalist@peach": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-dark/neobrutalist@sky": {
+			"pages": 1,
+			"runs": 270
+		},
+		"alucard/skeuomorphic": {
+			"pages": 19,
+			"runs": 8786
+		},
+		"alucard/skeuomorphic@red": {
+			"pages": 1,
+			"runs": 270
+		},
+		"alucard/skeuomorphic@green": {
+			"pages": 1,
+			"runs": 270
+		},
+		"alucard/skeuomorphic@blue": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord-light/material": {
+			"pages": 19,
+			"runs": 8782
+		},
+		"nord-light/material@peach": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord-light/material@sky": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mono-light/msdos": {
+			"pages": 19,
+			"runs": 9628
+		},
+		"mono-light/msdos@red": {
+			"pages": 1,
+			"runs": 280
+		},
+		"mono-light/msdos@green": {
+			"pages": 1,
+			"runs": 280
+		},
+		"mono-light/msdos@blue": {
+			"pages": 1,
+			"runs": 280
+		},
+		"gruvbox-light/xp": {
+			"pages": 19,
+			"runs": 8888
+		},
+		"gruvbox-light/xp@peach": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-light/xp@sky": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-light/glassmorphism": {
+			"pages": 19,
+			"runs": 8780
+		},
+		"solarized-light/glassmorphism@red": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-light/glassmorphism@green": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-light/glassmorphism@blue": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-light/flat": {
+			"pages": 19,
+			"runs": 8780
+		},
+		"everforest-light/flat@peach": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-light/flat@sky": {
+			"pages": 1,
+			"runs": 270
+		},
+		"frappe/neobrutalist@maroon": {
+			"pages": 1,
+			"runs": 270
+		},
+		"frappe/neobrutalist@teal": {
+			"pages": 1,
+			"runs": 270
+		},
+		"frappe/neobrutalist@lavender": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mocha/skeuomorphic@pink": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mocha/skeuomorphic@yellow": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mocha/skeuomorphic@sapphire": {
+			"pages": 1,
+			"runs": 270
+		},
+		"dracula/material@maroon": {
+			"pages": 1,
+			"runs": 270
+		},
+		"dracula/material@teal": {
+			"pages": 1,
+			"runs": 270
+		},
+		"dracula/material@lavender": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord/msdos@pink": {
+			"pages": 1,
+			"runs": 280
+		},
+		"nord/msdos@yellow": {
+			"pages": 1,
+			"runs": 280
+		},
+		"nord/msdos@sapphire": {
+			"pages": 1,
+			"runs": 280
+		},
+		"mono/xp@maroon": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mono/xp@teal": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mono/xp@lavender": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-dark/glassmorphism@pink": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-dark/glassmorphism@yellow": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-dark/glassmorphism@sapphire": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-dark/flat@maroon": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-dark/flat@teal": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-dark/flat@lavender": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-dark/neobrutalist@pink": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-dark/neobrutalist@yellow": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-dark/neobrutalist@sapphire": {
+			"pages": 1,
+			"runs": 270
+		},
+		"alucard/skeuomorphic@maroon": {
+			"pages": 1,
+			"runs": 270
+		},
+		"alucard/skeuomorphic@teal": {
+			"pages": 1,
+			"runs": 270
+		},
+		"alucard/skeuomorphic@lavender": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord-light/material@pink": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord-light/material@yellow": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord-light/material@sapphire": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mono-light/msdos@maroon": {
+			"pages": 1,
+			"runs": 280
+		},
+		"mono-light/msdos@teal": {
+			"pages": 1,
+			"runs": 280
+		},
+		"mono-light/msdos@lavender": {
+			"pages": 1,
+			"runs": 280
+		},
+		"gruvbox-light/xp@pink": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-light/xp@yellow": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-light/xp@sapphire": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-light/glassmorphism@maroon": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-light/glassmorphism@teal": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-light/glassmorphism@lavender": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-light/flat@pink": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-light/flat@yellow": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-light/flat@sapphire": {
+			"pages": 1,
+			"runs": 270
+		},
+		"frappe/neobrutalist@peach": {
+			"pages": 1,
+			"runs": 270
+		},
+		"frappe/neobrutalist@sky": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mocha/skeuomorphic@red": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mocha/skeuomorphic@green": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mocha/skeuomorphic@blue": {
+			"pages": 1,
+			"runs": 270
+		},
+		"dracula/material@peach": {
+			"pages": 1,
+			"runs": 270
+		},
+		"dracula/material@sky": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord/msdos@red": {
+			"pages": 1,
+			"runs": 280
+		},
+		"nord/msdos@green": {
+			"pages": 1,
+			"runs": 280
+		},
+		"nord/msdos@blue": {
+			"pages": 1,
+			"runs": 280
+		},
+		"mono/xp@peach": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mono/xp@sky": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-dark/glassmorphism@red": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-dark/glassmorphism@green": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-dark/glassmorphism@blue": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-dark/flat@peach": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-dark/flat@sky": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-dark/neobrutalist@red": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-dark/neobrutalist@green": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-dark/neobrutalist@blue": {
+			"pages": 1,
+			"runs": 270
+		},
+		"alucard/skeuomorphic@peach": {
+			"pages": 1,
+			"runs": 270
+		},
+		"alucard/skeuomorphic@sky": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord-light/material@red": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord-light/material@green": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord-light/material@blue": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mono-light/msdos@peach": {
+			"pages": 1,
+			"runs": 280
+		},
+		"mono-light/msdos@sky": {
+			"pages": 1,
+			"runs": 280
+		},
+		"gruvbox-light/xp@red": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-light/xp@green": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-light/xp@blue": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-light/glassmorphism@peach": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-light/glassmorphism@sky": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-light/flat@red": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-light/flat@green": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-light/flat@blue": {
+			"pages": 1,
+			"runs": 270
+		},
+		"frappe/neobrutalist@pink": {
+			"pages": 1,
+			"runs": 270
+		},
+		"frappe/neobrutalist@yellow": {
+			"pages": 1,
+			"runs": 270
+		},
+		"frappe/neobrutalist@sapphire": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mocha/skeuomorphic@maroon": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mocha/skeuomorphic@teal": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mocha/skeuomorphic@lavender": {
+			"pages": 1,
+			"runs": 270
+		},
+		"dracula/material@pink": {
+			"pages": 1,
+			"runs": 270
+		},
+		"dracula/material@yellow": {
+			"pages": 1,
+			"runs": 270
+		},
+		"dracula/material@sapphire": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord/msdos@maroon": {
+			"pages": 1,
+			"runs": 280
+		},
+		"nord/msdos@teal": {
+			"pages": 1,
+			"runs": 280
+		},
+		"nord/msdos@lavender": {
+			"pages": 1,
+			"runs": 280
+		},
+		"mono/xp@pink": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mono/xp@yellow": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mono/xp@sapphire": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-dark/glassmorphism@maroon": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-dark/glassmorphism@teal": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-dark/glassmorphism@lavender": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-dark/flat@pink": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-dark/flat@yellow": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-dark/flat@sapphire": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-dark/neobrutalist@maroon": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-dark/neobrutalist@teal": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-dark/neobrutalist@lavender": {
+			"pages": 1,
+			"runs": 270
+		},
+		"alucard/skeuomorphic@pink": {
+			"pages": 1,
+			"runs": 270
+		},
+		"alucard/skeuomorphic@yellow": {
+			"pages": 1,
+			"runs": 270
+		},
+		"alucard/skeuomorphic@sapphire": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord-light/material@maroon": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord-light/material@teal": {
+			"pages": 1,
+			"runs": 270
+		},
+		"nord-light/material@lavender": {
+			"pages": 1,
+			"runs": 270
+		},
+		"mono-light/msdos@pink": {
+			"pages": 1,
+			"runs": 280
+		},
+		"mono-light/msdos@yellow": {
+			"pages": 1,
+			"runs": 280
+		},
+		"mono-light/msdos@sapphire": {
+			"pages": 1,
+			"runs": 280
+		},
+		"gruvbox-light/xp@maroon": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-light/xp@teal": {
+			"pages": 1,
+			"runs": 270
+		},
+		"gruvbox-light/xp@lavender": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-light/glassmorphism@pink": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-light/glassmorphism@yellow": {
+			"pages": 1,
+			"runs": 270
+		},
+		"solarized-light/glassmorphism@sapphire": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-light/flat@maroon": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-light/flat@teal": {
+			"pages": 1,
+			"runs": 270
+		},
+		"everforest-light/flat@lavender": {
+			"pages": 1,
+			"runs": 270
+		}
+	},
+	"findings": [],
+	"errors": [],
+	"notes": [],
+	"runs": 166660,
+	"pages": 420
+}

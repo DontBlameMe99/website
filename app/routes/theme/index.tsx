@@ -139,8 +139,8 @@ function AccentHueOption({ hue }: { hue: AccentHue }) {
 			/>
 			<span
 				className={cn(
-					"text-center text-[10px] text-subtext0",
-					selected && "font-bold text-text",
+					"text-center text-[10px]",
+					selected ? "font-bold text-text" : "text-subtext0",
 				)}
 			>
 				{hue}
@@ -212,8 +212,8 @@ function CustomAccent() {
 			/>
 			<span
 				className={cn(
-					"text-center text-[10px] text-subtext0",
-					draft && "font-bold text-text",
+					"text-center text-[10px]",
+					draft ? "font-bold text-text" : "text-subtext0",
 				)}
 			>
 				Custom

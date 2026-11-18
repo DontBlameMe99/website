@@ -33,11 +33,11 @@ export function NotFound({ status = 404 }: { status?: number }) {
 			</p>
 
 			<div className="mt-10 flex flex-wrap gap-3">
-				<Link to="/" className="nb-button nb-accent">
+				<Link to="/" prefetch="render" className="nb-button nb-accent">
 					<ArrowLeft className="icon-nudge-left size-4" />
 					Index
 				</Link>
-				<Link to="/blog" className="nb-button">
+				<Link to="/blog" prefetch="render" className="nb-button">
 					Read the writing
 					<ArrowRight className="icon-nudge size-4" />
 				</Link>

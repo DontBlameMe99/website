@@ -233,11 +233,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 	useEffect(() => {
 		// The boot script has already painted the saved theme, so adopting it here
-		// must not repaint: only the browser chrome color is still the default.
+		// must not repaint. Two things can still differ: the browser chrome color,
+		// which the script does not write, and the OS preference, if it flipped
+		// between that first paint and this effect.
 		const next = storedState();
 		latest.current = next;
 		setState(next);
-		syncChromeColor();
+		if (document.documentElement.classList.contains(next.prefs.mode))
+			syncChromeColor();
+		else apply(next);
 	}, []);
 
 	/**

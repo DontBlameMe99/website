@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-/* Post metadata is prose, not markup. The generic .ts extractor reads words
-   like "italic" or "table" as class candidates, so keep it out of the scan. */
-@source not "../content/posts/*.meta.ts";
-
 @custom-variant dark (&:is(.dark *));
 @custom-variant light (&:is(.light *));
 

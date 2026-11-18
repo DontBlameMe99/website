@@ -83,6 +83,10 @@ const usedColor = (node: Element, token: string): string => {
 	const used = getComputedStyle(probe).color;
 	probe.remove();
 
+	// A plain sRGB value is what theme-color wants already. Anything wider is
+	// read back through the canvas, which always answers in sRGB.
+	if (used.startsWith("rgb")) return used;
+
 	const canvas = document.createElement("canvas");
 	canvas.width = 1;
 	canvas.height = 1;
@@ -169,14 +173,18 @@ const apply = ({ prefs, custom }: ThemeState) => {
 	}
 
 	// A style may write a scheme-dependent function here, so read a used color.
-	const page = usedColor(root, "--page-surface");
-	if (page) {
-		// There is one meta per color-scheme query for the pre-hydration paint.
-		for (const meta of document.querySelectorAll<HTMLMetaElement>(
-			'meta[name="theme-color"]',
-		))
-			meta.content = page;
-	}
+	syncChromeColor();
+};
+
+/** The browser chrome color follows the page surface, not the mode. */
+const syncChromeColor = () => {
+	const page = usedColor(document.documentElement, "--page-surface");
+	if (!page) return;
+	// There is one meta per color-scheme query for the pre-hydration paint.
+	for (const meta of document.querySelectorAll<HTMLMetaElement>(
+		'meta[name="theme-color"]',
+	))
+		meta.content = page;
 };
 
 /**
@@ -222,20 +230,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		custom: EMPTY_CUSTOM,
 	});
 	const latest = useRef(state);
-	const painted = useRef(false);
 
 	useEffect(() => {
-		setState(storedState());
+		// The boot script has already painted the saved theme, so adopting it here
+		// must not repaint: only the browser chrome color is still the default.
+		const next = storedState();
+		latest.current = next;
+		setState(next);
+		syncChromeColor();
 	}, []);
-
-	useEffect(() => {
-		latest.current = state;
-		if (!painted.current) {
-			painted.current = true;
-			return;
-		}
-		apply(state);
-	}, [state]);
 
 	/**
 	 * Applies and persists in one step, so a view transition sees the new paint.

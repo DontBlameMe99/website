@@ -1,88 +1,6 @@
 import { CodeBlock } from "~/components/post/code_block";
 import { PostHeading, PostImage, Prose } from "~/components/post/prose";
 import { NoteSyntaxSwitcher } from "~/content/experiences/replacing_obsidian_with_neovim_and_typst";
-import type { PostMeta, Section } from "~/lib/post_types";
-
-export const meta = {
-	title: "Replacing Obsidian with Neovim and Typst",
-	date: "2026-07-22",
-	summary:
-		"Obsidian, Neovim and Typst all solve the same problem differently. A long walk through the toolchain I actually write in now.",
-	tags: ["notes"],
-	accent: "lavender",
-	words: 2906,
-	minutes: 13,
-} satisfies PostMeta;
-
-export const sections: Section[] = [
-	{ id: "hello-there", text: "Hello There", level: 2 },
-	{ id: "my-old-setup", text: "My Old Setup", level: 2 },
-	{ id: "obsidian-my-beloved", text: "Obsidian, My Beloved", level: 3 },
-	{ id: "own-plugin", text: "Own Plugin", level: 4 },
-	{ id: "anki", text: "Anki", level: 3 },
-	{ id: "syncthing", text: "Syncthing", level: 3 },
-	{ id: "markdown", text: "Markdown", level: 3 },
-	{ id: "why-it-broke", text: "Why It Broke", level: 2 },
-	{ id: "obsidian", text: "Obsidian", level: 3 },
-	{ id: "bad-mobile-ui-ux", text: "Bad Mobile UI/UX", level: 4 },
-	{
-		id: "plugins-customizations-and-themes",
-		text: "Plugins, Customizations, and Themes",
-		level: 4,
-	},
-	{ id: "vim-mode", text: "Vim Mode", level: 4 },
-	{ id: "syncthing-2", text: "Syncthing", level: 3 },
-	{ id: "markdown-2", text: "Markdown", level: 3 },
-	{ id: "inconsistent-syntax", text: "Inconsistent Syntax", level: 4 },
-	{ id: "math", text: "Math", level: 4 },
-	{ id: "pdf", text: "PDF", level: 4 },
-	{ id: "latex", text: "LaTeX?", level: 2 },
-	{ id: "complicated", text: "Complicated", level: 3 },
-	{ id: "but-it-is-popular", text: "But It Is Popular", level: 3 },
-	{ id: "typst", text: "Typst", level: 2 },
-	{ id: "new", text: "New", level: 3 },
-	{ id: "easy", text: "Easy", level: 3 },
-	{ id: "speed", text: "Speed", level: 3 },
-	{ id: "simpler-math-syntax", text: "Simpler Math Syntax", level: 3 },
-	{ id: "tradeoffs", text: "Tradeoffs", level: 3 },
-	{ id: "ecosystem", text: "Ecosystem", level: 4 },
-	{ id: "younger-project", text: "Younger Project", level: 4 },
-	{ id: "fewer-integrations", text: "Fewer Integrations", level: 4 },
-	{ id: "neovim", text: "Neovim", level: 2 },
-	{ id: "already-used", text: "Already Used", level: 3 },
-	{ id: "unify-setup", text: "Unify Setup", level: 3 },
-	{ id: "my-new-setup", text: "My New Setup", level: 2 },
-	{ id: "typst-configuration", text: "Typst Configuration", level: 3 },
-	{
-		id: "a-script-to-create-new-notes",
-		text: "A Script to Create New Notes",
-		level: 4,
-	},
-	{
-		id: "a-script-to-compile-all-notes",
-		text: "A Script to Compile All Notes",
-		level: 4,
-	},
-	{ id: "neovim-configuration", text: "Neovim Configuration", level: 3 },
-	{ id: "typst-lsp", text: "Typst LSP", level: 4 },
-	{ id: "markview-nvim", text: "Markview-Nvim", level: 4 },
-	{ id: "example-pages", text: "Example Pages", level: 3 },
-	{ id: "mobile-experience", text: "Mobile Experience", level: 3 },
-	{ id: "but-what-about-links", text: "But What About Links?", level: 3 },
-	{
-		id: "why-not-just-plain-markdown-neovim",
-		text: "Why Not Just Plain Markdown + Neovim?",
-		level: 3,
-	},
-	{ id: "conclusion", text: "Conclusion", level: 2 },
-	{ id: "tldr", text: "TLDR", level: 3 },
-	{
-		id: "bonus-what-about-this-blog",
-		text: "Bonus: What About This Blog?",
-		level: 3,
-	},
-	{ id: "final-words", text: "Final Words", level: 2 },
-];
 
 export default function Post() {
 	return (
@@ -259,6 +177,8 @@ export default function Post() {
 			</PostHeading>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/obsidian_mobile.png"
+				width={510}
+				height={1008}
 				alt={
 					"Obsidian on a phone: the note above a formatting toolbar and the on-screen keyboard"
 				}
@@ -778,6 +698,8 @@ $
 			</p>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/markview_nvim.png"
+				width={1600}
+				height={900}
 				alt={"A Typst document rendered inside Neovim by the Markview plugin"}
 			/>
 			<PostHeading level={3} id="example-pages">
@@ -791,6 +713,8 @@ $
 			<p>The default styling looks like this:</p>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/typst_default_style.png"
+				width={1600}
+				height={717}
 				alt={"Typst default styling: plain serif page with wide margins"}
 			/>
 			<p>
@@ -799,6 +723,8 @@ $
 			</p>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/typst_styled_example.png"
+				width={1600}
+				height={1017}
 				alt={
 					"The same page with my Catppuccin theme, larger type and tighter spacing"
 				}
@@ -992,6 +918,8 @@ $
 			</p>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/image_of_me_writing.png"
+				width={1600}
+				height={898}
 				alt={
 					"This blog written in Markdown inside Neovim, with the file tree and a terminal below"
 				}

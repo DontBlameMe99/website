@@ -1,5 +1,4 @@
 import { Moon, Sun } from "lucide-react";
-import { motion } from "motion/react";
 import { useRef } from "react";
 import { useTheme } from "~/lib/theme_provider";
 import { startLiquidWipe } from "~/lib/theme_wipe";
@@ -30,32 +29,18 @@ export function ThemeToggle() {
 			title="Switch color theme"
 			className="nb-button h-8 w-8 shrink-0 justify-center p-0 sm:h-9 sm:w-9"
 		>
+			{/* The glyphs are driven by the mode class the boot script already set,
+			    so they animate without waiting for hydration. */}
 			<span
 				className="relative grid size-3.5 place-items-center"
 				aria-hidden="true"
 			>
-				<motion.span
-					className="theme-moon absolute"
-					animate={{
-						opacity: mode === "dark" ? 1 : 0,
-						rotate: mode === "dark" ? 0 : -90,
-						scale: mode === "dark" ? 1 : 0.7,
-					}}
-					transition={{ duration: 0.18, ease: "easeOut" }}
-				>
+				<span className="theme-moon absolute">
 					<Moon className="size-3.5" />
-				</motion.span>
-				<motion.span
-					className="theme-sun absolute"
-					animate={{
-						opacity: mode === "light" ? 1 : 0,
-						rotate: mode === "light" ? 0 : 90,
-						scale: mode === "light" ? 1 : 0.7,
-					}}
-					transition={{ duration: 0.18, ease: "easeOut" }}
-				>
+				</span>
+				<span className="theme-sun absolute">
 					<Sun className="size-3.5" />
-				</motion.span>
+				</span>
 			</span>
 		</button>
 	);

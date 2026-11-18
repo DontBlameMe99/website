@@ -1,5 +1,5 @@
 import { ArrowDownWideNarrow, Clock, Search, X } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { PageHeader } from "~/components/layout/page_header";
@@ -74,146 +74,154 @@ export default function BlogIndex() {
 	}, [query, tag, newestFirst]);
 
 	return (
-		<div>
-			<PageHeader
-				index="02"
-				label="Writing"
-				title="Writing"
-				lead="Long-form notes on privacy, Linux, and the software I break on purpose. No schedule, no newsletter, no tracking."
-			/>
+		<MotionConfig reducedMotion="user">
+			<div>
+				<PageHeader
+					index="02"
+					label="Writing"
+					title="Writing"
+					lead="Long-form notes on privacy, Linux, and the software I break on purpose. No schedule, no newsletter, no tracking."
+				/>
 
-			<div className="mt-12 flex flex-col gap-6">
-				<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-					<label className="search-field nb-input flex w-full items-center gap-2 sm:max-w-sm">
-						<Search className="size-4 shrink-0 text-subtext0" />
-						<input
-							type="search"
-							value={query}
-							onChange={(event) => setQuery(event.target.value)}
-							placeholder="Filter posts"
-							aria-label="Filter posts"
-							className="w-full bg-transparent"
-						/>
-						<button
-							type="button"
-							onClick={() => setQuery("")}
-							aria-label="Clear filter"
-							tabIndex={query ? 0 : -1}
-							className={cn(
-								"grid size-6 shrink-0 place-items-center text-subtext0 transition hover:rotate-90 hover:text-text",
-								!query && "invisible",
-							)}
-						>
-							<X aria-hidden="true" className="size-3.5" />
-						</button>
-					</label>
-
-					<div className="flex items-center gap-4">
-						<span
-							aria-live="polite"
-							className="min-w-14 text-right text-meta tabular-nums"
-						>
-							<motion.span
-								key={filtered.length}
-								className="inline-block"
-								initial={mounted ? { opacity: 0 } : false}
-								animate={{ opacity: 1 }}
-								transition={{ duration: 0.15, ease: "easeOut" }}
-							>
-								{filtered.length}
-							</motion.span>{" "}
-							/ {posts.length}
-						</span>
-						<button
-							type="button"
-							onClick={() => setNewestFirst((value) => !value)}
-							className="nb-button min-w-28 justify-center py-1.5 text-[11px] uppercase tracking-[0.08em]"
-						>
-							<ArrowDownWideNarrow
-								className={cn(
-									"size-3.5 transition-transform duration-[var(--motion-hover)]",
-									!newestFirst && "rotate-180",
-								)}
+				<div className="mt-12 flex flex-col gap-6">
+					<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+						<label className="search-field nb-input flex w-full items-center gap-2 sm:max-w-sm">
+							<Search className="size-4 shrink-0 text-subtext0" />
+							<input
+								type="search"
+								value={query}
+								onChange={(event) => setQuery(event.target.value)}
+								placeholder="Filter posts"
+								aria-label="Filter posts"
+								className="w-full bg-transparent"
 							/>
-							{newestFirst ? "Newest" : "Oldest"}
-						</button>
+							<button
+								type="button"
+								onClick={() => setQuery("")}
+								aria-label="Clear filter"
+								tabIndex={query ? 0 : -1}
+								className={cn(
+									"grid size-6 shrink-0 place-items-center text-subtext0 transition hover:rotate-90 hover:text-text",
+									!query && "invisible",
+								)}
+							>
+								<X aria-hidden="true" className="size-3.5" />
+							</button>
+						</label>
+
+						<div className="flex items-center gap-4">
+							<span
+								aria-live="polite"
+								className="min-w-14 text-right text-meta tabular-nums"
+							>
+								<motion.span
+									key={filtered.length}
+									className="inline-block"
+									initial={mounted ? { opacity: 0 } : false}
+									animate={{ opacity: 1 }}
+									transition={{ duration: 0.15, ease: "easeOut" }}
+								>
+									{filtered.length}
+								</motion.span>{" "}
+								/ {posts.length}
+							</span>
+							<button
+								type="button"
+								onClick={() => setNewestFirst((value) => !value)}
+								className="nb-button min-w-28 justify-center py-1.5 text-[11px] uppercase tracking-[0.08em]"
+							>
+								<ArrowDownWideNarrow
+									className={cn(
+										"size-3.5 transition-transform duration-[var(--motion-hover)]",
+										!newestFirst && "rotate-180",
+									)}
+								/>
+								{newestFirst ? "Newest" : "Oldest"}
+							</button>
+						</div>
+					</div>
+
+					<div className="flex flex-wrap gap-2">
+						<TagChip
+							label="All"
+							selected={tag === null}
+							onClick={() => setTag(null)}
+						/>
+						{allTags.map((value) => (
+							<TagChip
+								key={value}
+								label={value}
+								selected={tag === value}
+								onClick={() => setTag(tag === value ? null : value)}
+							/>
+						))}
 					</div>
 				</div>
 
-				<div className="flex flex-wrap gap-2">
-					<TagChip
-						label="All"
-						selected={tag === null}
-						onClick={() => setTag(null)}
-					/>
-					{allTags.map((value) => (
-						<TagChip
-							key={value}
-							label={value}
-							selected={tag === value}
-							onClick={() => setTag(tag === value ? null : value)}
-						/>
-					))}
-				</div>
-			</div>
-
-			{filtered.length ? (
-				<motion.ul layout className="relative mt-10 grid gap-6 sm:grid-cols-2">
-					<AnimatePresence initial={false} mode="popLayout">
-						{filtered.map((post) => (
-							<motion.li
-								layout
-								key={post.slug}
-								className="flex"
-								initial={{ opacity: 0, y: 6 }}
-								animate={{ opacity: 1, y: 0 }}
-								exit={{ opacity: 0, scale: 0.98 }}
-								transition={{ duration: 0.18, ease: "easeOut" }}
-							>
-								<Link
-									to={`/blog/${post.slug}`}
-									className="nb-panel nb-lift group flex h-full w-full flex-col p-6"
-								>
-									<div className="flex items-start justify-between gap-4">
-										<h2 className="text-xl font-bold leading-[1.1] tracking-[-0.02em] text-text transition-colors group-hover:text-accent">
-											{post.title}
-										</h2>
-										<span className="flex shrink-0 items-center gap-1 text-label text-subtext0">
-											<Clock aria-hidden="true" className="size-3" />
-											{post.minutes} min
-										</span>
-									</div>
-
-									<p className="mt-3 text-[13px] leading-relaxed text-subtext0">
-										{post.summary}
-									</p>
-
-									<div className="mt-auto flex items-baseline justify-between gap-4 nb-line-t pt-3 text-meta">
-										<time dateTime={post.date}>{formatDate(post.date)}</time>
-										<span className="text-right">
-											{post.tags.map((value) => `#${value}`).join(" ")}
-										</span>
-									</div>
-								</Link>
-							</motion.li>
-						))}
-					</AnimatePresence>
-				</motion.ul>
-			) : (
-				<div className="mt-12 nb-panel p-8">
-					<p className="text-sm text-subtext0">Nothing matches that filter.</p>
-					<button
-						type="button"
-						onClick={() => {
-							setQuery("");
-							setTag(null);
-						}}
-						className="nb-button nb-accent mt-4"
+				{filtered.length ? (
+					<motion.ul
+						layout
+						className="relative mt-10 grid gap-6 sm:grid-cols-2"
 					>
-						Reset it
-					</button>
-				</div>
-			)}
-		</div>
+						<AnimatePresence initial={false} mode="popLayout">
+							{filtered.map((post) => (
+								<motion.li
+									layout
+									key={post.slug}
+									className="flex"
+									initial={{ opacity: 0, y: 6 }}
+									animate={{ opacity: 1, y: 0 }}
+									exit={{ opacity: 0, scale: 0.98 }}
+									transition={{ duration: 0.18, ease: "easeOut" }}
+								>
+									<Link
+										to={`/blog/${post.slug}`}
+										prefetch="intent"
+										className="nb-panel nb-lift group flex h-full w-full flex-col p-6"
+									>
+										<div className="flex items-start justify-between gap-4">
+											<h2 className="text-xl font-bold leading-[1.1] tracking-[-0.02em] text-text transition-colors group-hover:text-accent">
+												{post.title}
+											</h2>
+											<span className="flex shrink-0 items-center gap-1 text-label text-subtext0">
+												<Clock aria-hidden="true" className="size-3" />
+												{post.minutes} min
+											</span>
+										</div>
+
+										<p className="mt-3 text-[13px] leading-relaxed text-subtext0">
+											{post.summary}
+										</p>
+
+										<div className="mt-auto flex items-baseline justify-between gap-4 nb-line-t pt-3 text-meta">
+											<time dateTime={post.date}>{formatDate(post.date)}</time>
+											<span className="text-right">
+												{post.tags.map((value) => `#${value}`).join(" ")}
+											</span>
+										</div>
+									</Link>
+								</motion.li>
+							))}
+						</AnimatePresence>
+					</motion.ul>
+				) : (
+					<div className="mt-12 nb-panel p-8">
+						<p className="text-sm text-subtext0">
+							Nothing matches that filter.
+						</p>
+						<button
+							type="button"
+							onClick={() => {
+								setQuery("");
+								setTag(null);
+							}}
+							className="nb-button nb-accent mt-4"
+						>
+							Reset it
+						</button>
+					</div>
+				)}
+			</div>
+		</MotionConfig>
 	);
 }

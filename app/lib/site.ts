@@ -67,6 +67,14 @@ export const PROJECTS = [
 		accent: "blue",
 		kind: "tool",
 	},
+	{
+		name: "Timed",
+		blurb: "Countdown timers you start from the Noctalia bar or launcher.",
+		href: "https://github.com/DontBlameMeDev/timed",
+		icon: "/images/projects/timed.png",
+		accent: "mauve",
+		kind: "noctalia",
+	},
 ] as const;
 
 export const PAGES = [

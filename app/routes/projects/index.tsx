@@ -21,6 +21,7 @@ const KIND = {
 	android: "Android app",
 	plugin: "Minecraft plugin",
 	tool: "CLI tool",
+	noctalia: "Noctalia plugin",
 } as const;
 
 type Project = (typeof PROJECTS)[number];

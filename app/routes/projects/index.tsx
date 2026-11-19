@@ -108,7 +108,31 @@ export default function ProjectsPage() {
 				index="03"
 				label="Projects"
 				title="Projects"
-				lead="Things I build. Everything is Open Source."
+				lead={
+					<>
+						Things I build. Everything is Open Source. Browse my{" "}
+						<a
+							href="https://git.dontblameme.dev"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="bg-accent px-1 font-semibold text-on-accent no-underline transition-colors hover:bg-text hover:text-crust"
+						>
+							<CodebergIcon className="icon-tilt mr-1 inline-block size-3.5 align-[-0.125em]" />
+							Codeberg
+						</a>{" "}
+						or{" "}
+						<a
+							href="https://github.dontblameme.dev"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="bg-accent px-1 font-semibold text-on-accent no-underline transition-colors hover:bg-text hover:text-crust"
+						>
+							<GitHubIcon className="icon-tilt mr-1 inline-block size-3.5 align-[-0.125em]" />
+							GitHub
+						</a>{" "}
+						profile for more projects.
+					</>
+				}
 			/>
 
 			<ul className="mt-14 grid gap-6 sm:grid-cols-2">
@@ -116,33 +140,6 @@ export default function ProjectsPage() {
 					<ProjectCard key={project.name} project={project} />
 				))}
 			</ul>
-
-			<div className="mt-16 max-w-[60ch] nb-line-t pt-6">
-				<p className="text-label text-subtext0">More</p>
-				<p className="mt-3 text-sm leading-relaxed text-subtext0">
-					Browse my{" "}
-					<a
-						href="https://git.dontblameme.dev"
-						target="_blank"
-						rel="noopener noreferrer"
-						className="bg-accent px-1 font-semibold text-on-accent no-underline transition-colors hover:bg-text hover:text-crust"
-					>
-						<CodebergIcon className="icon-tilt mr-1 inline-block size-3.5 align-[-0.125em]" />
-						Codeberg
-					</a>{" "}
-					or{" "}
-					<a
-						href="https://github.dontblameme.dev"
-						target="_blank"
-						rel="noopener noreferrer"
-						className="bg-accent px-1 font-semibold text-on-accent no-underline transition-colors hover:bg-text hover:text-crust"
-					>
-						<GitHubIcon className="icon-tilt mr-1 inline-block size-3.5 align-[-0.125em]" />
-						GitHub
-					</a>{" "}
-					profile for more projects and source code.
-				</p>
-			</div>
 		</div>
 	);
 }

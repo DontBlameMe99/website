@@ -1,7 +1,11 @@
 import { ArrowUpRight } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { PageHeader } from "~/components/layout/page_header";
-import { CodebergIcon, projectIcon } from "~/components/shared/icons";
+import {
+	CodebergIcon,
+	GitHubIcon,
+	projectIcon,
+} from "~/components/shared/icons";
 import { seo } from "~/lib/seo";
 import { PROJECTS } from "~/lib/site";
 
@@ -116,7 +120,7 @@ export default function ProjectsPage() {
 			<div className="mt-16 max-w-[60ch] nb-line-t pt-6">
 				<p className="text-label text-subtext0">More</p>
 				<p className="mt-3 text-sm leading-relaxed text-subtext0">
-					Browse{" "}
+					Browse my{" "}
 					<a
 						href="https://git.dontblameme.dev"
 						target="_blank"
@@ -124,9 +128,19 @@ export default function ProjectsPage() {
 						className="bg-accent px-1 font-semibold text-on-accent no-underline transition-colors hover:bg-text hover:text-crust"
 					>
 						<CodebergIcon className="icon-tilt mr-1 inline-block size-3.5 align-[-0.125em]" />
-						my Codeberg profile
+						Codeberg
 					</a>{" "}
-					for more projects and source code.
+					or{" "}
+					<a
+						href="https://github.dontblameme.dev"
+						target="_blank"
+						rel="noopener noreferrer"
+						className="bg-accent px-1 font-semibold text-on-accent no-underline transition-colors hover:bg-text hover:text-crust"
+					>
+						<GitHubIcon className="icon-tilt mr-1 inline-block size-3.5 align-[-0.125em]" />
+						GitHub
+					</a>{" "}
+					profile for more projects and source code.
 				</p>
 			</div>
 		</div>

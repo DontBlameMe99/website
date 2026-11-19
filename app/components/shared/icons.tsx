@@ -45,7 +45,7 @@ function brand(path: string): Icon {
 }
 
 export const CodebergIcon = brand(BRANDS.codeberg);
-const GitHubIcon = brand(BRANDS.github);
+export const GitHubIcon = brand(BRANDS.github);
 const MastodonIcon = brand(BRANDS.mastodon);
 export const MatrixIcon = brand(BRANDS.matrix);
 const TwitchIcon = brand(BRANDS.twitch);

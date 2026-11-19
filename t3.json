@@ -4,7 +4,7 @@
   "scripts": [
     {
       "name": "Setup Worktree",
-      "command": "nix develop -c bash -c 'command -v bun biome >/dev/null && bun install --frozen-lockfile'",
+      "command": "nix develop -c bun install --frozen-lockfile",
       "icon": "configure",
       "runOnWorktreeCreate": true,
       "async": false

@@ -67,6 +67,7 @@ const PROJECT_ICONS: Record<string, Icon> = {
 	app: AppWindow,
 	android: Smartphone,
 	plugin: Blocks,
+	noctalia: Blocks,
 	source: GitFork,
 	tool: SquareTerminal,
 };

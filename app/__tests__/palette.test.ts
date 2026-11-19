@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { join } from "node:path";
-import { ACCENT_HUES, SCHEMES } from "../lib/themes";
+import { ACCENT_HUES, PALETTE_TOKENS, SCHEMES } from "../lib/themes";
 
 /**
  * Every accent is named after a hue, so the value behind the name has to sit in
@@ -59,19 +59,56 @@ const oklch = (hex: string) => {
 	return { chroma: Math.hypot(a, bb), hue };
 };
 
-const source = await Bun.file(join(import.meta.dir, "../app.css")).text();
-const palettes = new Map<string, Record<string, string>>();
+/** Comments would let a disabled declaration pass for a live one. */
+const source = (
+	await Bun.file(join(import.meta.dir, "../app.css")).text()
+).replace(/\/\*[\s\S]*?\*\//g, "");
+const HEX = /^#[0-9a-f]{6}$/i;
+
+/** Every declaration a scheme block makes, with its value untouched. */
+const declarations = new Map<string, Record<string, string>>();
 for (const [, id, body] of source.matchAll(
 	/\[data-scheme="([^"]+)"\]\s*\{([\s\S]*?)\n\}/g,
 )) {
-	const palette: Record<string, string> = {};
-	for (const [, name, hex] of body.matchAll(
-		/--([a-z0-9]+):\s*(#[0-9a-f]{6});/gi,
+	const declared: Record<string, string> = {};
+	for (const [, name, value] of body.matchAll(
+		/--([a-z0-9-]+):\s*([^;{}]+);/g,
 	)) {
-		palette[name] = hex;
+		declared[name] = value.trim();
 	}
-	palettes.set(id, palette);
+	declarations.set(id, declared);
 }
+
+/** The ones that hold a hex, which is what the accent checks compare. */
+const palettes = new Map<string, Record<string, string>>(
+	[...declarations].map(([id, declared]) => [
+		id,
+		Object.fromEntries(
+			Object.entries(declared).filter(([, value]) => HEX.test(value)),
+		),
+	]),
+);
+
+const VAR_ONLY = /^var\(\s*--([a-z0-9-]+)\s*\)$/i;
+
+describe("scheme palettes", () => {
+	test("every scheme declares every palette token", () => {
+		// A custom palette is stored complete, and seeding one copies these
+		// declarations. A token a scheme block omits cannot be seeded.
+		const broken = SCHEMES.flatMap((scheme) => {
+			const declared = declarations.get(scheme.id) ?? {};
+			return PALETTE_TOKENS.flatMap((token) => {
+				const value = declared[token];
+				if (value === undefined) return [`${scheme.id}/${token}: missing`];
+				if (HEX.test(value)) return [];
+				const ref = VAR_ONLY.exec(value);
+				if (ref && HEX.test(declared[ref[1]] ?? "")) return [];
+				return [`${scheme.id}/${token}: ${value}`];
+			});
+		});
+		expect(broken).toEqual([]);
+	});
+});
 
 describe("palette accents", () => {
 	test("the hue tables cover every accent", () => {

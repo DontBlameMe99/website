@@ -37,6 +37,7 @@ export type StyleId =
 	| "glassmorphism"
 	| "xp"
 	| "msdos"
+	| "minecraft"
 	| "material"
 	| "skeuomorphic";
 export type SchemeId =
@@ -207,6 +208,11 @@ export const STYLES: readonly Style[] = [
 		id: "msdos",
 		label: "MS-DOS",
 		blurb: "Monospace text, scanlines, and a blinking cursor.",
+	},
+	{
+		id: "minecraft",
+		label: "Minecraft",
+		blurb: "Dirt, pixel type, and chunky beveled panels.",
 	},
 	{
 		id: "material",

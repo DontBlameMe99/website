@@ -12,6 +12,24 @@
 	font-display: swap;
 }
 
+/* The Minecraft style brings its own pixel face: regular and the game's bold,
+   loaded only when that style is on. */
+@font-face {
+	font-family: "Minecraft";
+	src: url("/fonts/minecraft/Minecraft.otf") format("opentype");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Minecraft";
+	src: url("/fonts/minecraft/Minecraft-Bold.otf") format("opentype");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
 /* Code is the only place a different face shows up. */
 @font-face {
 	font-family: "JetBrains Mono NF";
@@ -1986,6 +2004,86 @@
 	--hover-edge: var(--accent-surface);
 }
 
+/* --- Minecraft ------------------------------------------------------------
+
+   A skin, not a palette. A dirt field under a pixel typeface, fixed GUI chrome
+   for the title bar, the footer and every control, and the palette still in
+   charge of the window bodies, so a dark scheme stays legible and every
+   preview shows the colors it promises. The bevels are drawn chrome: no glyph
+   sits on one. The dirt tile is the game's 16x16 pattern, sampled from the
+   menu backdrop and committed at 4x, 8x, and 12x so it lands on the pixel grid
+   on 1x, 2x, and 3x screens. */
+[data-style="minecraft"] {
+	--bw: 2px;
+	--bw-heavy: 6px;
+	--radius: 0px;
+	--lift: 0px;
+	--press: 1px;
+	--font-sans: "Minecraft", "Montserrat", ui-sans-serif, system-ui, sans-serif;
+	--button-weight: 400;
+
+	/* Fixed GUI chrome. The ink is darker than the game's own #404040 so every
+	   label clears AAA on the gray it sits on. */
+	--mc-gui: #c6c6c6;
+	--mc-light: #ffffff;
+	--mc-dark: #555555;
+	--mc-deep: #373737;
+	--mc-hover: #d8d8d8;
+	--mc-press: #bdbdbd;
+	--mc-ink: #262626;
+	--mc-dirt: #1e150f;
+
+	--page-surface: var(--mc-dirt);
+	--page-image: image-set(
+		url("/images/minecraft/dirt.png") 1x,
+		url("/images/minecraft/dirt@2x.png") 2x,
+		url("/images/minecraft/dirt@3x.png") 3x
+	);
+
+	/* A raised face: light on the top and left, dark on the bottom and right,
+	   with a hard drop shadow. A well turns the same bevel inward. */
+	--shadow-hard:
+		inset 2px 2px 0 var(--mc-light), inset -2px -2px 0 var(--mc-dark),
+		4px 4px 0 rgb(0 0 0 / 0.35);
+	--shadow-hard-lg:
+		inset 2px 2px 0 var(--mc-light), inset -2px -2px 0 var(--mc-dark),
+		6px 6px 0 rgb(0 0 0 / 0.35);
+	--shadow-hard-sm:
+		inset 2px 2px 0 var(--mc-light), inset -2px -2px 0 var(--mc-dark);
+	--shadow-well:
+		inset 2px 2px 0 var(--mc-dark), inset -2px -2px 0 var(--mc-light);
+
+	--button-edge: 2px solid var(--mc-deep);
+	--button-surface: var(--mc-gui);
+	--button-image: none;
+	--button-ink: var(--mc-ink);
+	--hover-edge: var(--mc-deep);
+	--hover-fill: var(--mc-hover);
+	--press-fill: var(--mc-press);
+	--button-hover-shadow:
+		inset 2px 2px 0 var(--mc-light), inset -2px -2px 0 var(--mc-dark),
+		2px 2px 0 rgb(0 0 0 / 0.35);
+	--button-press-shadow:
+		inset 2px 2px 0 var(--mc-dark), inset -2px -2px 0 var(--mc-light);
+	--input-shadow:
+		inset 2px 2px 0 var(--mc-dark), inset -2px -2px 0 var(--mc-light);
+	--card-hover-fill: var(--panel-surface);
+	--accent-hover-fill: var(--accent-surface);
+	--accent-press-fill: var(--accent-surface);
+	--label-shadow: none;
+	--backdrop: none;
+
+	/* A gray block in a sunken track: the same bevel at a smaller scale. */
+	--scrollbar-size: 14px;
+	--scrollbar-radius: 0px;
+	--scrollbar-thumb: var(--mc-gui);
+	--scrollbar-thumb-image: none;
+	--scrollbar-thumb-line: 2px solid var(--mc-deep);
+	--scrollbar-thumb-shadow: inset 2px 2px 0 var(--mc-light);
+	--scrollbar-track: #8b8b8b;
+	--scrollbar-track-shadow: inset 2px 0 0 var(--mc-dark);
+}
+
 @keyframes dos-blink {
 	0%,
 	49% {
@@ -2297,6 +2395,266 @@
 	background-color: var(--accent-surface);
 	color: var(--on-accent);
 	text-decoration-color: var(--on-accent);
+}
+
+/* --- Minecraft chrome -----------------------------------------------------
+
+   The dirt is the page, the header and footer are fixed GUI chrome, and the
+   window between them keeps the palette. Every control is a raised or sunken
+   bevel, so the whole page reads as one inventory screen without repainting a
+   single ink token. */
+[data-style="minecraft"] body {
+	background-size: 64px 64px;
+	background-repeat: repeat;
+	background-attachment: fixed;
+}
+
+[data-style="minecraft"] header.nb-chrome {
+	max-width: 1240px;
+	margin: 1.25rem auto 0;
+	border: 3px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	background-image: none;
+	color: var(--mc-ink);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px 0 0 var(--mc-dark),
+		4px 4px 0 rgb(0 0 0 / 0.35);
+}
+
+[data-style="minecraft"] header.nb-chrome > div > a:first-child {
+	color: var(--mc-ink);
+	letter-spacing: 0.02em;
+}
+
+[data-style="minecraft"] header.nb-chrome > div > a:first-child:hover {
+	color: var(--mc-ink);
+}
+
+[data-style="minecraft"] header.nb-chrome img {
+	border-color: var(--mc-deep);
+	background-color: var(--mc-gui);
+	box-shadow: inset 1px 1px 0 var(--mc-light);
+}
+
+[data-style="minecraft"] header.nb-chrome nav {
+	gap: 0.25rem;
+}
+
+[data-style="minecraft"] header.nb-chrome nav a {
+	padding: 0.25rem;
+	color: var(--mc-ink);
+	font-size: 0.6875rem;
+	letter-spacing: 0.06em;
+	text-decoration: none;
+}
+
+@media (min-width: 40rem) {
+	[data-style="minecraft"] header.nb-chrome nav {
+		gap: 0.5rem;
+	}
+
+	[data-style="minecraft"] header.nb-chrome nav a {
+		padding: 0.2rem 0.3rem;
+		font-size: 0.75rem;
+	}
+}
+
+[data-style="minecraft"] header.nb-chrome nav a:hover {
+	background-color: var(--mc-deep);
+	color: #fff;
+}
+
+[data-style="minecraft"] header.nb-chrome nav a[aria-current="page"] {
+	background-color: var(--mc-press);
+	color: var(--mc-ink);
+	text-decoration: none;
+	box-shadow:
+		inset 2px 2px 0 var(--mc-dark),
+		inset -2px -2px 0 var(--mc-light);
+}
+
+[data-style="minecraft"] header.nb-chrome nav a[aria-current="page"]:hover {
+	background-color: var(--mc-deep);
+	color: #fff;
+	box-shadow: none;
+}
+
+/* The reading bar is the game's XP bar: a dark well and a green, notched fill. */
+[data-style="minecraft"] header.nb-chrome > .relative {
+	height: 8px;
+	border-top: 2px solid var(--mc-deep);
+	background-color: #2b2b2b;
+	box-shadow: inset 0 2px 0 #000;
+}
+
+/* The notches sit above the fill, on the full-width track, so scaleX can
+   reveal the fill without compressing the spacing. */
+[data-style="minecraft"] header.nb-chrome > .relative::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image: repeating-linear-gradient(
+		90deg,
+		rgb(0 0 0 / 0.45) 0 2px,
+		transparent 2px 8px
+	);
+	pointer-events: none;
+}
+
+[data-style="minecraft"] header.nb-chrome > .relative .bg-accent {
+	background-color: #7ee02b;
+	background-image: none;
+	box-shadow:
+		inset 0 2px 0 #c9ff92,
+		inset 0 -2px 0 #4a8b16;
+}
+
+[data-style="minecraft"] main {
+	max-width: 1240px;
+	border: 3px solid var(--mc-deep);
+	border-top: 0;
+	background-color: var(--base);
+	background-image: none;
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark),
+		6px 6px 0 rgb(0 0 0 / 0.35);
+}
+
+[data-style="minecraft"] footer.nb-line-t {
+	max-width: 1240px;
+	margin: 4.5rem auto 3rem;
+	border: 3px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	background-image: none;
+	color: var(--mc-ink);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark),
+		4px 4px 0 rgb(0 0 0 / 0.35);
+}
+
+[data-style="minecraft"] footer :is(p, span, a, .text-label) {
+	color: var(--mc-ink);
+}
+
+[data-style="minecraft"] footer a {
+	text-decoration-color: currentColor;
+}
+
+[data-style="minecraft"] footer a:not(.nb-chip):hover {
+	background-color: var(--mc-deep);
+	color: #fff;
+	text-decoration-color: #fff;
+}
+
+[data-style="minecraft"] footer .nb-chip {
+	border: 2px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	background-image: none;
+	box-shadow: inset 1px 1px 0 var(--mc-light);
+	color: var(--mc-ink);
+}
+
+[data-style="minecraft"] footer .nb-chip:hover {
+	background-color: var(--mc-deep);
+	color: #fff;
+}
+
+/* A masthead becomes a GUI window: a fixed gray title strip over the palette
+   body, with the same bevel as every other panel. */
+[data-style="minecraft"] .page-window {
+	padding: 0 0 2rem;
+	border: 2px solid var(--ink);
+	background-color: var(--panel-surface);
+	background-image: none;
+	box-shadow: var(--shadow-hard);
+}
+
+[data-style="minecraft"] .page-window > div:first-child {
+	align-items: center;
+	min-height: 36px;
+	padding: 0.25rem 0.6rem;
+	border-bottom: 2px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	background-image: none;
+	color: var(--mc-ink);
+}
+
+[data-style="minecraft"] .page-window > div:first-child :is(.text-meta, time) {
+	color: var(--mc-ink);
+}
+
+[data-style="minecraft"] .page-window > div:first-child .nb-chip {
+	border-color: var(--mc-deep);
+}
+
+[data-style="minecraft"] .page-window > h1,
+[data-style="minecraft"] .page-window > p {
+	margin-inline: 1.25rem;
+}
+
+[data-style="minecraft"] .page-window > h1 {
+	margin-top: 2rem;
+}
+
+[data-style="minecraft"] .page-window > div:not(:first-child) {
+	margin-inline: 1.25rem;
+}
+
+@media (min-width: 40rem) {
+	[data-style="minecraft"] .page-window > h1,
+	[data-style="minecraft"] .page-window > p,
+	[data-style="minecraft"] .page-window > div:not(:first-child) {
+		margin-inline: 1.75rem;
+	}
+}
+
+/* A panel lights its edge on hover instead of washing its fill, which would
+   move the ink's measured contrast. */
+[data-style="minecraft"] .nb-lift:hover {
+	border-color: var(--accent-surface);
+}
+
+/* Type is the other half of the skin: the pixel face wants room to breathe and
+   none of Montserrat's negative tracking. */
+[data-style="minecraft"] :is(h1, h2, h3, h4, h5) {
+	letter-spacing: 0;
+	line-height: 1.1;
+}
+
+[data-style="minecraft"] .text-display {
+	font-size: clamp(1.5rem, 7vw, 4.5rem);
+	font-weight: 700;
+	line-height: 1.05;
+	letter-spacing: 0;
+}
+
+[data-style="minecraft"] .text-page-title {
+	font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+	font-weight: 700;
+	line-height: 1.1;
+	letter-spacing: 0;
+}
+
+[data-style="minecraft"] .text-label {
+	font-size: 0.75rem;
+	letter-spacing: 0.1em;
+}
+
+[data-style="minecraft"] .nav-link::after {
+	content: none;
+}
+
+[data-style="minecraft"] :focus-visible {
+	outline: 2px dotted var(--focus-ring);
+	outline-offset: 3px;
+}
+
+[data-style="minecraft"] header.nb-chrome :focus-visible,
+[data-style="minecraft"] footer :focus-visible {
+	outline-color: var(--mc-deep);
 }
 
 /* A figure's frame throws its ambient shadow onto the page under the caption,

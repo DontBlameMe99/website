@@ -3394,7 +3394,6 @@ html[data-style="minecraft"] header.nb-chrome nav a {
 }
 
 html[data-style="minecraft"] header.nb-chrome nav a:hover {
-	transform: translate(-1px, -1px);
 	background-color: var(--mc-hover);
 	box-shadow:
 		inset 2px 2px 0 var(--mc-light),
@@ -3550,7 +3549,6 @@ html[data-style="minecraft"]
 html[data-style="minecraft"]
 	.nb-button:not(.nb-accent):not(:where([data-style]:not(:root) *)):hover,
 [data-style="minecraft"]:not(:root) .nb-button:not(.nb-accent):hover {
-	transform: translate(-2px, -2px);
 	background-color: var(--mc-hover);
 	box-shadow:
 		inset 2px 2px 0 var(--mc-light),
@@ -3582,7 +3580,6 @@ html[data-style="minecraft"]
 html[data-style="minecraft"]
 	.nb-button.nb-accent:not(:where([data-style]:not(:root) *)):hover,
 [data-style="minecraft"]:not(:root) .nb-button.nb-accent:hover {
-	transform: translate(-2px, -2px);
 	box-shadow: 6px 6px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
 }
 
@@ -3611,7 +3608,6 @@ html[data-style="minecraft"]
 html[data-style="minecraft"]
 	.nb-chip:not(.nb-accent):not(:where([data-style]:not(:root) *)):hover,
 [data-style="minecraft"]:not(:root) .nb-chip:not(.nb-accent):hover {
-	transform: translate(-1px, -1px);
 	background-color: var(--mc-hover);
 	color: var(--mc-ink);
 }
@@ -3936,7 +3932,6 @@ html[data-style="minecraft"] .nb-lift {
 }
 
 html[data-style="minecraft"] .nb-lift:hover {
-	transform: translate(-2px, -2px);
 	border-color: var(--accent-surface);
 	box-shadow: var(--shadow-hard-lg);
 }

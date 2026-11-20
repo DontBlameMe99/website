@@ -7,4 +7,14 @@ export default defineConfig({
 	resolve: {
 		tsconfigPaths: true,
 	},
+	server: {
+		watch: {
+			ignored: [
+				"**/.direnv/**",
+				"**/build/**",
+				"**/.react-router/**",
+				"**/.tmp/**",
+			],
+		},
+	},
 });

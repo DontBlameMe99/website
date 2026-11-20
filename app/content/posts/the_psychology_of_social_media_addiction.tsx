@@ -1,10 +1,10 @@
-import type { Section } from "~/lib/post_types";
 import { PostHeading, Prose } from "~/components/post/prose";
 import {
 	MinimalPhone,
 	RewardLoop,
 	SlotMachine,
 } from "~/content/experiences/the_psychology_of_social_media_addiction";
+import type { Section } from "~/lib/post_types";
 
 export default function Post() {
 	return (

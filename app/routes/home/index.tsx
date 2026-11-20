@@ -12,7 +12,7 @@ function WritingList() {
 	return (
 		<section>
 			<div className="flex items-baseline justify-between">
-				<SectionLabel>Writing</SectionLabel>
+				<SectionLabel as="h2">Writing</SectionLabel>
 				<Link
 					to="/blog"
 					prefetch="intent"
@@ -59,7 +59,7 @@ function ProjectsRail() {
 	return (
 		<section className="nb-panel p-5">
 			<div className="flex items-baseline justify-between">
-				<p className="text-label text-subtext0">Projects</p>
+				<h2 className="text-label text-subtext0">Projects</h2>
 				<Link
 					to="/projects"
 					prefetch="intent"
@@ -128,12 +128,7 @@ export default function Home() {
 						<Link to="/projects" prefetch="intent" className="nb-button">
 							Projects
 						</Link>
-						<a
-							href="mailto:contact@dontblameme.dev"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="nb-button"
-						>
+						<a href="mailto:contact@dontblameme.dev" className="nb-button">
 							<Mail aria-hidden="true" className="icon-tilt size-4" />
 							Email
 						</a>

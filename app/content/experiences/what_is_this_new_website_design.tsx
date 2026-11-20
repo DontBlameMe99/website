@@ -78,12 +78,12 @@ export function NoteGraphFigure() {
 		<Panel
 			title="note graph"
 			icon={<Waypoints className="size-3.5" />}
-			footer="Hover a note to light its links."
+			footer="Hover or focus a note to light its links."
 		>
 			<svg
 				viewBox="0 0 320 230"
 				className="block w-full select-none"
-				role="img"
+				role="group"
 				aria-label="A toy note graph: sixteen notes and the links between them"
 			>
 				{BASE_EDGES.map((edge, index) => {
@@ -119,9 +119,28 @@ export function NoteGraphFigure() {
 					return (
 						<motion.g
 							key={hexId(index)}
-							aria-hidden="true"
+							role="button"
+							tabIndex={0}
+							aria-label={`Note ${hexId(index)}, ${BASE_EDGES.filter(([a, b]) => a === index || b === index).length} links`}
+							onFocus={() => setActive(index)}
+							onBlur={() => setActive(null)}
+							onKeyDown={(event) => {
+								if (event.key === "Enter" || event.key === " ") {
+									event.preventDefault();
+									setActive(index);
+								}
+							}}
 							onPointerEnter={() => setActive(index)}
-							onPointerLeave={() => setActive(null)}
+							data-note={index}
+							onPointerLeave={(event) => {
+								const focused =
+									event.currentTarget.ownerSVGElement?.querySelector(
+										"[data-note]:focus",
+									);
+								setActive(
+									focused ? Number(focused.getAttribute("data-note")) : null,
+								);
+							}}
 							animate={{ opacity: dim ? 0.35 : 1 }}
 							transition={{ duration: 0.15 }}
 						>
@@ -172,7 +191,7 @@ export function NoteGraphFigure() {
 						transition={{ duration: 0.14 }}
 					>
 						{active === null ? (
-							<span className="text-overlay1">hover a note</span>
+							<span className="text-overlay1">hover or focus a note</span>
 						) : (
 							<>
 								<Chip>{hexId(active)}</Chip>

@@ -8,6 +8,7 @@ export function ThemeToggle() {
 	const { mode, setMode } = useTheme();
 	const ref = useRef<HTMLButtonElement>(null);
 	const nextTheme = mode === "dark" ? "light" : "dark";
+	const label = `Switch to ${nextTheme} theme`;
 
 	const toggle = () => {
 		const button = ref.current;
@@ -16,18 +17,22 @@ export function ThemeToggle() {
 		startLiquidWipe(
 			rect.left + rect.width / 2,
 			rect.top + rect.height / 2,
-			() => setMode(nextTheme),
+			() => {
+				const current = document.documentElement.classList.contains("light")
+					? "light"
+					: "dark";
+				setMode(current === "dark" ? "light" : "dark");
+			},
 		);
 	};
-
 	return (
 		<button
 			ref={ref}
 			type="button"
 			onClick={toggle}
-			aria-label="Switch color theme"
-			title="Switch color theme"
-			className="nb-button h-8 w-8 shrink-0 justify-center p-0 sm:h-9 sm:w-9"
+			aria-label={label}
+			title={label}
+			className="nb-button h-9 w-9 shrink-0 justify-center p-0"
 		>
 			{/* The glyphs are driven by the mode class the boot script already set,
 			    so they animate without waiting for hydration. */}

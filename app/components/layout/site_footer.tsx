@@ -20,12 +20,13 @@ export function SiteFooter() {
 					</li>
 					{SOCIALS.map((social) => {
 						const Icon = socialIcon(social.icon);
+						const mail = social.href.startsWith("mailto:");
 						return (
 							<li key={social.label}>
 								<a
 									href={social.href}
-									target="_blank"
-									rel="noopener noreferrer"
+									target={mail ? undefined : "_blank"}
+									rel={mail ? undefined : "noopener noreferrer"}
 									className="nb-chip group transition-colors hover:bg-accent hover:text-on-accent"
 								>
 									<Icon className="icon-tilt size-3.5 shrink-0" />

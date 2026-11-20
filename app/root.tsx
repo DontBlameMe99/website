@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import {
 	isRouteErrorResponse,
 	Links,
@@ -94,12 +95,23 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 function Shell({ children }: { children: React.ReactNode }) {
 	const location = useLocation();
+	const mainRef = useRef<HTMLElement>(null);
+	const firstRender = useRef(true);
 
+	useEffect(() => {
+		if (firstRender.current) {
+			firstRender.current = false;
+			return;
+		}
+		mainRef.current?.focus({ preventScroll: true });
+	}, [location.pathname]);
 	return (
 		<ThemeProvider>
 			<SiteHeader />
 			<main
 				id="main-content"
+				ref={mainRef}
+				tabIndex={-1}
 				className="mx-auto w-full max-w-[1240px] px-5 pb-10 pt-10 sm:pt-14"
 			>
 				<div

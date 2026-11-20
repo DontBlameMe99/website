@@ -346,6 +346,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 						darkScheme: DEFAULT_PREFS.darkScheme,
 						lightScheme: DEFAULT_PREFS.lightScheme,
 						style: DEFAULT_PREFS.style,
+						accent: DEFAULT_PREFS.accent,
 					},
 					custom: EMPTY_CUSTOM,
 				})),

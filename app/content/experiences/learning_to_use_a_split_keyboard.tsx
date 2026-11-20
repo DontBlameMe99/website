@@ -92,6 +92,7 @@ export function Stance() {
 				<div className="min-w-0 flex-1">
 					<Range
 						label="stance"
+						valueText={label}
 						value={stance}
 						onChange={setStance}
 						min={0}

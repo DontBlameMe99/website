@@ -191,6 +191,7 @@ function CustomAccent() {
 				aria-label="Custom accent color"
 				value={draft ?? seed}
 				onInput={(event) => setDraft(event.currentTarget.value)}
+				onBlur={() => setDraft(accent.kind === "custom" ? accent.hex : null)}
 				className="peer sr-only"
 			/>
 			{/* Empty until picked: an outline, not a color. */}
@@ -227,9 +228,9 @@ function AccentSection() {
 
 	return (
 		<section>
-			<SectionLabel>Accent color</SectionLabel>
+			<SectionLabel as="h2">Accent color</SectionLabel>
 
-			<div className="mt-4 grid grid-cols-6 gap-x-3 gap-y-4 sm:grid-cols-[repeat(13,minmax(0,1fr))]">
+			<div className="mt-4 grid grid-cols-4 gap-x-3 gap-y-4 sm:grid-cols-[repeat(7,minmax(0,1fr))] lg:grid-cols-[repeat(13,minmax(0,1fr))]">
 				{ACCENT_HUES.map((hue) => (
 					<AccentHueOption key={hue} hue={hue} />
 				))}
@@ -353,7 +354,7 @@ function PaletteGroup({
 
 	return (
 		<section>
-			<SectionLabel>
+			<SectionLabel as="h2">
 				{label}
 				{live ? " (in use)" : null}
 			</SectionLabel>
@@ -502,7 +503,7 @@ export default function ThemePage() {
 	return (
 		<div>
 			<PageHeader
-				index="05"
+				index="06"
 				label="Theme"
 				title="Make it yours."
 				lead="Pick your preferred design. You decide what you enjoy."
@@ -512,7 +513,7 @@ export default function ThemePage() {
 				<AccentSection />
 
 				<section>
-					<SectionLabel>Interface style</SectionLabel>
+					<SectionLabel as="h2">Interface style</SectionLabel>
 
 					<div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 						{STYLES.map((option) => (

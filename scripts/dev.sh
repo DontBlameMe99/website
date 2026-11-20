@@ -46,6 +46,17 @@ acquire_slot() {
 	die "All $slot_count dev server slots are in use. Wait for a lease to expire or stop a server."
 }
 
+lock_state() {
+	mkdir -p "$state_dir"
+	exec 9>"$state_dir/start.lock"
+	flock 9
+}
+
+unlock_state() {
+	flock -u 9 2>/dev/null || true
+	exec 9>&-
+}
+
 pid_alive() {
 	[[ -n ${1:-} ]] && kill -0 "$1" 2>/dev/null
 }
@@ -100,7 +111,7 @@ start() {
 		DBM_DEV_NIX=1 exec nix develop -c "$0" start
 	fi
 
-	mkdir -p "$state_dir"
+	lock_state
 	prune_state
 
 	if [[ -f $pid_file ]]; then
@@ -110,6 +121,7 @@ start() {
 		if pid_alive "$saved_pid" && curl -fsS -m 2 -o /dev/null "$(url_of "$saved_port")" 2>/dev/null; then
 			echo "Already running on port $saved_port."
 			echo "URL: $(url_of "$saved_port")"
+			unlock_state
 			return 0
 		fi
 		stop_saved
@@ -141,10 +153,10 @@ start() {
 		else
 			echo "dev: no .git under $1, this server will not stop itself." >&2
 		fi
-		( trap "" TERM; sleep "$5"; kill -TERM -- -$$ 2>/dev/null || kill -TERM $$ 2>/dev/null || true; for _ in $(seq 1 50); do kill -0 $$ 2>/dev/null || exit 0; sleep 0.2; done; kill -KILL -- -$$ 2>/dev/null || kill -KILL $$ 2>/dev/null || true ) 10>&- &
+		( trap "expire=1" TERM; for _ in $(seq 1 "$5"); do [ -n "${expire:-}" ] && break; kill -0 $$ 2>/dev/null || exit 0; sleep 1; done; kill -TERM -- -$$ 2>/dev/null || kill -TERM $$ 2>/dev/null || true; for _ in $(seq 1 50); do kill -0 $$ 2>/dev/null || exit 0; sleep 0.2; done; kill -KILL -- -$$ 2>/dev/null || kill -KILL $$ 2>/dev/null || true ) 10>&- &
 		exec env NODE_ENV=development "$2" dev --host 127.0.0.1 --port "$3" --strictPort
 	' _ "$root" "$server_bin" "$port" "$poll_seconds" "$server_ttl" \
-		>"$log_file" 2>&1 </dev/null &
+		>"$log_file" 2>&1 </dev/null 9>&- &
 	local pid=$!
 	exec 10>&-
 	printf '%s\n' "$pid" >"$pid_file"
@@ -167,15 +179,18 @@ start() {
 	echo "Running on port $port."
 	echo "URL: $(url_of "$port")"
 	echo "Log: $log_file"
+	unlock_state
 }
 
 clean() {
+	lock_state
 	if [[ -f $pid_file ]]; then
 		stop_saved
 		rm -f "$pid_file" "$port_file"
 	fi
 	rm -rf "$root/build"
 	echo "Removed $root/build."
+	unlock_state
 }
 
 status() {

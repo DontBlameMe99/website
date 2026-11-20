@@ -19,6 +19,7 @@ export function ScrollProgress({ className }: { className?: string }) {
 			const range = root.scrollHeight - root.clientHeight;
 			const progress =
 				range > 0 ? Math.min(1, Math.max(0, window.scrollY / range)) : 0;
+			element.style.setProperty("--progress", String(progress));
 			element.style.transform = `scaleX(${progress})`;
 		};
 		const schedule = () => {

@@ -39,6 +39,7 @@ export type StyleId =
 	| "msdos"
 	| "minecraft"
 	| "material"
+	| "futuristic"
 	| "skeuomorphic";
 export type SchemeId =
 	| "frappe"
@@ -223,6 +224,11 @@ export const STYLES: readonly Style[] = [
 		id: "skeuomorphic",
 		label: "Skeuomorphic",
 		blurb: "Molded corners, beveled slabs, embossed labels.",
+	},
+	{
+		id: "futuristic",
+		label: "Futuristic",
+		blurb: "Bayer-dithered fields, hairline HUD frames, and mono readouts.",
 	},
 ];
 

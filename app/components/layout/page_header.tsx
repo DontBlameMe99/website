@@ -57,13 +57,16 @@ export function PageHeader({
 export function SectionLabel({
 	children,
 	className,
+	as: Tag = "p",
 }: {
 	children: React.ReactNode;
 	className?: string;
+	as?: "p" | "h2";
 }) {
+	const Heading = Tag;
 	return (
-		<p className={cn("nb-line-b pb-2 text-label text-text", className)}>
+		<Heading className={cn("nb-line-b pb-2 text-label text-text", className)}>
 			{children}
-		</p>
+		</Heading>
 	);
 }

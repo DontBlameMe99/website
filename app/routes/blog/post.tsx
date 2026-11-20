@@ -1,11 +1,11 @@
-import { ArrowLeft, ArrowRight, Clock, Type } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUp, Clock, Type } from "lucide-react";
 import { MotionConfig, motion } from "motion/react";
-import { type ComponentType, useMemo } from "react";
+import { type ComponentType, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router";
 import { SectionLabel } from "~/components/layout/page_header";
 import { useActiveHeading } from "~/hooks/use_active_heading";
-import { formatDate, getPost, neighbours } from "~/lib/posts";
 import type { Section } from "~/lib/post_types";
+import { formatDate, getPost, neighbours } from "~/lib/posts";
 import { seo } from "~/lib/seo";
 import { cn } from "~/lib/utils";
 import { NotFound } from "~/routes/__404/not_found";
@@ -71,12 +71,20 @@ function Toc({
 	active,
 	markerId,
 	className,
+	onNavigate,
 }: {
 	sections: { id: string; text: string; level: number }[];
 	active: string | null;
 	markerId: string;
 	className?: string;
+	onNavigate?: () => void;
 }) {
+	const activeRef = useRef<HTMLAnchorElement>(null);
+
+	useEffect(() => {
+		if (!active || !window.matchMedia("(min-width: 1024px)").matches) return;
+		activeRef.current?.scrollIntoView({ block: "nearest" });
+	}, [active]);
 	return (
 		<motion.nav layoutScroll aria-label="On this page" className={className}>
 			<ul className="[&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-b-rule [&>li]:rounded-none">
@@ -92,6 +100,8 @@ function Toc({
 						<a
 							href={`#${section.id}`}
 							aria-current={active === section.id ? "true" : undefined}
+							ref={active === section.id ? activeRef : undefined}
+							onClick={onNavigate}
 							className={cn(
 								"block py-2 text-[11px] leading-relaxed transition-colors",
 								section.level >= 5
@@ -123,14 +133,14 @@ export function PostPage({
 	Body: ComponentType;
 }) {
 	const post = getPost(slug);
+	const ids = useMemo(() => sections.map((section) => section.id), [sections]);
+	const active = useActiveHeading(ids);
+	const body = useMemo(() => <Body />, [Body]);
+	const contentsRef = useRef<HTMLDetailsElement>(null);
 
 	if (!post) return <NotFound status={404} />;
 
 	const { previous, next } = neighbours(post.slug);
-	const ids = useMemo(() => sections.map((section) => section.id), [sections]);
-	const active = useActiveHeading(ids);
-	const body = useMemo(() => <Body />, [Body]);
-
 	return (
 		<MotionConfig reducedMotion="user">
 			<article>
@@ -172,14 +182,19 @@ export function PostPage({
 									{post.words.toLocaleString("en-US")} words
 								</span>
 								{post.tags.map((tag) => (
-									<span key={tag} className="nb-chip text-subtext0">
+									<Link
+										key={tag}
+										to={`/blog?tag=${encodeURIComponent(tag)}`}
+										prefetch="intent"
+										className="nb-chip text-subtext0 transition-colors hover:bg-accent hover:text-on-accent"
+									>
 										#{tag}
-									</span>
+									</Link>
 								))}
 							</div>
 						</header>
 
-						<details className="nb-panel mt-12 p-5 lg:hidden">
+						<details ref={contentsRef} className="nb-panel mt-12 p-5 lg:hidden">
 							<summary className="cursor-pointer text-label text-text">
 								Contents
 							</summary>
@@ -187,7 +202,8 @@ export function PostPage({
 								sections={sections}
 								active={active}
 								markerId="post-toc-mobile"
-								className="mt-3 max-h-64 overflow-y-auto overscroll-contain pl-1 -ml-1"
+								className="mt-3 max-h-64 overflow-y-auto pl-1 -ml-1"
+								onNavigate={() => contentsRef.current?.removeAttribute("open")}
 							/>
 						</details>
 
@@ -195,10 +211,19 @@ export function PostPage({
 
 						<PostNav previous={previous} next={next} />
 
-						<Link to="/blog" prefetch="intent" className="nb-button mt-10">
-							<ArrowLeft className="icon-nudge-left size-4" />
-							All writing
-						</Link>
+						<div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+							<Link to="/blog" prefetch="intent" className="nb-button">
+								<ArrowLeft className="icon-nudge-left size-4" />
+								All writing
+							</Link>
+							<a
+								href="#main-content"
+								className="inline-flex items-center gap-1 text-meta uppercase tracking-[0.12em] hover:text-accent"
+							>
+								Back to top
+								<ArrowUp aria-hidden="true" className="icon-nudge-up size-3" />
+							</a>
+						</div>
 					</div>
 
 					<aside className="hidden min-w-0 lg:sticky lg:top-24 lg:block lg:self-start">
@@ -208,7 +233,7 @@ export function PostPage({
 								sections={sections}
 								active={active}
 								markerId="post-toc-desktop"
-								className="mt-3 min-h-0 overflow-y-auto overscroll-contain pl-1 -ml-1 pr-1"
+								className="mt-3 min-h-0 overflow-y-auto pl-1 -ml-1 pr-1"
 							/>
 
 							<div className="mt-6">

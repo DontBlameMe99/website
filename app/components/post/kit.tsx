@@ -267,7 +267,7 @@ export function Switch({
 					type="button"
 					role="switch"
 					aria-checked={state}
-					aria-label={`Toggle ${label ?? on}`}
+					aria-label={`${label ?? on}: ${state ? on : off}`}
 					onClick={() => setState(!state)}
 					className="relative h-6 w-11 shrink-0 nb-line bg-surface2 transition-colors"
 					style={state ? { background: accent } : undefined}
@@ -298,6 +298,7 @@ export function Range({
 	max = 100,
 	step = 1,
 	label,
+	valueText,
 	accent = "var(--accent-surface)",
 }: {
 	value: number;
@@ -306,6 +307,7 @@ export function Range({
 	max?: number;
 	step?: number;
 	label?: string;
+	valueText?: string;
 	accent?: string;
 }) {
 	const percent = ((value - min) / (max - min)) * 100;
@@ -323,6 +325,7 @@ export function Range({
 				max={max}
 				step={step}
 				value={value}
+				aria-valuetext={valueText}
 				onChange={(event) => onChange(Number(event.target.value))}
 				className="h-6 w-full cursor-pointer appearance-none nb-line outline-offset-4"
 				style={{

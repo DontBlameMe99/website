@@ -16,6 +16,8 @@ import {
 	type StyleId,
 } from "~/lib/themes";
 
+import { cn } from "~/lib/utils";
+
 type Field = {
 	token: string;
 	label: string;
@@ -72,6 +74,7 @@ function ColorField({
 				aria-label={label}
 				value={draft}
 				onInput={(event) => setDraft(event.currentTarget.value)}
+				onBlur={() => setDraft(value)}
 				className="nb-line h-9 w-full cursor-pointer bg-transparent p-0"
 			/>
 			<span className="text-[10px] leading-tight text-subtext0">{label}</span>
@@ -90,13 +93,26 @@ function ValueField({
 	value: string;
 	onChange: (value: string) => void;
 }) {
+	const [draft, setDraft] = useState(value);
+
+	useEffect(() => setDraft(value), [value]);
+
+	const commit = () => {
+		if (draft === value) return;
+		onChange(draft);
+		setDraft(value);
+	};
 	return (
 		<label className="flex flex-col gap-1">
 			<span className="text-[11px] font-semibold text-text">{label}</span>
 			<input
-				value={value}
+				value={draft}
 				placeholder="default"
-				onChange={(event) => onChange(event.currentTarget.value)}
+				onChange={(event) => setDraft(event.currentTarget.value)}
+				onBlur={commit}
+				onKeyDown={(event) => {
+					if (event.key === "Enter") event.currentTarget.blur();
+				}}
 				spellCheck={false}
 				className="nb-input min-w-0 font-mono text-[11px]"
 			/>
@@ -160,14 +176,14 @@ function SourcePicker<T extends string>({
 	onChange: (value: T) => void;
 }) {
 	return (
-		<label className="flex flex-col gap-1">
+		<label className="flex min-w-0 flex-col gap-1">
 			<span className="text-[10px] uppercase tracking-[0.08em] text-subtext0">
 				{label}
 			</span>
 			<select
 				value={value}
 				onChange={(event) => onChange(event.currentTarget.value as T)}
-				className="nb-input py-1 text-[12px]"
+				className="nb-input min-w-0 py-1 text-[12px]"
 			>
 				{options.map((option) => (
 					<option key={option.id} value={option.id}>
@@ -206,7 +222,7 @@ export function CustomPaletteEditor({ mode }: { mode: Mode }) {
 					</p>
 				</div>
 
-				<div className="flex items-end gap-2">
+				<div className="flex flex-wrap items-end gap-2">
 					<SourcePicker
 						label="Start from"
 						value={from}
@@ -269,7 +285,7 @@ export function CustomStyleEditor() {
 					</p>
 				</div>
 
-				<div className="flex items-end gap-2">
+				<div className="flex flex-wrap items-end gap-2">
 					<SourcePicker
 						label="Start from"
 						value={from}
@@ -316,32 +332,44 @@ export function CustomStyleEditor() {
 export function ThemeShare() {
 	const { exportTheme, importTheme, resetCustom } = useTheme();
 	const [text, setText] = useState("");
-	const [notice, setNotice] = useState<string | null>(null);
+	const [notice, setNotice] = useState<{
+		text: string;
+		error?: boolean;
+	} | null>(null);
 
 	const copy = async () => {
 		const json = exportTheme();
-		setText(json);
+		const hasText = text.trim().length > 0;
+		if (!hasText) setText(json);
 		try {
 			await navigator.clipboard.writeText(json);
-			setNotice("Copied.");
+			setNotice({ text: "Copied." });
 		} catch {
-			setNotice("Copy the text above.");
+			setNotice({
+				text: hasText
+					? "Clipboard blocked. Pasted text kept."
+					: "Copy the text above.",
+				error: true,
+			});
 		}
 	};
 
 	const apply = () => {
 		if (!text.trim()) {
-			setNotice("Paste a theme file first.");
+			setNotice({ text: "Paste a theme file first.", error: true });
 			return;
 		}
-		setNotice(importTheme(text) ?? "Theme applied.");
+		const error = importTheme(text);
+		setNotice(
+			error ? { text: error, error: true } : { text: "Theme applied." },
+		);
 	};
 
 	const reset = () => {
-		if (!window.confirm("Discard your custom palettes and style?")) return;
+		if (!window.confirm("Discard custom palettes, style and accent?")) return;
 		resetCustom();
 		setText("");
-		setNotice("Custom theme cleared.");
+		setNotice({ text: "Custom theme cleared." });
 	};
 
 	return (
@@ -355,7 +383,10 @@ export function ThemeShare() {
 
 			<textarea
 				value={text}
-				onChange={(event) => setText(event.currentTarget.value)}
+				onChange={(event) => {
+					setText(event.currentTarget.value);
+					setNotice(null);
+				}}
 				placeholder="Paste a theme file here."
 				spellCheck={false}
 				aria-label="Theme file"
@@ -381,8 +412,14 @@ export function ThemeShare() {
 			</div>
 
 			{notice ? (
-				<p role="status" className="mt-3 text-[12px] text-subtext0">
-					{notice}
+				<p
+					role="status"
+					className={cn(
+						"mt-3 text-[12px]",
+						notice.error ? "text-red" : "text-subtext0",
+					)}
+				>
+					{notice.text}
 				</p>
 			) : null}
 		</section>

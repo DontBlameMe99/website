@@ -51,11 +51,20 @@ function TagChip({
 }
 
 export default function BlogIndex() {
-	const [params] = useSearchParams();
-	const [query, setQuery] = useState("");
-	const [tag, setTag] = useState<string | null>(params.get("tag"));
-	const [newestFirst, setNewestFirst] = useState(true);
+	const [params, setParams] = useSearchParams();
+	const query = params.get("q") ?? "";
+	const tag = params.get("tag");
+	const newestFirst = params.get("sort") !== "old";
 	const [mounted, setMounted] = useState(false);
+
+	const updateParams = (changes: Record<string, string | null>) => {
+		const next = new URLSearchParams(params);
+		for (const [key, value] of Object.entries(changes)) {
+			if (value) next.set(key, value);
+			else next.delete(key);
+		}
+		setParams(next, { replace: true });
+	};
 
 	useEffect(() => setMounted(true), []);
 
@@ -90,19 +99,20 @@ export default function BlogIndex() {
 							<input
 								type="search"
 								value={query}
-								onChange={(event) => setQuery(event.target.value)}
-								placeholder="Filter posts"
-								aria-label="Filter posts"
+								onChange={(event) => updateParams({ q: event.target.value })}
+								placeholder="Filter by title, summary or tag"
+								aria-label="Filter by title, summary or tag"
 								className="w-full bg-transparent"
 							/>
 							<button
 								type="button"
-								onClick={() => setQuery("")}
+								onClick={() => updateParams({ q: null })}
 								aria-label="Clear filter"
+								disabled={!query}
 								tabIndex={query ? 0 : -1}
 								className={cn(
 									"grid size-6 shrink-0 place-items-center text-subtext0 transition hover:rotate-90 hover:text-text",
-									!query && "invisible",
+									!query && "pointer-events-none opacity-0",
 								)}
 							>
 								<X aria-hidden="true" className="size-3.5" />
@@ -114,6 +124,7 @@ export default function BlogIndex() {
 								aria-live="polite"
 								className="min-w-14 text-right text-meta tabular-nums"
 							>
+								<span className="sr-only">Showing </span>
 								<motion.span
 									key={filtered.length}
 									className="inline-block"
@@ -122,13 +133,17 @@ export default function BlogIndex() {
 									transition={{ duration: 0.15, ease: "easeOut" }}
 								>
 									{filtered.length}
-								</motion.span>{" "}
-								/ {posts.length}
+								</motion.span>
+								<span aria-hidden="true"> / {posts.length}</span>
+								<span className="sr-only"> of {posts.length} posts</span>
 							</span>
 							<button
 								type="button"
-								onClick={() => setNewestFirst((value) => !value)}
-								className="nb-button min-w-28 justify-center py-1.5 text-[11px] uppercase tracking-[0.08em]"
+								onClick={() =>
+									updateParams({ sort: newestFirst ? "old" : null })
+								}
+								aria-label={newestFirst ? "Newest first" : "Oldest first"}
+								title={newestFirst ? "Newest first" : "Oldest first"}
 							>
 								<ArrowDownWideNarrow
 									className={cn(
@@ -145,14 +160,16 @@ export default function BlogIndex() {
 						<TagChip
 							label="All"
 							selected={tag === null}
-							onClick={() => setTag(null)}
+							onClick={() => updateParams({ tag: null })}
 						/>
 						{allTags.map((value) => (
 							<TagChip
 								key={value}
 								label={value}
 								selected={tag === value}
-								onClick={() => setTag(tag === value ? null : value)}
+								onClick={() =>
+									updateParams({ tag: tag === value ? null : value })
+								}
 							/>
 						))}
 					</div>
@@ -183,7 +200,7 @@ export default function BlogIndex() {
 											<h2 className="text-xl font-bold leading-[1.1] tracking-[-0.02em] text-text transition-colors group-hover:text-accent">
 												{post.title}
 											</h2>
-											<span className="flex shrink-0 items-center gap-1 text-label text-subtext0">
+											<span className="flex shrink-0 items-center gap-1 whitespace-nowrap text-label text-subtext0">
 												<Clock aria-hidden="true" className="size-3" />
 												{post.minutes} min
 											</span>
@@ -194,7 +211,12 @@ export default function BlogIndex() {
 										</p>
 
 										<div className="mt-auto flex items-baseline justify-between gap-4 nb-line-t pt-3 text-meta">
-											<time dateTime={post.date}>{formatDate(post.date)}</time>
+											<time
+												dateTime={post.date}
+												className="shrink-0 whitespace-nowrap"
+											>
+												{formatDate(post.date)}
+											</time>
 											<span className="text-right">
 												{post.tags.map((value) => `#${value}`).join(" ")}
 											</span>
@@ -211,10 +233,9 @@ export default function BlogIndex() {
 						</p>
 						<button
 							type="button"
-							onClick={() => {
-								setQuery("");
-								setTag(null);
-							}}
+							onClick={() =>
+								setParams(new URLSearchParams(), { replace: true })
+							}
 							className="nb-button nb-accent mt-4"
 						>
 							Reset it

@@ -1,7 +1,7 @@
-import type { Section } from "~/lib/post_types";
 import { CodeBlock } from "~/components/post/code_block";
-import { PostHeading, PostImage, Prose } from "~/components/post/prose";
+import { Link, PostHeading, PostImage, Prose } from "~/components/post/prose";
 import { NoteSyntaxSwitcher } from "~/content/experiences/replacing_obsidian_with_neovim_and_typst";
+import type { Section } from "~/lib/post_types";
 
 export default function Post() {
 	return (
@@ -38,13 +38,12 @@ export default function Post() {
 				{
 					"This is just a short summary, if you want to know it in more detail, check out "
 				}
-				<a
-					href="https://dontblameme.codeberg.page/blog/i-found-a-better-alternative-to-logseq"
-					target="_blank"
-					rel="noreferrer"
+				<Link
+					to="/blog/i_found_a_better_alternative_to_logseq"
+					prefetch="intent"
 				>
 					this
-				</a>
+				</Link>
 				{" blog post."}
 			</blockquote>
 			<PostHeading level={3} id="obsidian-my-beloved">
@@ -255,13 +254,12 @@ export default function Post() {
 					a plugin which adds vimrc support
 				</a>
 				{", but since I heavily rely on "}
-				<a
-					href="https://dontblameme.codeberg.page/blog/is-nixos-the-perfect-linux-distribution-for-you"
-					target="_blank"
-					rel="noreferrer"
+				<Link
+					to="/blog/is_nixos_the_perfect_linux_distribution_for_you"
+					prefetch="intent"
 				>
 					NixOS
-				</a>
+				</Link>
 				{" and the "}
 				<a
 					href="https://en.wikipedia.org/wiki/Lua"
@@ -897,13 +895,9 @@ $
 				{
 					"But, of course, I would not recommend this setup for everyone. This setup works for me because I live in Neovim and want to rely on this specific workflow. Always try to find your own setup and workflow, and "
 				}
-				<a
-					href="https://dontblameme.codeberg.page/blog/the-perfect-productivity-system"
-					target="_blank"
-					rel="noreferrer"
-				>
+				<Link to="/blog/the_perfect_productivity_system" prefetch="intent">
 					stop chasing the perfect setup
-				</a>
+				</Link>
 			</p>
 			<ul>
 				<li>it does not exist.</li>

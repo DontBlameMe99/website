@@ -1596,6 +1596,10 @@
 	outline-offset: 2px;
 }
 
+[data-style="xp"] :where(header.nb-chrome) :focus-visible {
+	outline-color: #fff;
+}
+
 [data-style="skeuomorphic"] {
 	/* Shape: molded corners, a 2px seam, and two pixels of travel under a
 	   press. Height comes from a bevel that hugs the edge plus a shadow
@@ -2409,6 +2413,16 @@
 	background-attachment: fixed;
 }
 
+[data-style="minecraft"] {
+	scroll-padding-top: 7.5rem;
+}
+
+@media (min-width: 40rem) {
+	[data-style="minecraft"] {
+		scroll-padding-top: 6.5rem;
+	}
+}
+
 [data-style="minecraft"] header.nb-chrome {
 	max-width: 1240px;
 	margin: 1.25rem auto 0;
@@ -2718,6 +2732,11 @@
 	:focus-visible {
 		outline: 2px solid var(--focus-ring);
 		outline-offset: 3px;
+	}
+
+	/* The main landmark is a programmatic focus target, not a visible control. */
+	#main-content:focus {
+		outline: none;
 	}
 
 	h1,
@@ -3071,6 +3090,12 @@
 	text-decoration: none;
 }
 
+.prose-dbm figure > a:hover img,
+.prose-dbm figure > a:focus-visible img {
+	outline: var(--bw) solid var(--accent-surface);
+	outline-offset: 3px;
+}
+
 .prose-dbm strong {
 	color: var(--text);
 	font-weight: 700;
@@ -3172,7 +3197,8 @@
 
 .prose-dbm .code-block__copy {
 	border: 1px solid var(--control-edge);
-	padding: 0.1rem 0.4rem;
+	min-height: 2rem;
+	padding: 0.25rem 0.5rem;
 	font: inherit;
 	letter-spacing: inherit;
 	color: var(--subtext0);
@@ -3605,6 +3631,16 @@
 		font: inherit;
 		color: inherit;
 		border-radius: var(--radius);
+	}
+
+	button:not(:disabled),
+	[role="tab"],
+	summary {
+		cursor: pointer;
+	}
+
+	button:disabled {
+		cursor: not-allowed;
 	}
 
 	input::placeholder,

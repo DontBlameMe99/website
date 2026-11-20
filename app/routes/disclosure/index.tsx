@@ -24,7 +24,7 @@ const BUILD = [
 function Split({ label, items }: { label: string; items: string[] }) {
 	return (
 		<section className="nb-panel p-6">
-			<SectionLabel>{label}</SectionLabel>
+			<SectionLabel as="h2">{label}</SectionLabel>
 			<ul className="mt-5 flex flex-col gap-3">
 				{items.map((item) => (
 					<li

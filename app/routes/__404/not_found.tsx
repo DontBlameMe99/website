@@ -29,16 +29,16 @@ export function NotFound({ status = 404 }: { status?: number }) {
 			<p className="mt-6 max-w-[52ch] text-lead">
 				{status === 404
 					? "The page you asked for was moved, renamed, or never existed. The writing index is a good place to land."
-					: "Something broke while building this view. Try again, or head back to the index."}
+					: "Something broke while building this view. Start from the index."}
 			</p>
 
 			<div className="mt-10 flex flex-wrap gap-3">
 				<Link to="/" prefetch="intent" className="nb-button nb-accent">
 					<ArrowLeft className="icon-nudge-left size-4" />
-					Index
+					Home
 				</Link>
 				<Link to="/blog" prefetch="intent" className="nb-button">
-					Read the writing
+					Writing index
 					<ArrowRight className="icon-nudge size-4" />
 				</Link>
 			</div>

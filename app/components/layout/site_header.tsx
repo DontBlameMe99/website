@@ -32,9 +32,13 @@ export function SiteHeader() {
 					<span>{SITE.name}</span>
 				</NavLink>
 
+				<span className="order-2 ml-auto sm:order-3 sm:ml-0">
+					<ThemeToggle />
+				</span>
+
 				<nav
 					aria-label="Primary"
-					className="order-last flex w-full items-center gap-1 sm:order-none sm:ml-auto sm:w-auto sm:gap-7"
+					className="order-3 flex w-full items-center gap-1 sm:order-3 sm:ml-auto sm:w-auto sm:gap-7"
 				>
 					{NAV.filter((item) => item.to !== "/").map((item) => (
 						<NavLink
@@ -48,11 +52,7 @@ export function SiteHeader() {
 					))}
 				</nav>
 
-				<span className="ml-auto sm:ml-0">
-					<ThemeToggle />
-				</span>
-
-				<span className="win-controls" aria-hidden="true">
+				<span className="win-controls order-4" aria-hidden="true">
 					<span />
 					<span />
 					<span />

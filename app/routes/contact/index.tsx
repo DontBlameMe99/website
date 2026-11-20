@@ -17,7 +17,7 @@ const ELSEWHERE = SOCIALS.filter(
 );
 
 function CopyEmail() {
-	const { copied, copy } = useCopy(1600);
+	const { copied, failed, copy } = useCopy(1600);
 
 	return (
 		<>
@@ -27,10 +27,14 @@ function CopyEmail() {
 				className="nb-button min-w-20 justify-center py-1.5 text-[11px] uppercase tracking-[0.08em]"
 			>
 				<CopyStateIcon copied={copied} />
-				{copied ? "Copied" : "Copy"}
+				{copied ? "Copied" : failed ? "Copy failed" : "Copy"}
 			</button>
 			<span role="status" className="sr-only">
-				{copied ? "Email address copied to the clipboard" : ""}
+				{copied
+					? "Email address copied to the clipboard"
+					: failed
+						? "Could not copy. Select the address instead."
+						: ""}
 			</span>
 		</>
 	);
@@ -57,8 +61,6 @@ export default function ContactPage() {
 					</div>
 					<a
 						href={`mailto:${CONTACT.email}`}
-						target="_blank"
-						rel="noopener noreferrer"
 						className="mt-6 block break-all text-lg font-extrabold tracking-[-0.02em] text-text transition-colors hover:text-accent"
 					>
 						{CONTACT.email}

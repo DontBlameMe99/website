@@ -1,29 +1,32 @@
 import { Check, Copy } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+type Status = "idle" | "copied" | "failed";
+
 /** Clipboard state for a copy control, shared by the code block and contact. */
 export function useCopy(reset = 1500) {
-	const [copied, setCopied] = useState(false);
+	const [status, setStatus] = useState<Status>("idle");
 	const timer = useRef<number | undefined>(undefined);
 
 	useEffect(() => () => window.clearTimeout(timer.current), []);
 
 	const copy = useCallback(
 		async (text: string) => {
+			let next: Status;
 			try {
 				await navigator.clipboard.writeText(text);
+				next = "copied";
 			} catch {
-				// Clipboard can be blocked. The text stays visible either way.
-				return;
+				next = "failed";
 			}
-			setCopied(true);
+			setStatus(next);
 			window.clearTimeout(timer.current);
-			timer.current = window.setTimeout(() => setCopied(false), reset);
+			timer.current = window.setTimeout(() => setStatus("idle"), reset);
 		},
 		[reset],
 	);
 
-	return { copied, copy };
+	return { copied: status === "copied", failed: status === "failed", copy };
 }
 
 /**

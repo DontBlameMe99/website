@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # Start and inspect this worktree's dev server.
 #
-# A server stops itself once its worktree is deleted, so there is nothing to
-# stop by hand.
+# A server stops when its worktree is deleted, after its one hour lease, or
+# when the process exits. At most four dev servers run across all projects.
 #
 #   ./scripts/dev.sh start
 #   ./scripts/dev.sh status
 #   ./scripts/dev.sh url
+#   ./scripts/dev.sh clean
 set -euo pipefail
 
 root="$(git rev-parse --show-toplevel)"
@@ -21,9 +22,28 @@ log_file="$state_dir/dev.log"
 server_bin="$root/node_modules/.bin/react-router"
 poll_seconds=60
 
+slot_dir="${XDG_CACHE_HOME:-$HOME/.cache}/dev-server-slots"
+slot_count=4
+server_ttl=3600
+
 die() {
 	echo "dev: $*" >&2
 	exit 1
+}
+
+# The lock is held on fd 10 through exec, so the kernel releases the slot when
+# the server exits, even if no agent stops it.
+acquire_slot() {
+	local i
+	mkdir -p "$slot_dir"
+	for ((i = 1; i <= slot_count; i++)); do
+		exec 10>"$slot_dir/slot-$i" || continue
+		if flock -n 10; then
+			return 0
+		fi
+		exec 10>&-
+	done
+	die "All $slot_count dev server slots are in use. Wait for a lease to expire or stop a server."
 }
 
 pid_alive() {
@@ -98,7 +118,6 @@ start() {
 
 	[[ -x $server_bin ]] || die "node_modules/.bin/react-router is missing. Run 'nix develop -c bun install'."
 
-	rm -rf "$root/build"
 
 	local base port="" offset
 	base=$((5200 + (16#${hash:0:2} % 200)))
@@ -111,18 +130,20 @@ start() {
 	done
 	[[ -n $port ]] || die "No free port between 5200 and 5399."
 
+	acquire_slot
 	echo "Starting the dev server on port $port..."
 	# The watcher exits with the server, or takes the whole group down once this
-	# worktree is gone. It watches .git because the server itself recreates files
-	# under the root, and exec keeps the pid equal to the server's.
+	# worktree is gone. The lease kills the group after an hour so a forgotten
+	# worktree cannot hold a slot forever. exec keeps the pid equal to the server's.
 	setsid bash -c '
 		if [ -e "$1/.git" ]; then
 			( while [ -e "$1/.git" ] && kill -0 $$; do sleep "$4"; done; kill -TERM 0 ) &
 		else
 			echo "dev: no .git under $1, this server will not stop itself." >&2
 		fi
+		( sleep "$5"; kill -TERM -- -$$ 2>/dev/null || kill -TERM $$ 2>/dev/null || true; sleep 10; kill -KILL -- -$$ 2>/dev/null || kill -KILL $$ 2>/dev/null || true ) &
 		exec env NODE_ENV=development "$2" dev --host 127.0.0.1 --port "$3" --strictPort
-	' _ "$root" "$server_bin" "$port" "$poll_seconds" \
+	' _ "$root" "$server_bin" "$port" "$poll_seconds" "$server_ttl" \
 		>"$log_file" 2>&1 </dev/null &
 	local pid=$!
 	printf '%s\n' "$pid" >"$pid_file"
@@ -147,6 +168,15 @@ start() {
 	echo "Log: $log_file"
 }
 
+clean() {
+	if [[ -f $pid_file ]]; then
+		stop_saved
+		rm -f "$pid_file" "$port_file"
+	fi
+	rm -rf "$root/build"
+	echo "Removed $root/build."
+}
+
 status() {
 	[[ -f $pid_file ]] || die "No dev server for this worktree."
 	local pid port
@@ -168,8 +198,9 @@ case "${1:-}" in
 	start) start ;;
 	status) status ;;
 	url) url ;;
+	clean) clean ;;
 	*)
-		echo "usage: $0 {start|status|url}" >&2
+		echo "usage: $0 {start|status|url|clean}" >&2
 		exit 2
 		;;
 esac

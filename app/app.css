@@ -4109,7 +4109,10 @@ html[data-style="minecraft"] .prose-dbm th {
 }
 
 html[data-style="minecraft"] .prose-dbm tbody tr:hover {
-	background: color-mix(in srgb, var(--text) 6%, var(--base));
+	background: light-dark(
+		color-mix(in srgb, var(--mc-light) 25%, var(--base)),
+		color-mix(in srgb, var(--mc-ink) 22%, var(--base))
+	);
 }
 
 html[data-style="minecraft"] .prose-dbm hr {

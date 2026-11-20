@@ -63,7 +63,7 @@ export default function BlogIndex() {
 			if (value) next.set(key, value);
 			else next.delete(key);
 		}
-		setParams(next, { replace: true });
+		setParams(next, { replace: true, preventScrollReset: true });
 	};
 
 	useEffect(() => setMounted(true), []);
@@ -234,7 +234,10 @@ export default function BlogIndex() {
 						<button
 							type="button"
 							onClick={() =>
-								setParams(new URLSearchParams(), { replace: true })
+								setParams(new URLSearchParams(), {
+									replace: true,
+									preventScrollReset: true,
+								})
 							}
 							className="nb-button nb-accent mt-4"
 						>

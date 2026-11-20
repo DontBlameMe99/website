@@ -82,8 +82,14 @@ function Toc({
 	const activeRef = useRef<HTMLAnchorElement>(null);
 
 	useEffect(() => {
-		if (!active || !window.matchMedia("(min-width: 1024px)").matches) return;
-		activeRef.current?.scrollIntoView({ block: "nearest" });
+		const reveal = () => {
+			if (!active || !window.matchMedia("(min-width: 1024px)").matches) return;
+			activeRef.current?.scrollIntoView({ block: "nearest" });
+		};
+
+		reveal();
+		window.addEventListener("resize", reveal);
+		return () => window.removeEventListener("resize", reveal);
 	}, [active]);
 	return (
 		<motion.nav layoutScroll aria-label="On this page" className={className}>

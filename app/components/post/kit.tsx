@@ -267,7 +267,7 @@ export function Switch({
 					type="button"
 					role="switch"
 					aria-checked={state}
-					aria-label={`${label ?? on}: ${state ? on : off}`}
+					aria-label={label ?? on}
 					onClick={() => setState(!state)}
 					className="relative h-6 w-11 shrink-0 nb-line bg-surface2 transition-colors"
 					style={state ? { background: accent } : undefined}

@@ -2735,7 +2735,7 @@
 	}
 
 	/* The main landmark is a programmatic focus target, not a visible control. */
-	#main-content:focus {
+	#main-content:focus:not(:focus-visible) {
 		outline: none;
 	}
 

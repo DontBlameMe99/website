@@ -59,7 +59,7 @@ function ProjectsRail() {
 	return (
 		<section className="nb-panel p-5">
 			<div className="flex items-baseline justify-between">
-				<p className="text-label text-subtext0">Projects</p>
+				<h2 className="text-label text-subtext0">Projects</h2>
 				<Link
 					to="/projects"
 					prefetch="intent"

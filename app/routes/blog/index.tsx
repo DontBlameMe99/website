@@ -14,9 +14,8 @@ export const meta = () =>
 			"Everything DontBlameMe has written down: privacy, Linux, NixOS, note taking, keyboards, and the psychology of the feed.",
 	});
 
-const TAG_SPRING = { type: "spring", stiffness: 380, damping: 30 } as const;
-
-/** One chip whose accent fill is shared, so it travels between tags. */
+/** One tag filter chip. The selected class owns the fill, so toggling it twice
+   leaves no animation state behind. */
 function TagChip({
 	label,
 	selected,
@@ -32,19 +31,12 @@ function TagChip({
 			onClick={onClick}
 			aria-pressed={selected}
 			className={cn(
-				"relative isolate nb-chip transition-colors",
+				"nb-chip transition-colors",
 				selected
 					? "bg-accent text-on-accent"
 					: "text-subtext0 hover:bg-surface0 hover:text-text",
 			)}
 		>
-			{selected ? (
-				<motion.span
-					layoutId="blog-tag"
-					className="absolute inset-0 -z-10 bg-accent"
-					transition={TAG_SPRING}
-				/>
-			) : null}
 			{label}
 		</button>
 	);
@@ -144,9 +136,12 @@ export default function BlogIndex() {
 							</span>
 							<button
 								type="button"
-								onClick={() =>
-									updateParams({ sort: newestFirst ? "old" : null })
-								}
+								onClick={() => {
+									const current = new URLSearchParams(location.search);
+									updateParams({
+										sort: current.get("sort") === "old" ? null : "old",
+									});
+								}}
 								aria-label={newestFirst ? "Newest first" : "Oldest first"}
 								title={newestFirst ? "Newest first" : "Oldest first"}
 							>
@@ -172,9 +167,12 @@ export default function BlogIndex() {
 								key={value}
 								label={value}
 								selected={tag === value}
-								onClick={() =>
-									updateParams({ tag: tag === value ? null : value })
-								}
+								onClick={() => {
+									const current = new URLSearchParams(location.search);
+									updateParams({
+										tag: current.get("tag") === value ? null : value,
+									});
+								}}
 							/>
 						))}
 					</div>

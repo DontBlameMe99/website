@@ -55,6 +55,15 @@
 	font-display: swap;
 }
 
+/* The futuristic style uses this coarse pixel face for display type only. */
+@font-face {
+	font-family: "Pixelify Sans";
+	src: url("/fonts/pixelify-sans/PixelifySans-Variable.woff2") format("woff2");
+	font-weight: 400 700;
+	font-style: normal;
+	font-display: swap;
+}
+
 @theme inline {
 	--font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 	--font-mono: "JetBrains Mono NF", ui-monospace, monospace;
@@ -909,6 +918,274 @@
 }
 [data-accent="lavender"] {
 	--accent-surface: var(--lavender);
+}
+
+[data-style="futuristic"] {
+	--bw: 1px;
+	--bw-heavy: 3px;
+	--radius: 0px;
+	--control-radius: 2px;
+	--lift: 0px;
+	--press: 1px;
+	--fut-display:
+		"Pixelify Sans", "Montserrat", ui-sans-serif, system-ui, sans-serif;
+
+	/* One 4px Bayer checker, mixed from the accent in use. The header mark is a
+	   pre-dithered mask painted with that same variable, so a hue pick or a
+	   custom hex moves the mesh and the logo together without a runtime filter. */
+	--fut-dot: color-mix(in srgb, var(--accent-surface) 1%, transparent);
+	--fut-dot-deep: color-mix(in srgb, var(--accent-surface) 4%, transparent);
+	--fut-strip: color-mix(in srgb, var(--accent-surface) 55%, transparent);
+	--fut-frame: color-mix(in srgb, var(--accent-surface) 40%, var(--edge));
+	--fut-mesh: conic-gradient(
+		from 90deg,
+		var(--fut-dot) 0 25%,
+		transparent 0 50%,
+		var(--fut-dot) 0 75%,
+		transparent 0
+	);
+	--fut-ticks: repeating-linear-gradient(
+		90deg,
+		var(--fut-dot-deep) 0 1px,
+		transparent 1px 6px
+	);
+
+	/* Copy sits on the flat palette surface. The dither lives in chrome and
+	   panels, where it cannot move a measured text pair below AAA. */
+	--page-image: none;
+	--panel-image:
+		linear-gradient(180deg, var(--fut-strip), transparent), var(--fut-mesh);
+	--well-image: linear-gradient(transparent, transparent), var(--fut-mesh);
+	--plain-image: linear-gradient(transparent, transparent), var(--fut-mesh);
+	--button-image:
+		linear-gradient(180deg, var(--fut-strip), transparent), var(--fut-mesh);
+	--accent-image: none;
+
+	/* Frames are hairlines with one heavy cap, the way a panel is drawn in a
+	   schematic. Text still sits on the palette's own surfaces. */
+	--edge: color-mix(in srgb, var(--ink) 58%, var(--accent-surface));
+	--control-edge: var(--fut-frame);
+	--panel-edge: var(--bw) solid var(--fut-frame);
+	--panel-top-edge: var(--bw-heavy) solid var(--fut-frame);
+	--well-edge: var(--bw) solid var(--edge);
+	--button-edge: var(--bw) solid var(--fut-frame);
+	--hover-edge: var(--accent-surface);
+	--hover-fill: color-mix(in srgb, var(--mantle) 50%, var(--plain-surface));
+	--press-fill: var(--crust);
+	--card-hover-fill: color-mix(in srgb, var(--crust) 30%, var(--panel-surface));
+	--accent-hover-fill: var(--accent-surface);
+	--accent-press-fill: var(--accent-surface);
+
+	--shadow-hard: 2px 2px 0
+		color-mix(in srgb, var(--accent-surface) 28%, transparent);
+	--shadow-hard-lg: 3px 3px 0
+		color-mix(in srgb, var(--accent-surface) 36%, transparent);
+	--shadow-hard-sm: 1px 1px 0
+		color-mix(in srgb, var(--accent-surface) 25%, transparent);
+	--shadow-well: inset 0 0 0 1px color-mix(in srgb, var(--ink) 18%, transparent);
+	--input-shadow: var(--shadow-well);
+	--button-hover-shadow: 2px 2px 0
+		color-mix(in srgb, var(--accent-surface) 42%, transparent);
+	--button-press-shadow: none;
+	--label-shadow: none;
+	--backdrop: none;
+
+	/* A slim solid rail. A moving striped thumb re-rasterizes on every scroll
+	   frame and shimmers, so the dither stays off the scrollbar. */
+	--scrollbar-size: 10px;
+	--scrollbar-radius: 0px;
+	--scrollbar-thumb: var(--accent-surface);
+	--scrollbar-thumb-image: none;
+	--scrollbar-thumb-line: 2px solid transparent;
+	--scrollbar-track: var(--page-surface);
+}
+
+/* Every painted image here is a wash plus a 4px tile, so the same sizing works on the
+   page, on a nested preview, and on a small control. */
+[data-style="futuristic"]
+:is(
+	body,
+	.nb-page,
+	.nb-panel,
+	.nb-well,
+	.nb-fill,
+	.nb-button,
+	.nb-chip,
+	.nb-input
+) {
+	background-size:
+		100% 100%,
+		4px 4px;
+}
+
+/* The top wash is short on panels and controls: it reads as a lit edge, and
+   no glyph sits inside it. */
+[data-style="futuristic"] .nb-panel,
+[data-style="futuristic"] .nb-well {
+	background-size:
+		100% 6px,
+		4px 4px;
+	background-repeat: no-repeat, repeat;
+}
+
+[data-style="futuristic"] .nb-button {
+	background-size:
+		100% 3px,
+		4px 4px;
+	background-repeat: no-repeat, repeat;
+}
+
+/* The mark is dithered once in the asset and tinted here. It keeps the header's
+   original slot, so the wordmark beside it does not reflow. */
+[data-style="futuristic"] header.nb-chrome > div > a:first-child::before {
+	content: "";
+	width: 1.5rem;
+	height: 1.5rem;
+	flex: none;
+	background-color: var(--accent-surface);
+	-webkit-mask: url("/images/logo-dither.svg") center / contain no-repeat;
+	mask: url("/images/logo-dither.svg") center / contain no-repeat;
+}
+
+[data-style="futuristic"] header.nb-chrome > div > a:first-child img {
+	display: none;
+}
+
+@media (min-width: 40rem) {
+	[data-style="futuristic"] header.nb-chrome > div > a:first-child::before {
+		width: 1.75rem;
+		height: 1.75rem;
+	}
+}
+
+[data-style="futuristic"] header.nb-chrome {
+	box-shadow: inset 0 -1px 0 var(--fut-frame);
+}
+
+[data-style="futuristic"] header.nb-chrome nav a {
+	font-family: var(--font-mono);
+	font-size: 0.6875rem;
+	letter-spacing: 0.12em;
+}
+
+[data-style="futuristic"] header.nb-chrome nav a[aria-current="page"] {
+	text-decoration-color: var(--accent-surface);
+}
+
+[data-style="futuristic"] .nav-link::after {
+	background: var(--accent-surface);
+}
+
+/* The reading bar is a segmented data rail. */
+[data-style="futuristic"] header.nb-chrome > .relative {
+	height: 3px;
+	background-image: var(--fut-ticks);
+}
+
+[data-style="futuristic"] header.nb-chrome > .relative .bg-accent {
+	/* The shared bar scales this element to reveal progress. A scaled background
+	   would stretch the dot pitch, so clip a full-width fixed pattern instead. */
+	transform: none !important;
+	clip-path: inset(0 calc((1 - var(--progress, 0)) * 100%) 0 0);
+	background-image: repeating-linear-gradient(
+		90deg,
+		transparent 0 5px,
+		color-mix(in srgb, var(--on-accent) 55%, var(--accent-surface)) 5px 6px
+	);
+}
+
+/* One large instance of the same pre-dithered mark sits in the empty half of a
+   masthead. It is a signature field, not a texture under copy. */
+[data-style="futuristic"] .page-window::before {
+	content: "";
+	position: absolute;
+	top: 2.5rem;
+	right: 2rem;
+	width: min(20rem, 36vw);
+	max-width: calc(100% - 4rem);
+	height: calc(100% - 2.5rem);
+	max-height: 20rem;
+	background-color: var(--accent-surface);
+	-webkit-mask: url("/images/logo-dither.svg") center / contain no-repeat;
+	mask: url("/images/logo-dither.svg") center / contain no-repeat;
+	opacity: 0.14;
+	pointer-events: none;
+}
+
+@media (max-width: 47.99rem) {
+	[data-style="futuristic"] .page-window::before {
+		content: none;
+	}
+}
+
+/* A post masthead is only one grid column wide, so the field would sit under
+   its lead paragraph there. */
+[data-style="futuristic"] article .page-window::before {
+	content: none;
+}
+
+/* A masthead is a framed readout. Its registration marks sit outside the frame so no glyph crosses them. */
+[data-style="futuristic"] .page-window {
+	position: relative;
+	box-shadow:
+		inset 0 0 0 1px color-mix(in srgb, var(--accent-surface) 16%, transparent),
+		var(--shadow-hard);
+}
+
+[data-style="futuristic"] .page-window::after {
+	content: "";
+	position: absolute;
+	inset: -7px;
+	background:
+		linear-gradient(var(--fut-frame), var(--fut-frame)) left top / 14px 1px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) left top / 1px 14px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) right top / 14px 1px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) right top / 1px 14px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) left bottom / 14px 1px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) left bottom / 1px 14px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) right bottom / 14px 1px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) right bottom / 1px 14px
+		no-repeat;
+	opacity: 0.7;
+	pointer-events: none;
+}
+
+[data-style="futuristic"] :is(.text-label, .text-meta, .nb-chip) {
+	font-family: var(--font-mono);
+}
+
+[data-style="futuristic"] :is(.text-label, .text-meta) {
+	letter-spacing: 0.16em;
+}
+
+[data-style="futuristic"] :is(h1, h2, h3, h4, h5) {
+	letter-spacing: -0.045em;
+}
+
+/* The pixel face is a display cut: it carries the hero and page titles, and
+   the first two prose levels, where its grid reads as texture instead of noise.
+   Small labels stay on mono and body copy stays on Montserrat. */
+[data-style="futuristic"]
+:is(.text-display, .text-page-title, .prose-dbm :is(h2, h3)) {
+	font-family: var(--fut-display);
+	font-weight: 700;
+	letter-spacing: 0.01em;
+	line-height: 1.05;
+}
+
+[data-style="futuristic"] .nb-chip:not(.nb-accent):hover {
+	border-color: var(--accent-surface);
+}
+
+[data-style="futuristic"] footer.nb-line-t {
+	border-top-color: var(--fut-frame);
 }
 
 [data-style="flat"] {

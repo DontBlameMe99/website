@@ -21,7 +21,7 @@ const loaded = await Promise.all(
 describe("post registry", () => {
 	test("every post has metadata and sections", () => {
 		expect(Object.keys(postEntries).length).toBe(12);
-		for (const { slug, meta } of loaded) {
+		for (const { slug, meta, body } of loaded) {
 			expect(slug).toMatch(/^[a-z0-9_]+$/);
 			expect(meta.meta.title.length).toBeGreaterThan(0);
 			expect(meta.meta.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
@@ -29,7 +29,7 @@ describe("post registry", () => {
 			expect(meta.meta.tags.length).toBeGreaterThan(0);
 			expect(meta.meta.words).toBeGreaterThan(200);
 			expect(meta.meta.minutes).toBeGreaterThanOrEqual(1);
-			expect(meta.sections.length).toBeGreaterThan(0);
+			expect(body.sections.length).toBeGreaterThan(0);
 		}
 	});
 
@@ -40,10 +40,10 @@ describe("post registry", () => {
 	});
 
 	test("section ids are unique and stable", () => {
-		for (const { meta } of loaded) {
-			const ids = meta.sections.map((section) => section.id);
+		for (const { body } of loaded) {
+			const ids = body.sections.map((section) => section.id);
 			expect(new Set(ids).size).toBe(ids.length);
-			for (const section of meta.sections) {
+			for (const section of body.sections) {
 				expect(section.id).toBe(slugify(section.id));
 				expect([2, 3, 4, 5]).toContain(section.level);
 			}
@@ -84,8 +84,12 @@ describe("post sources", () => {
 		for (const file of metaFiles) {
 			const source = readFileSync(join(dir, file), "utf8");
 			expect(source).toContain("export const meta =");
-			expect(source).toContain("export const sections");
+			expect(source).not.toContain("export const sections");
 			expect(source).not.toContain("export default");
+		}
+		for (const file of bodyFiles) {
+			const source = readFileSync(join(dir, file), "utf8");
+			expect(source).toContain("export const sections");
 		}
 	});
 

@@ -1,5 +1,6 @@
-import Body from "~/content/posts/the_perfect_productivity_system";
-import { sections } from "~/content/posts/the_perfect_productivity_system.meta";
+import Body, {
+	sections,
+} from "~/content/posts/the_perfect_productivity_system";
 import { PostPage, postMeta } from "~/routes/blog/post";
 
 export const meta = postMeta("the_perfect_productivity_system");

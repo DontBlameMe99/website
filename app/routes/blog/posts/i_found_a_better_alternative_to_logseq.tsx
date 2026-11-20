@@ -1,5 +1,6 @@
-import Body from "~/content/posts/i_found_a_better_alternative_to_logseq";
-import { sections } from "~/content/posts/i_found_a_better_alternative_to_logseq.meta";
+import Body, {
+	sections,
+} from "~/content/posts/i_found_a_better_alternative_to_logseq";
 import { PostPage, postMeta } from "~/routes/blog/post";
 
 export const meta = postMeta("i_found_a_better_alternative_to_logseq");

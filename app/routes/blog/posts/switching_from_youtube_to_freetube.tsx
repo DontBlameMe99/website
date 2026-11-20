@@ -1,5 +1,6 @@
-import Body from "~/content/posts/switching_from_youtube_to_freetube";
-import { sections } from "~/content/posts/switching_from_youtube_to_freetube.meta";
+import Body, {
+	sections,
+} from "~/content/posts/switching_from_youtube_to_freetube";
 import { PostPage, postMeta } from "~/routes/blog/post";
 
 export const meta = postMeta("switching_from_youtube_to_freetube");

@@ -129,6 +129,7 @@ export function PostPage({
 	const { previous, next } = neighbours(post.slug);
 	const ids = useMemo(() => sections.map((section) => section.id), [sections]);
 	const active = useActiveHeading(ids);
+	const body = useMemo(() => <Body />, [Body]);
 
 	return (
 		<MotionConfig reducedMotion="user">
@@ -190,9 +191,7 @@ export function PostPage({
 							/>
 						</details>
 
-						<div className="mt-14">
-							<Body />
-						</div>
+						<div className="mt-14">{body}</div>
 
 						<PostNav previous={previous} next={next} />
 

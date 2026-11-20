@@ -1,3 +1,4 @@
+import type { Section } from "~/lib/post_types";
 import { PostHeading, Prose } from "~/components/post/prose";
 import { SystemFlow } from "~/content/experiences/the_perfect_productivity_system";
 
@@ -356,3 +357,29 @@ export default function Post() {
 		</Prose>
 	);
 }
+
+export const sections: Section[] = [
+	{ id: "introduction", text: "Introduction", level: 2 },
+	{
+		id: "what-is-the-perfect-productivity-system",
+		text: "What is the Perfect Productivity System?",
+		level: 2,
+	},
+	{
+		id: "the-productivity-system-treadmill",
+		text: "The Productivity System Treadmill",
+		level: 2,
+	},
+	{
+		id: "so-a-system-for-note-taking-is-useless",
+		text: "So a System for Note-Taking Is Useless?",
+		level: 2,
+	},
+	{ id: "what-do-you-need", text: "What Do You Need?", level: 2 },
+	{
+		id: "but-when-do-i-actually-need-a-new-setup-plugin",
+		text: "But When Do I Actually Need a New Setup/Plugin?",
+		level: 2,
+	},
+	{ id: "conclusion", text: "Conclusion", level: 2 },
+];

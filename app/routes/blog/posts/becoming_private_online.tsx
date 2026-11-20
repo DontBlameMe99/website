@@ -1,5 +1,4 @@
-import Body from "~/content/posts/becoming_private_online";
-import { sections } from "~/content/posts/becoming_private_online.meta";
+import Body, { sections } from "~/content/posts/becoming_private_online";
 import { PostPage, postMeta } from "~/routes/blog/post";
 
 export const meta = postMeta("becoming_private_online");

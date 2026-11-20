@@ -1,3 +1,4 @@
+import type { Section } from "~/lib/post_types";
 import { CodeBlock } from "~/components/post/code_block";
 import { PostHeading, Prose } from "~/components/post/prose";
 import {
@@ -361,3 +362,23 @@ programs.borgmatic = { # Everything in here is for the borgmatic program
 		</Prose>
 	);
 }
+
+export const sections: Section[] = [
+	{ id: "what-are-backups", text: "What Are Backups", level: 2 },
+	{ id: "a-little-story", text: "A Little Story", level: 2 },
+	{ id: "3-2-1-rule", text: "3-2-1 Rule", level: 2 },
+	{
+		id: "i-interpret-it-a-little-bit",
+		text: "I Interpret It a Little Bit",
+		level: 3,
+	},
+	{ id: "my-old-setup", text: "My Old Setup", level: 2 },
+	{ id: "my-new-setup", text: "My New Setup", level: 2 },
+	{ id: "what-is-borgmatic", text: "What Is Borgmatic?", level: 3 },
+	{
+		id: "is-the-remote-backup-encrypted-though",
+		text: "Is the Remote Backup Encrypted, Though?",
+		level: 3,
+	},
+	{ id: "closing-words", text: "Closing Words", level: 2 },
+];

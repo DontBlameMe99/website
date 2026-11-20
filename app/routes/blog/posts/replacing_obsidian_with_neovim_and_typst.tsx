@@ -1,5 +1,6 @@
-import Body from "~/content/posts/replacing_obsidian_with_neovim_and_typst";
-import { sections } from "~/content/posts/replacing_obsidian_with_neovim_and_typst.meta";
+import Body, {
+	sections,
+} from "~/content/posts/replacing_obsidian_with_neovim_and_typst";
 import { PostPage, postMeta } from "~/routes/blog/post";
 
 export const meta = postMeta("replacing_obsidian_with_neovim_and_typst");

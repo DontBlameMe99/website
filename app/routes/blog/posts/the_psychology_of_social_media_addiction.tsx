@@ -1,5 +1,6 @@
-import Body from "~/content/posts/the_psychology_of_social_media_addiction";
-import { sections } from "~/content/posts/the_psychology_of_social_media_addiction.meta";
+import Body, {
+	sections,
+} from "~/content/posts/the_psychology_of_social_media_addiction";
 import { PostPage, postMeta } from "~/routes/blog/post";
 
 export const meta = postMeta("the_psychology_of_social_media_addiction");

@@ -40,7 +40,7 @@ export function SiteHeader() {
 						<NavLink
 							key={item.to}
 							to={item.to}
-							prefetch="render"
+							prefetch="intent"
 							className={linkClass}
 						>
 							{item.label}

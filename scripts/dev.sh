@@ -137,15 +137,16 @@ start() {
 	# worktree cannot hold a slot forever. exec keeps the pid equal to the server's.
 	setsid bash -c '
 		if [ -e "$1/.git" ]; then
-			( while [ -e "$1/.git" ] && kill -0 $$; do sleep "$4"; done; kill -TERM 0 ) &
+			( while [ -e "$1/.git" ] && kill -0 $$; do sleep "$4"; done; kill -TERM 0 ) 10>&- &
 		else
 			echo "dev: no .git under $1, this server will not stop itself." >&2
 		fi
-		( sleep "$5"; kill -TERM -- -$$ 2>/dev/null || kill -TERM $$ 2>/dev/null || true; sleep 10; kill -KILL -- -$$ 2>/dev/null || kill -KILL $$ 2>/dev/null || true ) &
+		( trap "" TERM; sleep "$5"; kill -TERM -- -$$ 2>/dev/null || kill -TERM $$ 2>/dev/null || true; for _ in $(seq 1 50); do kill -0 $$ 2>/dev/null || exit 0; sleep 0.2; done; kill -KILL -- -$$ 2>/dev/null || kill -KILL $$ 2>/dev/null || true ) 10>&- &
 		exec env NODE_ENV=development "$2" dev --host 127.0.0.1 --port "$3" --strictPort
 	' _ "$root" "$server_bin" "$port" "$poll_seconds" "$server_ttl" \
 		>"$log_file" 2>&1 </dev/null &
 	local pid=$!
+	exec 10>&-
 	printf '%s\n' "$pid" >"$pid_file"
 	printf '%s\n' "$port" >"$port_file"
 

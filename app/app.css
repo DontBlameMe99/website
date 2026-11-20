@@ -1883,14 +1883,17 @@
 }
 
 [data-style="skeuomorphic"] {
-	/* Shape: molded corners, a 2px seam, and two pixels of travel under a
-	   press. Height comes from a bevel that hugs the edge plus a shadow
-	   underneath, so no glyph ever sits on a highlight. */
+	/* A milled plate: tight corners on controls, a wider one on panels, a
+	   2px lift and a 3px recess under a press. Rivets and the lit top lip are
+	   drawn by the rules below, not carried by tokens. */
 	--bw: 2px;
 	--bw-heavy: 8px;
-	--radius: 12px;
-	--lift: -1px;
-	--press: 2px;
+	--radius: 8px;
+	--control-radius: 5px;
+	--panel-radius: 14px;
+	--well-radius: 7px;
+	--lift: -2px;
+	--press: 3px;
 
 	/* A seam is a shade of the surface, not a drawn line. */
 	--edge: light-dark(
@@ -1962,13 +1965,9 @@
 		inset 0 -2px 0
 		light-dark(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.14));
 	--button-press-shadow:
-		inset 0 3px 7px light-dark(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.65)),
-		inset 0 1px 0 light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.5)),
-		0 2px 0
-		light-dark(
-			color-mix(in srgb, var(--crust) 40%, #000),
-			color-mix(in srgb, var(--base) 45%, var(--crust))
-		);
+		inset 0 4px 9px light-dark(rgba(0, 0, 0, 0.26), rgba(0, 0, 0, 0.7)),
+		inset 0 -1px 0
+		light-dark(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
 
 	/* Fills curve away from the light. The panel and control bodies only darken
 	   toward the floor and their shine lives in the first few pixels of the
@@ -1979,13 +1978,21 @@
 		light-dark(rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.3)),
 		transparent 62%
 	);
-	--panel-image: linear-gradient(
-		180deg,
-		light-dark(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4)) 0,
-		light-dark(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08)) 6px,
-		light-dark(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)) 14px,
-		light-dark(rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.28)) 100%
-	);
+	--panel-image:
+		linear-gradient(
+			180deg,
+			light-dark(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4)) 0,
+			light-dark(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08)) 6px,
+			light-dark(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)) 14px,
+			light-dark(rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.28)) 100%
+		),
+		/* Brushed grain at the lit lip only. It leans toward the scheme's ink,
+		   so it cannot lower the contrast of any label. */
+		repeating-linear-gradient(
+			90deg,
+			color-mix(in srgb, var(--ink) 2.5%, transparent) 0 1px,
+			transparent 1px 4px
+		);
 	--well-image: light-dark(
 		linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 55%),
 		linear-gradient(180deg, rgba(0, 0, 0, 0.08), transparent 55%)
@@ -2030,6 +2037,504 @@
 	--scrollbar-track: var(--well-surface);
 	--scrollbar-track-shadow: inset 0 2px 4px
 		light-dark(rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.45));
+}
+
+/* --- Skeuomorphic, past the tokens ---------------------------------------
+
+   The page is one assembled instrument. The header is a rail of keys, each
+   masthead is a bolted nameplate, and cards are milled modules. Structural
+   rules stop at a nested [data-style] border so the style previews on /theme
+   keep their own shape. */
+
+[data-style="skeuomorphic"] .nb-panel:not([data-style] [data-style] *),
+[data-style="skeuomorphic"] .page-window:not([data-style] [data-style] *) {
+	background-size:
+		100% 100%,
+		100% 14px;
+	background-repeat: no-repeat, no-repeat;
+}
+
+/* The header rail. A fine grain lives in the rail's top lip, away from copy,
+   and the reading bar sits in a channel cut through the lower edge. */
+[data-style="skeuomorphic"] header.nb-chrome:not([data-style] [data-style] *) {
+	background-image:
+		linear-gradient(
+			180deg,
+			light-dark(rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.18)),
+			transparent 55%
+		),
+		repeating-linear-gradient(
+			90deg,
+			color-mix(in srgb, var(--ink) 2%, transparent) 0 1px,
+			transparent 1px 4px
+		);
+	background-size:
+		100% 100%,
+		100% 10px;
+	background-repeat: no-repeat, no-repeat;
+	box-shadow:
+		inset 0 2px 0
+		light-dark(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.35)),
+		inset 0 -2px 0 light-dark(rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.6)),
+		0 6px 16px -8px light-dark(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.85));
+}
+
+[data-style="skeuomorphic"]
+	header.nb-chrome
+	> div
+	> a:first-child:not([data-style] [data-style] *) {
+	margin-left: -0.45rem;
+	padding: 0.2rem 0.45rem;
+	border: 1px solid var(--edge);
+	border-radius: var(--control-radius);
+	background-color: var(--plain-surface);
+	background-image: var(--plain-image);
+	box-shadow: var(--shadow-hard-sm);
+	text-shadow: var(--label-shadow);
+}
+
+[data-style="skeuomorphic"] header.nb-chrome button.nb-button {
+	width: 2.25rem;
+	height: 2.25rem;
+	border-radius: 999px;
+}
+
+/* The links are separate keys seated in one recessed strip. The active key is
+   the one already pushed in, so navigation reads as a physical state. */
+[data-style="skeuomorphic"] header.nb-chrome nav {
+	gap: 4px;
+	padding: 4px;
+	border-radius: var(--well-radius);
+	background-color: var(--well-surface);
+	background-image: var(--well-image);
+	box-shadow: var(--shadow-well);
+}
+
+[data-style="skeuomorphic"] header.nb-chrome nav a {
+	min-height: 1.875rem;
+	padding: 0.2rem 0.5rem;
+	border: 1px solid var(--control-edge);
+	border-radius: 4px;
+	background-color: var(--button-surface);
+	background-image: var(--button-image);
+	box-shadow: var(--shadow-hard-sm);
+	color: var(--subtext0);
+	font-size: 0.625rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-decoration: none;
+	transition:
+		transform var(--motion-quick) ease-out,
+		box-shadow var(--motion-quick) ease-out,
+		background-color var(--motion-quick) ease-out,
+		color var(--motion-quick) ease-out;
+}
+
+[data-style="skeuomorphic"] header.nb-chrome .nav-link::after {
+	content: none;
+}
+
+[data-style="skeuomorphic"] header.nb-chrome nav a[aria-current="page"] {
+	transform: translateY(1px);
+	background-color: var(--press-fill);
+	color: var(--text);
+	box-shadow: var(--button-press-shadow);
+	text-shadow: none;
+}
+
+@media (hover: hover) {
+	[data-style="skeuomorphic"]
+		header.nb-chrome
+		nav
+		a:not([aria-current="page"]):hover {
+		transform: translateY(-1px);
+		background-color: var(--hover-fill);
+		color: var(--text);
+		box-shadow: var(--button-hover-shadow);
+	}
+
+	[data-style="skeuomorphic"]
+		header.nb-chrome
+		nav
+		a:not([aria-current="page"]):active {
+		transform: translateY(1px);
+		box-shadow: var(--button-press-shadow);
+	}
+}
+
+/* Three recessed indicator lamps, already in the markup as aria-hidden
+   chrome. They show on the masthead at every width, on the header only when
+   the bar has room. */
+[data-style="skeuomorphic"] .win-controls {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+[data-style="skeuomorphic"] .win-controls > span {
+	width: 6px;
+	height: 6px;
+	border-radius: 999px;
+	background-color: var(--well-surface);
+	box-shadow:
+		inset 0 1px 2px light-dark(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)),
+		0 1px 0 light-dark(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.24));
+}
+
+@media (max-width: 39.99rem) {
+	[data-style="skeuomorphic"] header.nb-chrome .win-controls {
+		display: none;
+	}
+}
+
+[data-style="skeuomorphic"] header.nb-chrome > .relative {
+	height: 5px;
+	background-color: var(--well-surface);
+	box-shadow:
+		inset 0 1px 3px light-dark(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.75)),
+		inset 0 -1px 0
+		light-dark(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.16));
+}
+
+[data-style="skeuomorphic"] header.nb-chrome > .relative .bg-accent {
+	background-image: repeating-linear-gradient(
+		90deg,
+		color-mix(in srgb, var(--on-accent) 45%, transparent) 0 1px,
+		transparent 1px 5px
+	);
+}
+
+/* A bolted nameplate with a recessed label strip. The h1 sits proud of its
+   face; the small row above it is the only recessed part of the plate. */
+[data-style="skeuomorphic"] .page-window:not([data-style] [data-style] *) {
+	position: relative;
+	isolation: isolate;
+	padding: 1.15rem clamp(1rem, 2vw, 1.75rem) 1.9rem;
+	border: var(--panel-edge);
+	border-top: var(--panel-top-edge);
+	border-radius: var(--panel-radius);
+	background-color: var(--panel-surface);
+	background-image: var(--panel-image);
+	box-shadow: var(--shadow-hard-lg);
+}
+
+[data-style="skeuomorphic"]
+	.page-window:not([data-style] [data-style] *)::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	inset: 7px;
+	border-radius: calc(var(--panel-radius) - 5px);
+	pointer-events: none;
+	background-image:
+		radial-gradient(
+			circle at 12px 12px,
+			color-mix(in srgb, var(--ink) 42%, var(--crust)) 0 2px,
+			color-mix(in srgb, var(--ink) 16%, var(--base)) 2px 3px,
+			transparent 3px
+		),
+		radial-gradient(
+			circle at calc(100% - 12px) 12px,
+			color-mix(in srgb, var(--ink) 42%, var(--crust)) 0 2px,
+			color-mix(in srgb, var(--ink) 16%, var(--base)) 2px 3px,
+			transparent 3px
+		),
+		radial-gradient(
+			circle at 12px calc(100% - 12px),
+			color-mix(in srgb, var(--ink) 42%, var(--crust)) 0 2px,
+			color-mix(in srgb, var(--ink) 16%, var(--base)) 2px 3px,
+			transparent 3px
+		),
+		radial-gradient(
+			circle at calc(100% - 12px) calc(100% - 12px),
+			color-mix(in srgb, var(--ink) 42%, var(--crust)) 0 2px,
+			color-mix(in srgb, var(--ink) 16%, var(--base)) 2px 3px,
+			transparent 3px
+		);
+	opacity: 0.8;
+}
+
+[data-style="skeuomorphic"]
+	.page-window:not([data-style] [data-style] *)::after {
+	content: "";
+	position: absolute;
+	left: 1.5rem;
+	right: 1.5rem;
+	bottom: 8px;
+	height: 2px;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		color-mix(in srgb, var(--ink) 18%, transparent) 12% 88%,
+		transparent
+	);
+	box-shadow: 0 1px 0
+		light-dark(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.14));
+	pointer-events: none;
+}
+
+[data-style="skeuomorphic"]
+	.page-window:not([data-style] [data-style] *)
+	> div:first-child {
+	margin: -0.35rem -0.5rem 0;
+	padding: 0.35rem 0.5rem;
+	border-radius: var(--well-radius);
+	background-color: var(--well-surface);
+	background-image: var(--well-image);
+	box-shadow: var(--shadow-well);
+}
+
+[data-style="skeuomorphic"] .page-window:not([data-style] [data-style] *) h1 {
+	margin-top: 2.1rem;
+	letter-spacing: -0.055em;
+	text-shadow: var(--label-shadow);
+}
+
+[data-style="skeuomorphic"]
+	.page-window:not([data-style] [data-style] *)
+	.text-lead {
+	margin-top: 1.35rem;
+}
+
+[data-style="skeuomorphic"] .text-display {
+	font-size: clamp(2rem, 7vw, 4.75rem);
+	line-height: 0.94;
+}
+
+/* Small section labels are stamped plaques, not floating text. */
+[data-style="skeuomorphic"] :is(h2, p).nb-line-b {
+	display: inline-flex;
+	align-items: center;
+	margin-bottom: 1rem;
+	padding: 0.25rem 0.5rem;
+	border-bottom: 0;
+	border-radius: 4px;
+	background-color: var(--plain-surface);
+	background-image: var(--plain-image);
+	box-shadow: var(--shadow-hard-sm);
+	font-size: 0.625rem;
+	letter-spacing: 0.16em;
+}
+
+[data-style="skeuomorphic"] .text-label {
+	font-size: 0.625rem;
+	letter-spacing: 0.16em;
+}
+
+/* A writing row is a key in a slot: the label presses into a fill on hover. */
+[data-style="skeuomorphic"] main ul > li.nb-line-b {
+	border-bottom-color: color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+[data-style="skeuomorphic"] main .group.grid {
+	border-radius: var(--control-radius);
+	transition:
+		background-color var(--motion-quick) ease-out,
+		box-shadow var(--motion-quick) ease-out;
+}
+
+@media (hover: hover) {
+	[data-style="skeuomorphic"] main .group.grid:hover {
+		background-color: var(--hover-fill);
+		box-shadow: inset 0 1px 0
+			light-dark(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.16));
+	}
+}
+
+/* Every card is a milled module with four recessed rivets in its corners. */
+[data-style="skeuomorphic"] .nb-panel:not([data-style] [data-style] *) {
+	position: relative;
+	isolation: isolate;
+	border-radius: var(--panel-radius);
+}
+
+[data-style="skeuomorphic"] .nb-panel.nb-lift:not([data-style] [data-style] *) {
+	padding: 1.5rem;
+	transition-timing-function: cubic-bezier(0.2, 0.85, 0.25, 1);
+}
+
+[data-style="skeuomorphic"] .nb-panel:not([data-style] [data-style] *)::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	inset: 7px;
+	border-radius: calc(var(--panel-radius) - 5px);
+	pointer-events: none;
+	background-image:
+		radial-gradient(
+			circle at 9px 9px,
+			color-mix(in srgb, var(--ink) 42%, var(--crust)) 0 1.5px,
+			color-mix(in srgb, var(--ink) 16%, var(--base)) 1.5px 2.5px,
+			transparent 2.5px
+		),
+		radial-gradient(
+			circle at calc(100% - 9px) 9px,
+			color-mix(in srgb, var(--ink) 42%, var(--crust)) 0 1.5px,
+			color-mix(in srgb, var(--ink) 16%, var(--base)) 1.5px 2.5px,
+			transparent 2.5px
+		),
+		radial-gradient(
+			circle at 9px calc(100% - 9px),
+			color-mix(in srgb, var(--ink) 42%, var(--crust)) 0 1.5px,
+			color-mix(in srgb, var(--ink) 16%, var(--base)) 1.5px 2.5px,
+			transparent 2.5px
+		),
+		radial-gradient(
+			circle at calc(100% - 9px) calc(100% - 9px),
+			color-mix(in srgb, var(--ink) 42%, var(--crust)) 0 1.5px,
+			color-mix(in srgb, var(--ink) 16%, var(--base)) 1.5px 2.5px,
+			transparent 2.5px
+		);
+	opacity: 0.75;
+}
+
+/* The project cards already track the pointer. In this style that sheen is a
+   narrow specular strip along the top bevel, not a wash over the copy. */
+[data-style="skeuomorphic"] .nb-spot:not([data-style] [data-style] *)::after {
+	display: block;
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--ink) 3%, transparent),
+		transparent 30%
+	);
+}
+
+/* Controls: a bright edge at the top, a deep seat on press, and a short,
+   slightly overshooting ease so a click feels like a mechanism closing. */
+[data-style="skeuomorphic"] .nb-button:not([data-style] [data-style] *) {
+	position: relative;
+	padding: 0.5rem 0.9rem;
+	border-radius: var(--control-radius);
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.035em;
+	transition-timing-function: cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+
+[data-style="skeuomorphic"]
+	.nb-button:not([data-style] [data-style] *)::before {
+	content: "";
+	position: absolute;
+	top: 2px;
+	left: 5px;
+	right: 5px;
+	height: 1px;
+	border-radius: 1px;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		light-dark(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.55)),
+		transparent
+	);
+	pointer-events: none;
+}
+
+[data-style="skeuomorphic"]
+	.nb-button:not([data-style] [data-style] *):active::before {
+	opacity: 0.2;
+	transform: translateY(1px);
+}
+
+[data-style="skeuomorphic"] .nb-chip:not([data-style] [data-style] *) {
+	border-radius: var(--control-radius);
+	box-shadow:
+		inset 0 1px 0
+		light-dark(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.3)),
+		0 1px 0 light-dark(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.55));
+	font-weight: 700;
+	letter-spacing: 0.08em;
+}
+
+[data-style="skeuomorphic"]
+	.nb-chip.nb-accent:not([data-style] [data-style] *) {
+	box-shadow:
+		inset 0 1px 0
+		light-dark(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.18)),
+		var(--shadow-hard-sm);
+}
+
+[data-style="skeuomorphic"] .nb-input:not([data-style] [data-style] *) {
+	min-height: 2.625rem;
+	border-radius: var(--control-radius);
+}
+
+[data-style="skeuomorphic"] .search-field:focus-within {
+	box-shadow:
+		var(--shadow-well),
+		0 0 0 1px var(--accent-surface);
+}
+
+/* The footer is the plinth the plates sit on. */
+[data-style="skeuomorphic"] footer.nb-line-t {
+	border-top: 0;
+	background-color: color-mix(in srgb, var(--crust) 50%, var(--page-surface));
+	background-image: repeating-linear-gradient(
+		90deg,
+		color-mix(in srgb, var(--ink) 18%, transparent) 0 1px,
+		transparent 1px 5px
+	);
+	background-size: 100% 3px;
+	background-repeat: no-repeat;
+	box-shadow:
+		inset 0 3px 0 light-dark(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.55)),
+		inset 0 5px 0
+		light-dark(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.14));
+}
+
+/* Reading surface: the number badge is a stamped tag and code lives in a
+   recessed bay with a machined toolbar. */
+[data-style="skeuomorphic"] .prose-dbm h2:not([data-style] [data-style] *) {
+	border-top-color: color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+[data-style="skeuomorphic"] .prose-dbm h2::before {
+	border-radius: 4px;
+	text-shadow: var(--label-shadow);
+}
+
+[data-style="skeuomorphic"]
+	.prose-dbm
+	.code-block:not([data-style] [data-style] *) {
+	border-radius: var(--panel-radius);
+	background-color: var(--well-surface);
+	background-image: var(--well-image);
+	box-shadow: var(--shadow-hard);
+	overflow: hidden;
+}
+
+[data-style="skeuomorphic"] .prose-dbm .code-block__bar {
+	padding: 0.55rem 0.8rem;
+	background-color: var(--plain-surface);
+	background-image: var(--plain-image);
+}
+
+[data-style="skeuomorphic"] .prose-dbm .code-block__copy {
+	border-radius: var(--control-radius);
+	box-shadow: var(--shadow-hard-sm);
+	font-size: 0.625rem;
+	letter-spacing: 0.12em;
+}
+
+[data-style="skeuomorphic"] .prose-dbm figure img {
+	border-radius: 6px;
+}
+
+[data-style="skeuomorphic"] .prose-dbm figcaption {
+	padding-left: 0.75rem;
+	border-left: 3px solid var(--edge);
+}
+
+/* The style option's own preview is nested beneath a second data-style, so it
+   gets the same milled details spelled out here. */
+[data-style="skeuomorphic"].nb-well > .nb-panel {
+	padding: 0.5rem;
+	border-radius: var(--panel-radius);
+	box-shadow: var(--shadow-hard-sm);
+}
+
+[data-style="skeuomorphic"].nb-well .nb-button,
+[data-style="skeuomorphic"].nb-well .nb-chip {
+	border-radius: var(--control-radius);
 }
 
 [data-style="material"] {

@@ -1901,16 +1901,18 @@
 		color-mix(in srgb, var(--crust) 45%, #000)
 	);
 
-	/* Body copy sits closer to the main ink than in the flat styles. The
-	   molded surfaces can then carry their bevels without nudging a label
-	   below AAA in any scheme. */
-	--subtext1: color-mix(in srgb, var(--subtext1-base) 45%, var(--ink));
-	--subtext0: color-mix(in srgb, var(--subtext0-base) 45%, var(--ink));
+	/* Every muted step sits closer to the main ink than in the flat styles.
+	   Raised bevels and translucent figure fills can then carry their light
+	   without nudging a label below AAA. */
+	--subtext1: color-mix(in srgb, var(--subtext1-base) 30%, var(--ink));
+	--subtext0: color-mix(in srgb, var(--subtext0-base) 30%, var(--ink));
+	--overlay2: color-mix(in srgb, var(--overlay2-base) 30%, var(--ink));
+	--overlay1: color-mix(in srgb, var(--overlay1-base) 30%, var(--ink));
 
 	/* The page is the material the surfaces sit on, so a dark page goes
 	   darker than the palette's own crust and a light one lifts toward paper. */
 	--page-surface: light-dark(
-		color-mix(in srgb, var(--crust) 55%, #fff),
+		color-mix(in srgb, var(--crust) 25%, #fff),
 		color-mix(in srgb, var(--crust) 55%, #000)
 	);
 
@@ -2335,6 +2337,34 @@
 [data-style="skeuomorphic"] .text-label {
 	font-size: 0.625rem;
 	letter-spacing: 0.16em;
+}
+
+/* Light pages push every ink step toward the scheme's dark line ink. Dark
+   pages keep the palette values, where they already clear AAA. */
+[data-style="skeuomorphic"] .text-text:not(.nb-accent) {
+	color: light-dark(
+		color-mix(in srgb, var(--text) 30%, var(--ink)),
+		var(--text)
+	);
+}
+
+/* Accent-colored bullets and code keywords need the same step. The accent
+   fill itself stays untouched, so picked hues and on-accent ink still work. */
+[data-style="skeuomorphic"] .prose-dbm .tok-keyword,
+[data-style="skeuomorphic"] .prose-dbm ul > li::before {
+	color: light-dark(
+		color-mix(in srgb, var(--accent-surface) 75%, var(--ink)),
+		var(--accent-surface)
+	);
+}
+
+/* Post figures tint a translucent surface0 panel. In this style that panel
+   lifts toward paper instead of sinking into the page. */
+[data-style="skeuomorphic"] [class~="bg-surface0/30"] {
+	background-color: light-dark(
+		color-mix(in srgb, var(--surface0) 25%, #fff),
+		color-mix(in srgb, var(--surface0) 30%, transparent)
+	);
 }
 
 /* A writing row is a key in a slot: the label presses into a fill on hover. */

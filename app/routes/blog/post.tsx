@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, ArrowUp, Clock, Type } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock, Type } from "lucide-react";
 import { MotionConfig, motion } from "motion/react";
 import { type ComponentType, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router";
@@ -230,19 +230,10 @@ export function PostPage({
 
 						<PostNav previous={previous} next={next} />
 
-						<div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
-							<Link to="/blog" prefetch="intent" className="nb-button">
-								<ArrowLeft className="icon-nudge-left size-4" />
-								All writing
-							</Link>
-							<a
-								href="#main-content"
-								className="inline-flex items-center gap-1 text-meta uppercase tracking-[0.12em] hover:text-accent"
-							>
-								Back to top
-								<ArrowUp aria-hidden="true" className="icon-nudge-up size-3" />
-							</a>
-						</div>
+						<Link to="/blog" prefetch="intent" className="nb-button mt-10">
+							<ArrowLeft className="icon-nudge-left size-4" />
+							All writing
+						</Link>
 					</div>
 
 					<aside className="hidden min-w-0 lg:sticky lg:top-24 lg:block lg:self-start">

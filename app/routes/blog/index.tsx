@@ -33,7 +33,7 @@ function TagChip({
 			className={cn(
 				"nb-chip transition-colors",
 				selected
-					? "bg-accent text-on-accent"
+					? "nb-accent"
 					: "text-subtext0 hover:bg-surface0 hover:text-text",
 			)}
 		>

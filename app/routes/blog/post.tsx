@@ -80,11 +80,19 @@ function Toc({
 	onNavigate?: () => void;
 }) {
 	const activeRef = useRef<HTMLAnchorElement>(null);
+	const navRef = useRef<HTMLElement>(null);
 
 	useEffect(() => {
 		const reveal = () => {
-			if (!active || !window.matchMedia("(min-width: 1024px)").matches) return;
-			activeRef.current?.scrollIntoView({ block: "nearest" });
+			const nav = navRef.current;
+			const link = activeRef.current;
+			if (!nav || !link || !window.matchMedia("(min-width: 1024px)").matches)
+				return;
+			const box = nav.getBoundingClientRect();
+			const item = link.getBoundingClientRect();
+			if (item.top < box.top) nav.scrollTop -= box.top - item.top;
+			else if (item.bottom > box.bottom)
+				nav.scrollTop += item.bottom - box.bottom;
 		};
 
 		reveal();
@@ -92,7 +100,12 @@ function Toc({
 		return () => window.removeEventListener("resize", reveal);
 	}, [active]);
 	return (
-		<motion.nav layoutScroll aria-label="On this page" className={className}>
+		<motion.nav
+			ref={navRef}
+			layoutScroll
+			aria-label="On this page"
+			className={className}
+		>
 			<ul className="[&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-b-rule [&>li]:rounded-none">
 				{sections.map((section) => (
 					<li key={section.id} className="relative">

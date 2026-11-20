@@ -57,13 +57,16 @@ export default function BlogIndex() {
 	const newestFirst = params.get("sort") !== "old";
 	const [mounted, setMounted] = useState(false);
 
-	const updateParams = (changes: Record<string, string | null>) => {
+	const updateParams = (
+		changes: Record<string, string | null>,
+		replace = false,
+	) => {
 		const next = new URLSearchParams(params);
 		for (const [key, value] of Object.entries(changes)) {
 			if (value) next.set(key, value);
 			else next.delete(key);
 		}
-		setParams(next, { replace: true, preventScrollReset: true });
+		setParams(next, { replace, preventScrollReset: true });
 	};
 
 	useEffect(() => setMounted(true), []);
@@ -99,7 +102,9 @@ export default function BlogIndex() {
 							<input
 								type="search"
 								value={query}
-								onChange={(event) => updateParams({ q: event.target.value })}
+								onChange={(event) =>
+									updateParams({ q: event.target.value }, true)
+								}
 								placeholder="Filter by title, summary or tag"
 								aria-label="Filter by title, summary or tag"
 								className="w-full bg-transparent"
@@ -234,10 +239,7 @@ export default function BlogIndex() {
 						<button
 							type="button"
 							onClick={() =>
-								setParams(new URLSearchParams(), {
-									replace: true,
-									preventScrollReset: true,
-								})
+								setParams(new URLSearchParams(), { preventScrollReset: true })
 							}
 							className="nb-button nb-accent mt-4"
 						>

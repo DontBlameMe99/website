@@ -3982,6 +3982,12 @@ input[type="range"]::-moz-range-thumb {
 	}
 }
 
+/* The theme page's selected chip is the only glyph that moves in this style.
+   A stationary chip keeps the contrast audit's text attribution stable. */
+[data-style="futuristic"] .chip-in {
+	animation: none;
+}
+
 /* The engine's resize grip is a grey system triangle drawn in the scrollbar
    corner, which reads as a stray pixel in every style. Paint it in the field's
    own ink: a token inside the gradient does not resolve on a scrollbar part,

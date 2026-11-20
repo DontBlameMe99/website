@@ -1002,17 +1002,18 @@
 
 /* Every painted image here is a wash plus a 4px tile, so the same sizing works on the
    page, on a nested preview, and on a small control. */
+[data-style="futuristic"],
 [data-style="futuristic"]
-:is(
-	body,
-	.nb-page,
-	.nb-panel,
-	.nb-well,
-	.nb-fill,
-	.nb-button,
-	.nb-chip,
-	.nb-input
-) {
+	:is(
+		body,
+		.nb-page,
+		.nb-panel,
+		.nb-well,
+		.nb-fill,
+		.nb-button,
+		.nb-chip,
+		.nb-input
+	) {
 	background-size:
 		100% 100%,
 		4px 4px;
@@ -1020,6 +1021,8 @@
 
 /* The top wash is short on panels and controls: it reads as a lit edge, and
    no glyph sits inside it. */
+[data-style="futuristic"].nb-panel,
+[data-style="futuristic"].nb-well,
 [data-style="futuristic"] .nb-panel,
 [data-style="futuristic"] .nb-well {
 	background-size:
@@ -1099,6 +1102,7 @@
 [data-style="futuristic"] .page-window::before {
 	content: "";
 	position: absolute;
+	z-index: -1;
 	top: 2.5rem;
 	right: 2rem;
 	width: min(20rem, 36vw);
@@ -1127,6 +1131,7 @@
 /* A masthead is a framed readout. Its registration marks sit outside the frame so no glyph crosses them. */
 [data-style="futuristic"] .page-window {
 	position: relative;
+	isolation: isolate;
 	box-shadow:
 		inset 0 0 0 1px color-mix(in srgb, var(--accent-surface) 16%, transparent),
 		var(--shadow-hard);

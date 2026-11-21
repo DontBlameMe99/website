@@ -2343,7 +2343,7 @@
    pages keep the palette values, where they already clear AAA. */
 [data-style="skeuomorphic"] .text-text:not(.nb-accent) {
 	color: light-dark(
-		color-mix(in srgb, var(--text) 30%, var(--ink)),
+		color-mix(in srgb, var(--text) 15%, var(--ink)),
 		var(--text)
 	);
 }

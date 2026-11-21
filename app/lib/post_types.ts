@@ -3,8 +3,6 @@ export type PostMeta = {
 	date: string;
 	summary: string;
 	tags: string[];
-	accent: string;
-	words: number;
 	minutes: number;
 };
 

@@ -1,9 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { createElement } from "react";
 import { postEntries } from "../content/posts";
 import { postSlugs } from "../content/posts/slugs";
 import { slugify } from "../lib/slug";
+import { countBodyWords } from "../lib/word_count";
 
 const dir = join(import.meta.dir, "../content/posts");
 const routeDir = join(import.meta.dir, "../routes/blog/posts");
@@ -27,7 +29,6 @@ describe("post registry", () => {
 			expect(meta.meta.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
 			expect(meta.meta.summary.length).toBeGreaterThan(20);
 			expect(meta.meta.tags.length).toBeGreaterThan(0);
-			expect(meta.meta.words).toBeGreaterThan(200);
 			expect(meta.meta.minutes).toBeGreaterThanOrEqual(1);
 			expect(body.sections.length).toBeGreaterThan(0);
 		}
@@ -37,6 +38,19 @@ describe("post registry", () => {
 		for (const { slug, meta } of loaded) {
 			expect(postEntries[slug].meta).toEqual(meta.meta);
 		}
+	});
+
+	test("word counts come from the article body", () => {
+		for (const { body } of loaded) {
+			expect(countBodyWords(body.default)).toBeGreaterThan(200);
+		}
+	});
+
+	test("word counts include text rendered from props", () => {
+		const Caption = ({ text }: { text: string }) =>
+			createElement("p", null, text);
+		const Probe = () => createElement(Caption, { text: "rendered prop words" });
+		expect(countBodyWords(Probe)).toBe(3);
 	});
 
 	test("section ids are unique and stable", () => {

@@ -6,7 +6,5 @@ export const meta = {
 	summary:
 		"A backup you have never restored is a hope, not a backup. The 3-2-1 rule, the threat model behind it, and the day my password manager lived inside the thing it was meant to save.",
 	tags: ["backups", "privacy", "linux"],
-	accent: "teal",
-	words: 1071,
 	minutes: 5,
 } satisfies PostMeta;

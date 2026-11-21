@@ -6,7 +6,5 @@ export const meta = {
 	summary:
 		"Logseq was almost right. Here is what pushed me back to Obsidian, what the graph looks like now, and how it feeds this blog.",
 	tags: ["notes"],
-	accent: "blue",
-	words: 1555,
 	minutes: 7,
 } satisfies PostMeta;

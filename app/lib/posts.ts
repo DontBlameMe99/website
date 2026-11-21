@@ -34,9 +34,6 @@ export const allTags = Array.from(
 	new Set(posts.flatMap((post) => post.tags)),
 ).sort();
 
-export const accentVar = (accent: string) =>
-	`var(--${accent}, var(--accent-surface))`;
-
 const dateFormats = new Map<string, string>();
 
 export function formatDate(date: string): string {

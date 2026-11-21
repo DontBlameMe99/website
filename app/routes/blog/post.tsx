@@ -1,11 +1,12 @@
 import { ArrowLeft, ArrowRight, Clock, Type } from "lucide-react";
 import { MotionConfig, motion } from "motion/react";
-import { type ComponentType, useEffect, useMemo, useRef } from "react";
+import { type ReactElement, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router";
 import { SectionLabel } from "~/components/layout/page_header";
 import { useActiveHeading } from "~/hooks/use_active_heading";
 import type { Section } from "~/lib/post_types";
 import { formatDate, getPost, neighbours } from "~/lib/posts";
+import { countBodyWords } from "~/lib/word_count";
 import { seo } from "~/lib/seo";
 import { cn } from "~/lib/utils";
 import { NotFound } from "~/routes/__404/not_found";
@@ -149,12 +150,13 @@ export function PostPage({
 }: {
 	slug: string;
 	sections: Section[];
-	Body: ComponentType;
+	Body: () => ReactElement;
 }) {
 	const post = getPost(slug);
 	const ids = useMemo(() => sections.map((section) => section.id), [sections]);
 	const active = useActiveHeading(ids);
 	const body = useMemo(() => <Body />, [Body]);
+	const wordCount = useMemo(() => countBodyWords(Body), [Body]);
 	const contentsRef = useRef<HTMLDetailsElement>(null);
 
 	if (!post) return <NotFound status={404} />;
@@ -198,7 +200,7 @@ export function PostPage({
 								</span>
 								<span className="nb-chip text-subtext0">
 									<Type aria-hidden="true" className="size-3" />
-									{post.words.toLocaleString("en-US")} words
+									{wordCount.toLocaleString("en-US")} words
 								</span>
 								{post.tags.map((tag) => (
 									<Link
@@ -256,7 +258,7 @@ export function PostPage({
 									<div className="flex justify-between border-b border-rule py-1.5">
 										<dt>Words</dt>
 										<dd className="text-subtext1">
-											{post.words.toLocaleString("en-US")}
+											{wordCount.toLocaleString("en-US")}
 										</dd>
 									</div>
 									<div className="flex justify-between py-1.5">

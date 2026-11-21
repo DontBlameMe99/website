@@ -6,7 +6,5 @@ export const meta = {
 	summary:
 		"NixOS does not ask whether you are ready. It asks whether you want your system described as code, rebuilt from a single file.",
 	tags: ["linux"],
-	accent: "sapphire",
-	words: 1881,
 	minutes: 9,
 } satisfies PostMeta;

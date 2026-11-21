@@ -6,7 +6,5 @@ export const meta = {
 	summary:
 		"The feed is not a product, you are. Variable rewards, notification loops, and why willpower keeps losing to interface design.",
 	tags: ["psychology"],
-	accent: "red",
-	words: 1133,
 	minutes: 5,
 } satisfies PostMeta;

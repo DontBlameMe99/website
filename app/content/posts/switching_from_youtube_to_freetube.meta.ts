@@ -6,7 +6,5 @@ export const meta = {
 	summary:
 		"What YouTube does when you are not looking, and what changes when the front end is yours. FreeTube, subscriptions, and the cost of leaving.",
 	tags: ["privacy"],
-	accent: "red",
-	words: 1227,
 	minutes: 6,
 } satisfies PostMeta;

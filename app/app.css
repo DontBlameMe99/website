@@ -1567,7 +1567,10 @@
 	border-radius: 999px;
 }
 
+/* One marker plate moves between active items. The plate is decorative; the
+   link keeps its own accessible current state and text color. */
 [data-style="glassmorphism"] nav[aria-label="Primary"] {
+	position: relative;
 	gap: 0.15rem;
 	padding: 0.25rem;
 	border: 1px solid var(--glass-rim-soft);
@@ -1578,7 +1581,39 @@
 		0 10px 26px -20px var(--glass-drop);
 }
 
+[data-style="glassmorphism"] .glass-marker {
+	position: absolute;
+	z-index: 0;
+	top: var(--marker-top, 0);
+	left: var(--marker-left, 0);
+	width: var(--marker-width, 0px);
+	height: var(--marker-height, 0px);
+	border-radius: 999px;
+	background-color: var(--accent-surface);
+	opacity: var(--marker-opacity, 0);
+	pointer-events: none;
+	transition:
+		left var(--motion-base) cubic-bezier(0.22, 0.75, 0.2, 1),
+		top var(--motion-base) cubic-bezier(0.22, 0.75, 0.2, 1),
+		width var(--motion-base) cubic-bezier(0.22, 0.75, 0.2, 1),
+		opacity var(--motion-quick) ease-out;
+}
+
+[data-style="glassmorphism"] nav[aria-label="Primary"] .glass-marker {
+	background-color: var(--panel-surface);
+	box-shadow:
+		inset 0 1px 0 var(--glass-rim),
+		inset 0 -1px 0 var(--glass-shade);
+}
+
+/* The blog filter row is a marker scope as well as a flex row. */
+[data-style="glassmorphism"] .glass-marker-scope {
+	position: relative;
+}
+
 [data-style="glassmorphism"] .nav-link {
+	position: relative;
+	z-index: 1;
 	min-height: 2.1rem;
 	padding: 0.35rem 0.75rem;
 	border-radius: 999px;
@@ -1591,15 +1626,17 @@
 }
 
 [data-style="glassmorphism"] .nav-link[aria-current="page"] {
-	background-color: var(--panel-surface);
 	color: var(--text);
-	box-shadow:
-		inset 0 1px 0 var(--glass-rim),
-		inset 0 -1px 0 var(--glass-shade);
 }
 
 [data-style="glassmorphism"] .nav-link::after {
 	content: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-style="glassmorphism"] .glass-marker {
+		transition: none;
+	}
 }
 
 @media (max-width: 39.99rem) {
@@ -1754,27 +1791,29 @@
 	box-shadow: inset 0 1px 0 var(--glass-rim-soft);
 }
 
-/* Section heads read as rail markers, with a light bead instead of a rule. */
+/* Section heads read as glass rail markers. The bead sits inside the label's
+   space so it never clips at a panel or screen edge, and only free-standing
+   labels keep a rule, since a rule inside a pane reads as a stray underline. */
 [data-style="glassmorphism"] .text-label.nb-line-b {
 	position: relative;
-	padding-left: 1rem;
-	border-top: 0;
-	border-bottom: 1px solid var(--glass-rim-soft);
+	padding-left: 0.9rem;
+}
+
+[data-style="glassmorphism"] :is(.nb-panel, .nb-panel *) .text-label.nb-line-b {
+	border-bottom: 0;
 }
 
 [data-style="glassmorphism"] .text-label.nb-line-b::before {
 	content: "";
 	position: absolute;
 	left: 0;
-	top: 0.35rem;
-	width: 0.4rem;
-	height: 0.4rem;
+	top: 50%;
+	width: 0.3rem;
+	height: 0.3rem;
+	transform: translateY(-50%);
 	border-radius: 999px;
 	background: var(--accent-surface);
-	box-shadow: 0 0 0 3px
-		color-mix(in srgb, var(--accent-surface) 18%, transparent);
 }
-
 [data-style="glassmorphism"] .nb-panel {
 	position: relative;
 	border-radius: var(--panel-radius);

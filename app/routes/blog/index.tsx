@@ -3,6 +3,8 @@ import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { PageHeader } from "~/components/layout/page_header";
+import { GlassMarker } from "~/components/ui/glass_marker";
+import { useGlassMarker } from "~/hooks/use_glass_marker";
 import { allTags, formatDate, posts } from "~/lib/posts";
 import { seo } from "~/lib/seo";
 import { useTheme } from "~/lib/theme_provider";
@@ -15,16 +17,18 @@ export const meta = () =>
 			"Everything DontBlameMe has written down: privacy, Linux, NixOS, note taking, keyboards, and the psychology of the feed.",
 	});
 
-/** One tag filter chip. The pressed state owns selection. Material moves a
-   shared pill behind the selected label. */
+/** One tag filter chip. The pressed state owns selection. Material and glass
+   move a shared pill behind the selected label. */
 function TagChip({
 	label,
 	selected,
 	onClick,
+	activeRef,
 }: {
 	label: string;
 	selected: boolean;
 	onClick: () => void;
+	activeRef?: React.Ref<HTMLButtonElement>;
 }) {
 	return (
 		<button
@@ -32,6 +36,7 @@ function TagChip({
 			data-filter={label}
 			onClick={onClick}
 			aria-pressed={selected}
+			ref={activeRef}
 			className={cn(
 				"nb-chip filter-chip transition-colors",
 				selected
@@ -85,6 +90,16 @@ export default function BlogIndex() {
 		window.addEventListener("resize", measure);
 		return () => window.removeEventListener("resize", measure);
 	}, [material, selectedFilter]);
+
+	const activeChip = useRef<HTMLButtonElement>(null);
+	const glass = style === "glassmorphism";
+	const selectedTag =
+		tag === null || allTags.includes(tag) ? (tag ?? "all") : "none";
+	const scopeRef = useGlassMarker<HTMLDivElement>(
+		activeChip,
+		glass,
+		selectedTag === "none" ? null : selectedTag,
+	);
 
 	const updateParams = (
 		changes: Record<string, string | null>,
@@ -193,7 +208,16 @@ export default function BlogIndex() {
 						</div>
 					</div>
 
-					<div ref={filterRowRef} className="relative flex flex-wrap gap-2">
+					<div
+						ref={(node) => {
+							filterRowRef.current = node;
+							scopeRef.current = node;
+						}}
+						className={cn(
+							"relative flex flex-wrap gap-2",
+							glass && "glass-marker-scope",
+						)}
+					>
 						{material ? (
 							<span
 								aria-hidden="true"
@@ -205,9 +229,11 @@ export default function BlogIndex() {
 								}}
 							/>
 						) : null}
+						<GlassMarker visible={glass} />
 						<TagChip
 							label="All"
 							selected={tag === null}
+							activeRef={tag === null ? activeChip : undefined}
 							onClick={() => updateParams({ tag: null })}
 						/>
 						{allTags.map((value) => (
@@ -215,6 +241,7 @@ export default function BlogIndex() {
 								key={value}
 								label={value}
 								selected={tag === value}
+								activeRef={tag === value ? activeChip : undefined}
 								onClick={() => {
 									const current = new URLSearchParams(location.search);
 									updateParams({

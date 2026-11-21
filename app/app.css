@@ -2932,7 +2932,7 @@
 
 html[data-style="material"] .filter-chip {
 	position: relative;
-	isolation: isolate;
+	z-index: 1;
 }
 
 html[data-style="material"] .filter-chip[aria-pressed="true"] {
@@ -2947,10 +2947,16 @@ html[data-style="material"] .filter-chip[aria-pressed="true"]:hover {
 
 html[data-style="material"] .filter-pill {
 	position: absolute;
-	inset: 0;
-	z-index: -1;
+	top: 0;
+	left: 0;
+	z-index: 0;
 	border-radius: 999px;
 	background-color: var(--accent-surface);
+	pointer-events: none;
+	transition:
+		transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+		width 180ms cubic-bezier(0.22, 1, 0.36, 1),
+		height 180ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* The app bar is one tonal plane, with the reading bar as its baseline. */
@@ -3003,6 +3009,7 @@ html[data-style="material"] header.site-header > .relative .bg-accent {
 /* Four segments in one track. The current page is the only filled segment,
    so the bar reads as navigation rather than a row of underlined links. */
 [data-style="material"] nav[aria-label="Primary"] {
+	position: relative;
 	gap: 2px;
 	padding: 4px;
 	border-radius: 999px;
@@ -3012,7 +3019,7 @@ html[data-style="material"] header.site-header > .relative .bg-accent {
 
 [data-style="material"] nav[aria-label="Primary"] a {
 	position: relative;
-	isolation: isolate;
+	z-index: 1;
 	border-radius: 999px;
 	padding: 0.4rem 0.75rem;
 	font-size: 0.6875rem;
@@ -3043,11 +3050,18 @@ html[data-style="material"] header.site-header > .relative .bg-accent {
 
 html[data-style="material"] .nav-pill {
 	position: absolute;
-	inset: 0;
-	z-index: -1;
+	top: 4px;
+	bottom: 4px;
+	left: 0;
+	z-index: 0;
 	border-radius: 999px;
 	background-color: var(--accent-surface);
 	box-shadow: var(--shadow-hard-sm);
+	pointer-events: none;
+	transition:
+		transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+		width 200ms cubic-bezier(0.22, 1, 0.36, 1),
+		opacity 150ms ease-out;
 }
 
 /* Four pills have to fit a 320px phone, so they tighten before they wrap. */

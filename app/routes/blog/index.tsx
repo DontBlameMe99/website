@@ -1,11 +1,6 @@
 import { ArrowDownWideNarrow, Clock, Search, X } from "lucide-react";
-import {
-	AnimatePresence,
-	MotionConfig,
-	motion,
-	useReducedMotion,
-} from "motion/react";
-import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, MotionConfig, motion } from "motion/react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { PageHeader } from "~/components/layout/page_header";
 import { allTags, formatDate, posts } from "~/lib/posts";
@@ -20,8 +15,6 @@ export const meta = () =>
 			"Everything DontBlameMe has written down: privacy, Linux, NixOS, note taking, keyboards, and the psychology of the feed.",
 	});
 
-const chipTransition = { duration: 0.24, ease: [0.16, 1, 0.3, 1] as const };
-
 /** One tag filter chip. The pressed state owns selection. Material moves a
    shared pill behind the selected label. */
 function TagChip({
@@ -33,34 +26,20 @@ function TagChip({
 	selected: boolean;
 	onClick: () => void;
 }) {
-	const { style } = useTheme();
-	const reduced = useReducedMotion();
-	const material = style === "material";
-	const transition = reduced ? { duration: 0 } : chipTransition;
-
 	return (
 		<button
 			type="button"
+			data-filter={label}
 			onClick={onClick}
 			aria-pressed={selected}
 			className={cn(
-				"nb-chip transition-colors",
-				material && "filter-chip",
+				"nb-chip filter-chip transition-colors",
 				selected
 					? "nb-accent"
 					: "text-subtext0 hover:bg-surface0 hover:text-text",
 			)}
 		>
-			{material && selected ? (
-				<motion.span
-					aria-hidden="true"
-					className="filter-pill"
-					layoutId="material-filter-pill"
-					initial={false}
-					transition={transition}
-				/>
-			) : null}
-			<span className="relative z-10">{label}</span>
+			{label}
 		</button>
 	);
 }
@@ -71,6 +50,41 @@ export default function BlogIndex() {
 	const tag = params.get("tag");
 	const newestFirst = params.get("sort") !== "old";
 	const [mounted, setMounted] = useState(false);
+	const { style } = useTheme();
+	const material = style === "material";
+	const filterRowRef = useRef<HTMLDivElement>(null);
+	const [filterPill, setFilterPill] = useState({
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
+	});
+	const selectedFilter = tag ?? "All";
+
+	useLayoutEffect(() => {
+		if (!material) return;
+
+		const measure = () => {
+			const row = filterRowRef.current;
+			if (!row) return;
+			const button = row.querySelector(
+				`button[data-filter="${selectedFilter}"]`,
+			) as HTMLButtonElement | null;
+			if (!button) return;
+			const rowBox = row.getBoundingClientRect();
+			const buttonBox = button.getBoundingClientRect();
+			setFilterPill({
+				x: buttonBox.left - rowBox.left,
+				y: buttonBox.top - rowBox.top,
+				width: buttonBox.width,
+				height: buttonBox.height,
+			});
+		};
+
+		measure();
+		window.addEventListener("resize", measure);
+		return () => window.removeEventListener("resize", measure);
+	}, [material, selectedFilter]);
 
 	const updateParams = (
 		changes: Record<string, string | null>,
@@ -179,7 +193,18 @@ export default function BlogIndex() {
 						</div>
 					</div>
 
-					<div className="flex flex-wrap gap-2">
+					<div ref={filterRowRef} className="relative flex flex-wrap gap-2">
+						{material ? (
+							<span
+								aria-hidden="true"
+								className="filter-pill"
+								style={{
+									transform: `translate(${filterPill.x}px, ${filterPill.y}px)`,
+									width: filterPill.width,
+									height: filterPill.height,
+								}}
+							/>
+						) : null}
 						<TagChip
 							label="All"
 							selected={tag === null}

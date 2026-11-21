@@ -6,7 +6,5 @@ export const meta = {
 	summary:
 		"Six weeks of being worse at typing than you were as a child. Colemak DH, the transition, and whether the pinky pain was worth it.",
 	tags: ["keyboard", "health"],
-	accent: "green",
-	words: 734,
 	minutes: 3,
 } satisfies PostMeta;

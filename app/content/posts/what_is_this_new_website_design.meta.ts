@@ -6,7 +6,5 @@ export const meta = {
 	summary:
 		"Why the site changed shape, why the graph exists, and what the new directory structure is actually for.",
 	tags: ["design"],
-	accent: "mauve",
-	words: 1499,
 	minutes: 7,
 } satisfies PostMeta;

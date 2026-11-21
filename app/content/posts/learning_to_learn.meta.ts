@@ -6,7 +6,5 @@ export const meta = {
 	summary:
 		"Studying harder is the trap. Spaced repetition, active recall, and the uncomfortable amount of forgetting that learning actually requires.",
 	tags: ["learning", "psychology", "productivity"],
-	accent: "yellow",
-	words: 1340,
 	minutes: 6,
 } satisfies PostMeta;

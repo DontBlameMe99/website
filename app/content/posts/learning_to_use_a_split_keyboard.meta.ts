@@ -6,7 +6,5 @@ export const meta = {
 	summary:
 		"Two halves of a keyboard, a few weeks of confusion, and shoulders that finally stopped complaining. A practical account of switching.",
 	tags: ["keyboard", "health"],
-	accent: "peach",
-	words: 1297,
 	minutes: 6,
 } satisfies PostMeta;

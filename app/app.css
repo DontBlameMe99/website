@@ -1356,7 +1356,7 @@
 	--edge: var(--ink);
 	--control-edge: var(--ink);
 	--panel-edge: var(--bw) solid var(--edge);
-	--panel-top-edge: var(--bw-heavy) solid var(--edge);
+	--panel-top-edge: var(--bw) solid var(--edge);
 	--well-edge: var(--bw) solid var(--edge);
 	--button-edge: var(--bw) solid var(--edge);
 	--button-weight: 800;
@@ -1497,6 +1497,7 @@ html[data-style="neobrutalist"] header.site-header > .relative {
 html[data-style="neobrutalist"] .page-window {
 	position: relative;
 	padding-inline: clamp(0.875rem, 2.5vw, 1.5rem);
+	padding-block: 1rem;
 	box-shadow: var(--shadow-hard-lg);
 }
 
@@ -1531,19 +1532,6 @@ html[data-style="neobrutalist"] .page-window .win-controls > span {
 html[data-style="neobrutalist"] main :is(a, button, section).nb-panel {
 	position: relative;
 	box-shadow: var(--shadow-hard-lg);
-}
-
-html[data-style="neobrutalist"] main :is(a, button, section).nb-panel::before {
-	content: "";
-	position: absolute;
-	top: calc(-1 * var(--bw));
-	left: 0;
-	width: 4rem;
-	height: var(--bw-heavy);
-	border: var(--bw) solid var(--edge);
-	border-top: 0;
-	background: var(--accent-surface);
-	pointer-events: none;
 }
 
 html[data-style="neobrutalist"] main .nb-panel h2 {

@@ -24,7 +24,6 @@ export function rss(): string {
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
       <pubDate>${new Date(timestamp(post.date)).toUTCString()}</pubDate>
-      <description>${escapeXml(post.summary)}</description>
 ${post.tags.map((tag) => `      <category>${escapeXml(tag)}</category>`).join("\n")}
     </item>`;
 		})
@@ -53,7 +52,6 @@ export function atom(): string {
     <link href="${url}" />
     <id>${url}</id>
     <updated>${timestamp(post.date)}</updated>
-    <summary>${escapeXml(post.summary)}</summary>
 ${post.tags.map((tag) => `    <category term="${escapeXml(tag)}" />`).join("\n")}
   </entry>`;
 		})

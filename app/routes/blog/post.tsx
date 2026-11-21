@@ -16,7 +16,6 @@ export function postMeta(slug: string) {
 	const post = getPost(slug);
 	const tags = seo({
 		title: post?.title ?? "Not found",
-		description: post?.summary,
 		type: post ? "article" : "website",
 	});
 	return () => tags;
@@ -190,8 +189,6 @@ export function PostPage({
 							<h1 className="mt-12 max-w-[24ch] text-page-title text-text">
 								{post.title}
 							</h1>
-
-							<p className="mt-6 max-w-[52ch] text-lead">{post.summary}</p>
 
 							<div className="mt-7 flex flex-wrap items-center gap-2">
 								<span className="nb-chip text-subtext0">

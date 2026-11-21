@@ -122,7 +122,6 @@ export default function BlogIndex() {
 			const matchesQuery =
 				!needle ||
 				post.title.toLowerCase().includes(needle) ||
-				post.summary.toLowerCase().includes(needle) ||
 				post.tags.some((value) => value.includes(needle));
 			return matchesTag && matchesQuery;
 		});
@@ -149,8 +148,8 @@ export default function BlogIndex() {
 								onChange={(event) =>
 									updateParams({ q: event.target.value }, true)
 								}
-								placeholder="Filter by title, summary or tag"
-								aria-label="Filter by title, summary or tag"
+								placeholder="Filter by title or tag"
+								aria-label="Filter by title or tag"
 								className="w-full bg-transparent"
 							/>
 							<button
@@ -283,11 +282,6 @@ export default function BlogIndex() {
 												{post.minutes} min
 											</span>
 										</div>
-
-										<p className="mt-3 text-[13px] leading-relaxed text-subtext0">
-											{post.summary}
-										</p>
-
 										<div className="mt-auto flex items-baseline justify-between gap-4 nb-line-t pt-3 text-meta">
 											<time
 												dateTime={post.date}

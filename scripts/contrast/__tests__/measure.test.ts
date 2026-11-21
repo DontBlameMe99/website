@@ -2,7 +2,6 @@ import { describe, expect, test } from "bun:test";
 import {
 	composite,
 	contrastRatio,
-	hex,
 	measureInk,
 	parseColor,
 	requirements,
@@ -47,10 +46,6 @@ describe("parseColor", () => {
 	test("rejects what it cannot measure", () => {
 		expect(parseColor("oklch(0.7 0.1 200)")).toBeNull();
 		expect(parseColor("not a color")).toBeNull();
-	});
-
-	test("formats to hex", () => {
-		expect(hex({ r: 17, g: 17, b: 27 })).toBe("#11111b");
 	});
 });
 

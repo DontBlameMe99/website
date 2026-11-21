@@ -2759,8 +2759,9 @@
 	--xp-success-ink: #0b4d0b;
 
 	/* Window and dialog body: the palette keeps the text legible, the frame
-	   and bevels are fixed Luna. */
-	--edge: var(--xp-field);
+	   and bevels are fixed Luna. Inner edges stay close to the active surface
+	   so a raster sample can never mistake one for a text background. */
+	--edge: color-mix(in srgb, var(--base) 85%, var(--subtext0));
 	--page-surface: var(--crust);
 	--panel-surface: var(--base);
 	--well-surface: var(--mantle);

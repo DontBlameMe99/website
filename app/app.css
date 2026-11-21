@@ -2978,12 +2978,12 @@
 /* The reading bar rides the title bar's bottom edge. */
 [data-style="xp"] header.nb-chrome > .relative {
 	height: var(--bw-heavy);
-	background-color: var(--xp-field);
+	background-color: var(--xp-frame-dark);
 }
 
 [data-style="xp"] header.nb-chrome > .relative .bg-accent {
-	background-color: #7ab8ff;
-	background-image: linear-gradient(90deg, var(--xp-frame-light), #7ab8ff);
+	background-color: var(--xp-select);
+	background-image: linear-gradient(90deg, var(--xp-frame), var(--xp-select));
 }
 
 /* A page masthead is a window with its own title bar. */

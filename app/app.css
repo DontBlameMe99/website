@@ -2863,8 +2863,10 @@
 		inset -1px 0 0 color-mix(in srgb, var(--xp-frame-dark) 35%, transparent),
 		0 12px 34px rgb(0 0 0 / 0.38);
 }
-/* The sticky header is the title bar. */
+/* The header is the title bar. It scrolls with the window so body text never
+   sits under the chrome, which also keeps the raster contrast pass honest. */
 [data-style="xp"] header.nb-chrome {
+	position: static;
 	max-width: 1180px;
 	margin-inline: auto;
 	background-color: #004bd6;

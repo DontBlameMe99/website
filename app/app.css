@@ -3699,11 +3699,6 @@ html[data-style="minecraft"] .page-window > div:first-child {
 	padding: 6px 10px;
 	border-bottom: 4px solid var(--mc-deep);
 	background-color: var(--mc-gui);
-	background-image: repeating-linear-gradient(
-		90deg,
-		transparent 0 15px,
-		color-mix(in srgb, var(--mc-light) 50%, transparent) 15px 16px
-	);
 	color: var(--mc-ink);
 }
 
@@ -3721,39 +3716,10 @@ html[data-style="minecraft"] .page-window > div:not(:first-child) {
 }
 
 html[data-style="minecraft"] .page-window h1 {
-	position: relative;
-	min-height: 56px;
 	margin-top: 28px;
-	padding-left: 76px;
 	font-size: clamp(28px, 3.4vw, 44px);
 	line-height: 1.1;
 	text-transform: uppercase;
-}
-
-html[data-style="minecraft"] .page-window h1::before {
-	content: "";
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 56px;
-	height: 56px;
-	border: 3px solid var(--mc-deep);
-	background-color: var(--mantle);
-	background-image:
-		linear-gradient(
-			90deg,
-			transparent 0 22px,
-			var(--accent-surface) 22px 30px,
-			transparent 30px
-		),
-		linear-gradient(
-			transparent 0 22px,
-			var(--accent-surface) 22px 30px,
-			transparent 30px
-		);
-	box-shadow:
-		inset 3px 3px 0 var(--mc-dark),
-		inset -3px -3px 0 var(--mc-light);
 }
 
 html[data-style="minecraft"] .page-window p {
@@ -3772,13 +3738,7 @@ html[data-style="minecraft"] .page-window p {
 
 @media (max-width: 31.99rem) {
 	html[data-style="minecraft"] .page-window h1 {
-		min-height: 0;
-		padding-left: 0;
 		font-size: 28px;
-	}
-
-	html[data-style="minecraft"] .page-window h1::before {
-		display: none;
 	}
 
 	html[data-style="minecraft"] header.nb-chrome nav {
@@ -3789,6 +3749,12 @@ html[data-style="minecraft"] .page-window p {
 
 	html[data-style="minecraft"] header.nb-chrome nav a {
 		padding-inline: 4px;
+	}
+
+	html[data-style="minecraft"]
+		main
+		label:has(input[type="color"]):not(:where([data-style]:not(:root) *)) {
+		min-height: 111px;
 	}
 }
 
@@ -3971,6 +3937,19 @@ html[data-style="minecraft"]
 	font-size: 12px;
 	font-weight: 700;
 	transition: none;
+}
+
+html[data-style="minecraft"]
+	main
+	label:has(input[type="color"]):not(:where([data-style]:not(:root) *)) {
+	padding: 6px 10px;
+	border: 2px solid var(--mc-deep);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark);
+	background-color: transparent;
+	font-size: 12px;
+	font-weight: 700;
 }
 
 /* Prose keeps the scheme's ink and reads like an item description panel. */

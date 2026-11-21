@@ -195,6 +195,7 @@ export default function BlogIndex() {
 								}}
 								aria-label={newestFirst ? "Newest first" : "Oldest first"}
 								title={newestFirst ? "Newest first" : "Oldest first"}
+								className="inline-flex items-center gap-1.5 whitespace-nowrap"
 							>
 								<ArrowDownWideNarrow
 									className={cn(

@@ -2132,10 +2132,10 @@
 	letter-spacing: 0.1em;
 	text-decoration: none;
 	transition:
-		transform var(--motion-quick) ease-out,
-		box-shadow var(--motion-quick) ease-out,
-		background-color var(--motion-quick) ease-out,
-		color var(--motion-quick) ease-out;
+		transform 90ms ease-out,
+		box-shadow 90ms ease-out,
+		background-color 90ms ease-out,
+		color 90ms ease-out;
 }
 
 [data-style="skeuomorphic"] header.nb-chrome .nav-link::after {
@@ -2196,6 +2196,7 @@
 }
 
 [data-style="skeuomorphic"] header.nb-chrome > .relative {
+	overflow: hidden;
 	height: 5px;
 	background-color: var(--well-surface);
 	box-shadow:
@@ -2204,7 +2205,12 @@
 		light-dark(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.16));
 }
 
+/* The filled part has to stay a fixed-width strip inside a clipping groove.
+   A scaled gradient would stretch its 5px pitch, changing the segment count
+   with every scroll step. */
 [data-style="skeuomorphic"] header.nb-chrome > .relative .bg-accent {
+	transform: none !important;
+	width: calc(var(--progress, 0) * 100%);
 	background-image: repeating-linear-gradient(
 		90deg,
 		color-mix(in srgb, var(--on-accent) 45%, transparent) 0 1px,
@@ -2364,9 +2370,23 @@
 	);
 }
 
-/* A writing row is a key in a slot: the label presses into a fill on hover. */
+/* A writing row is a key in a slot: the label presses into a fill on hover.
+   Keep that fill inside the row, rather than letting the shared -mx-2 pill
+   spill past the column edge. */
 [data-style="skeuomorphic"] main ul > li.nb-line-b {
 	border-bottom-color: color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+[data-style="skeuomorphic"]
+	main
+	ul
+	> li.nb-line-b
+	> a.group.grid
+	> span:first-child
+	> span:first-child {
+	margin-inline: 0;
+	padding-inline: 0.35rem;
+	border-radius: var(--control-radius);
 }
 
 [data-style="skeuomorphic"] main .group.grid {
@@ -2442,8 +2462,8 @@
 	);
 }
 
-/* Controls: a bright edge at the top, a deep seat on press, and a short,
-   slightly overshooting ease so a click feels like a mechanism closing. */
+/* Controls: a bright edge at the top, a deep seat on press, and a quick,
+   direct response so a click reads as a mechanism closing. */
 [data-style="skeuomorphic"] .nb-button:not([data-style] [data-style] *) {
 	position: relative;
 	padding: 0.5rem 0.9rem;
@@ -2451,7 +2471,8 @@
 	font-size: 0.75rem;
 	font-weight: 800;
 	letter-spacing: 0.035em;
-	transition-timing-function: cubic-bezier(0.2, 0.9, 0.25, 1);
+	transition-duration: 90ms;
+	transition-timing-function: ease-out;
 }
 
 [data-style="skeuomorphic"]

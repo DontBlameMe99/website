@@ -7,6 +7,7 @@ import {
 	composite,
 	contrastRatio,
 	formatRatio,
+	hasMaskInk,
 	hex,
 	measureInk,
 	medianColor,
@@ -357,19 +358,6 @@ function claim(
 	for (let y = y0; y < y1; y++) mask.fill(1, y * width + x0, y * width + x1);
 }
 
-function maxChannelDiff(
-	visible: { width: number; data: Uint8Array },
-	hidden: { width: number; data: Uint8Array },
-	index: number,
-): number {
-	const i = index * 4;
-	return Math.max(
-		Math.abs(visible.data[i] - hidden.data[i]),
-		Math.abs(visible.data[i + 1] - hidden.data[i + 1]),
-		Math.abs(visible.data[i + 2] - hidden.data[i + 2]),
-	);
-}
-
 type Measured = { ratio: number; fg: Rgb; bg: Rgb; note?: string };
 
 async function auditState(
@@ -610,13 +598,11 @@ async function auditState(
 			for (let x = 0; x < width; x++) {
 				const index = y * width + x;
 				if (mask[index]) continue;
-				if (
-					Math.max(
-						maxChannelDiff(maskA, hidden, index),
-						maxChannelDiff(maskB, hidden, index),
-					) <= 3
-				)
-					continue;
+				// A solid glyph paints at least a couple of hundred channel levels
+				// away from the same pixel with its text hidden. A few levels of
+				// jitter on an antialiased rule is not missing text; thick rules
+				// can form a long connected strip and trip the block check.
+				if (!hasMaskInk(maskA, hidden, maskB, index)) continue;
 				loose[index] = 1;
 				total++;
 				if (!first) first = { x: x / SCALE, y: position + y / SCALE };

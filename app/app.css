@@ -2709,20 +2709,20 @@
 	--font-sans: Tahoma, "Segoe UI", Verdana, sans-serif;
 
 	/* Fixed Luna chrome. Private to this block and its own rules. The blues are
-	   Luna's own hue pulled down in lightness until the white labels on them
-	   clear 7:1: Luna's #0997ff title bar carried white at 3:1. */
+	   Luna's own hue pulled down in lightness until white labels clear 8:1,
+	   leaving room for raster antialiasing and compositor rounding. */
 	--xp-desktop-top: #79b4ef;
 	--xp-title-radius: 8px;
 	--xp-title: linear-gradient(
 		180deg,
-		#005a9c 0%,
-		#004bd6 8%,
-		#0049da 40%,
-		#0050c7 88%,
-		#0050c7 93%,
-		#004bd2 95%,
-		#003dd7 96%,
-		#003dd7 100%
+		#004da3 0%,
+		#004aa5 8%,
+		#0049a3 40%,
+		#0048a0 88%,
+		#0048a0 93%,
+		#004a9c 95%,
+		#003f96 96%,
+		#003f96 100%
 	);
 	--xp-title-ink: #fff;
 	--xp-title-shadow: 1px 1px 0 #0f1089;
@@ -2732,13 +2732,13 @@
 	--xp-silver: #ece9d8;
 	--xp-border: #003c74;
 	--xp-field: #7f9db9;
-	--xp-select: #2857a2;
+	--xp-select: #1f4a90;
 	--xp-taskbar: linear-gradient(
 		180deg,
-		#0d57a8 0%,
-		#1747a4 10%,
-		#1f51bd 40%,
-		#2053b5 100%
+		#0d4a98 0%,
+		#17478f 10%,
+		#1a4a94 40%,
+		#17468d 100%
 	);
 	--xp-btn-face: linear-gradient(180deg, #fcfcfb 0%, #f3f3ef 45%, #ecebe6 100%);
 	--xp-btn-hot: inset 0 0 0 1px #fff, 0 0 0 2px #fdd98c, 0 0 0 3px #e59700;

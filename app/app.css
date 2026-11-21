@@ -3313,12 +3313,24 @@
 
 /* The era's dotted focus rectangle, kept on the page ink where it can show. */
 [data-style="xp"] :focus-visible {
-	outline: 2px dotted currentColor;
+	outline: 2px dotted var(--focus-ring);
 	outline-offset: 2px;
 }
 
 [data-style="xp"] .search-field:has(input:focus-visible) {
-	outline-color: currentColor;
+	outline-color: var(--focus-ring);
+}
+
+[data-style="xp"]
+	:where(
+		header.nb-chrome,
+		footer.nb-line-t,
+		.page-window > div:first-child,
+		.kit-titlebar,
+		.code-block__bar
+	)
+	:focus-visible {
+	outline-color: var(--xp-title-ink);
 }
 
 [data-style="xp"] :is(h1, h2, h3, h4, h5) {

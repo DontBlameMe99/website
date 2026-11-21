@@ -3665,6 +3665,18 @@
 	);
 }
 
+/* Machined fills can put a muted run over a darker bevel. Press that ink toward
+   black on light pages so a shorter masthead cannot move it below AAA. */
+[data-style="skeuomorphic"]
+	main
+	:is(.text-overlay1, .prose-dbm :is(h3, strong, code, .tok-comment)) {
+	color: light-dark(color-mix(in srgb, var(--text) 80%, #000), var(--text));
+}
+
+[data-style="skeuomorphic"] .prose-dbm .tok-string {
+	color: light-dark(color-mix(in srgb, var(--green) 80%, #000), var(--green));
+}
+
 /* Post figures tint a translucent surface0 panel. In this style that panel
    lifts toward paper instead of sinking into the page. */
 [data-style="skeuomorphic"] [class~="bg-surface0/30"] {

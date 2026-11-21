@@ -27,7 +27,8 @@ describe("post registry", () => {
 			expect(slug).toMatch(/^[a-z0-9_]+$/);
 			expect(meta.meta.title.length).toBeGreaterThan(0);
 			expect(meta.meta.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-			expect(meta.meta.summary.length).toBeGreaterThan(20);
+			expect(meta.meta).not.toHaveProperty("summary");
+			expect(meta.meta).not.toHaveProperty("description");
 			expect(meta.meta.tags.length).toBeGreaterThan(0);
 			expect(meta.meta.minutes).toBeGreaterThanOrEqual(1);
 			expect(body.sections.length).toBeGreaterThan(0);

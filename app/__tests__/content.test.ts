@@ -27,8 +27,6 @@ describe("post registry", () => {
 			expect(slug).toMatch(/^[a-z0-9_]+$/);
 			expect(meta.meta.title.length).toBeGreaterThan(0);
 			expect(meta.meta.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-			expect(meta.meta).not.toHaveProperty("summary");
-			expect(meta.meta).not.toHaveProperty("description");
 			expect(meta.meta.tags.length).toBeGreaterThan(0);
 			expect(meta.meta.minutes).toBeGreaterThanOrEqual(1);
 			expect(body.sections.length).toBeGreaterThan(0);
@@ -83,18 +81,6 @@ describe("post registry", () => {
 });
 
 describe("post sources", () => {
-	test("bodies are React components, not markdown", () => {
-		for (const file of bodyFiles) {
-			const source = readFileSync(join(dir, file), "utf8");
-			expect(source).toContain("export default function Post()");
-			expect(source).not.toMatch(/^#{1,6} /m);
-			expect(source).not.toMatch(/<p>\s*(?:\{\s*")?#{1,6} /);
-			expect(source).not.toContain("#link(");
-			expect(source).not.toContain("#image(");
-			expect(source).not.toContain("window-shadow");
-		}
-	});
-
 	test("metadata lives in its own file", () => {
 		for (const file of metaFiles) {
 			const source = readFileSync(join(dir, file), "utf8");

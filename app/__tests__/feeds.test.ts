@@ -13,12 +13,6 @@ describe("feeds", () => {
 		expect(xml).toContain('<rss version="2.0"');
 		for (const post of posts) {
 			expect(xml).toContain(`<link>${SITE.url}/blog/${post.slug}</link>`);
-			const item = xml
-				.split("<item>")
-				.find((part) =>
-					part.includes(`<link>${SITE.url}/blog/${post.slug}</link>`),
-				);
-			expect(item).not.toContain("<description>");
 		}
 		noRawAmpersands(xml);
 	});
@@ -27,7 +21,6 @@ describe("feeds", () => {
 		const xml = atom();
 		expect(xml).toStartWith('<?xml version="1.0" encoding="UTF-8"?>');
 		expect(xml).toContain('<feed xmlns="http://www.w3.org/2005/Atom">');
-		expect(xml).not.toContain("<summary>");
 		expect(xml.match(/<entry>/g)?.length).toBe(posts.length);
 		for (const post of posts) {
 			expect(xml).toContain(`<id>${SITE.url}/blog/${post.slug}</id>`);

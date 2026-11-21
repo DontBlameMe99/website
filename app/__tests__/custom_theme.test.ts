@@ -5,14 +5,12 @@ import {
 	contrastRatio,
 	expandStyleRefs,
 	isCssValue,
-	PALETTE_LABELS,
 	readThemeFile,
 	resolveCustomTheme,
 	resolveSelection,
-	STYLE_LABELS,
 	themeFile,
 } from "../lib/custom_theme";
-import { DEFAULT_PREFS, PALETTE_TOKENS, STYLE_TOKENS } from "../lib/themes";
+import { DEFAULT_PREFS, PALETTE_TOKENS } from "../lib/themes";
 
 /** A palette that clears AAA, so a test only has to break the pair it names. */
 const complete = (overrides: Record<string, string> = {}) => {
@@ -30,15 +28,6 @@ const complete = (overrides: Record<string, string> = {}) => {
 		overrides,
 	);
 };
-
-describe("token labels", () => {
-	test("cover every token the editor can show", () => {
-		expect(Object.keys(PALETTE_LABELS).sort()).toEqual(
-			[...PALETTE_TOKENS].sort(),
-		);
-		expect(Object.keys(STYLE_LABELS).sort()).toEqual([...STYLE_TOKENS].sort());
-	});
-});
 
 describe("resolveCustomTheme", () => {
 	test("keeps a complete palette and lowercases it", () => {

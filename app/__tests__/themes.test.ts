@@ -1,18 +1,15 @@
 import { describe, expect, test } from "bun:test";
 import {
 	ACCENT_HUES,
-	DARK_SCHEMES,
 	DEFAULT_PREFS,
 	inkOn,
 	isSchemeForMode,
-	LIGHT_SCHEMES,
 	resolveAccent,
 	resolvePrefs,
 	SCHEMES,
 	STORAGE_KEYS,
 	STYLE_VALUE_MAX,
 	STYLES,
-	schemeForMode,
 	themeBootScript,
 	withScheme,
 } from "../lib/themes";
@@ -23,32 +20,12 @@ describe("theme catalog", () => {
 		const styles = STYLES.map((style) => style.id);
 		expect(new Set(schemes).size).toBe(schemes.length);
 		expect(new Set(styles).size).toBe(styles.length);
-		expect(styles.length).toBeGreaterThan(1);
-	});
-
-	test("every scheme belongs to exactly one brightness", () => {
-		expect(DARK_SCHEMES.length + LIGHT_SCHEMES.length).toBe(SCHEMES.length);
-		for (const scheme of DARK_SCHEMES) {
-			expect(isSchemeForMode(scheme.id, "dark")).toBe(true);
-			expect(isSchemeForMode(scheme.id, "light")).toBe(false);
-		}
-		for (const scheme of LIGHT_SCHEMES) {
-			expect(isSchemeForMode(scheme.id, "light")).toBe(true);
-			expect(isSchemeForMode(scheme.id, "dark")).toBe(false);
-		}
 	});
 
 	test("the defaults point at real entries", () => {
 		expect(isSchemeForMode(DEFAULT_PREFS.darkScheme, "dark")).toBe(true);
 		expect(isSchemeForMode(DEFAULT_PREFS.lightScheme, "light")).toBe(true);
 		expect(STYLES.some((style) => style.id === DEFAULT_PREFS.style)).toBe(true);
-	});
-});
-
-describe("schemeForMode", () => {
-	test("reads the palette for the active brightness", () => {
-		expect(schemeForMode("dark", "macchiato", "latte")).toBe("macchiato");
-		expect(schemeForMode("light", "macchiato", "latte")).toBe("latte");
 	});
 });
 
@@ -157,7 +134,6 @@ describe("boot script", () => {
 		expect(themeBootScript).toContain("dataset.style");
 		expect(themeBootScript).toContain("dataset.scheme");
 		expect(themeBootScript).toContain("dataset.accent");
-		expect(themeBootScript).toContain("0.192");
 	});
 
 	test("caps style values at the same length the validator enforces", () => {

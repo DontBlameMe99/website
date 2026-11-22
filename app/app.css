@@ -4266,12 +4266,12 @@ html[data-style="neobrutalist"] .hero-step {
 	color: light-dark(color-mix(in srgb, var(--text) 65%, #000), var(--text));
 }
 
-/* Accent-colored bullets and code keywords need the same step. The accent
-   fill itself stays untouched, so picked hues and on-accent ink still work. */
+/* Accent-colored bullets and code keywords keep their hue on light pages;
+   a deep mix keeps a glyph on a tinted slab above AAA. */
 [data-style="skeuomorphic"] .prose-dbm .tok-keyword,
 [data-style="skeuomorphic"] .prose-dbm ul > li::before {
 	color: light-dark(
-		color-mix(in srgb, var(--accent-surface) 75%, var(--ink)),
+		color-mix(in srgb, var(--accent-surface) 40%, #000),
 		var(--accent-surface)
 	);
 }

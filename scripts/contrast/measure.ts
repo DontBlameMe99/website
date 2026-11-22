@@ -234,32 +234,6 @@ export function measureInk(
 }
 
 type BitmapLike = { width: number; height: number; data: Uint8Array };
-const MAGENTA = [255, 0, 255] as const;
-const GREEN = [0, 255, 0] as const;
-
-/** A glyph is much closer to its mask color than to the same pixel unmasked. */
-export function hasMaskInk(
-	maskA: BitmapLike,
-	hidden: BitmapLike,
-	maskB: BitmapLike,
-	index: number,
-): boolean {
-	const o = index * 4;
-	const distance = (
-		data: Uint8Array,
-		other: BitmapLike | readonly number[],
-	) => {
-		const b = "data" in other ? other.data : other;
-		return (
-			Math.abs(data[o] - b[0]) +
-			Math.abs(data[o + 1] - b[1]) +
-			Math.abs(data[o + 2] - b[2])
-		);
-	};
-	const isInk = (visible: BitmapLike, color: readonly number[]) =>
-		distance(visible.data, color) * 2 < distance(visible.data, hidden);
-	return isInk(maskA, MAGENTA) || isInk(maskB, GREEN);
-}
 
 export function medianColor(
 	hidden: BitmapLike,

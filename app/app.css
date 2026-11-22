@@ -1294,7 +1294,7 @@
 	border: var(--bw) solid var(--fut-frame);
 	background: transparent;
 	color: var(--accent-surface);
-	padding: 0.18em 0.45em;
+	padding: 4px 0.45em;
 }
 
 [data-style="futuristic"] .prose-dbm figure {
@@ -1917,7 +1917,7 @@ html[data-style="neobrutalist"] .hero-step {
 	border-radius: 0;
 	background: transparent;
 	background-image: none;
-	padding: 0.25rem 0.1rem;
+	padding: 0.25rem 0.45rem;
 	letter-spacing: 0.12em;
 }
 
@@ -2241,7 +2241,7 @@ html[data-style="neobrutalist"] .hero-step {
 [data-style="flat"] .prose-dbm blockquote {
 	border: 0;
 	border-left: 2px solid var(--accent-surface);
-	padding: 0.15em 0 0.15em 1.25em;
+	padding: 4px 0 4px 1.25em;
 }
 
 [data-style="flat"] .prose-dbm .code-block {
@@ -2657,7 +2657,7 @@ html[data-style="neobrutalist"] .hero-step {
 @media (max-width: 39.99rem) {
 	[data-style="glassmorphism"] nav[aria-label="Primary"] {
 		gap: 0;
-		padding: 0.15rem;
+		padding: 4px;
 	}
 
 	[data-style="glassmorphism"] .nav-link {
@@ -2963,7 +2963,7 @@ html[data-style="neobrutalist"] .hero-step {
 }
 
 [data-style="glassmorphism"] .prose-dbm h2::before {
-	padding: 0.3em 0.6em;
+	padding: 4px 0.6em;
 	border-radius: 999px;
 	box-shadow:
 		0 8px 18px -12px color-mix(in srgb, var(--ink) 65%, transparent),
@@ -3253,7 +3253,7 @@ html[data-style="neobrutalist"] .hero-step {
 	border-radius: 3px;
 	background-color: color-mix(in srgb, var(--xp-frame-dark) 45%, transparent);
 	box-shadow: var(--xp-raised);
-	padding: 3px 6px;
+	padding: 4px 6px;
 	white-space: nowrap;
 	transition: background-color var(--motion-quick) steps(2, end);
 }
@@ -3268,7 +3268,7 @@ html[data-style="neobrutalist"] .hero-step {
 
 [data-style="xp"] header.nb-chrome nav[aria-label="Primary"] {
 	gap: 2px;
-	padding: 2px;
+	padding: 4px;
 	border: 1px solid color-mix(in srgb, var(--xp-frame-dark) 70%, transparent);
 	border-radius: 3px;
 	background-color: color-mix(in srgb, var(--xp-frame-dark) 28%, transparent);
@@ -3279,7 +3279,7 @@ html[data-style="neobrutalist"] .hero-step {
 [data-style="xp"] header.nb-chrome nav a {
 	border: 1px solid transparent;
 	border-radius: 2px;
-	padding: 2px 6px;
+	padding: 4px 6px;
 	line-height: 1.4;
 	transition:
 		background-color var(--motion-quick) steps(2, end),
@@ -4007,7 +4007,7 @@ html[data-style="neobrutalist"] .hero-step {
 	> div
 	> a:first-child:not([data-style] [data-style] *) {
 	margin-left: -0.45rem;
-	padding: 0.2rem 0.45rem;
+	padding: 4px 0.45rem;
 	border: 1px solid var(--edge);
 	border-radius: var(--control-radius);
 	background-color: var(--plain-surface);
@@ -4035,7 +4035,7 @@ html[data-style="neobrutalist"] .hero-step {
 
 [data-style="skeuomorphic"] header.nb-chrome nav a {
 	min-height: 1.875rem;
-	padding: 0.2rem 0.5rem;
+	padding: 4px 0.5rem;
 	border: 1px solid var(--control-edge);
 	border-radius: 4px;
 	background-color: var(--button-surface);
@@ -4266,12 +4266,12 @@ html[data-style="neobrutalist"] .hero-step {
 	color: light-dark(color-mix(in srgb, var(--text) 65%, #000), var(--text));
 }
 
-/* Accent-colored bullets and code keywords need the same step. The accent
-   fill itself stays untouched, so picked hues and on-accent ink still work. */
+/* Accent-colored bullets and code keywords keep their hue on light pages;
+   a deep mix keeps a glyph on a tinted slab above AAA. */
 [data-style="skeuomorphic"] .prose-dbm .tok-keyword,
 [data-style="skeuomorphic"] .prose-dbm ul > li::before {
 	color: light-dark(
-		color-mix(in srgb, var(--accent-surface) 75%, var(--ink)),
+		color-mix(in srgb, var(--accent-surface) 40%, #000),
 		var(--accent-surface)
 	);
 }
@@ -5015,7 +5015,7 @@ html[data-style="material"] .prose-dbm h2::before {
 	display: flex;
 	width: max-content;
 	margin-bottom: 0.7em;
-	padding: 0.2rem 0.6rem;
+	padding: 4px 0.6rem;
 	border-radius: 999px;
 	background-color: var(--mat-track);
 	color: var(--text);
@@ -5586,7 +5586,7 @@ html[data-style="material"] footer.nb-line-t .text-label {
 [data-style="msdos"]
 	a.nb-panel:focus-visible
 	h2:not(:where([data-style]:not([data-style="msdos"]) *)) {
-	padding-inline: 0.25ch;
+	padding-inline: 4px;
 	background-color: var(--accent-surface);
 	color: var(--on-accent);
 }
@@ -5603,7 +5603,7 @@ html[data-style="material"] footer.nb-line-t .text-label {
 	> .text-subtext0:not(:where([data-style]:not([data-style="msdos"]) *)) {
 	background-color: var(--plain-surface);
 	color: var(--text);
-	padding-inline: 0.25ch;
+	padding-inline: 4px;
 }
 
 [data-style="msdos"] .nb-spot img {
@@ -5856,7 +5856,7 @@ html[data-style="material"] footer.nb-line-t .text-label {
 
 [data-style="msdos"] footer .text-label {
 	display: inline-block;
-	padding: 0.1rem 0.5rem;
+	padding: 4px 0.5rem;
 	border: 1px solid var(--edge);
 	background-color: var(--accent-surface);
 	color: var(--on-accent);
@@ -6293,7 +6293,7 @@ html[data-style="minecraft"]
 html[data-style="minecraft"]
 	input[type="color"]:not(:where([data-style]:not(:root) *)),
 [data-style="minecraft"]:not(:root) input[type="color"] {
-	padding: 2px;
+	padding: 4px;
 	border: 2px solid var(--mc-deep);
 	background-color: var(--mc-gui);
 	box-shadow:
@@ -6640,6 +6640,14 @@ html[data-style="minecraft"] .prose-dbm code {
 		inset 1px 1px 0 var(--mc-dark),
 		inset -1px -1px 0 var(--mc-light);
 	color: var(--text);
+}
+
+/* The code block is already a framed well; only inline code gets this frame. */
+html[data-style="minecraft"] .prose-dbm pre code {
+	border: 0;
+	background: transparent;
+	box-shadow: none;
+	padding: 0;
 }
 
 html[data-style="minecraft"] .prose-dbm .code-block {
@@ -7025,7 +7033,7 @@ html[data-style="minecraft"] .search-field:has(input:focus-visible) {
 	border: var(--bw) var(--line-style) var(--control-edge);
 	background-color: var(--plain-surface);
 	background-image: var(--plain-image);
-	padding: 0.15rem 0.45rem;
+	padding: 0.25rem 0.45rem;
 	font-size: 0.6875rem;
 	font-weight: 600;
 	line-height: 1.4;
@@ -7111,7 +7119,7 @@ html[data-style="minecraft"] .search-field:has(input:focus-visible) {
 	margin-bottom: 0.7em;
 	border: var(--bw) var(--line-style) var(--edge);
 	background: var(--accent-surface);
-	padding: 0.2em 0.45em;
+	padding: 4px 0.45em;
 	font-size: 0.6875rem;
 	font-weight: 700;
 	line-height: 1;
@@ -7250,7 +7258,7 @@ html[data-style="minecraft"] .search-field:has(input:focus-visible) {
 	background: color-mix(in srgb, var(--surface0) 55%, var(--base));
 	border: 1px var(--line-style) var(--edge);
 	color: var(--text);
-	padding: 0.1em 0.35em;
+	padding: 4px 0.35em;
 	/* A glyph that abuts the border puts a core pixel on the edge's antialiased
 	   halo, which is a percent or two of ink over the page: enough to take a
 	   comma, at the AAA floor, under it. */

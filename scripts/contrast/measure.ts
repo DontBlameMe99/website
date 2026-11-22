@@ -251,20 +251,14 @@ export function hasMaskInk(
 	) => {
 		const b = "data" in other ? other.data : other;
 		return (
-			Math.abs(data[o] - b[o]) +
-			Math.abs(data[o + 1] - b[o + 1]) +
-			Math.abs(data[o + 2] - b[o + 2])
+			Math.abs(data[o] - b[0]) +
+			Math.abs(data[o + 1] - b[1]) +
+			Math.abs(data[o + 2] - b[2])
 		);
 	};
-	const ink = Math.min(
-		distance(maskA.data, MAGENTA),
-		distance(maskB.data, GREEN),
-	);
-	const page = Math.min(
-		distance(maskA.data, hidden),
-		distance(maskB.data, hidden),
-	);
-	return ink * 2 < page;
+	const isInk = (visible: BitmapLike, color: readonly number[]) =>
+		distance(visible.data, color) * 2 < distance(visible.data, hidden);
+	return isInk(maskA, MAGENTA) || isInk(maskB, GREEN);
 }
 
 export function medianColor(

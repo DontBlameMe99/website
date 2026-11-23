@@ -1420,10 +1420,6 @@ html[data-style="neobrutalist"] footer.nb-line-t {
 	color: var(--page-surface);
 }
 
-html[data-style="neobrutalist"] header.site-header {
-	box-shadow: 0 5px 0 var(--accent-surface);
-}
-
 html[data-style="neobrutalist"] header.site-header :is(a, button),
 html[data-style="neobrutalist"] footer :is(a, button, p, span) {
 	color: var(--page-surface);
@@ -1482,7 +1478,10 @@ html[data-style="neobrutalist"] header.site-header .nb-button {
 	color: var(--ink);
 }
 
+/* The masthead's reading bar is a heavy printed rule: the border width plus
+   5px, so accent fills one band and page surface stays ahead. */
 html[data-style="neobrutalist"] header.site-header > .relative {
+	height: calc(var(--bw) + 5px);
 	background-color: var(--page-surface);
 }
 

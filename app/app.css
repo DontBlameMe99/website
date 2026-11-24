@@ -1692,7 +1692,7 @@ html[data-style="neobrutalist"] .hero-step {
 	--accent-press-fill: var(--accent-surface);
 }
 
-@media (max-width: 26rem) {
+@media (min-width: 20rem) and (max-width: 26rem) {
 	html[data-style="neobrutalist"] section.nb-panel a.break-all {
 		font-size: 0.875rem;
 		white-space: nowrap;

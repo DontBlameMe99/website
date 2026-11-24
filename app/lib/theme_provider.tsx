@@ -239,7 +239,21 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		const next = storedState();
 		latest.current = next;
 		setState(next);
-		if (document.documentElement.classList.contains(next.prefs.mode))
+		const root = document.documentElement;
+		const expectedScheme = schemeForMode(
+			next.prefs.mode,
+			next.prefs.darkScheme,
+			next.prefs.lightScheme,
+		);
+		const matches =
+			root.dataset.style === next.prefs.style &&
+			root.dataset.scheme === expectedScheme &&
+			root.classList.contains(next.prefs.mode);
+		if (
+			matches &&
+			(next.prefs.accent.kind !== "hue" ||
+				root.dataset.accent === next.prefs.accent.hue)
+		)
 			syncChromeColor();
 		else apply(next);
 	}, []);

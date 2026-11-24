@@ -150,7 +150,7 @@ export default function BlogIndex() {
 								}
 								placeholder="Filter by title or tag"
 								aria-label="Filter by title or tag"
-								className="w-full bg-transparent"
+								className="min-h-6 w-full bg-transparent"
 							/>
 							<button
 								type="button"
@@ -274,7 +274,7 @@ export default function BlogIndex() {
 										prefetch="intent"
 										className="nb-panel nb-lift group flex h-full w-full flex-col p-6"
 									>
-										<div className="flex items-start justify-between gap-4">
+										<div className="flex flex-col items-start gap-2 sm:flex-row sm:items-start sm:gap-4">
 											<h2 className="text-xl font-bold leading-[1.1] tracking-[-0.02em] text-text transition-colors group-hover:text-accent">
 												{post.title}
 											</h2>

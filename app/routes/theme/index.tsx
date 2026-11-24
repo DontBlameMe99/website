@@ -252,7 +252,7 @@ function StyleOption({ option }: { option: Style }) {
 				if (active) return;
 				wipeFrom(event.currentTarget, () => setStyle(option.id));
 			}}
-			className={cn("nb-panel nb-lift p-6 text-left", active && ACTIVE)}
+			className={cn("nb-panel nb-lift min-w-0 p-6 text-left", active && ACTIVE)}
 		>
 			<span
 				{...accentScope(accent)}
@@ -271,8 +271,8 @@ function StyleOption({ option }: { option: Style }) {
 				</span>
 			</span>
 
-			<span className="mt-4 flex items-baseline justify-between gap-4">
-				<span className="text-lg font-extrabold tracking-[-0.02em] text-text">
+			<span className="mt-4 flex min-w-0 flex-wrap items-baseline justify-between gap-2 sm:gap-4">
+				<span className="min-w-0 text-lg font-extrabold tracking-[-0.02em] text-text">
 					{option.label}
 				</span>
 				{active ? <Selected /> : null}
@@ -316,7 +316,10 @@ function PaletteOption({
 				...tokenStyle(style === "custom" ? custom.style : null),
 				...scope.style,
 			}}
-			className={cn("nb-panel nb-lift p-6 text-left", selected && ACTIVE)}
+			className={cn(
+				"nb-panel nb-lift min-w-0 p-6 text-left",
+				selected && ACTIVE,
+			)}
 		>
 			<span aria-hidden="true" className="nb-line flex">
 				{SWATCHES.map((tone) => (
@@ -324,8 +327,8 @@ function PaletteOption({
 				))}
 			</span>
 
-			<span className="mt-4 flex items-baseline justify-between gap-4">
-				<span className="text-lg font-extrabold tracking-[-0.02em] text-text">
+			<span className="mt-4 flex min-w-0 flex-wrap items-baseline justify-between gap-2 sm:gap-4">
+				<span className="min-w-0 text-lg font-extrabold tracking-[-0.02em] text-text">
 					{option.label}
 				</span>
 				{selected ? <Selected /> : null}
@@ -416,7 +419,10 @@ function CustomPaletteCard({
 				}
 				wipeFrom(event.currentTarget, () => setScheme("custom", mode));
 			}}
-			className={cn("nb-panel nb-lift p-6 text-left", selected && ACTIVE)}
+			className={cn(
+				"nb-panel nb-lift min-w-0 p-6 text-left",
+				selected && ACTIVE,
+			)}
 		>
 			<span
 				aria-hidden="true"
@@ -431,8 +437,8 @@ function CustomPaletteCard({
 				))}
 			</span>
 
-			<span className="mt-4 flex items-baseline justify-between gap-4">
-				<span className="text-lg font-extrabold tracking-[-0.02em] text-text">
+			<span className="mt-4 flex min-w-0 flex-wrap items-baseline justify-between gap-2 sm:gap-4">
+				<span className="min-w-0 text-lg font-extrabold tracking-[-0.02em] text-text">
 					Custom
 				</span>
 				{selected ? <Selected /> : null}
@@ -462,7 +468,10 @@ function CustomStyleCard({ selected }: { selected: boolean }) {
 				if (selected) return;
 				wipeFrom(event.currentTarget, () => setStyle("custom"));
 			}}
-			className={cn("nb-panel nb-lift p-6 text-left", selected && ACTIVE)}
+			className={cn(
+				"nb-panel nb-lift min-w-0 p-6 text-left",
+				selected && ACTIVE,
+			)}
 		>
 			<span
 				{...scope}
@@ -481,8 +490,8 @@ function CustomStyleCard({ selected }: { selected: boolean }) {
 				</span>
 			</span>
 
-			<span className="mt-4 flex items-baseline justify-between gap-4">
-				<span className="text-lg font-extrabold tracking-[-0.02em] text-text">
+			<span className="mt-4 flex min-w-0 flex-wrap items-baseline justify-between gap-2 sm:gap-4">
+				<span className="min-w-0 text-lg font-extrabold tracking-[-0.02em] text-text">
 					Custom
 				</span>
 				{selected ? <Selected /> : null}

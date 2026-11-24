@@ -47,7 +47,7 @@ export function SiteFooter() {
 					<Link
 						to="/disclosure"
 						prefetch="intent"
-						className="text-sm font-semibold text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent"
+						className="inline-flex min-h-6 items-center text-sm font-semibold text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent"
 					>
 						How it's made
 					</Link>

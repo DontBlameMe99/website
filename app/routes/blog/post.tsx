@@ -213,7 +213,7 @@ export function PostPage({
 						</header>
 
 						<details ref={contentsRef} className="nb-panel mt-12 p-5 lg:hidden">
-							<summary className="cursor-pointer text-label text-text">
+							<summary className="list-item min-h-6 cursor-pointer py-1 text-label text-text">
 								Contents
 							</summary>
 							<Toc

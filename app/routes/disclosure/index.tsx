@@ -62,7 +62,7 @@ export default function DisclosurePage() {
 				Questions, or found a mistake? Reach out at{" "}
 				<a
 					href={`mailto:${CONTACT.email}`}
-					className="font-semibold text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent"
+					className="py-1 font-semibold text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent"
 				>
 					{CONTACT.email}
 				</a>

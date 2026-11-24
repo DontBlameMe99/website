@@ -11,7 +11,6 @@ import {
 	Globe,
 	Heart,
 	Image as ImageIcon,
-	Info,
 	Layers,
 	Mail,
 	MessageCircle,
@@ -261,7 +260,7 @@ export function SlotMachine() {
 				<Stat label="hits" value={hits} hint="1 in 4, by design" />
 			</div>
 
-			<Callout icon={<Info className="size-3.5" />}>
+			<Callout kind="info">
 				A toy, not a measurement. The payoff is unpredictable on purpose. A real
 				feed sets its own odds and never shows you the table.
 			</Callout>

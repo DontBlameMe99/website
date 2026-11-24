@@ -244,7 +244,7 @@ export default function Post() {
 				width={1440}
 				height={900}
 			/>
-			<Callout style={{ background: "transparent" }}>
+			<Callout>
 				This personally is funny to me, because VSCode is always known for
 				having 20 sidebars open at once, and now there is another one coming in
 				the mix.
@@ -461,7 +461,7 @@ export default function Post() {
 				partially or completely wrong. But that sparked the joy
 				<Footnote n={4} />
 			</p>
-			<Callout style={{ background: "transparent" }}>
+			<Callout>
 				I know that we are currently not talking about AI models, but harnesses.
 				I personally want to tell my story, and my setup (until very recently)
 				wasn't really focused on which model exactly I was using. To be fair, I

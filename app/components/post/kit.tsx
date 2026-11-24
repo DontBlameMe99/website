@@ -1,3 +1,16 @@
+import {
+	Bug,
+	CircleAlert,
+	CircleCheck,
+	CircleHelp,
+	CircleX,
+	Ghost,
+	Info,
+	Lightbulb,
+	Quote,
+	StickyNote,
+	TriangleAlert,
+} from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useId, useState } from "react";
 import { cn } from "~/lib/utils";
@@ -336,32 +349,42 @@ export function Range({
 	);
 }
 
+const CALLOUT_STYLES = {
+	warning: { icon: TriangleAlert, label: "Warning", color: "var(--yellow)" },
+	tip: { icon: Lightbulb, label: "Tip", color: "var(--teal)" },
+	important: { icon: CircleAlert, label: "Important", color: "var(--mauve)" },
+	danger: { icon: Ghost, label: "Danger", color: "var(--red)" },
+	info: { icon: Info, label: "Info", color: "var(--blue)" },
+	quote: { icon: Quote, label: "Quote", color: "var(--subtext0)" },
+	note: { icon: StickyNote, label: "Note", color: "var(--blue)" },
+	success: { icon: CircleCheck, label: "Success", color: "var(--green)" },
+	question: { icon: CircleHelp, label: "Question", color: "var(--yellow)" },
+	failure: { icon: CircleX, label: "Failure", color: "var(--red)" },
+	bug: { icon: Bug, label: "Bug", color: "var(--red)" },
+} as const;
+
+export type CalloutKind = keyof typeof CALLOUT_STYLES;
+
 export function Callout({
 	children,
-	icon,
-	accent = "var(--accent-surface)",
-	style,
+	kind = "note",
+	title,
 }: {
 	children: React.ReactNode;
-	icon?: React.ReactNode;
-	accent?: string;
-	style?: React.CSSProperties;
+	kind?: CalloutKind;
+	title?: string;
 }) {
+	const { icon: Icon, label, color } = CALLOUT_STYLES[kind];
 	return (
 		<div
-			className="not-prose my-6 flex gap-3 nb-callout p-3 text-xs leading-relaxed text-text"
-			style={{
-				borderLeftColor: accent,
-				background: `color-mix(in srgb, ${accent} 4%, transparent)`,
-				...style,
-			}}
+			className="not-prose my-6 nb-callout p-3 text-sm leading-relaxed text-text"
+			style={{ borderLeftColor: color }}
 		>
-			{icon ? (
-				<span className="mt-0.5 shrink-0" style={{ color: accent }}>
-					{icon}
-				</span>
-			) : null}
-			<div>{children}</div>
+			<div className="mb-1.5 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.12em]">
+				<Icon className="size-3.5 shrink-0" style={{ color }} aria-hidden />
+				<span>{title ?? label}</span>
+			</div>
+			<div className={kind === "quote" ? "italic" : undefined}>{children}</div>
 		</div>
 	);
 }

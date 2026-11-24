@@ -1,4 +1,5 @@
 import type { Section } from "~/lib/post_types";
+import { Callout } from "~/components/post/kit";
 import { PostHeading, Prose } from "~/components/post/prose";
 import { HourAccumulator } from "~/content/experiences/learning_to_learn";
 
@@ -98,10 +99,10 @@ export default function Post() {
 				of next month, you would need to dedicate more time. But always
 				remember:
 			</p>
-			<blockquote>
+			<Callout kind="quote">
 				Sleep is really important. Do not—NEVER—cut down on your sleeping hours
 				to learn more. You learn most things when you sleep.
-			</blockquote>
+			</Callout>
 			<PostHeading level={3} id="how-to-get-the-habit-of-learning">
 				How to Get the Habit of Learning
 			</PostHeading>
@@ -322,9 +323,9 @@ export default function Post() {
 					' Yes, I know that this may seem obvious, but I have caught myself more times than I would like to admit saying, "I don\'t have to learn today; I learned so much yesterday." But this is something you should prevent from happening.'
 				}
 			</p>
-			<blockquote>
+			<Callout kind="quote">
 				Building a habit can take weeks, but breaking it only takes a few days.
-			</blockquote>
+			</Callout>
 			<p>
 				{
 					"So if you want to reward yourself, use something positive for your life. If you like reading, read a book for an hour. "
@@ -388,11 +389,11 @@ export default function Post() {
 				using an app on your smartphone and it just is not working, change it
 				up. Try using flashcards, Books, courses—whatever.
 			</p>
-			<blockquote>
+			<Callout kind="quote">
 				Just because a single method of Learning is not working for you does not
 				mean that you cannot learn. Everybody can easily, without much effort,
 				learn anything they want.
-			</blockquote>
+			</Callout>
 			<PostHeading level={2} id="conclusion">
 				Conclusion
 			</PostHeading>

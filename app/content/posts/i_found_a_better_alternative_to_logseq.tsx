@@ -1,4 +1,5 @@
 import type { Section } from "~/lib/post_types";
+import { Callout } from "~/components/post/kit";
 import { PostHeading, PostImage, Prose } from "~/components/post/prose";
 
 export default function Post() {
@@ -105,20 +106,20 @@ export default function Post() {
 				{" or "}
 				<code>{"[DisplayName](FileName)"}</code>.
 			</p>
-			<blockquote>
-				Update I have noticed on a friend's PC that Logseq now apparently also
-				uses "normal" links? So I am not sure if they: A) Changed this behavior
-				or B) It just was a me-problem but anyways, this seems to no longer be
-				an issue now.
-			</blockquote>
+			<Callout kind="info" title="Update">
+				I have noticed on a friend's PC that Logseq now apparently also uses
+				"normal" links? So I am not sure if they: A) Changed this behavior or B)
+				It just was a me-problem but anyways, this seems to no longer be an
+				issue now.
+			</Callout>
 			<p>But for whatever reason, Logseq uses a format along the lines of:</p>
 			<p>
 				<code>{"[MyFile|1f02da65-77b8-6821-86b8-562aef941e89]"}</code>
 			</p>
-			<blockquote>
-				Disclaimer I am unaware of the exact format it used. This is what I
-				think it looked like.
-			</blockquote>
+			<Callout kind="note" title="Disclaimer">
+				I am unaware of the exact format it used. This is what I think it looked
+				like.
+			</Callout>
 			<PostHeading level={3} id="5-plugins">
 				5: Plugins
 			</PostHeading>

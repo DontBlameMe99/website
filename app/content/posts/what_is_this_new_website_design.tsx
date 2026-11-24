@@ -1,4 +1,5 @@
 import type { Section } from "~/lib/post_types";
+import { Callout } from "~/components/post/kit";
 import { PostHeading, Prose } from "~/components/post/prose";
 import { NoteGraphFigure } from "~/content/experiences/what_is_this_new_website_design";
 
@@ -121,13 +122,13 @@ export default function Post() {
 				do basically all my writing in Obsidian anyways, and I wish to form
 				connections between things related and unrelated to my blog.
 			</p>
-			<blockquote>
-				{"Important to remember Connecting both your blog and your personal "}
+			<Callout kind="important" title="Important to remember">
+				{"Connecting both your blog and your personal "}
 				<strong>P</strong>ersonal<strong>K</strong>nowledge<strong>M</strong>
 				anagement is not always a good choice. Depending on your workflow, it
 				may even be a really bad idea. But for me, due to my specific
 				requirements, it totally was worth it.
-			</blockquote>
+			</Callout>
 			<PostHeading level={3} id="visuals">
 				Visuals
 			</PostHeading>
@@ -311,15 +312,15 @@ export default function Post() {
 			<PostHeading level={4} id="no-downsides-at-all">
 				No Downsides at All?
 			</PostHeading>
-			<blockquote>
-				{"Disclaimer These issues only affects "}
+			<Callout kind="note" title="Disclaimer">
+				{"These issues only affects "}
 				<strong>my personal</strong>
 				{" use-case, because I am using a "}
 				<strong>subdirectory</strong>
 				{
 					" of my actual Vault. If I would be publishing my entire Vault, this wouldn't be an issue."
 				}
-			</blockquote>
+			</Callout>
 			<PostHeading level={5} id="attachment-move-it">
 				Attachment? Move It
 			</PostHeading>
@@ -379,10 +380,8 @@ export default function Post() {
 				{"I simply wished for the blog to simply "}
 				<strong>not include those links</strong>.
 			</p>
-			<blockquote>
-				{
-					"Important update I managed to fix this exact issue with the links, by "
-				}
+			<Callout kind="important" title="Important update">
+				{"I managed to fix this exact issue with the links, by "}
 				<a
 					href="https://quartz.jzhao.xyz/advanced/making-plugins"
 					target="_blank"
@@ -395,7 +394,7 @@ export default function Post() {
 				}
 				<strong>exactly</strong>
 				{" what I wished for!"}
-			</blockquote>
+			</Callout>
 			<PostHeading level={3} id="how-exactly-does-the-new-workflow-work">
 				How Exactly Does the New Workflow Work
 			</PostHeading>

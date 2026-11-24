@@ -1,4 +1,5 @@
 import type { Section } from "~/lib/post_types";
+import { Callout } from "~/components/post/kit";
 import { CodeBlock } from "~/components/post/code_block";
 import { PostHeading, Prose } from "~/components/post/prose";
 import {
@@ -56,10 +57,10 @@ export default function Post() {
 				If you have some experience developing software, you may know this
 				quote:
 			</p>
-			<blockquote>
+			<Callout kind="quote">
 				I can't tell you why it isn't working, but it works perfectly on my
 				machine.
-			</blockquote>
+			</Callout>
 			<p>
 				This is a problem which occurs when a piece of software is not perfectly
 				reproducible.
@@ -244,7 +245,7 @@ export default function Post() {
 				</strong>
 				.
 			</p>
-			<blockquote>
+			<Callout kind="quote">
 				{
 					"Yes, this is a new configuration syntax (which actually is a fully fledged programming language), but this is "
 				}
@@ -252,7 +253,7 @@ export default function Post() {
 					the last configuration syntax you will ever have to learn
 				</strong>
 				.
-			</blockquote>
+			</Callout>
 			<p>
 				This is also a main selling point for me, since I always forgot where I
 				configured XY, or if I actually configured it at all. Also, you may
@@ -304,12 +305,11 @@ export default function Post() {
 				. Get your system to be working as you want it to and don't waste all
 				your time creating the (non existing) "perfect system".
 			</p>
-			<blockquote>
-				Important Note: It is also totally possible and fine to first install
-				NixOS inside of a virtual machine, adjust your configuration to your
-				liking, and then install it on your main system. This is the approach I
-				took as well.
-			</blockquote>
+			<Callout kind="important" title="Important Note">
+				It is also totally possible and fine to first install NixOS inside of a
+				virtual machine, adjust your configuration to your liking, and then
+				install it on your main system. This is the approach I took as well.
+			</Callout>
 			<PostHeading level={3} id="multi-versioning">
 				Multi-Versioning
 			</PostHeading>
@@ -409,11 +409,11 @@ in {
 					{" which is version controlling the flake's packages"}
 				</li>
 			</ul>
-			<blockquote>
-				Note: I don't install e.g. rust up globally, since I only need it in the
+			<Callout kind="note">
+				I don't install e.g. rust up globally, since I only need it in the
 				development environment. Each environment says and gets what it needs by
 				itself (once I navigate into the directory).
-			</blockquote>
+			</Callout>
 			<p>
 				{"The "}
 				<code>{"flake.nix"}</code>

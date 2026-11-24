@@ -13,3 +13,6 @@ result
 
 # Local scratch
 /.scratch/
+
+# Generated WCAG reports
+/report-*.json

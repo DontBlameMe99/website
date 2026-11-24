@@ -1,7 +1,7 @@
 /**
  * The theming catalog: one list of shapes, one list per brightness, and the pure
  * helpers that keep stored values honest. The palette and style values live in
- * this catalog with each entry. Tailwind emits them as CSS variables keyed by
+ * this catalog with each entry. The build emits them as CSS variables keyed by
  * `data-scheme` and `data-style`, so a preview can scope a theme to any element
  * from the same source.
  */
@@ -1655,7 +1655,6 @@ export const themeBootScript = `
 	})();
 `;
 
-/** Root defaults and accent pointers emitted by the Tailwind plugin. */
 const ROOT_SCHEME_EXTRAS: Record<string, string> = {
 	"--post-accent": "var(--accent-surface)",
 	"--motion-quick": "120ms",
@@ -1663,7 +1662,7 @@ const ROOT_SCHEME_EXTRAS: Record<string, string> = {
 	"--motion-base": "180ms",
 };
 
-/** Root defaults and accent pointers emitted by the Tailwind plugin. */
+/** Root defaults Mocha does not own. */
 export const ROOT_SCHEME_TOKENS: Record<string, string> = {
 	...getScheme("mocha").tokens,
 	...ROOT_SCHEME_EXTRAS,

@@ -8,6 +8,8 @@ import {
 	readThemeFile,
 	resolveCustomTheme,
 	resolveSelection,
+	seedPalette,
+	seedStyle,
 	themeFile,
 } from "../lib/custom_theme";
 import { DEFAULT_PREFS, PALETTE_TOKENS } from "../lib/themes";
@@ -241,5 +243,13 @@ describe("theme files", () => {
 		expect(readThemeFile("null")).toEqual({
 			error: "A theme file is a JSON object.",
 		});
+	});
+	test("seeds a palette from the catalog without reading CSS", () => {
+		expect(seedPalette("dracula")?.pink).toBe("#ff97d2");
+	});
+
+	test("seeds a style from the defaults and its own tokens", () => {
+		expect(seedStyle("flat").radius).toBe("6px");
+		expect(seedStyle("glassmorphism").radius).toBe("30px");
 	});
 });

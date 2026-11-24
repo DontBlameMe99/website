@@ -11,12 +11,15 @@ import {
 	ACCENT_HUES,
 	accentToStored,
 	DEFAULT_PREFS,
+	getScheme,
 	isHex,
 	PALETTE_TOKENS,
 	type PaletteToken,
 	resolvePrefs,
+	ROOT_STYLE_TOKENS,
 	type SchemeId,
 	STORAGE_KEYS,
+	STYLES,
 	STYLE_TOKENS,
 	STYLE_VALUE_MAX,
 	type StoredPrefs,
@@ -274,81 +277,14 @@ export const writeCustomTheme = (custom: CustomTheme) => {
 
 /* --- seeding -------------------------------------------------------------- */
 
-/**
- * Declarations from rules whose selector names one of these attributes exactly.
- * Descendant rules are skipped: a token set on a pseudo-element is not part of
- * the scope, and a preview needs only what the scope itself declares.
- */
-const declarationsFrom = (
-	selectors: readonly string[],
-): Record<string, string> => {
-	const wanted = new Set(selectors);
-	const found: Record<string, string> = {};
-
-	type Rule = CSSRule & {
-		selectorText?: string;
-		style?: CSSStyleDeclaration;
-		cssRules?: CSSRuleList;
-	};
-
-	const read = (style: CSSStyleDeclaration) => {
-		for (let i = 0; i < style.length; i++) {
-			const name = style.item(i);
-			if (name.startsWith("--"))
-				found[name.slice(2)] = style.getPropertyValue(name).trim();
-		}
-	};
-
-	/**
-	 * A dev stylesheet splits a block at its nested @supports rules: what follows
-	 * one lands in declaration-only children instead of the rule's own style.
-	 * Those children belong to the same element, so they are read too. A nested
-	 * selector like &:hover does not.
-	 */
-	const readNested = (rules: CSSRuleList | undefined) => {
-		if (!rules) return;
-		for (let index = 0; index < rules.length; index++) {
-			const child = rules[index] as Rule;
-			if (!child) continue;
-			const selector = child.selectorText?.trim();
-			if (selector !== undefined && selector !== "&") continue;
-			if (child.style) read(child.style);
-			readNested(child.cssRules);
-		}
-	};
-
-	const walk = (rules: CSSRuleList) => {
-		for (let index = 0; index < rules.length; index++) {
-			const rule = rules[index] as Rule;
-			if (!rule) continue;
-
-			// Duck-typed, not instanceof: a rule from another realm (an isolated
-			// world, an extension) fails the check but still has the declarations.
-			if (rule.selectorText && rule.style) {
-				const matches = rule.selectorText
-					.split(",")
-					.some((part) => wanted.has(part.trim()));
-				if (matches) {
-					read(rule.style);
-					readNested(rule.cssRules);
-				}
-			}
-
-			if (rule.cssRules?.length) walk(rule.cssRules);
-		}
-	};
-
-	for (const sheet of document.styleSheets) {
-		try {
-			if (sheet.cssRules) walk(sheet.cssRules);
-		} catch {
-			// A cross-origin sheet cannot be read, and has no theme rules anyway.
-		}
-	}
-
-	return found;
-};
-
+const catalogTokens = (
+	tokens: Record<string, string>,
+): Record<string, string> =>
+	Object.fromEntries(
+		Object.entries(tokens)
+			.filter(([name]) => name.startsWith("--"))
+			.map(([name, value]) => [name.slice(2), value]),
+	);
 const VAR_ONLY = /^var\(\s*--([a-z0-9-]+)\s*\)$/i;
 
 /** Mocha writes `--ink: var(--text)`; a palette copy needs the color itself. */
@@ -371,11 +307,9 @@ const resolveRefs = (
 	return resolved;
 };
 
-/** A palette copy that is complete and answered by the CSS the page has loaded. */
-export const seedPalette = (scheme: SchemeId): CustomPalette | null => {
-	const declarations = resolveRefs(
-		declarationsFrom([`[data-scheme="${scheme}"]`]),
-	);
+/** A palette copy that is complete and answered by the catalog. */
+export const seedPalette = (schemeId: SchemeId): CustomPalette | null => {
+	const declarations = resolveRefs(catalogTokens(getScheme(schemeId).tokens));
 	const palette: CustomPalette = {};
 	for (const token of PALETTE_TOKENS) {
 		const value = hex6(declarations[token]);
@@ -412,10 +346,12 @@ export const expandStyleRefs = (
 };
 
 /** Every token the defaults plus one style declare, in their authored form. */
-export const seedStyle = (style: StyleId): CustomStyle => {
-	const reset = declarationsFrom(["[data-style]"]);
-	const own = declarationsFrom([`[data-style="${style}"]`]);
-	const merged = { ...reset, ...own };
+export const seedStyle = (styleId: StyleId): CustomStyle => {
+	const own = STYLES.find((style) => style.id === styleId);
+	const merged = {
+		...catalogTokens(ROOT_STYLE_TOKENS),
+		...catalogTokens(own?.tokens ?? {}),
+	};
 	const tokens: CustomStyle = {};
 	for (const token of STYLE_TOKENS) {
 		const value = merged[token];

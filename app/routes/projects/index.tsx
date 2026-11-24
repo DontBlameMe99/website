@@ -92,7 +92,7 @@ function ProjectCard({ project }: { project: Project }) {
 				</p>
 
 				<span className="mt-auto flex items-center justify-between gap-4 nb-line-t pt-3 text-meta">
-					<span className="truncate">
+					<span className="min-w-0 break-all sm:truncate">
 						{project.href.replace(/^https?:\/\//, "").replace(/\/$/, "")}
 					</span>
 					<ArrowUpRight className="icon-nudge-up size-4 shrink-0 text-subtext0 group-hover:text-accent" />

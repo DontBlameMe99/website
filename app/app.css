@@ -1394,7 +1394,7 @@ html[data-style="neobrutalist"] :is(.text-display, .text-page-title) {
 }
 
 html[data-style="neobrutalist"] .text-display {
-	font-size: clamp(2.25rem, 9vw, 6rem);
+	font-size: clamp(1.75rem, 9vw, 6rem);
 }
 
 html[data-style="neobrutalist"] .text-page-title {
@@ -1690,6 +1690,13 @@ html[data-style="neobrutalist"] .hero-step {
 	);
 	--accent-hover-fill: var(--accent-surface);
 	--accent-press-fill: var(--accent-surface);
+}
+
+@media (min-width: 20rem) and (max-width: 26rem) {
+	html[data-style="neobrutalist"] section.nb-panel a.break-all {
+		font-size: 0.875rem;
+		white-space: nowrap;
+	}
 }
 
 /* Flat is a printed sheet: one reading column, a strong top rule, and space
@@ -2388,6 +2395,13 @@ html[data-style="neobrutalist"] .hero-step {
 	}
 }
 
+@media (min-width: 48rem) and (max-width: 63.99rem) {
+	[data-style="flat"] main > div > div > div.mt-20.grid {
+		grid-template-columns: minmax(0, 1fr) 16rem;
+		column-gap: 2rem;
+	}
+}
+
 @media (max-width: 63.99rem) {
 	[data-style="flat"] .relative.mt-10.grid > li > a.nb-panel h2 {
 		font-size: 1.125rem;
@@ -2625,6 +2639,11 @@ html[data-style="neobrutalist"] .hero-step {
 	position: relative;
 }
 
+[data-style="glassmorphism"] .glass-marker-scope .filter-chip {
+	position: relative;
+	z-index: 1;
+}
+
 [data-style="glassmorphism"] .nav-link {
 	position: relative;
 	z-index: 1;
@@ -2772,7 +2791,7 @@ html[data-style="neobrutalist"] .hero-step {
 }
 
 [data-style="glassmorphism"] .text-display {
-	font-size: clamp(2.75rem, 9vw, 6rem);
+	font-size: clamp(2rem, 9vw, 6rem);
 	font-weight: 700;
 	line-height: 0.92;
 	letter-spacing: -0.06em;
@@ -3173,7 +3192,7 @@ html[data-style="neobrutalist"] .hero-step {
 /* The header is the title bar. It scrolls with the window so body text never
    sits under the chrome, which also keeps the raster contrast pass honest. */
 [data-style="xp"] header.nb-chrome {
-	position: static;
+	position: relative;
 	max-width: 1180px;
 	margin-inline: auto;
 	background-color: #004bd6;
@@ -5585,7 +5604,6 @@ html[data-style="material"] footer.nb-line-t .text-label {
 [data-style="msdos"]
 	a.nb-panel:focus-visible
 	h2:not(:where([data-style]:not([data-style="msdos"]) *)) {
-	padding-inline: 4px;
 	background-color: var(--accent-surface);
 	color: var(--on-accent);
 }
@@ -5593,6 +5611,7 @@ html[data-style="material"] footer.nb-line-t .text-label {
 [data-style="msdos"]
 	a.nb-panel
 	h2:not(:where([data-style]:not([data-style="msdos"]) *)) {
+	padding-inline: 4px;
 	transition: none;
 }
 
@@ -5911,12 +5930,12 @@ html[data-style="minecraft"] img:not(:where([data-style]:not(:root) *)),
 }
 
 html[data-style="minecraft"] {
-	scroll-padding-top: 7rem;
+	scroll-padding-top: 13rem;
 }
 
 @media (min-width: 40rem) {
 	html[data-style="minecraft"] {
-		scroll-padding-top: 6rem;
+		scroll-padding-top: 6.5rem;
 	}
 }
 
@@ -6366,7 +6385,7 @@ html[data-style="minecraft"] .page-window p {
 
 @media (max-width: 31.99rem) {
 	html[data-style="minecraft"] .page-window h1 {
-		font-size: 28px;
+		font-size: clamp(16px, 5.5vw, 28px);
 	}
 
 	html[data-style="minecraft"] header.nb-chrome nav {
@@ -6455,6 +6474,16 @@ html[data-style="minecraft"]
 	position: relative;
 	min-height: 112px;
 	padding: 16px 16px 16px 72px;
+}
+
+html[data-style="minecraft"]
+	main
+	:is(
+		ul > li > a.nb-panel:not(.nb-spot),
+		nav[aria-label="More posts"] > a.nb-panel
+	)
+	h2 {
+	overflow-wrap: anywhere;
 }
 
 html[data-style="minecraft"]
@@ -6801,13 +6830,13 @@ html[data-style="minecraft"] .search-field:has(input:focus-visible) {
 	}
 
 	html {
-		scroll-padding-top: 6.5rem;
+		scroll-padding-top: 6.75rem;
 		text-size-adjust: 100%;
 	}
 
 	@media (min-width: 40rem) {
 		html {
-			scroll-padding-top: 5rem;
+			scroll-padding-top: 5.25rem;
 		}
 	}
 
@@ -7027,6 +7056,7 @@ html[data-style="minecraft"] .search-field:has(input:focus-visible) {
 
 @utility nb-chip {
 	display: inline-flex;
+	min-height: 1.5rem;
 	align-items: center;
 	gap: 0.35rem;
 	border: var(--bw) var(--line-style) var(--control-edge);
@@ -7166,6 +7196,7 @@ html[data-style="minecraft"] .search-field:has(input:focus-visible) {
 	text-underline-offset: 3px;
 	text-decoration-color: var(--accent-surface);
 	box-decoration-break: clone;
+	padding-block: 2px;
 	transition:
 		background-color var(--motion-quick) ease,
 		color var(--motion-quick) ease;

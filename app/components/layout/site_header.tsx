@@ -114,12 +114,6 @@ export function SiteHeader() {
 						</NavLink>
 					))}
 				</nav>
-
-				<span className="win-controls order-4" aria-hidden="true">
-					<span />
-					<span />
-					<span />
-				</span>
 			</div>
 			{/* The reading bar is the header's bottom rule: accent behind you,
 			    edge ahead. It moves with the two-row mobile header instead of

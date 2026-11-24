@@ -178,11 +178,6 @@ export function PostPage({
 									>
 										{formatDate(post.date)}
 									</time>
-									<span className="win-controls" aria-hidden="true">
-										<span />
-										<span />
-										<span />
-									</span>
 								</span>
 							</div>
 

@@ -105,11 +105,6 @@ export default function Home() {
 					<span className="nb-chip nb-accent hero-step hero-step-1 uppercase tracking-[0.1em]">
 						01<span className="mx-1">/</span>Index
 					</span>
-					<span className="win-controls" aria-hidden="true">
-						<span />
-						<span />
-						<span />
-					</span>
 				</div>
 
 				<div className="mt-12">

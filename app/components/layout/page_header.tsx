@@ -37,11 +37,6 @@ export function PageHeader({
 							{meta}
 						</span>
 					) : null}
-					<span className="win-controls" aria-hidden="true">
-						<span />
-						<span />
-						<span />
-					</span>
 				</span>
 			</div>
 

@@ -12,11 +12,6 @@ export function NotFound({ status = 404 }: { status?: number }) {
 					<span className="text-meta uppercase tracking-[0.12em] tabular-nums">
 						{status}
 					</span>
-					<span className="win-controls" aria-hidden="true">
-						<span />
-						<span />
-						<span />
-					</span>
 				</span>
 			</div>
 

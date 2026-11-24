@@ -7367,6 +7367,39 @@ html[data-style="minecraft"] .search-field:has(input:focus-visible) {
 	}
 }
 
+/* The ADE animation is the only motion this figure adds. Every color in the
+   gradient is a palette accent, so the letters stay readable in both schemes. */
+.ade-rainbow {
+	display: inline-block;
+	background-image: linear-gradient(
+		90deg,
+		var(--pink),
+		var(--mauve),
+		var(--red),
+		var(--maroon),
+		var(--peach),
+		var(--yellow),
+		var(--green),
+		var(--teal),
+		var(--sky),
+		var(--sapphire),
+		var(--blue),
+		var(--lavender),
+		var(--pink)
+	);
+	background-size: 200% 100%;
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: ade-rainbow-slide 3s linear infinite;
+}
+
+@keyframes ade-rainbow-slide {
+	to {
+		background-position: -200% 0;
+	}
+}
+
 @utility scrollbar-none {
 	scrollbar-width: none;
 

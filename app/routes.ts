@@ -4,6 +4,10 @@ export default [
 	index("routes/home/index.tsx"),
 	route("blog", "routes/blog/index.tsx"),
 	route(
+		"blog/programming_with_just_vibes",
+		"routes/blog/posts/programming_with_just_vibes.tsx",
+	),
+	route(
 		"blog/backups_you_only_want_them_once_you_need_them",
 		"routes/blog/posts/backups_you_only_want_them_once_you_need_them.tsx",
 	),

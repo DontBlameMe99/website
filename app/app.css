@@ -1517,17 +1517,6 @@ html[data-style="neobrutalist"] article .page-window h1 {
 	text-transform: none;
 }
 
-html[data-style="neobrutalist"] .page-window .win-controls {
-	display: inline-flex;
-	gap: 4px;
-}
-
-html[data-style="neobrutalist"] .page-window .win-controls > span {
-	width: 0.6rem;
-	height: 0.6rem;
-	border: 2px solid var(--edge);
-	box-shadow: 2px 2px 0 var(--ink);
-}
 html[data-style="neobrutalist"] main :is(a, button, section).nb-panel {
 	position: relative;
 	box-shadow: var(--shadow-hard-lg);
@@ -2685,33 +2674,6 @@ html[data-style="neobrutalist"] .hero-step {
 	}
 }
 
-/* Three small status ports belong to the masthead, not the site header. */
-[data-style="glassmorphism"] .page-window .win-controls {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-}
-
-[data-style="glassmorphism"] .page-window .win-controls > span {
-	width: 7px;
-	height: 7px;
-	border-radius: 999px;
-	background-color: var(--glass-rim-soft);
-	box-shadow: inset 0 1px 0 var(--glass-rim);
-}
-
-[data-style="glassmorphism"] .page-window .win-controls > span:first-child {
-	background-color: var(--accent-surface);
-}
-
-[data-style="glassmorphism"] .page-window .win-controls > span:nth-child(2) {
-	background-color: color-mix(
-		in srgb,
-		var(--accent-surface) 55%,
-		var(--page-surface)
-	);
-}
-
 /* The masthead is the brightest pane on the page. Its light lives on the
    border and in a travelling specular line, never under the title. */
 [data-style="glassmorphism"] .page-window {
@@ -3374,73 +3336,6 @@ html[data-style="neobrutalist"] .hero-step {
 	box-shadow: var(--xp-recessed);
 }
 
-/* Minimize, restore and close, as the title bar draws them. */
-.win-controls {
-	display: none;
-}
-
-[data-style="xp"] .win-controls {
-	display: inline-flex;
-	align-items: center;
-	gap: 2px;
-	margin-left: 0.5rem;
-}
-
-@media (max-width: 49.99rem) {
-	[data-style="xp"] header.nb-chrome .win-controls {
-		display: none;
-	}
-}
-
-[data-style="xp"] .win-controls > span {
-	position: relative;
-	width: 20px;
-	height: 18px;
-	border: 1px solid #0a246a;
-	border-radius: 2px;
-	background-image: linear-gradient(180deg, #4a9df6, #1b5fc4);
-	box-shadow: inset 0 0 0 1px #7ab8ff;
-}
-
-[data-style="xp"] .win-controls > span:nth-child(1)::before {
-	content: "";
-	position: absolute;
-	left: 4px;
-	right: 4px;
-	bottom: 4px;
-	height: 2px;
-	background: #fff;
-}
-
-[data-style="xp"] .win-controls > span:nth-child(2)::before {
-	content: "";
-	position: absolute;
-	inset: 3px;
-	border: 1px solid #fff;
-}
-
-[data-style="xp"] .win-controls > span:nth-child(3) {
-	border-color: #6d1209;
-	background-image: linear-gradient(180deg, #e66a58, #b52a1c);
-	box-shadow: inset 0 0 0 1px #ff9a86;
-}
-
-[data-style="xp"] .win-controls > span:nth-child(3)::before,
-[data-style="xp"] .win-controls > span:nth-child(3)::after {
-	content: "";
-	position: absolute;
-	left: 9px;
-	top: 3px;
-	width: 1px;
-	height: 10px;
-	background: #fff;
-	transform: rotate(45deg);
-}
-
-[data-style="xp"] .win-controls > span:nth-child(3)::after {
-	transform: rotate(-45deg);
-}
-
 /* The footer is the taskbar. */
 [data-style="xp"] footer.nb-line-t {
 	margin-top: 0;
@@ -4100,31 +3995,6 @@ html[data-style="neobrutalist"] .hero-step {
 		a:not([aria-current="page"]):active {
 		transform: translateY(1px);
 		box-shadow: var(--button-press-shadow);
-	}
-}
-
-/* Three recessed indicator lamps, already in the markup as aria-hidden
-   chrome. They show on the masthead at every width, on the header only when
-   the bar has room. */
-[data-style="skeuomorphic"] .win-controls {
-	display: inline-flex;
-	align-items: center;
-	gap: 4px;
-}
-
-[data-style="skeuomorphic"] .win-controls > span {
-	width: 6px;
-	height: 6px;
-	border-radius: 999px;
-	background-color: var(--well-surface);
-	box-shadow:
-		inset 0 1px 2px light-dark(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)),
-		0 1px 0 light-dark(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.24));
-}
-
-@media (max-width: 39.99rem) {
-	[data-style="skeuomorphic"] header.nb-chrome .win-controls {
-		display: none;
 	}
 }
 
@@ -5487,22 +5357,6 @@ html[data-style="material"] footer.nb-line-t .text-label {
 	text-shadow: none;
 }
 
-[data-style="msdos"] .page-window .win-controls {
-	display: inline-flex;
-	gap: 2px;
-}
-
-[data-style="msdos"] .page-window .win-controls > span {
-	width: 6px;
-	height: 6px;
-	border: 1px solid var(--edge);
-	background-color: var(--page-surface);
-}
-
-[data-style="msdos"] .page-window .win-controls > span:last-child {
-	background-color: var(--accent-surface);
-}
-
 [data-style="msdos"] .page-window > h1,
 [data-style="msdos"] .page-window > p,
 [data-style="msdos"] .page-window > div:not(:first-child) {
@@ -6001,21 +5855,6 @@ html[data-style="minecraft"] header.nb-chrome .nb-button {
 	min-width: 40px;
 	padding: 0;
 	justify-content: center;
-}
-
-html[data-style="minecraft"] .win-controls {
-	display: inline-flex;
-	gap: 2px;
-	margin-left: 2px;
-}
-
-html[data-style="minecraft"] .win-controls > span {
-	display: block;
-	width: 8px;
-	height: 8px;
-	border: 2px solid var(--mc-deep);
-	background-color: var(--mc-press);
-	box-shadow: inset 1px 1px 0 var(--mc-light);
 }
 
 html[data-style="minecraft"] header.nb-chrome nav {

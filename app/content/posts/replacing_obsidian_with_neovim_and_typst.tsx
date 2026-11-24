@@ -1,4 +1,5 @@
 import { CodeBlock } from "~/components/post/code_block";
+import { Callout } from "~/components/post/kit";
 import { Link, PostHeading, PostImage, Prose } from "~/components/post/prose";
 import { NoteSyntaxSwitcher } from "~/content/experiences/replacing_obsidian_with_neovim_and_typst";
 import type { Section } from "~/lib/post_types";
@@ -34,7 +35,7 @@ export default function Post() {
 			<PostHeading level={2} id="my-old-setup">
 				My Old Setup
 			</PostHeading>
-			<blockquote>
+			<Callout kind="note">
 				{
 					"This is just a short summary, if you want to know it in more detail, check out "
 				}
@@ -45,7 +46,7 @@ export default function Post() {
 					this
 				</Link>
 				{" blog post."}
-			</blockquote>
+			</Callout>
 			<PostHeading level={3} id="obsidian-my-beloved">
 				Obsidian, My Beloved
 			</PostHeading>
@@ -318,9 +319,9 @@ export default function Post() {
 				supported, but different tools often extend it in incompatible ways,
 				which is a problem once such software stops being maintained.
 			</p>
-			<blockquote>
+			<Callout kind="quote">
 				Markdown was never designed to be a complete document format.
-			</blockquote>
+			</Callout>
 			<PostHeading level={4} id="math">
 				Math
 			</PostHeading>
@@ -459,11 +460,11 @@ Hello, world!
 				`}
 			/>
 			<p>It is more readable and has less boilerplate.</p>
-			<blockquote>
+			<Callout kind="quote">
 				Of course, experienced LaTeX users rarely write this boilerplate
 				themselves - templates solve much of this problem. My issue is that the
 				underlying system still feels harder to understand.
-			</blockquote>
+			</Callout>
 			<p>
 				I am sure that you can, without actually learning either Typst or any
 				programming, understand a large chunk of it.
@@ -597,10 +598,10 @@ $
 				since I already have my PDE already set up and working, it just feels
 				strange to not use it…
 			</p>
-			<blockquote>
+			<Callout kind="quote">
 				When I've spent so much time setting up my PDE, I want to use it
 				everywhere I can.
-			</blockquote>
+			</Callout>
 			<PostHeading level={3} id="unify-setup">
 				Unify Setup
 			</PostHeading>
@@ -868,10 +869,10 @@ $
 			<PostHeading level={3} id="tldr">
 				TLDR
 			</PostHeading>
-			<blockquote>
+			<Callout kind="quote">
 				Obsidian is optimized for managing knowledge. I realized that what I
 				actually needed was a reliable environment for creating knowledge.
-			</blockquote>
+			</Callout>
 			<p>A week ago I thought I was just fixing a broken note-taking app.</p>
 			<p>Instead, I ended up replacing my entire writing workflow.</p>
 			<p>I expected compromises.</p>

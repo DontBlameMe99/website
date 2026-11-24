@@ -1,4 +1,4 @@
-import { Flame, Layers, Plus, Terminal } from "lucide-react";
+import { Layers, Plus, Terminal } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import {
@@ -232,7 +232,7 @@ function SpiralChart({ spiral }: { spiral: boolean }) {
 					hint={spiral ? "+0 for +80 hours" : "already there"}
 				/>
 			</div>
-			<Callout icon={<Flame className="size-3.5" />}>
+			<Callout kind="note">
 				illustrative curve, not measured. the toggle only changes the drawing.
 			</Callout>
 		</div>

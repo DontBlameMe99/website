@@ -22,7 +22,7 @@ const loaded = await Promise.all(
 
 describe("post registry", () => {
 	test("every post has metadata and sections", () => {
-		expect(Object.keys(postEntries).length).toBe(12);
+		expect(Object.keys(postEntries).length).toBe(13);
 		for (const { slug, meta, body } of loaded) {
 			expect(slug).toMatch(/^[a-z0-9_]+$/);
 			expect(meta.meta.title.length).toBeGreaterThan(0);
@@ -68,9 +68,9 @@ describe("post registry", () => {
 	});
 
 	test("every post has a body and its own route", () => {
-		expect(bodyFiles.length).toBe(12);
-		expect(metaFiles.length).toBe(12);
-		expect(readdirSync(routeDir).length).toBe(12);
+		expect(bodyFiles.length).toBe(13);
+		expect(metaFiles.length).toBe(13);
+		expect(readdirSync(routeDir).length).toBe(13);
 		for (const { slug, body } of loaded) {
 			expect(typeof body.default).toBe("function");
 			const route = readFileSync(join(routeDir, `${slug}.tsx`), "utf8");

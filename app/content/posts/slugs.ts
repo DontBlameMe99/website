@@ -1,4 +1,5 @@
 export const postSlugs = [
+	"programming_with_just_vibes",
 	"what_is_this_new_website_design",
 	"the_psychology_of_social_media_addiction",
 	"the_perfect_productivity_system",

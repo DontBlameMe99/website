@@ -340,10 +340,12 @@ export function Callout({
 	children,
 	icon,
 	accent = "var(--accent-surface)",
+	style,
 }: {
 	children: React.ReactNode;
 	icon?: React.ReactNode;
 	accent?: string;
+	style?: React.CSSProperties;
 }) {
 	return (
 		<div
@@ -351,6 +353,7 @@ export function Callout({
 			style={{
 				borderLeftColor: accent,
 				background: `color-mix(in srgb, ${accent} 4%, transparent)`,
+				...style,
 			}}
 		>
 			{icon ? (

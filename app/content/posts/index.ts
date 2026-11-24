@@ -6,6 +6,7 @@ import { meta as nixosMeta } from "./is_nixos_the_perfect_linux_distribution_for
 import { meta as colemakMeta } from "./learning_colemak_dh.meta";
 import { meta as learnMeta } from "./learning_to_learn.meta";
 import { meta as splitMeta } from "./learning_to_use_a_split_keyboard.meta";
+import { meta as vibesMeta } from "./programming_with_just_vibes.meta";
 import { meta as typstMeta } from "./replacing_obsidian_with_neovim_and_typst.meta";
 import { meta as freetubeMeta } from "./switching_from_youtube_to_freetube.meta";
 import { meta as productivityMeta } from "./the_perfect_productivity_system.meta";
@@ -22,6 +23,9 @@ export type PostEntry = {
 };
 
 export const postEntries: Record<string, PostEntry> = {
+	programming_with_just_vibes: {
+		meta: vibesMeta,
+	},
 	what_is_this_new_website_design: {
 		meta: designMeta,
 	},

@@ -11,6 +11,9 @@ import { seo } from "~/lib/seo";
 import { cn } from "~/lib/utils";
 import { NotFound } from "~/routes/__404/not_found";
 
+/* One level of nesting, scaled so narrow screens keep room for the label. */
+const TOC_INDENT_STEP = "clamp(0.75rem, 2vw, 1.25rem)";
+
 /** Route meta for one post. Called by the post's own route module. */
 export function postMeta(slug: string) {
 	const post = getPost(slug);
@@ -108,7 +111,13 @@ function Toc({
 		>
 			<ul className="[&>li:not(:last-child)]:border-b [&>li:not(:last-child)]:border-b-rule [&>li]:rounded-none">
 				{sections.map((section) => (
-					<li key={section.id} className="relative">
+					<li
+						key={section.id}
+						className="relative"
+						style={{
+							paddingLeft: `calc(0.5rem + ${section.level - 2} * ${TOC_INDENT_STEP})`,
+						}}
+					>
 						{active === section.id ? (
 							<motion.span
 								layoutId={markerId}
@@ -123,11 +132,6 @@ function Toc({
 							onClick={onNavigate}
 							className={cn(
 								"block py-2 text-[11px] leading-relaxed transition-colors",
-								section.level >= 5
-									? "pl-6"
-									: section.level >= 3
-										? "pl-3"
-										: "pl-2",
 								active === section.id
 									? "text-accent underline decoration-2 underline-offset-4"
 									: "text-subtext0 hover:text-text",

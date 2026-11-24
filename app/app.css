@@ -4911,11 +4911,14 @@ html[data-style="material"] .prose-dbm h2::before {
 	letter-spacing: 0.08em;
 }
 
+html[data-style="material"] nav[aria-label="On this page"] a {
+	padding-left: 0.75rem;
+}
+
 html[data-style="material"]
 	nav[aria-label="On this page"]
 	a[aria-current="true"] {
 	border-radius: 999px;
-	padding-left: 0.75rem;
 	background-color: var(--mat-track);
 	color: var(--text);
 	text-decoration: none;

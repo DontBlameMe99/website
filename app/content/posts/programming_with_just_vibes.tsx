@@ -12,7 +12,12 @@ import type { Section } from "~/lib/post_types";
 function Footnote({ n }: { n: number }) {
 	return (
 		<sup className="text-[10px] font-bold text-accent">
-			<a id={`fnref-${n}`} href={`#fn-${n}`} aria-label={`Footnote ${n}`}>
+			<a
+				className="footnote-anchor"
+				id={`fnref-${n}`}
+				href={`#fn-${n}`}
+				aria-label={`Footnote ${n}`}
+			>
 				{n}
 			</a>
 		</sup>
@@ -239,7 +244,7 @@ export default function Post() {
 				width={1440}
 				height={900}
 			/>
-			<Callout>
+			<Callout style={{ background: "transparent" }}>
 				This personally is funny to me, because VSCode is always known for
 				having 20 sidebars open at once, and now there is another one coming in
 				the mix.
@@ -456,12 +461,17 @@ export default function Post() {
 				partially or completely wrong. But that sparked the joy
 				<Footnote n={4} />
 			</p>
-			<Callout>
+			<Callout style={{ background: "transparent" }}>
 				I know that we are currently not talking about AI models, but harnesses.
 				I personally want to tell my story, and my setup (until very recently)
 				wasn't really focused on which model exactly I was using. To be fair, I
 				mostly just used whichever one was currently free in{" "}
-				<a href="https://opencode.ai" target="_blank" rel="noreferrer">
+				<a
+					className="callout-link"
+					href="https://opencode.ai"
+					target="_blank"
+					rel="noreferrer"
+				>
 					OpenCode
 				</a>
 				.
@@ -494,10 +504,10 @@ export default function Post() {
 			<p>But... what if you want to run multiple coding agents at once?</p>
 			<p>That's right, you end up with something like this:</p>
 			<PostImage
-				src="/posts/programming_with_just_vibes/pi_open_multiple_times.png"
+				src="/posts/programming_with_just_vibes/pi_open_multiple_times.webp"
 				alt="PI coding agent being open multiple times at once"
-				width={3004}
-				height={1964}
+				width={1600}
+				height={1046}
 			/>
 			<PostHeading level={3} id="herdr">
 				Herdr

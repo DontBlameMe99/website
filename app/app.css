@@ -7050,6 +7050,21 @@ html[data-style="minecraft"] .search-field:has(input:focus-visible) {
 	text-decoration-color: var(--on-accent);
 }
 
+/* This link sits on a callout tint. Its hover wash would fight the text ink. */
+.prose-dbm a.callout-link,
+.prose-dbm a.callout-link:hover {
+	background: transparent;
+	color: var(--text);
+	text-decoration-color: currentColor;
+}
+
+.prose-dbm sup a.footnote-anchor,
+.prose-dbm sup a.footnote-anchor:hover {
+	background: transparent;
+	color: var(--text);
+	text-decoration-color: currentColor;
+}
+
 /* An image link is only as wide as the image: no full-measure highlight, no
    underline, and the shadow hugs the frame. */
 .prose-dbm figure > a {
@@ -7367,36 +7382,49 @@ html[data-style="minecraft"] .search-field:has(input:focus-visible) {
 	}
 }
 
-/* The ADE animation is the only motion this figure adds. Every color in the
-   gradient is a palette accent, so the letters stay readable in both schemes. */
+/* ADE cycles accent hues without hiding ink behind a gradient fill. Mixing each
+   hue into --text keeps the letters AAA on every palette. */
 .ade-rainbow {
-	display: inline-block;
-	background-image: linear-gradient(
-		90deg,
-		var(--pink),
-		var(--mauve),
-		var(--red),
-		var(--maroon),
-		var(--peach),
-		var(--yellow),
-		var(--green),
-		var(--teal),
-		var(--sky),
-		var(--sapphire),
-		var(--blue),
-		var(--lavender),
-		var(--pink)
-	);
-	background-size: 200% 100%;
-	background-clip: text;
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	animation: ade-rainbow-slide 3s linear infinite;
+	display: inline-flex;
 }
 
-@keyframes ade-rainbow-slide {
-	to {
-		background-position: -200% 0;
+.ade-rainbow > span {
+	animation: ade-rainbow-cycle 3s steps(1, end) infinite;
+}
+
+.ade-rainbow > span:nth-child(2) {
+	animation-delay: -1s;
+}
+
+.ade-rainbow > span:nth-child(3) {
+	animation-delay: -2s;
+}
+
+@keyframes ade-rainbow-cycle {
+	0%,
+	100% {
+		color: color-mix(in srgb, var(--text) 45%, var(--pink));
+	}
+	12.5% {
+		color: color-mix(in srgb, var(--text) 45%, var(--red));
+	}
+	25% {
+		color: color-mix(in srgb, var(--text) 45%, var(--peach));
+	}
+	37.5% {
+		color: color-mix(in srgb, var(--text) 45%, var(--yellow));
+	}
+	50% {
+		color: color-mix(in srgb, var(--text) 45%, var(--green));
+	}
+	62.5% {
+		color: color-mix(in srgb, var(--text) 45%, var(--teal));
+	}
+	75% {
+		color: color-mix(in srgb, var(--text) 45%, var(--blue));
+	}
+	87.5% {
+		color: color-mix(in srgb, var(--text) 45%, var(--lavender));
 	}
 }
 

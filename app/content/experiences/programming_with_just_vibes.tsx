@@ -50,14 +50,12 @@ export function ChatCopyPasteFlow() {
 						{index > 0 ? <FlowArrow label={step.edge} /> : null}
 						<div
 							className={`nb-line px-4 py-3 text-center ${
-								step.who === "AI"
-									? "bg-accent text-on-accent"
-									: "bg-surface0 text-text"
+								step.who === "AI" ? "bg-accent text-on-accent" : "text-text"
 							}`}
 						>
 							<span
 								className={`block text-[10px] uppercase tracking-[0.14em] ${
-									step.who === "AI" ? "text-on-accent" : "text-overlay1"
+									step.who === "AI" ? "text-on-accent" : "text-text"
 								}`}
 							>
 								{step.who}
@@ -90,23 +88,20 @@ const MCP_TOOLS = [
 export function McpContextComparison() {
 	return (
 		<div className="not-prose my-8 grid gap-3 sm:grid-cols-2">
-			<div className="nb-line bg-surface0 p-3">
-				<span className="text-[10px] uppercase tracking-[0.14em] text-overlay1">
+			<div className="nb-line p-3">
+				<span className="text-[10px] uppercase tracking-[0.14em] text-text">
 					Usual MCP
 				</span>
 				<div className="mt-3 flex flex-wrap gap-1 font-mono text-[10px]">
 					{MCP_TOOLS.map((tool) => (
-						<span
-							key={tool}
-							className="nb-line bg-surface1 px-2 py-1 text-subtext0"
-						>
+						<span key={tool} className="nb-line px-2 py-1 text-text">
 							{tool}
 						</span>
 					))}
 				</div>
 			</div>
-			<div className="nb-line bg-surface0 p-3">
-				<span className="text-[10px] uppercase tracking-[0.14em] text-overlay1">
+			<div className="nb-line p-3">
+				<span className="text-[10px] uppercase tracking-[0.14em] text-text">
 					codemode
 				</span>
 				<div className="mt-3 flex flex-wrap gap-1 font-mono text-[10px]">
@@ -124,12 +119,17 @@ export function McpContextComparison() {
 
 export function InlineAutocomplete() {
 	const reduced = useReducedMotion();
-	const [typed, setTyped] = useState(reduced ? TYPED.length : 0);
-	const [accepted, setAccepted] = useState(Boolean(reduced));
+	const [typed, setTyped] = useState(0);
+	const [accepted, setAccepted] = useState(false);
 	const [fading, setFading] = useState(false);
 
 	useEffect(() => {
-		if (reduced) return;
+		if (reduced) {
+			setTyped(TYPED.length);
+			setAccepted(true);
+			setFading(false);
+			return;
+		}
 		if (fading) {
 			const timer = setTimeout(() => {
 				setTyped(0);
@@ -220,5 +220,11 @@ export function InlineAutocomplete() {
 }
 
 export function RainbowAde() {
-	return <span className="ade-rainbow font-bold">ADE</span>;
+	return (
+		<span className="ade-rainbow font-bold">
+			<span>A</span>
+			<span>D</span>
+			<span>E</span>
+		</span>
+	);
 }

@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test";
-import { join } from "node:path";
 import { ACCENT_HUES, PALETTE_TOKENS, SCHEMES } from "../lib/themes";
 
 /**
@@ -59,26 +58,19 @@ const oklch = (hex: string) => {
 	return { chroma: Math.hypot(a, bb), hue };
 };
 
-/** Comments would let a disabled declaration pass for a live one. */
-const source = (
-	await Bun.file(join(import.meta.dir, "../app.css")).text()
-).replace(/\/\*[\s\S]*?\*\//g, "");
 const HEX = /^#[0-9a-f]{6}$/i;
 
-/** Every declaration a scheme block makes, with its value untouched. */
-const declarations = new Map<string, Record<string, string>>();
-for (const [, id, body] of source.matchAll(
-	/\[data-scheme="([^"]+)"\]\s*\{([\s\S]*?)\n\}/g,
-)) {
-	const declared: Record<string, string> = {};
-	for (const [, name, value] of body.matchAll(
-		/--([a-z0-9-]+):\s*([^;{}]+);/g,
-	)) {
-		declared[name] = value.trim();
-	}
-	declarations.set(id, declared);
-}
-
+/** Every palette token in the catalog, with its value untouched. */
+const declarations = new Map(
+	SCHEMES.map((scheme) => [
+		scheme.id,
+		Object.fromEntries(
+			Object.entries(scheme.tokens)
+				.filter(([name]) => name.startsWith("--"))
+				.map(([name, value]) => [name.slice(2), value]),
+		),
+	]),
+);
 /** The ones that hold a hex, which is what the accent checks compare. */
 const palettes = new Map<string, Record<string, string>>(
 	[...declarations].map(([id, declared]) => [

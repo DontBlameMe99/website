@@ -15,7 +15,8 @@ a `/nix/store` binary path into a command.
 
 ## Interface styles
 
-A `[data-style]` block changes shape, edges, fills, depth, and type. Do not
+A style entry in the theme catalog and its `[data-style]` rules change shape,
+edges, fills, depth, and type. Do not
 repaint palette tokens, and add no chrome text, boot overlay, or extra
 animation the request did not name.
 

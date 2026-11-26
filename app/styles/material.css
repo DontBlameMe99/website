@@ -373,6 +373,10 @@ html[data-style="material"] nav[aria-label="On this page"] a {
 	padding-left: 0.75rem;
 }
 
+html[data-style="material"] nav[aria-label="On this page"] .toc-marker {
+	display: none;
+}
+
 html[data-style="material"]
 	nav[aria-label="On this page"]
 	a[aria-current="true"] {

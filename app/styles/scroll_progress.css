@@ -1,0 +1,42 @@
+/* The reading bar follows the root scroll timeline. Registering --progress
+   lets styles that clip or crop the bar read the same value the default scale
+   uses, without a second JS writer. */
+@property --progress {
+	syntax: "<number>";
+	inherits: false;
+	initial-value: 0;
+}
+
+.scroll-progress {
+	transform: scaleX(0);
+	transform-origin: 0% 50%;
+}
+
+@supports (animation-timeline: scroll()) and (animation-range: 0 100%) {
+	.scroll-progress {
+		animation-name: scroll-progress;
+		animation-timing-function: linear;
+		animation-fill-mode: both;
+		animation-timeline: scroll(root block);
+		animation-range: 0 100%;
+	}
+
+	@keyframes scroll-progress {
+		from {
+			--progress: 0;
+			transform: scaleX(0);
+		}
+		to {
+			--progress: 1;
+			transform: scaleX(1);
+		}
+	}
+}
+
+/* Scroll position is not time-based motion. The global reduced-motion rule
+   shortens durations, which would freeze this bar before the page scrolls. */
+@media (prefers-reduced-motion: reduce) {
+	.scroll-progress {
+		animation-duration: auto !important;
+	}
+}

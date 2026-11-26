@@ -16,5 +16,6 @@
 @import "./styles/utilities.css";
 @import "./styles/prose.css";
 @import "./styles/interactions.css";
+@import "./styles/scroll_progress.css";
 
 @plugin "./theme_plugin.ts";

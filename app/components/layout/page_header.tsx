@@ -6,13 +6,12 @@ type PageHeaderProps = {
 	meta?: React.ReactNode;
 	title: React.ReactNode;
 	lead?: React.ReactNode;
-	children?: React.ReactNode;
 	className?: string;
 };
 
 /**
- * The masthead every page shares: a numbered label block, the title, one lead
- * paragraph, and whatever actions the page adds.
+ * The masthead every page shares: a numbered label block, the title, and one
+ * lead paragraph.
  */
 export function PageHeader({
 	index,
@@ -20,7 +19,6 @@ export function PageHeader({
 	meta,
 	title,
 	lead,
-	children,
 	className,
 }: PageHeaderProps) {
 	return (
@@ -43,7 +41,6 @@ export function PageHeader({
 			<h1 className="mt-12 text-page-title text-text">{title}</h1>
 
 			{lead ? <p className="mt-6 max-w-[54ch] text-lead">{lead}</p> : null}
-			{children}
 		</header>
 	);
 }

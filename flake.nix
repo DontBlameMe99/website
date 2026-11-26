@@ -150,8 +150,7 @@
             '';
 
           typecheck = mkJsCheck "tsc-check" ''
-            ./node_modules/.bin/react-router typegen
-            ./node_modules/.bin/tsc --noEmit
+            bun run typecheck
           '';
           test = mkJsCheck "bun-test" ''
             bun test

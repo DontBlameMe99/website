@@ -1,0 +1,466 @@
+/* A fixed field under the content, so a pane keeps the same light behind it
+   from the first fold to the last. */
+[data-style="glassmorphism"] body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	background-image: var(--page-image);
+	pointer-events: none;
+	opacity: 0.25;
+}
+
+/* A card that scopes its own scheme previews that palette on its own page. */
+[data-style="glassmorphism"] .nb-panel[data-scheme] {
+	background-color: var(--page-surface);
+}
+
+[data-style="glassmorphism"] .prose-dbm ul > li::before,
+[data-style="glassmorphism"] .prose-dbm ol > li::marker {
+	color: var(--ink);
+}
+
+[data-style="glassmorphism"] .prose-dbm figcaption {
+	color: var(--ink);
+}
+
+[data-style="glassmorphism"] main {
+	padding-top: 2rem;
+}
+
+@media (min-width: 40rem) {
+	[data-style="glassmorphism"] main {
+		padding-top: 2.5rem;
+	}
+}
+
+/* Only the sticky chrome filters what passes under it. Its own labels sit on
+   opaque plates, so no glyph is measured through the blur. */
+[data-style="glassmorphism"] .site-header {
+	background-color: color-mix(in srgb, var(--page-surface) 97%, transparent);
+	background-image: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--text) 5%, transparent),
+		transparent 2px
+	);
+	backdrop-filter: blur(18px) saturate(1.2);
+	-webkit-backdrop-filter: blur(18px) saturate(1.2);
+	border-radius: 0 0 24px 24px;
+	box-shadow:
+		0 20px 45px -34px var(--glass-drop),
+		inset 0 -1px 0 var(--glass-rim-soft);
+}
+
+[data-style="glassmorphism"] header.nb-chrome > div > a:first-child {
+	margin-left: -0.35rem;
+	padding: 0.35rem 0.7rem;
+	border: 1px solid var(--glass-rim-soft);
+	border-radius: 999px;
+	background-color: var(--page-surface);
+	box-shadow: inset 0 1px 0 var(--glass-rim);
+}
+
+[data-style="glassmorphism"] header.nb-chrome > div > a:first-child img {
+	border-radius: 999px;
+}
+
+/* One marker plate moves between active items. The plate is decorative; the
+   link keeps its own accessible current state and text color. */
+[data-style="glassmorphism"] nav[aria-label="Primary"] {
+	position: relative;
+	gap: 0.15rem;
+	padding: 0.25rem;
+	border: 1px solid var(--glass-rim-soft);
+	border-radius: 999px;
+	background-color: var(--page-surface);
+	box-shadow:
+		inset 0 1px 0 var(--glass-rim),
+		0 10px 26px -20px var(--glass-drop);
+}
+
+[data-style="glassmorphism"] .glass-marker {
+	position: absolute;
+	z-index: 0;
+	top: var(--marker-top, 0);
+	left: var(--marker-left, 0);
+	width: var(--marker-width, 0px);
+	height: var(--marker-height, 0px);
+	border-radius: 999px;
+	background-color: var(--accent-surface);
+	opacity: var(--marker-opacity, 0);
+	pointer-events: none;
+	transition:
+		left var(--motion-base) cubic-bezier(0.22, 0.75, 0.2, 1),
+		top var(--motion-base) cubic-bezier(0.22, 0.75, 0.2, 1),
+		width var(--motion-base) cubic-bezier(0.22, 0.75, 0.2, 1),
+		opacity var(--motion-quick) ease-out;
+}
+
+[data-style="glassmorphism"] nav[aria-label="Primary"] .glass-marker {
+	background-color: var(--panel-surface);
+	box-shadow:
+		inset 0 1px 0 var(--glass-rim),
+		inset 0 -1px 0 var(--glass-shade);
+}
+
+/* The blog filter row is a marker scope as well as a flex row. */
+[data-style="glassmorphism"] .glass-marker-scope {
+	position: relative;
+}
+
+[data-style="glassmorphism"] .glass-marker-scope .filter-chip {
+	position: relative;
+	z-index: 1;
+}
+
+[data-style="glassmorphism"] .nav-link {
+	position: relative;
+	z-index: 1;
+	min-height: 2.1rem;
+	padding: 0.35rem 0.75rem;
+	border-radius: 999px;
+	text-decoration: none;
+}
+
+[data-style="glassmorphism"] .nav-link:hover {
+	background-color: var(--hover-fill);
+	color: var(--text);
+}
+
+[data-style="glassmorphism"] .nav-link[aria-current="page"] {
+	color: var(--text);
+}
+
+[data-style="glassmorphism"] .nav-link::after {
+	content: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-style="glassmorphism"] .glass-marker {
+		transition: none;
+	}
+}
+
+@media (max-width: 39.99rem) {
+	[data-style="glassmorphism"] nav[aria-label="Primary"] {
+		gap: 0;
+		padding: 4px;
+	}
+
+	[data-style="glassmorphism"] .nav-link {
+		padding: 0.3rem 0.45rem;
+		font-size: 0.625rem;
+		letter-spacing: 0.04em;
+	}
+}
+
+/* The masthead is the brightest pane on the page. Its light lives on the
+   border and in a travelling specular line, never under the title. */
+[data-style="glassmorphism"] .page-window {
+	position: relative;
+	isolation: isolate;
+	border: var(--panel-edge);
+	border-top: var(--panel-top-edge);
+	border-radius: var(--panel-radius);
+	background-color: var(--panel-surface);
+	background-image: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--text) 5%, transparent),
+		transparent 16px
+	);
+	box-shadow: var(--shadow-hard-lg);
+	padding: clamp(1.25rem, 3vw, 2.75rem);
+}
+
+[data-style="glassmorphism"] .page-window::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 8%;
+	width: 42%;
+	height: 2px;
+	border-radius: 999px;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		var(--glass-rim),
+		transparent
+	);
+	pointer-events: none;
+}
+
+[data-style="glassmorphism"] .page-window::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	padding: 1px;
+	border-radius: inherit;
+	background: linear-gradient(
+		140deg,
+		var(--glass-rim),
+		transparent 36%,
+		transparent 64%,
+		color-mix(in srgb, var(--accent-surface) 22%, transparent)
+	);
+	-webkit-mask:
+		linear-gradient(#000 0 0) content-box,
+		linear-gradient(#000 0 0);
+	-webkit-mask-composite: xor;
+	mask:
+		linear-gradient(#000 0 0) content-box,
+		linear-gradient(#000 0 0);
+	mask-composite: exclude;
+	pointer-events: none;
+}
+
+@keyframes glass-sheen {
+	0%,
+	100% {
+		opacity: 0.55;
+		transform: translateX(0);
+	}
+
+	50% {
+		opacity: 1;
+		transform: translateX(90%);
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	[data-style="glassmorphism"] .page-window::before {
+		animation: glass-sheen 12s ease-in-out infinite;
+	}
+}
+
+[data-style="glassmorphism"] .text-display {
+	font-size: clamp(2rem, 9vw, 6rem);
+	font-weight: 700;
+	line-height: 0.92;
+	letter-spacing: -0.06em;
+}
+
+[data-style="glassmorphism"] .text-page-title {
+	font-size: clamp(2rem, 5vw, 3.25rem);
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: -0.045em;
+}
+
+[data-style="glassmorphism"] .text-lead {
+	max-width: 48ch;
+	font-size: clamp(1.0625rem, 1.5vw + 0.5rem, 1.375rem);
+	line-height: 1.55;
+}
+
+[data-style="glassmorphism"] :is(.text-label, .text-meta) {
+	font-size: 0.625rem;
+	letter-spacing: 0.16em;
+}
+
+[data-style="glassmorphism"] .hero-step-4 .nb-button.nb-accent {
+	padding-inline: 1.35rem;
+}
+
+[data-style="glassmorphism"] .hero-step-4 .nb-button:not(.nb-accent) {
+	border-color: var(--glass-rim-soft);
+	box-shadow: inset 0 1px 0 var(--glass-rim-soft);
+}
+
+/* Section heads read as glass rail markers. The bead sits inside the label's
+   space so it never clips at a panel or screen edge, and only free-standing
+   labels keep a rule, since a rule inside a pane reads as a stray underline. */
+[data-style="glassmorphism"] .text-label.nb-line-b {
+	position: relative;
+	padding-left: 0.9rem;
+}
+
+[data-style="glassmorphism"] :is(.nb-panel, .nb-panel *) .text-label.nb-line-b {
+	border-bottom: 0;
+}
+
+[data-style="glassmorphism"] .text-label.nb-line-b::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0.3rem;
+	height: 0.3rem;
+	transform: translateY(-50%);
+	border-radius: 999px;
+	background: var(--accent-surface);
+}
+[data-style="glassmorphism"] .nb-panel {
+	position: relative;
+	border-radius: var(--panel-radius);
+}
+
+[data-style="glassmorphism"] .nb-panel::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	padding: 1px;
+	border-radius: inherit;
+	background: linear-gradient(
+		145deg,
+		var(--glass-rim),
+		transparent 38%,
+		transparent 62%,
+		var(--glass-rim-soft)
+	);
+	-webkit-mask:
+		linear-gradient(#000 0 0) content-box,
+		linear-gradient(#000 0 0);
+	-webkit-mask-composite: xor;
+	mask:
+		linear-gradient(#000 0 0) content-box,
+		linear-gradient(#000 0 0);
+	mask-composite: exclude;
+	pointer-events: none;
+}
+
+[data-style="glassmorphism"] .nb-well {
+	border-radius: var(--well-radius);
+}
+
+[data-style="glassmorphism"] .nb-button {
+	min-height: 2.25rem;
+	padding: 0.55rem 1.05rem;
+	border-radius: 999px;
+	box-shadow:
+		var(--shadow-hard-sm),
+		inset 0 1px 0 var(--glass-rim);
+}
+
+[data-style="glassmorphism"] .nb-button.nb-accent {
+	box-shadow:
+		0 10px 24px -14px color-mix(in srgb, var(--accent-surface) 75%, transparent),
+		inset 0 1px 0 color-mix(in srgb, var(--on-accent) 40%, transparent);
+}
+
+[data-style="glassmorphism"] .nb-chip {
+	padding: 0.25rem 0.6rem;
+	border-radius: 999px;
+	box-shadow: inset 0 1px 0 var(--glass-rim-soft);
+}
+
+[data-style="glassmorphism"] .nb-chip:not(.nb-accent):hover {
+	border-color: var(--accent-surface);
+}
+
+[data-style="glassmorphism"] .nb-input,
+[data-style="glassmorphism"] .search-field {
+	padding: 0.7rem 0.9rem;
+}
+
+[data-style="glassmorphism"] .search-field {
+	min-height: 2.9rem;
+}
+
+[data-style="glassmorphism"] .nb-panel h2:not(.text-label) {
+	font-size: clamp(1.25rem, 2vw, 1.5rem);
+	line-height: 1.15;
+	letter-spacing: -0.035em;
+}
+
+[data-style="glassmorphism"] .nb-panel .nb-line-t {
+	border-top-color: var(--glass-rim-soft);
+}
+
+[data-style="glassmorphism"] .nb-lift:hover {
+	box-shadow:
+		var(--shadow-hard-lg),
+		0 0 0 1px var(--glass-rim-soft);
+}
+
+/* The writing index becomes a stack of recessed trays on the home page. */
+[data-style="glassmorphism"] li.nb-line-b {
+	margin-bottom: 0.5rem;
+	padding: 0.35rem 0.75rem;
+	border: 1px solid var(--glass-rim-soft);
+	border-radius: 18px;
+	background-color: var(--panel-surface);
+	box-shadow: var(--shadow-hard-sm);
+}
+
+[data-style="glassmorphism"] li.nb-line-b > a {
+	padding-block: 0.75rem;
+}
+
+/* A project tile carries a larger lens for its mark. */
+[data-style="glassmorphism"] .nb-spot .nb-line.nb-fill {
+	width: 3rem;
+	height: 3rem;
+	border-radius: 16px;
+	background-color: var(--well-surface);
+	box-shadow: inset 0 8px 16px -14px var(--glass-shade);
+}
+
+/* The first pane on contact and disclosure is primary; the second recedes. */
+[data-style="glassmorphism"] main > div > div > section.nb-panel:first-child {
+	box-shadow:
+		var(--shadow-hard-lg),
+		inset 0 1px 0 var(--glass-rim);
+}
+
+[data-style="glassmorphism"] main > div > div > section.nb-panel:nth-child(2) {
+	background-color: var(--well-surface);
+	box-shadow: var(--shadow-well);
+}
+
+[data-style="glassmorphism"]
+	section.nb-panel
+	ul
+	> li
+	> span[aria-hidden="true"] {
+	border-radius: 999px;
+	box-shadow: 0 0 0 3px
+		color-mix(in srgb, var(--accent-surface) 18%, transparent);
+}
+
+/* Long-form reading keeps one calm pane per section, with a lit counter. */
+[data-style="glassmorphism"] .prose-dbm h2 {
+	border-top-color: var(--glass-rim-soft);
+}
+
+[data-style="glassmorphism"] .prose-dbm h2::before {
+	padding: 4px 0.6em;
+	border-radius: 999px;
+	box-shadow:
+		0 8px 18px -12px color-mix(in srgb, var(--ink) 65%, transparent),
+		inset 0 1px 0 color-mix(in srgb, var(--on-accent) 40%, transparent);
+}
+
+[data-style="glassmorphism"]
+	:is(.prose-dbm .code-block, .prose-dbm .table-wrap, .prose-dbm blockquote) {
+	border-radius: 18px;
+}
+
+[data-style="glassmorphism"] .prose-dbm img {
+	border-radius: 14px;
+	/* The caption and the text after a figure sit inside the outer shadow's
+	   reach, so the frame keeps only its glass rim. */
+	box-shadow:
+		inset 0 1px 0 var(--glass-rim),
+		inset 0 -1px 0 var(--glass-shade);
+}
+
+/* Selection states on the theme page read as raised glass, with the outline
+   the picker already paints left in place. */
+[data-style="glassmorphism"] button[aria-pressed="true"].nb-panel {
+	box-shadow:
+		0 26px 56px -28px var(--glass-drop),
+		inset 0 1px 0 var(--glass-rim);
+}
+
+[data-style="glassmorphism"] span[aria-hidden="true"].nb-line.h-9 {
+	border-radius: 999px;
+}
+
+[data-style="glassmorphism"] footer.nb-line-t {
+	border-top-color: var(--glass-rim-soft);
+}
+
+/* The layer above paints the aurora, so the body must not paint it too. */
+[data-style="glassmorphism"] body {
+	background-image: none;
+}

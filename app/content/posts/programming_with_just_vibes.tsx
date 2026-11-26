@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
+import { Link } from "react-router";
 import { Callout } from "~/components/post/kit";
-import { Link, PostHeading, PostImage, Prose } from "~/components/post/prose";
+import { PostHeading, PostImage, Prose } from "~/components/post/prose";
 import {
 	ChatCopyPasteFlow,
 	InlineAutocomplete,

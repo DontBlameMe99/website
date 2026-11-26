@@ -4,7 +4,7 @@ import { SectionLabel } from "~/components/layout/page_header";
 import { projectIcon } from "~/components/shared/icons";
 import { formatDate, posts } from "~/lib/posts";
 import { seo } from "~/lib/seo";
-import { PROJECTS, SITE } from "~/lib/site";
+import { CONTACT, PROJECTS, SITE } from "~/lib/site";
 
 export const meta = () => seo({ title: SITE.name });
 
@@ -123,7 +123,7 @@ export default function Home() {
 						<Link to="/projects" prefetch="intent" className="nb-button">
 							Projects
 						</Link>
-						<a href="mailto:contact@dontblameme.dev" className="nb-button">
+						<a href={`mailto:${CONTACT.email}`} className="nb-button">
 							<Mail aria-hidden="true" className="icon-tilt size-4" />
 							Email
 						</a>

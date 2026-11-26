@@ -1,0 +1,109 @@
+@custom-variant dark (&:is(.dark *));
+@custom-variant light (&:is(.light *));
+
+/* One typeface for the whole site. */
+@font-face {
+	font-family: "Montserrat";
+	src: url("/fonts/montserrat/Montserrat-Variable.woff2") format("woff2");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* The Minecraft style brings its own pixel face: regular and the game's bold,
+   loaded only when that style is on. */
+@font-face {
+	font-family: "Minecraft";
+	src: url("/fonts/minecraft/Minecraft.otf") format("opentype");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Minecraft";
+	src: url("/fonts/minecraft/Minecraft-Bold.otf") format("opentype");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Code is the only place a different face shows up. */
+@font-face {
+	font-family: "JetBrains Mono NF";
+	src: url("/fonts/JetBrainsMonoNerdFontMono-Regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "JetBrains Mono NF";
+	src: url("/fonts/JetBrainsMonoNerdFontMono-Bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "JetBrains Mono NF";
+	src: url("/fonts/JetBrainsMonoNerdFontMono-Italic.woff2") format("woff2");
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}
+
+/* The futuristic style uses this coarse pixel face for display type only. */
+@font-face {
+	font-family: "Pixelify Sans";
+	src: url("/fonts/pixelify-sans/PixelifySans-Variable.woff2") format("woff2");
+	font-weight: 400 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@theme inline {
+	--font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "JetBrains Mono NF", ui-monospace, monospace;
+
+	--color-crust: var(--crust);
+	--color-mantle: var(--mantle);
+	--color-base: var(--base);
+	--color-surface0: var(--surface0);
+	--color-surface1: var(--surface1);
+	--color-surface2: var(--surface2);
+	--color-overlay0: var(--overlay0);
+	--color-overlay1: var(--overlay1);
+	--color-overlay2: var(--overlay2);
+	--color-subtext0: var(--subtext0);
+	--color-subtext1: var(--subtext1);
+	--color-text: var(--text);
+	--color-pink: var(--pink);
+	--color-mauve: var(--mauve);
+	--color-red: var(--red);
+	--color-maroon: var(--maroon);
+	--color-peach: var(--peach);
+	--color-yellow: var(--yellow);
+	--color-green: var(--green);
+	--color-teal: var(--teal);
+	--color-sky: var(--sky);
+	--color-sapphire: var(--sapphire);
+	--color-blue: var(--blue);
+	--color-lavender: var(--lavender);
+
+	--color-foreground: var(--text);
+	--color-card: var(--base);
+	--color-card-foreground: var(--text);
+	--color-muted: var(--surface0);
+	--color-muted-foreground: var(--overlay1);
+	--color-accent: var(--accent-surface);
+	--color-accent-foreground: var(--crust);
+	--color-destructive: var(--red);
+
+	--color-on-accent: var(--on-accent);
+	--color-post-accent: var(--post-accent);
+	--color-border: var(--edge);
+	--color-rule: color-mix(in srgb, var(--ink) 30%, transparent);
+	--color-input: var(--ink);
+	--color-ring: var(--accent-surface);
+}

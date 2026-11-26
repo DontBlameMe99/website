@@ -1,0 +1,223 @@
+/* --- type scale ---------------------------------------------------------- */
+
+@utility text-label {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	line-height: 1.4;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+@utility text-display {
+	font-size: clamp(2.5rem, 8vw, 5.5rem);
+	font-weight: 800;
+	line-height: 0.9;
+	letter-spacing: -0.05em;
+}
+
+@utility text-page-title {
+	font-size: clamp(1.875rem, 4vw, 2.75rem);
+	font-weight: 800;
+	line-height: 0.98;
+	letter-spacing: -0.04em;
+}
+
+@utility text-lead {
+	font-size: clamp(1.0625rem, 1.3vw + 0.6rem, 1.25rem);
+	line-height: 1.55;
+	color: var(--subtext0);
+}
+
+@utility text-meta {
+	font-size: 0.75rem;
+	line-height: 1.5;
+	color: var(--subtext0);
+	font-variant-numeric: tabular-nums;
+}
+
+/* --- themed surfaces ------------------------------------------------------ */
+
+/* Every edge and fill below is a token read, never a literal, so a style swap
+   redraws the whole surface. Components hand these classes the surface and do
+   not paint over them, which is what lets a style replace the fill wholesale. */
+
+@utility nb-line {
+	border: var(--bw) var(--line-style) var(--edge);
+}
+
+/* A rule on one side is a straight line: a radius turns its ends into hooks.
+   These are the utilities and prose rules; a raw `border-b` divider still picks
+   up the style radius. */
+@utility nb-line-t {
+	border-top: var(--bw) var(--line-style) var(--edge);
+	border-radius: 0;
+}
+
+@utility nb-line-b {
+	border-bottom: var(--bw) var(--line-style) var(--edge);
+	border-radius: 0;
+}
+
+@utility nb-line-l {
+	border-left: var(--bw) var(--line-style) var(--edge);
+	border-radius: 0;
+}
+
+@utility nb-callout {
+	border: var(--bw) var(--line-style) var(--edge);
+	border-left-width: var(--bw-heavy);
+}
+
+@utility nb-shadow-sm {
+	box-shadow: var(--shadow-hard-sm);
+}
+
+@utility nb-panel {
+	border: var(--panel-edge);
+	border-top: var(--panel-top-edge);
+	border-radius: var(--panel-radius);
+	background-color: var(--panel-surface);
+	background-image: var(--panel-image);
+	box-shadow: var(--shadow-hard);
+	backdrop-filter: var(--backdrop);
+}
+
+/* The page fill, for the body and anything that has to match it. */
+@utility nb-page {
+	background-color: var(--page-surface);
+	background-image: var(--page-image);
+}
+
+/* A plain fill without the rest of a control: image tiles, small boxes. */
+@utility nb-fill {
+	background-color: var(--plain-surface);
+	background-image: var(--plain-image);
+}
+
+/* A panel that sits on the recessed tone instead of the page base. */
+@utility nb-well {
+	border: var(--well-edge);
+	border-radius: var(--well-radius);
+	background-color: var(--well-surface);
+	background-image: var(--well-image);
+	box-shadow: var(--shadow-well);
+	backdrop-filter: var(--backdrop);
+}
+
+@utility nb-lift {
+	transition:
+		transform var(--motion-quick) ease,
+		box-shadow var(--motion-quick) ease,
+		background-color var(--motion-quick) ease,
+		color var(--motion-quick) ease;
+
+	&:hover {
+		transform: translate(var(--lift), var(--lift));
+		box-shadow: var(--shadow-hard-lg);
+		background-color: var(--card-hover-fill);
+	}
+
+	&:active {
+		transform: translate(var(--press), var(--press));
+		box-shadow: var(--shadow-hard-sm);
+	}
+}
+
+@utility nb-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	border: var(--button-edge);
+	background-color: var(--button-surface);
+	background-image: var(--button-image);
+	color: var(--button-ink);
+	padding: 0.5rem 0.85rem;
+	font-size: 0.8125rem;
+	font-weight: var(--button-weight);
+	line-height: 1.2;
+	box-shadow: var(--shadow-hard-sm);
+	text-shadow: var(--label-shadow);
+	backdrop-filter: var(--backdrop);
+	transition:
+		transform var(--motion-quick) ease,
+		box-shadow var(--motion-quick) ease,
+		border-color var(--motion-quick) ease,
+		background-color var(--motion-quick) ease,
+		color var(--motion-quick) ease;
+
+	&:hover {
+		transform: translate(var(--lift), var(--lift));
+		box-shadow: var(--button-hover-shadow);
+		border-color: var(--hover-edge);
+		background-color: var(--hover-fill);
+	}
+
+	&:active {
+		transform: translate(var(--press), var(--press));
+		box-shadow: var(--button-press-shadow);
+		background-color: var(--press-fill);
+	}
+}
+
+@utility nb-chip {
+	display: inline-flex;
+	min-height: 1.5rem;
+	align-items: center;
+	gap: 0.35rem;
+	border: var(--bw) var(--line-style) var(--control-edge);
+	background-color: var(--plain-surface);
+	background-image: var(--plain-image);
+	padding: 0.25rem 0.45rem;
+	font-size: 0.6875rem;
+	font-weight: 600;
+	line-height: 1.4;
+	letter-spacing: 0.04em;
+	text-shadow: var(--label-shadow);
+	backdrop-filter: var(--backdrop);
+}
+
+@utility nb-input {
+	border: var(--bw) var(--line-style) var(--control-edge);
+	background-color: var(--plain-surface);
+	background-image: var(--plain-image);
+	box-shadow: var(--input-shadow);
+	padding: 0.55rem 0.7rem;
+	font-size: 0.875rem;
+	backdrop-filter: var(--backdrop);
+}
+
+/* The accent fill for a themed surface: `nb-button nb-accent`. Unlayered and
+   therefore ahead of the utilities, so it does not depend on which class
+   Tailwind emits first. Doubled on purpose: a style's own `[data-style] .nb-*`
+   rule has the same weight, and an accent button must keep its accent. */
+.nb-accent.nb-accent {
+	background-color: var(--accent-surface);
+	background-image: var(--accent-image);
+	/* An accent fill picks its own light, so an emboss would have to guess at
+	   it: the label sits flat on the fill. */
+	text-shadow: none;
+	color: var(--on-accent);
+
+	&:hover {
+		background-color: var(--accent-hover-fill);
+	}
+
+	&:active {
+		background-color: var(--accent-press-fill);
+	}
+}
+
+.nb-chip.nb-accent {
+	color: var(--chip-accent-ink);
+}
+
+/* The field is the frame: focus belongs on the wrapper, not the bare input. */
+.search-field:has(input:focus-visible) {
+	outline: 2px solid var(--focus-ring);
+	outline-offset: 3px;
+}
+
+/* Only hide the inner ring where the wrapper ring can actually appear. */
+.search-field:has(input:focus-visible) input:focus-visible {
+	outline: none;
+}

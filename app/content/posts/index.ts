@@ -8,6 +8,7 @@ import { meta as learnMeta } from "./learning_to_learn.meta";
 import { meta as splitMeta } from "./learning_to_use_a_split_keyboard.meta";
 import { meta as vibesMeta } from "./programming_with_just_vibes.meta";
 import { meta as typstMeta } from "./replacing_obsidian_with_neovim_and_typst.meta";
+import type { PostSlug } from "./slugs";
 import { meta as freetubeMeta } from "./switching_from_youtube_to_freetube.meta";
 import { meta as productivityMeta } from "./the_perfect_productivity_system.meta";
 import { meta as psychologyMeta } from "./the_psychology_of_social_media_addiction.meta";
@@ -22,7 +23,7 @@ export type PostEntry = {
 	meta: PostMeta;
 };
 
-export const postEntries: Record<string, PostEntry> = {
+export const postEntries: Record<PostSlug, PostEntry> = {
 	programming_with_just_vibes: {
 		meta: vibesMeta,
 	},
@@ -59,5 +60,3 @@ export const postEntries: Record<string, PostEntry> = {
 		meta: backupsMeta,
 	},
 };
-
-export const postSlugs = Object.keys(postEntries);

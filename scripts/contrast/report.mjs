@@ -5,13 +5,22 @@ const MARKER = "<!-- wcag-contrast-report -->";
 const STYLE_ORDER = ["neobrutalist", "flat", "glassmorphism", "xp"];
 
 const args = process.argv.slice(2);
-const dir = args[0] ?? "reports";
-const outIndex = args.indexOf("--out");
-const out = outIndex === -1 ? "comment.md" : args[outIndex + 1];
-const resultIndex = args.indexOf("--result");
-const resultPath = resultIndex === -1 ? "result.txt" : args[resultIndex + 1];
-const shardsIndex = args.indexOf("--shards");
-const expected = shardsIndex === -1 ? 0 : Number(args[shardsIndex + 1]);
+const flags = { out: "comment.md", result: "result.txt", shards: 0 };
+const positional = [];
+for (let index = 0; index < args.length; index++) {
+	const arg = args[index];
+	if (arg === "--out" || arg === "--result" || arg === "--shards") {
+		const value = args[++index];
+		if (value === undefined) throw new Error(`${arg} requires a value`);
+		flags[arg.slice(2)] = arg === "--shards" ? Number(value) : value;
+	} else {
+		positional.push(arg);
+	}
+}
+const dir = positional[0] ?? "reports";
+const out = flags.out;
+const resultPath = flags.result;
+const expected = flags.shards;
 
 const number = (value) => value.toLocaleString("en-US");
 const ratio = (value) => `${(Math.floor(value * 100) / 100).toFixed(2)}:1`;
@@ -44,6 +53,14 @@ const reports = readReports();
 const plans = reports.map((report) => report.plan).filter(Boolean);
 const plan = plans[0] ?? null;
 const skipped = plans.length > 0 && plans.every((item) => item.skipped);
+const plannedStyles = plan?.combos?.map((combo) => combo.style) ?? [];
+const styleOrder = plannedStyles.length
+	? [...new Set(plannedStyles)]
+	: STYLE_ORDER;
+const styleRank = (style) => {
+	const index = styleOrder.indexOf(style);
+	return index === -1 ? 99 : index;
+};
 const runs = reports.reduce((total, report) => total + (report.runs ?? 0), 0);
 const pages = reports.reduce((total, report) => total + (report.pages ?? 0), 0);
 const coverage = {};
@@ -109,9 +126,7 @@ for (const finding of belowPairs.values()) {
 	if (row) row.failures++;
 }
 const orderedStyles = [...styleRows.values()].sort(
-	(a, b) =>
-		(STYLE_ORDER.indexOf(a.style) === -1 ? 99 : STYLE_ORDER.indexOf(a.style)) -
-		(STYLE_ORDER.indexOf(b.style) === -1 ? 99 : STYLE_ORDER.indexOf(b.style)),
+	(a, b) => styleRank(a.style) - styleRank(b.style),
 );
 
 const missing = expected > 0 && reports.length < expected;

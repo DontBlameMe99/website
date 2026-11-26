@@ -1,0 +1,18 @@
+/* Controls read their own radius, so a style can make them pills while panels
+   keep the card radius, and a nested preview still resolves its own shape. */
+[data-style] .nb-button,
+[data-style] .nb-chip,
+[data-style] .nb-input {
+	border-radius: var(--control-radius);
+}
+
+/* Glass separates fields from pills: a textarea is a pane, not a capsule. */
+[data-style="glassmorphism"] :is(.nb-input, .search-field) {
+	border-radius: 16px;
+}
+
+/* A rule color set in @theme is inlined, so it never sees a style's edge.
+   Material's dividers are faint, and these rows have to match the prose ones. */
+[data-style="material"] .border-rule {
+	border-color: var(--edge);
+}

@@ -40,7 +40,9 @@ the same pairs while a visitor paints and saves regardless.
 ## Content
 
 Posts are React components in `app/content/posts/<slug>.tsx`. Each one exports
-`meta`, `sections`and a default `Post` component that renders it as JSX.
+`sections` and a default `Post` component that renders it as JSX. Its `meta`
+lives in `app/content/posts/<slug>.meta.ts`, and its slug is listed in
+`app/content/posts/slugs.ts`.
 
 Figures for a post live in `app/content/experiences/<slug>.tsx` and are imported
 by that post. Images live in `public/posts/<slug>/` and are sized by the post

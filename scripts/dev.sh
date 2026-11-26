@@ -13,7 +13,8 @@ set -euo pipefail
 root="$(git rev-parse --show-toplevel)"
 cd "$root"
 
-cache_root="${XDG_CACHE_HOME:-$HOME/.cache}/dbm-dev"
+xdg_cache_home="${XDG_CACHE_HOME:-$HOME/.cache}"
+cache_root="$xdg_cache_home/dbm-dev"
 hash="$(printf '%s' "$root" | sha256sum | cut -c1-12)"
 state_dir="$cache_root/$hash"
 pid_file="$state_dir/pid"
@@ -22,7 +23,7 @@ log_file="$state_dir/dev.log"
 server_bin="$root/node_modules/.bin/react-router"
 poll_seconds=60
 
-slot_dir="${XDG_CACHE_HOME:-$HOME/.cache}/dev-server-slots"
+slot_dir="$xdg_cache_home/dev-server-slots"
 slot_count=4
 server_ttl=3600
 
@@ -61,6 +62,17 @@ pid_alive() {
 	[[ -n ${1:-} ]] && kill -0 "$1" 2>/dev/null
 }
 
+# Only signal a saved pid's group while that pid still leads it.
+process_group_is_pid() {
+	local pid stat pgrp session
+	pid=${1:-}
+	[[ -n $pid && -r /proc/$pid/stat ]] || return 1
+	stat="$(cat "/proc/$pid/stat")" || return 1
+	stat="${stat##*) }"
+	read -r _ _ pgrp session _ <<<"$stat"
+	[[ $pgrp == "$pid" && $session == "$pid" ]]
+}
+
 port_listening() {
 	(exec 3<>"/dev/tcp/127.0.0.1/$1") 2>/dev/null
 }
@@ -69,24 +81,21 @@ url_of() {
 	printf 'http://127.0.0.1:%s\n' "$1"
 }
 
-in_nix() {
-	[[ -n ${DBM_DEV_NIX:-} ]] && return 1
-	return 0
-}
-
 # Kills the server recorded in this worktree's state, if the process is still
-# ours. The pid can be recycled, so check what it is running before signalling.
+# ours. The pid can be recycled, so check its command and group before signalling.
 stop_saved() {
 	local pid
 	pid="$(cat "$pid_file" 2>/dev/null || true)"
 	[[ -n $pid ]] || return 0
 	pid_alive "$pid" || return 0
 	grep -qaF -- "$server_bin" "/proc/$pid/cmdline" 2>/dev/null || return 0
+	process_group_is_pid "$pid" || return 0
 	kill -- -"$pid" 2>/dev/null || true
 	for _ in $(seq 1 50); do
 		pid_alive "$pid" || return 0
 		sleep 0.2
 	done
+	process_group_is_pid "$pid" || return 0
 	kill -9 -- -"$pid" 2>/dev/null || true
 }
 
@@ -107,6 +116,7 @@ prune_state() {
 
 start() {
 	if ! command -v bun >/dev/null; then
+		[[ -z ${DBM_DEV_NIX:-} ]] || die "bun is still missing inside 'nix develop'."
 		command -v nix >/dev/null || die "bun and nix are both unavailable."
 		DBM_DEV_NIX=1 exec nix develop -c "$0" start
 	fi
@@ -144,19 +154,11 @@ start() {
 
 	acquire_slot
 	echo "Starting the dev server on port $port..."
-	# The watcher exits with the server, or takes the whole group down once this
-	# worktree is gone. The lease kills the group after an hour so a forgotten
-	# worktree cannot hold a slot forever. exec keeps the pid equal to the server's.
-	setsid bash -c '
-		if [ -e "$1/.git" ]; then
-			( while [ -e "$1/.git" ] && kill -0 $$; do sleep "$4"; done; kill -TERM 0 ) 10>&- &
-		else
-			echo "dev: no .git under $1, this server will not stop itself." >&2
-		fi
-		( trap "expire=1" TERM; for _ in $(seq 1 "$5"); do [ -n "${expire:-}" ] && break; kill -0 $$ 2>/dev/null || exit 0; sleep 1; done; kill -TERM -- -$$ 2>/dev/null || kill -TERM $$ 2>/dev/null || true; for _ in $(seq 1 50); do kill -0 $$ 2>/dev/null || exit 0; sleep 0.2; done; kill -KILL -- -$$ 2>/dev/null || kill -KILL $$ 2>/dev/null || true ) 10>&- &
-		exec env NODE_ENV=development "$2" dev --host 127.0.0.1 --port "$3" --strictPort
-	' _ "$root" "$server_bin" "$port" "$poll_seconds" "$server_ttl" \
-		>"$log_file" 2>&1 </dev/null 9>&- &
+	# The runner keeps the watchers out of this script. setsid makes the server
+	# a session leader, and the runner execs it so the saved pid is the server's.
+	# The slot lock stays on fd 10 until that process exits.
+	setsid "$root/scripts/dev-runner.sh" "$root" "$server_bin" "$port" \
+		"$poll_seconds" "$server_ttl" >"$log_file" 2>&1 </dev/null 9>&- &
 	local pid=$!
 	exec 10>&-
 	printf '%s\n' "$pid" >"$pid_file"

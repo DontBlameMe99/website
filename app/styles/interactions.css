@@ -1,0 +1,422 @@
+/* --- icon motion ---------------------------------------------------------- */
+
+/* Hover feedback lives on the link or button that owns the icon, so no
+   component needs a group wrapper. The class name is the whole API. */
+.icon-nudge,
+.icon-nudge-up,
+.icon-nudge-left,
+.icon-tilt {
+	transition: transform var(--motion-hover) ease-out;
+}
+
+@media (hover: hover) {
+	:is(a, button):hover .icon-nudge {
+		transform: translateX(2px);
+	}
+
+	:is(a, button):hover .icon-nudge-up {
+		transform: translate(2px, -2px);
+	}
+
+	:is(a, button):hover .icon-nudge-left {
+		transform: translateX(-2px);
+	}
+
+	:is(a, button):hover .icon-tilt {
+		transform: rotate(-8deg);
+	}
+}
+
+/* A pointer-tracked sheen, painted only by the styles with a surface that can
+   catch light. The project card writes the two coordinates. */
+.nb-spot {
+	position: relative;
+}
+
+.nb-spot::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	display: none;
+	border-radius: inherit;
+	background: radial-gradient(
+		circle at var(--spot-x, 50%) var(--spot-y, 50%),
+		var(--spot-color),
+		transparent 60%
+	);
+	opacity: 0;
+	transition: opacity var(--motion-base) ease-out;
+	pointer-events: none;
+}
+
+.nb-spot > * {
+	position: relative;
+	z-index: 1;
+}
+
+[data-style="glassmorphism"] .nb-spot::after {
+	display: block;
+	/* The sheen lands on a card that is already one step down the ramp, so the
+	   accent tint has to stay shallow to leave the label its AAA. */
+	--spot-color: color-mix(in srgb, var(--accent-surface) 2.5%, transparent);
+}
+
+[data-style="xp"] .nb-spot::after {
+	display: block;
+	--spot-color: color-mix(in srgb, var(--xp-frame-light) 18%, transparent);
+}
+
+@media (hover: hover) {
+	.nb-spot:hover::after {
+		opacity: 1;
+	}
+}
+
+/* The nav's active item already carries a text underline, so the hover rule
+   only grows a line for the rest. XP paints a wash instead. */
+.nav-link {
+	position: relative;
+}
+
+.nav-link::after {
+	content: "";
+	position: absolute;
+	left: 0.25rem;
+	right: 0.25rem;
+	bottom: 0.15rem;
+	height: 2px;
+	background: currentColor;
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform var(--motion-hover) ease-out;
+}
+
+@media (hover: hover) {
+	.nav-link:hover::after {
+		transform: scaleX(1);
+	}
+}
+
+.nav-link[aria-current="page"]::after,
+[data-style="xp"] .nav-link::after {
+	content: none;
+}
+
+/* The selected mark pops in on the theme page. */
+@keyframes chip-in {
+	from {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.chip-in {
+	display: inline-flex;
+	animation: chip-in var(--motion-base) ease-out both;
+}
+
+/* The home hero arrives in four steps instead of one flat fade. */
+@keyframes hero-in {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.hero-step {
+	animation: hero-in var(--motion-base) ease-out both;
+}
+
+.hero-step-1 {
+	animation-delay: 0ms;
+}
+
+.hero-step-2 {
+	animation-delay: 30ms;
+}
+
+.hero-step-3 {
+	animation-delay: 60ms;
+}
+
+.hero-step-4 {
+	animation-delay: 90ms;
+}
+
+/* The two theme glyphs have no inline state before hydration, so the class the
+   boot script already set decides which one shows. */
+.theme-moon {
+	opacity: 1;
+	transform: none;
+}
+
+.theme-sun {
+	opacity: 0;
+	transform: rotate(90deg) scale(0.7);
+}
+
+.light .theme-moon {
+	opacity: 0;
+	transform: rotate(-90deg) scale(0.7);
+}
+
+.light .theme-sun {
+	opacity: 1;
+	transform: none;
+}
+
+/* One glyph crossfades into the other whether or not the click runs through the
+   liquid wipe. */
+.theme-moon,
+.theme-sun {
+	transition:
+		opacity 180ms ease-out,
+		transform 180ms ease-out;
+}
+
+/* The two copy glyphs swap in one grid cell, so the label beside them holds
+   still. This one is a class rather than a motion component so that a page
+   which only copies text does not load the animation runtime. */
+.copy-icon {
+	transition:
+		opacity 150ms ease-out,
+		transform 150ms ease-out;
+}
+
+.copy-icon-done {
+	opacity: 0;
+	transform: scale(0.8) rotate(-12deg);
+}
+
+.copy-state[data-copied="true"] .copy-icon-idle {
+	opacity: 0;
+	transform: scale(0.8) rotate(12deg);
+}
+
+.copy-state[data-copied="true"] .copy-icon-done {
+	opacity: 1;
+	transform: none;
+}
+
+/* --- controls ------------------------------------------------------------ */
+
+@layer base {
+	/* This one has to sit in a layer: unlayered declarations beat every
+	   utility, so buttons would keep the browser's 16px font and inherit the
+	   wrong text color. Preflight squares off form controls, so the style's
+	   radius has to win here too. */
+	button,
+	input,
+	select,
+	summary,
+	textarea {
+		font: inherit;
+		color: inherit;
+		border-radius: var(--radius);
+	}
+
+	button:not(:disabled),
+	[role="tab"],
+	summary {
+		cursor: pointer;
+	}
+
+	button:disabled {
+		cursor: not-allowed;
+	}
+
+	input::placeholder,
+	textarea::placeholder {
+		color: var(--overlay1);
+	}
+
+	/* The field draws the frame, so the input must not draw its own. */
+	input[type="search"]::-webkit-search-cancel-button,
+	input[type="search"]::-webkit-search-decoration {
+		appearance: none;
+	}
+}
+
+/* The thumb takes the style radius, so it is square where the style is. */
+input[type="range"]::-webkit-slider-thumb {
+	appearance: none;
+	width: 18px;
+	height: 18px;
+	background: var(--accent-surface);
+	border: var(--bw) var(--line-style) var(--edge);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow-hard-sm);
+	cursor: grab;
+}
+
+input[type="range"]::-moz-range-thumb {
+	width: 18px;
+	height: 18px;
+	background: var(--accent-surface);
+	border: var(--bw) var(--line-style) var(--edge);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow-hard-sm);
+	cursor: grab;
+}
+
+/* --- scrollbar -----------------------------------------------------------
+
+   One geometry for every style, finished from tokens: the track width, the
+   thumb's radius, edge, bevel and gutter, and the track's own fill. The bar is
+   chrome around the widget, so each style answers with its own shape: a hard
+   ink block for Neobrutalist, a hairline pill for Flat, a lens for Glass, a
+   tinted pill for Material, a molded elevator for Skeuomorphic, and Luna
+   chrome for XP. */
+
+@supports selector(::-webkit-scrollbar-thumb) {
+	::-webkit-scrollbar {
+		width: var(--scrollbar-size);
+		height: var(--scrollbar-size);
+	}
+	::-webkit-scrollbar-track {
+		background-color: var(--scrollbar-track);
+		box-shadow: var(--scrollbar-track-shadow);
+	}
+	::-webkit-scrollbar-thumb {
+		background-color: var(--scrollbar-thumb);
+		background-image: var(--scrollbar-thumb-image);
+		background-clip: padding-box;
+		border: var(--scrollbar-thumb-line);
+		border-radius: var(--scrollbar-radius);
+		box-shadow: var(--scrollbar-thumb-shadow);
+	}
+}
+
+/* The theme page's selected chip is the only glyph that moves in this style.
+   A stationary chip keeps the contrast audit's text attribution stable. */
+[data-style="futuristic"] .chip-in {
+	animation: none;
+}
+
+[data-style="xp"] .chip-in {
+	animation: none;
+}
+
+/* The engine's resize grip is a grey system triangle drawn in the scrollbar
+   corner, which reads as a stray pixel in every style. Paint it in the field's
+   own ink: a token inside the gradient does not resolve on a scrollbar part,
+   while currentColor does. */
+textarea::-webkit-resizer {
+	background: linear-gradient(135deg, transparent 0 45%, currentColor 45%);
+}
+
+/* XP scrollbars: Luna's arrow buttons. This is the one part of a scrollbar a
+   token cannot gate, because a scrollbar box belongs to the engine, not to the
+   page, so the rules are scoped to XP instead. A descendant selector also
+   reaches the page's own bar. */
+@supports selector(::-webkit-scrollbar-thumb) {
+	/* A code block's bar is a hairline and takes no buttons, so the pre is out:
+	   any rule that names a button part creates one, and the engine sizes it
+	   past the bar. */
+	[data-style="xp"] :not(pre)::-webkit-scrollbar-button:single-button {
+		/* WebKit needs the box declared before it paints an arrow in it. */
+		display: block;
+		height: var(--scrollbar-size);
+		border: 1px solid #aca899;
+		background-color: #ece9d8;
+		background-repeat: no-repeat;
+		background-position: center;
+		box-shadow: inset 0 0 0 1px #fff;
+	}
+	[data-style="xp"]
+		:not(pre)::-webkit-scrollbar-button:single-button:vertical:decrement {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 5 4 0 8 5Z' fill='%23000'/%3E%3C/svg%3E");
+	}
+	[data-style="xp"]
+		:not(pre)::-webkit-scrollbar-button:single-button:vertical:increment {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0 8 0 4 5Z' fill='%23000'/%3E%3C/svg%3E");
+	}
+	[data-style="xp"]
+		:not(pre)::-webkit-scrollbar-button:single-button:horizontal:decrement {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='8'%3E%3Cpath d='M5 0 0 4 5 8Z' fill='%23000'/%3E%3C/svg%3E");
+	}
+	[data-style="xp"]
+		:not(pre)::-webkit-scrollbar-button:single-button:horizontal:increment {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='5' height='8'%3E%3Cpath d='M0 0 5 4 0 8Z' fill='%23000'/%3E%3C/svg%3E");
+	}
+}
+
+@supports not selector(::-webkit-scrollbar-thumb) {
+	* {
+		scrollbar-width: thin;
+		scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+	}
+}
+
+/* --- theme --------------------------------------------------------------- */
+
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+	transition: none !important;
+}
+
+/* The toggle glyphs still swap during the wipe, so the button reads the same as
+   it does on a switch that has no view transition. */
+html.theme-switching .theme-moon,
+html.theme-switching .theme-sun {
+	transition:
+		opacity 180ms ease-out,
+		transform 180ms ease-out !important;
+}
+
+/* The blob wipe is the only animation on the snapshots. A cross-fade here
+   fights it and reads as a flicker. */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+
+/* The overlay must not eat clicks while the wipe runs. */
+::view-transition {
+	pointer-events: none;
+}
+
+@keyframes page-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+
+	/* The end state is already on screen, so the steps must not wait out
+	   their delays. */
+	.hero-step {
+		animation: none !important;
+	}
+
+	::view-transition-old(*),
+	::view-transition-new(*),
+	::view-transition-group(*) {
+		animation: none !important;
+	}
+}

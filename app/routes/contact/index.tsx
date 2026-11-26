@@ -1,7 +1,7 @@
 import { ArrowUpRight, Mail } from "lucide-react";
 import { PageHeader } from "~/components/layout/page_header";
-import { MatrixIcon, socialIcon } from "~/components/shared/icons";
-import { CopyStateIcon, useCopy } from "~/components/ui/copy_state";
+import { MatrixIcon, SocialChip } from "~/components/shared/icons";
+import { CopyControl } from "~/components/ui/copy_state";
 import { seo } from "~/lib/seo";
 import { CONTACT, SOCIALS } from "~/lib/site";
 
@@ -13,32 +13,8 @@ export const meta = () =>
 	});
 
 const ELSEWHERE = SOCIALS.filter(
-	(social) => !["Email", "Matrix"].includes(social.label),
+	(social) => !["mail", "matrix"].includes(social.icon),
 );
-
-function CopyEmail() {
-	const { copied, failed, copy } = useCopy(1600);
-
-	return (
-		<>
-			<button
-				type="button"
-				onClick={() => copy(CONTACT.email)}
-				className="nb-button min-w-20 justify-center py-1.5 text-[11px] uppercase tracking-[0.08em]"
-			>
-				<CopyStateIcon copied={copied} />
-				{copied ? "Copied" : failed ? "Copy failed" : "Copy"}
-			</button>
-			<span role="status" className="sr-only">
-				{copied
-					? "Email address copied to the clipboard"
-					: failed
-						? "Could not copy. Select the address instead."
-						: ""}
-			</span>
-		</>
-	);
-}
 
 export default function ContactPage() {
 	return (
@@ -57,7 +33,13 @@ export default function ContactPage() {
 							<Mail aria-hidden="true" className="size-3.5" />
 							Email
 						</p>
-						<CopyEmail />
+						<CopyControl
+							value={CONTACT.email}
+							reset={1600}
+							className="nb-button min-w-20 justify-center py-1.5 text-[11px] uppercase tracking-[0.08em]"
+							copiedMessage="Email address copied to the clipboard"
+							failedMessage="Could not copy. Select the address instead."
+						/>
 					</div>
 					<a
 						href={`mailto:${CONTACT.email}`}
@@ -95,22 +77,16 @@ export default function ContactPage() {
 				<section className="nb-panel p-6 lg:col-span-2">
 					<p className="text-label text-subtext0">Elsewhere</p>
 					<ul className="mt-4 flex flex-wrap gap-2">
-						{ELSEWHERE.map((social) => {
-							const Icon = socialIcon(social.icon);
-							return (
-								<li key={social.label}>
-									<a
-										href={social.href}
-										target="_blank"
-										rel="noopener noreferrer"
-										className="nb-chip group text-subtext0 transition-colors hover:bg-accent hover:text-on-accent"
-									>
-										<Icon className="icon-tilt size-3.5 shrink-0" />
-										{social.label}
-									</a>
-								</li>
-							);
-						})}
+						{ELSEWHERE.map((social) => (
+							<li key={social.label}>
+								<SocialChip
+									icon={social.icon}
+									href={social.href}
+									label={social.label}
+									className="nb-chip group text-subtext0 transition-colors hover:bg-accent hover:text-on-accent"
+								/>
+							</li>
+						))}
 					</ul>
 				</section>
 			</div>

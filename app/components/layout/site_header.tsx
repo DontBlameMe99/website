@@ -4,8 +4,8 @@ import { ThemeToggle } from "~/components/layout/theme_toggle";
 import { GlassMarker } from "~/components/ui/glass_marker";
 import { ScrollProgress } from "~/components/ui/scroll_progress";
 import { useGlassMarker } from "~/hooks/use_glass_marker";
-import { useTheme } from "~/lib/theme_provider";
 import { NAV, SITE } from "~/lib/site";
+import { useTheme } from "~/lib/theme_provider";
 import { cn } from "~/lib/utils";
 
 const NAV_ITEMS = NAV.filter((item) => item.to !== "/");
@@ -17,6 +17,12 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
 			? "text-text underline decoration-2 underline-offset-[6px]"
 			: "text-subtext0",
 	);
+
+function isActiveNav(pathname: string, to: string) {
+	const current = pathname.toLowerCase();
+	const target = to.toLowerCase();
+	return current === target || current.startsWith(`${target}/`);
+}
 
 type PillBox = { x: number; width: number };
 
@@ -32,7 +38,7 @@ export function SiteHeader() {
 	const scopeRef = useGlassMarker<HTMLElement>(activeNav, glass, pathname);
 
 	const activeHref =
-		NAV_ITEMS.find((item) => pathname.startsWith(item.to))?.to ?? null;
+		NAV_ITEMS.find((item) => isActiveNav(pathname, item.to))?.to ?? null;
 
 	useLayoutEffect(() => {
 		if (!material) return;
@@ -108,6 +114,8 @@ export function SiteHeader() {
 							ref={(node) => {
 								if (node?.getAttribute("aria-current") === "page")
 									activeNav.current = node;
+								else if (!node || activeNav.current === node)
+									activeNav.current = null;
 							}}
 						>
 							{item.label}

@@ -64,6 +64,73 @@ function wipeFrom(element: HTMLElement, apply: () => void) {
 	);
 }
 
+type ChoiceScope = ReturnType<typeof accentScope>;
+
+function ChoiceCard({
+	selected,
+	onClick,
+	scope,
+	style,
+	dataScheme,
+	dataStyle,
+	preview,
+	label,
+	blurb,
+}: {
+	selected: boolean;
+	onClick: React.MouseEventHandler<HTMLButtonElement>;
+	scope?: ChoiceScope;
+	style?: React.CSSProperties;
+	dataScheme?: string;
+	dataStyle?: string;
+	preview: React.ReactNode;
+	label: string;
+	blurb: string;
+}) {
+	return (
+		<button
+			type="button"
+			aria-pressed={selected}
+			onClick={onClick}
+			{...scope}
+			data-scheme={dataScheme}
+			data-style={dataStyle}
+			style={style}
+			className={cn(
+				"nb-panel nb-lift min-w-0 p-6 text-left",
+				selected && ACTIVE,
+			)}
+		>
+			{preview}
+			<span className="mt-4 flex min-w-0 flex-wrap items-baseline justify-between gap-2 sm:gap-4">
+				<span className="min-w-0 text-lg font-extrabold tracking-[-0.02em] text-text">
+					{label}
+				</span>
+				{selected ? <Selected /> : null}
+			</span>
+			<span className="mt-2 block text-[13px] leading-relaxed text-subtext0">
+				{blurb}
+			</span>
+		</button>
+	);
+}
+
+function pickPalette(
+	event: React.MouseEvent<HTMLButtonElement>,
+	selected: boolean,
+	otherBrightness: boolean,
+	apply: () => void,
+) {
+	if (selected) return;
+	// A palette for the other brightness is only saved for later, so it has
+	// nothing to wipe in.
+	if (otherBrightness) {
+		apply();
+		return;
+	}
+	wipeFrom(event.currentTarget, apply);
+}
+
 /**
  * A preview scopes its own palette, so it has to spell out the accent too: an
  * attribute for a hue, the two variables for a hex.
@@ -245,43 +312,33 @@ function StyleOption({ option }: { option: Style }) {
 	const active = style === option.id;
 
 	return (
-		<button
-			type="button"
-			aria-pressed={active}
+		<ChoiceCard
+			selected={active}
 			onClick={(event) => {
 				if (active) return;
 				wipeFrom(event.currentTarget, () => setStyle(option.id));
 			}}
-			className={cn("nb-panel nb-lift min-w-0 p-6 text-left", active && ACTIVE)}
-		>
-			<span
-				{...accentScope(accent)}
-				data-style={option.id}
-				data-scheme={scheme}
-				aria-hidden="true"
-				className="nb-well flex h-28 flex-col justify-between gap-2 p-3"
-			>
-				<span className="nb-panel flex items-center justify-between gap-2 p-2">
-					<span className="text-[11px] font-bold text-text">Panel</span>
-					<span className="nb-chip nb-accent">Chip</span>
+			preview={
+				<span
+					{...accentScope(accent)}
+					data-style={option.id}
+					data-scheme={scheme}
+					aria-hidden="true"
+					className="nb-well flex h-28 flex-col justify-between gap-2 p-3"
+				>
+					<span className="nb-panel flex items-center justify-between gap-2 p-2">
+						<span className="text-[11px] font-bold text-text">Panel</span>
+						<span className="nb-chip nb-accent">Chip</span>
+					</span>
+					<span className="flex items-center gap-2">
+						<span className="nb-button px-2 py-1 text-[11px]">Button</span>
+						<span className="text-[11px] text-subtext0">Body text</span>
+					</span>
 				</span>
-				<span className="flex items-center gap-2">
-					<span className="nb-button px-2 py-1 text-[11px]">Button</span>
-					<span className="text-[11px] text-subtext0">Body text</span>
-				</span>
-			</span>
-
-			<span className="mt-4 flex min-w-0 flex-wrap items-baseline justify-between gap-2 sm:gap-4">
-				<span className="min-w-0 text-lg font-extrabold tracking-[-0.02em] text-text">
-					{option.label}
-				</span>
-				{active ? <Selected /> : null}
-			</span>
-
-			<span className="mt-2 block text-[13px] leading-relaxed text-subtext0">
-				{option.blurb}
-			</span>
-		</button>
+			}
+			label={option.label}
+			blurb={option.blurb}
+		/>
 	);
 }
 
@@ -296,48 +353,30 @@ function PaletteOption({
 	const scope = accentScope(accent);
 
 	return (
-		<button
-			type="button"
-			aria-pressed={selected}
-			onClick={(event) => {
-				if (selected) return;
-				// A palette for the other brightness is only saved for later, so it
-				// has nothing to wipe in.
-				if (option.mode !== mode) {
-					setScheme(option.id);
-					return;
-				}
-				wipeFrom(event.currentTarget, () => setScheme(option.id));
-			}}
-			{...scope}
-			data-scheme={option.id}
-			data-style={style}
+		<ChoiceCard
+			selected={selected}
+			scope={scope}
 			style={{
 				...tokenStyle(style === "custom" ? custom.style : null),
 				...scope.style,
 			}}
-			className={cn(
-				"nb-panel nb-lift min-w-0 p-6 text-left",
-				selected && ACTIVE,
-			)}
-		>
-			<span aria-hidden="true" className="nb-line flex">
-				{SWATCHES.map((tone) => (
-					<span key={tone} className={cn("h-3 flex-1", tone)} />
-				))}
-			</span>
-
-			<span className="mt-4 flex min-w-0 flex-wrap items-baseline justify-between gap-2 sm:gap-4">
-				<span className="min-w-0 text-lg font-extrabold tracking-[-0.02em] text-text">
-					{option.label}
+			onClick={(event) =>
+				pickPalette(event, selected, option.mode !== mode, () =>
+					setScheme(option.id),
+				)
+			}
+			dataScheme={option.id}
+			dataStyle={style}
+			preview={
+				<span aria-hidden="true" className="nb-line flex">
+					{SWATCHES.map((tone) => (
+						<span key={tone} className={cn("h-3 flex-1", tone)} />
+					))}
 				</span>
-				{selected ? <Selected /> : null}
-			</span>
-
-			<span className="mt-2 block text-[13px] leading-relaxed text-subtext0">
-				{option.blurb}
-			</span>
-		</button>
+			}
+			label={option.label}
+			blurb={option.blurb}
+		/>
 	);
 }
 
@@ -406,50 +445,34 @@ function CustomPaletteCard({
 		: [];
 
 	return (
-		<button
-			type="button"
-			aria-pressed={selected}
-			onClick={(event) => {
-				if (selected) return;
-				// A palette for the other brightness is only saved for later, so it
-				// has nothing to wipe in.
-				if (mode !== active) {
-					setScheme("custom", mode);
-					return;
-				}
-				wipeFrom(event.currentTarget, () => setScheme("custom", mode));
-			}}
-			className={cn(
-				"nb-panel nb-lift min-w-0 p-6 text-left",
-				selected && ACTIVE,
-			)}
-		>
-			<span
-				aria-hidden="true"
-				className={cn("nb-line flex", !palette && "border-dashed")}
-			>
-				{tones.map((tone) => (
-					<span
-						key={tone.key}
-						className="h-3 flex-1"
-						style={{ backgroundColor: tone.color }}
-					/>
-				))}
-			</span>
-
-			<span className="mt-4 flex min-w-0 flex-wrap items-baseline justify-between gap-2 sm:gap-4">
-				<span className="min-w-0 text-lg font-extrabold tracking-[-0.02em] text-text">
-					Custom
+		<ChoiceCard
+			selected={selected}
+			onClick={(event) =>
+				pickPalette(event, selected, mode !== active, () =>
+					setScheme("custom", mode),
+				)
+			}
+			preview={
+				<span
+					aria-hidden="true"
+					className={cn("nb-line flex", !palette && "border-dashed")}
+				>
+					{tones.map((tone) => (
+						<span
+							key={tone.key}
+							className="h-3 flex-1"
+							style={{ backgroundColor: tone.color }}
+						/>
+					))}
 				</span>
-				{selected ? <Selected /> : null}
-			</span>
-
-			<span className="mt-2 block text-[13px] leading-relaxed text-subtext0">
-				{palette
+			}
+			label="Custom"
+			blurb={
+				palette
 					? "Your own palette. Every color is yours to edit."
-					: "Any colorscheme you like, starting from the one in use."}
-			</span>
-		</button>
+					: "Any colorscheme you like, starting from the one in use."
+			}
+		/>
 	);
 }
 
@@ -461,48 +484,37 @@ function CustomStyleCard({ selected }: { selected: boolean }) {
 	const lives = (mode === "dark" ? darkScheme : lightScheme) === "custom";
 
 	return (
-		<button
-			type="button"
-			aria-pressed={selected}
+		<ChoiceCard
+			selected={selected}
 			onClick={(event) => {
 				if (selected) return;
 				wipeFrom(event.currentTarget, () => setStyle("custom"));
 			}}
-			className={cn(
-				"nb-panel nb-lift min-w-0 p-6 text-left",
-				selected && ACTIVE,
-			)}
-		>
-			<span
-				{...scope}
-				data-style="custom"
-				style={{ ...customPreview(mode, custom, lives), ...scope.style }}
-				aria-hidden="true"
-				className="nb-well flex h-28 flex-col justify-between gap-2 p-3"
-			>
-				<span className="nb-panel flex items-center justify-between gap-2 p-2">
-					<span className="text-[11px] font-bold text-text">Panel</span>
-					<span className="nb-chip nb-accent">Chip</span>
+			preview={
+				<span
+					{...scope}
+					data-style="custom"
+					style={{ ...customPreview(mode, custom, lives), ...scope.style }}
+					aria-hidden="true"
+					className="nb-well flex h-28 flex-col justify-between gap-2 p-3"
+				>
+					<span className="nb-panel flex items-center justify-between gap-2 p-2">
+						<span className="text-[11px] font-bold text-text">Panel</span>
+						<span className="nb-chip nb-accent">Chip</span>
+					</span>
+					<span className="flex items-center gap-2">
+						<span className="nb-button px-2 py-1 text-[11px]">Button</span>
+						<span className="text-[11px] text-subtext0">Body text</span>
+					</span>
 				</span>
-				<span className="flex items-center gap-2">
-					<span className="nb-button px-2 py-1 text-[11px]">Button</span>
-					<span className="text-[11px] text-subtext0">Body text</span>
-				</span>
-			</span>
-
-			<span className="mt-4 flex min-w-0 flex-wrap items-baseline justify-between gap-2 sm:gap-4">
-				<span className="min-w-0 text-lg font-extrabold tracking-[-0.02em] text-text">
-					Custom
-				</span>
-				{selected ? <Selected /> : null}
-			</span>
-
-			<span className="mt-2 block text-[13px] leading-relaxed text-subtext0">
-				{custom.style
+			}
+			label="Custom"
+			blurb={
+				custom.style
 					? "Your own shape and material."
-					: "Build a look the catalog does not have."}
-			</span>
-		</button>
+					: "Build a look the catalog does not have."
+			}
+		/>
 	);
 }
 

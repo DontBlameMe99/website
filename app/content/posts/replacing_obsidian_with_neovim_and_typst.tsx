@@ -1,6 +1,7 @@
+import { Link } from "react-router";
 import { CodeBlock } from "~/components/post/code_block";
 import { Callout } from "~/components/post/kit";
-import { Link, PostHeading, PostImage, Prose } from "~/components/post/prose";
+import { PostHeading, PostImage, Prose } from "~/components/post/prose";
 import { NoteSyntaxSwitcher } from "~/content/experiences/replacing_obsidian_with_neovim_and_typst";
 import type { Section } from "~/lib/post_types";
 

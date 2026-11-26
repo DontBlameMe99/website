@@ -1,0 +1,79 @@
+/* The focus ring keeps the page's ink even inside a palette card, where the
+   scoped --ink is that card's text color. Declared on :root only, so it
+   resolves there and is inherited as a concrete color. */
+
+@layer base {
+	* {
+		border-color: var(--color-border);
+		border-radius: var(--radius);
+	}
+
+	/* An icon is a drawing, not a surface: a small SVG with the style radius
+	   and its default overflow clips its own corners. */
+	svg {
+		border-radius: 0;
+	}
+
+	html {
+		scroll-padding-top: 6.75rem;
+		text-size-adjust: 100%;
+	}
+
+	@media (min-width: 40rem) {
+		html {
+			scroll-padding-top: 5.25rem;
+		}
+	}
+
+	body {
+		overflow-x: clip;
+		background-color: var(--page-surface);
+		background-image: var(--page-image);
+		color: var(--color-foreground);
+		font-family: var(--font-sans);
+		font-size: 1rem;
+		line-height: 1.7;
+		overflow-wrap: break-word;
+		-webkit-font-smoothing: antialiased;
+		font-synthesis: none;
+	}
+
+	::selection {
+		background: var(--accent-surface);
+		color: var(--on-accent);
+	}
+
+	/* Ink, not the accent: it has to stay visible on accent fills too. */
+	:focus-visible {
+		outline: 2px solid var(--focus-ring);
+		outline-offset: 3px;
+	}
+
+	/* The main landmark is a programmatic focus target, not a visible control. */
+	#main-content:focus:not(:focus-visible) {
+		outline: none;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5 {
+		font-weight: 700;
+		line-height: 1.05;
+		letter-spacing: -0.03em;
+		text-wrap: balance;
+	}
+
+	p {
+		text-wrap: pretty;
+	}
+
+	code,
+	kbd,
+	samp,
+	pre {
+		font-family: var(--font-mono);
+		font-feature-settings: "liga" 0;
+	}
+}

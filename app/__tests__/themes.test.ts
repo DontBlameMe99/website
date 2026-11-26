@@ -11,6 +11,7 @@ import {
 	STYLE_VALUE_MAX,
 	STYLES,
 	themeBootScript,
+	themeTokenBlocks,
 	withScheme,
 } from "../lib/themes";
 
@@ -148,5 +149,39 @@ describe("boot script", () => {
 		]) {
 			expect(themeBootScript).toContain(JSON.stringify(value));
 		}
+	});
+});
+
+describe("themeTokenBlocks", () => {
+	test("keeps the emitted block order and selectors", () => {
+		expect(themeTokenBlocks().map((block) => block.selector)).toEqual([
+			':root, [data-scheme="mocha"]',
+			":root, [data-style]",
+			...SCHEMES.filter((scheme) => scheme.id !== "mocha").map(
+				(scheme) => `[data-scheme="${scheme.id}"]`,
+			),
+			...ACCENT_HUES.map((hue) => `[data-accent="${hue}"]`),
+			...STYLES.map((style) => `[data-style="${style.id}"]`),
+			'.dark[data-style="xp"]',
+			":root",
+		]);
+	});
+
+	test("keeps Mocha's declarations and one accent declaration per hue", () => {
+		const blocks = themeTokenBlocks();
+		const mocha = SCHEMES.find((scheme) => scheme.id === "mocha");
+		expect(blocks[0].declarations).toEqual(mocha?.tokens);
+		expect(Object.keys(blocks[0].declarations)).toEqual(
+			Object.keys(mocha?.tokens ?? {}),
+		);
+		expect(
+			blocks
+				.filter((block) => block.selector.startsWith("[data-accent"))
+				.map((block) => block.declarations),
+		).toEqual(
+			ACCENT_HUES.map((hue) => ({
+				"--accent-surface": `var(--${hue})`,
+			})),
+		);
 	});
 });

@@ -22,7 +22,11 @@ import { SiteFooter } from "~/components/layout/site_footer";
 import { SiteHeader } from "~/components/layout/site_header";
 import { seo } from "~/lib/seo";
 import { SITE } from "~/lib/site";
-import { ThemeProvider, themeBootScript } from "~/lib/theme_provider";
+import {
+	fontPreloadScript,
+	ThemeProvider,
+	themeBootScript,
+} from "~/lib/theme_provider";
 import { NotFound } from "~/routes/__404/not_found";
 
 export const meta = () => seo({ title: SITE.name });
@@ -114,6 +118,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 					media="(prefers-color-scheme: light)"
 					content="#dce0e8"
 				/>
+				<script dangerouslySetInnerHTML={{ __html: fontPreloadScript }} />
 				<Meta />
 				<Links />
 				{/* After the stylesheet link, so the browser starts the CSS request

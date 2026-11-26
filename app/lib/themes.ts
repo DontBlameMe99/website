@@ -255,9 +255,7 @@ export const fontPreloadScript = `
  * in plain JS on purpose: it may not import a module, and a flash of the wrong
  * theme is worse than one short copy.
  */
-export const themeBootScript =
-	fontPreloadScript +
-	`
+export const themeBootScript = `
 	(function () {
 		var ids = {
 			style: ${JSON.stringify(STYLES.map((style) => style.id))},

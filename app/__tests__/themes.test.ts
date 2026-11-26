@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import {
 	ACCENT_HUES,
 	DEFAULT_PREFS,
+	fontPreloadScript,
 	inkOn,
 	isSchemeForMode,
 	resolveAccent,
@@ -118,6 +119,13 @@ describe("accent", () => {
 });
 
 describe("boot script", () => {
+	test("keeps the font preload ahead of theme initialization", () => {
+		expect(fontPreloadScript).toContain(
+			"/fonts/montserrat/Montserrat-Variable.woff2",
+		);
+		expect(fontPreloadScript).toContain('["xp","msdos","minecraft"]');
+		expect(themeBootScript).not.toContain("Montserrat-Variable.woff2");
+	});
 	// It runs before the app module loads, so it must know every id on its own.
 	test("knows every storage key and every id", () => {
 		for (const key of Object.values(STORAGE_KEYS)) {

@@ -1,4 +1,12 @@
-import { useEffect, useRef } from "react";
+import {
+	Component,
+	lazy,
+	type ReactNode,
+	Suspense,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import {
 	isRouteErrorResponse,
 	Links,
@@ -10,8 +18,6 @@ import {
 } from "react-router";
 
 import "./app.css";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
 import { SiteFooter } from "~/components/layout/site_footer";
 import { SiteHeader } from "~/components/layout/site_header";
 import { seo } from "~/lib/seo";
@@ -44,6 +50,51 @@ export const links = () => [
 		crossOrigin: "anonymous",
 	},
 ];
+
+const Analytics = lazy(() =>
+	import("@vercel/analytics/react").then((module) => ({
+		default: module.Analytics,
+	})),
+);
+const SpeedInsights = lazy(() =>
+	import("@vercel/speed-insights/react").then((module) => ({
+		default: module.SpeedInsights,
+	})),
+);
+
+function DeferredTelemetry() {
+	const [ready, setReady] = useState(false);
+
+	useEffect(() => {
+		const timer = window.setTimeout(() => setReady(true), 1500);
+		return () => window.clearTimeout(timer);
+	}, []);
+
+	return (
+		<Suspense fallback={null}>
+			{ready ? (
+				<>
+					<SpeedInsights />
+					<Analytics />
+				</>
+			) : null}
+		</Suspense>
+	);
+}
+class TelemetryBoundary extends Component<
+	{ children: ReactNode },
+	{ failed: boolean }
+> {
+	state = { failed: false };
+
+	static getDerivedStateFromError() {
+		return { failed: true };
+	}
+
+	render() {
+		return this.state.failed ? null : this.props.children;
+	}
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -86,8 +137,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				{children}
 				<ScrollRestoration />
 				<Scripts />
-				<SpeedInsights />
-				<Analytics />
+				<TelemetryBoundary>
+					<DeferredTelemetry />
+				</TelemetryBoundary>
 			</body>
 		</html>
 	);

@@ -1,4 +1,12 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import {
+	Component,
+	lazy,
+	type ReactNode,
+	Suspense,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import {
 	isRouteErrorResponse,
 	Links,
@@ -73,6 +81,20 @@ function DeferredTelemetry() {
 		</Suspense>
 	);
 }
+class TelemetryBoundary extends Component<
+	{ children: ReactNode },
+	{ failed: boolean }
+> {
+	state = { failed: false };
+
+	static getDerivedStateFromError() {
+		return { failed: true };
+	}
+
+	render() {
+		return this.state.failed ? null : this.props.children;
+	}
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -115,7 +137,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				{children}
 				<ScrollRestoration />
 				<Scripts />
-				<DeferredTelemetry />
+				<TelemetryBoundary>
+					<DeferredTelemetry />
+				</TelemetryBoundary>
 			</body>
 		</html>
 	);

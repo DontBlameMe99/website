@@ -291,7 +291,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		active.current = true;
 		return () => {
 			active.current = false;
-			pending.current.length = 0;
 		};
 	}, []);
 
@@ -301,6 +300,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	 * from the view transition's async callback.
 	 */
 	const commit = useCallback((update: ThemeUpdate, needsSeeds = false) => {
+		if (seededActions && pending.current.length) {
+			for (const applyUpdate of pending.current.splice(0))
+				applyUpdate(seededActions);
+		}
+
 		const run = (actions: SeededThemeActions | null) => {
 			const next = update(latest.current, actions);
 			// A rejected or unchanged update must not repaint or write storage.

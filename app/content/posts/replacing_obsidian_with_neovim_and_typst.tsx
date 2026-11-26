@@ -179,6 +179,7 @@ export default function Post() {
 			</PostHeading>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/obsidian_mobile.webp"
+				avifSrcSet="/posts/replacing_obsidian_with_neovim_and_typst/obsidian_mobile-510.avif 510w"
 				width={510}
 				height={1008}
 				alt={
@@ -699,6 +700,7 @@ $
 			</p>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/markview_nvim.webp"
+				avifSrcSet="/posts/replacing_obsidian_with_neovim_and_typst/markview_nvim-640.avif 640w, /posts/replacing_obsidian_with_neovim_and_typst/markview_nvim-960.avif 960w, /posts/replacing_obsidian_with_neovim_and_typst/markview_nvim-1600.avif 1600w"
 				width={1600}
 				height={900}
 				alt={"A Typst document rendered inside Neovim by the Markview plugin"}
@@ -714,6 +716,7 @@ $
 			<p>The default styling looks like this:</p>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/typst_default_style.webp"
+				avifSrcSet="/posts/replacing_obsidian_with_neovim_and_typst/typst_default_style-640.avif 640w, /posts/replacing_obsidian_with_neovim_and_typst/typst_default_style-960.avif 960w, /posts/replacing_obsidian_with_neovim_and_typst/typst_default_style-1600.avif 1600w"
 				width={1600}
 				height={717}
 				alt={"Typst default styling: plain serif page with wide margins"}
@@ -724,6 +727,7 @@ $
 			</p>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/typst_styled_example.webp"
+				avifSrcSet="/posts/replacing_obsidian_with_neovim_and_typst/typst_styled_example-640.avif 640w, /posts/replacing_obsidian_with_neovim_and_typst/typst_styled_example-960.avif 960w, /posts/replacing_obsidian_with_neovim_and_typst/typst_styled_example-1600.avif 1600w"
 				width={1600}
 				height={1017}
 				alt={
@@ -915,6 +919,7 @@ $
 			</p>
 			<PostImage
 				src="/posts/replacing_obsidian_with_neovim_and_typst/image_of_me_writing.webp"
+				avifSrcSet="/posts/replacing_obsidian_with_neovim_and_typst/image_of_me_writing-640.avif 640w, /posts/replacing_obsidian_with_neovim_and_typst/image_of_me_writing-960.avif 960w, /posts/replacing_obsidian_with_neovim_and_typst/image_of_me_writing-1600.avif 1600w"
 				width={1600}
 				height={898}
 				alt={

@@ -18,16 +18,14 @@ import {
 	writeCustomTheme,
 } from "~/lib/custom_theme";
 import {
-	copyPalette,
-	copyStyle,
 	resetCustom,
 	setAccent,
+	setBuiltinScheme,
+	setBuiltinStyle,
 	setMode,
 	setPaletteToken,
-	setScheme,
-	setStyle,
 	setStyleToken,
-} from "~/lib/theme_update";
+} from "~/lib/theme_update_core";
 import {
 	type Accent,
 	accentToStored,
@@ -70,6 +68,29 @@ type ThemeContextValue = ThemePrefs & {
 	exportTheme: () => string;
 	/** Applies a pasted theme file. Returns an error message, or null. */
 	importTheme: (text: string) => string | null;
+};
+
+/** Seeded transitions, installed by theme_update.ts when its chunk arrives. */
+type SeededThemeActions = {
+	setStyle: (state: ThemeState) => ThemeState;
+	setScheme: (state: ThemeState, slot?: Mode) => ThemeState;
+	copyPalette: (state: ThemeState, mode: Mode, from: SchemeId) => ThemeState;
+	copyStyle: (state: ThemeState, from: StyleId) => ThemeState;
+};
+
+let seededActions: SeededThemeActions | null = null;
+let loadingSeeds = false;
+const waitingForSeeds: Array<(actions: SeededThemeActions) => void> = [];
+
+export function registerSeededThemeActions(actions: SeededThemeActions) {
+	seededActions = actions;
+	for (const run of waitingForSeeds.splice(0)) run(actions);
+}
+
+const loadSeededActions = () => {
+	if (seededActions || loadingSeeds) return;
+	loadingSeeds = true;
+	void import("~/lib/theme_update");
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
@@ -227,6 +248,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		custom: EMPTY_CUSTOM,
 	});
 	const latest = useRef(state);
+	const active = useRef(true);
 
 	useEffect(() => {
 		// The boot script has already painted the saved theme, so adopting it here
@@ -255,6 +277,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		else apply(next);
 	}, []);
 
+	useEffect(() => {
+		return () => {
+			active.current = false;
+		};
+	}, []);
+
 	/**
 	 * Applies and persists in one step, so a view transition sees the new paint.
 	 * The update reads the newest state, not this render's: the header calls it
@@ -270,6 +298,20 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		setState(next);
 	}, []);
 
+	const runSeeded = useCallback(
+		(run: (actions: SeededThemeActions) => void) => {
+			if (seededActions) {
+				run(seededActions);
+				return;
+			}
+			loadSeededActions();
+			waitingForSeeds.push((actions) => {
+				if (active.current) run(actions);
+			});
+		},
+		[],
+	);
+
 	const value = useMemo<ThemeContextValue>(() => {
 		const { prefs, custom } = state;
 
@@ -278,13 +320,25 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 			scheme: schemeForMode(prefs.mode, prefs.darkScheme, prefs.lightScheme),
 			custom,
 			setMode: (mode) => commit((current) => setMode(current, mode)),
-			setStyle: (style) => commit((current) => setStyle(current, style)),
+			setStyle: (style) =>
+				style === "custom"
+					? runSeeded((actions) => commit(actions.setStyle))
+					: commit((current) => setBuiltinStyle(current, style)),
 			setScheme: (scheme, slot) =>
-				commit((current) => setScheme(current, scheme, slot)),
+				scheme === "custom"
+					? runSeeded((actions) =>
+							commit((current) => actions.setScheme(current, slot)),
+						)
+					: commit((current) => setBuiltinScheme(current, scheme, slot)),
 			setAccent: (accent) => commit((current) => setAccent(current, accent)),
 			copyPalette: (mode, from) =>
-				commit((current) => copyPalette(current, mode, from)),
-			copyStyle: (from) => commit((current) => copyStyle(current, from)),
+				runSeeded((actions) =>
+					commit((current) => actions.copyPalette(current, mode, from)),
+				),
+			copyStyle: (from) =>
+				runSeeded((actions) =>
+					commit((current) => actions.copyStyle(current, from)),
+				),
 			setPaletteToken: (mode, token, hex) =>
 				commit((current) => setPaletteToken(current, mode, token, hex)),
 			setStyleToken: (token, value) =>
@@ -298,7 +352,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 				return null;
 			},
 		};
-	}, [state, commit]);
+	}, [state, commit, runSeeded]);
 
 	return (
 		<ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

@@ -1,18 +1,17 @@
 /**
- * Pure theme state transitions. The provider owns React, painting and storage;
- * these functions only decide what the next state is. Returning the current
- * state means a change was rejected and nothing should happen.
+ * Pure theme state transitions that need the built-in token blocks. The
+ * provider loads this module when a custom set is first created; importing it
+ * registers the seeded transitions so its public actions stay synchronous.
  */
+import type { ThemeState } from "~/lib/custom_theme";
+import { registerSeededThemeActions } from "~/lib/theme_provider";
+import { seedPalette, seedStyle } from "~/lib/theme_seeds";
 import {
-	EMPTY_CUSTOM,
-	isCssValue,
-	seedPalette,
-	seedStyle,
-	type ThemeState,
-} from "~/lib/custom_theme";
+	seedSource,
+	setBuiltinStyle,
+	styleSource,
+} from "~/lib/theme_update_core";
 import {
-	type Accent,
-	DEFAULT_PREFS,
 	type Mode,
 	type SchemeChoice,
 	type SchemeId,
@@ -21,26 +20,20 @@ import {
 	withScheme,
 } from "~/lib/themes";
 
-/** The built-in a slot starts from: its own choice, or the default. */
-export const seedSource = (
-	prefs: ThemeState["prefs"],
-	mode: Mode,
-): SchemeId => {
-	const choice = mode === "dark" ? prefs.darkScheme : prefs.lightScheme;
-	if (choice !== "custom") return choice;
-	return mode === "dark" ? DEFAULT_PREFS.darkScheme : DEFAULT_PREFS.lightScheme;
-};
-
-export const styleSource = (prefs: ThemeState["prefs"]): StyleId =>
-	prefs.style === "custom" ? DEFAULT_PREFS.style : prefs.style;
-
-export const setMode = (state: ThemeState, mode: Mode): ThemeState => ({
-	...state,
-	prefs: { ...state.prefs, mode },
-});
+export {
+	resetCustom,
+	seedSource,
+	setAccent,
+	setBuiltinScheme,
+	setBuiltinStyle,
+	setMode,
+	setPaletteToken,
+	setStyleToken,
+	styleSource,
+} from "~/lib/theme_update_core";
 
 export const setStyle = (state: ThemeState, style: StyleChoice): ThemeState => {
-	if (style !== "custom") return { ...state, prefs: { ...state.prefs, style } };
+	if (style !== "custom") return setBuiltinStyle(state, style);
 	const tokens = state.custom.style ?? seedStyle(styleSource(state.prefs));
 	return {
 		prefs: { ...state.prefs, style },
@@ -67,11 +60,6 @@ export const setScheme = (
 	};
 };
 
-export const setAccent = (state: ThemeState, accent: Accent): ThemeState => ({
-	...state,
-	prefs: { ...state.prefs, accent },
-});
-
 export const copyPalette = (
 	state: ThemeState,
 	mode: Mode,
@@ -87,44 +75,9 @@ export const copyStyle = (state: ThemeState, from: StyleId): ThemeState => ({
 	custom: { ...state.custom, style: seedStyle(from) },
 });
 
-export const setPaletteToken = (
-	state: ThemeState,
-	mode: Mode,
-	token: string,
-	hex: string,
-): ThemeState => {
-	const palette = state.custom[mode];
-	if (!palette) return state;
-	return {
-		...state,
-		custom: {
-			...state.custom,
-			[mode]: { ...palette, [token]: hex },
-		},
-	};
-};
-
-export const setStyleToken = (
-	state: ThemeState,
-	token: string,
-	value: string,
-): ThemeState => {
-	const style = { ...state.custom.style };
-	// Store what was typed, spaces included: a value is often several parts,
-	// and trimming each keystroke eats the joins.
-	if (!value.trim()) delete style[token];
-	else if (isCssValue(value)) style[token] = value;
-	else return state;
-	return { ...state, custom: { ...state.custom, style } };
-};
-
-export const resetCustom = (state: ThemeState): ThemeState => ({
-	prefs: {
-		...state.prefs,
-		darkScheme: DEFAULT_PREFS.darkScheme,
-		lightScheme: DEFAULT_PREFS.lightScheme,
-		style: DEFAULT_PREFS.style,
-		accent: DEFAULT_PREFS.accent,
-	},
-	custom: EMPTY_CUSTOM,
+registerSeededThemeActions({
+	setStyle: (state) => setStyle(state, "custom"),
+	setScheme: (state, slot) => setScheme(state, "custom", slot),
+	copyPalette,
+	copyStyle,
 });

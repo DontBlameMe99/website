@@ -3,7 +3,7 @@
  * editor renders. custom_theme.ts re-exports them for existing imports.
  */
 
-import { PALETTE_TOKENS, STYLE_TOKENS } from "./theme_catalog";
+import { PALETTE_TOKENS, STYLE_TOKENS } from "./theme_meta";
 
 import type { PaletteToken, StyleToken } from "./themes";
 

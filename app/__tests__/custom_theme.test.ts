@@ -3,15 +3,13 @@ import {
 	AAA,
 	contrastFailures,
 	contrastRatio,
-	expandStyleRefs,
 	isCssValue,
 	readThemeFile,
 	resolveCustomTheme,
 	resolveSelection,
-	seedPalette,
-	seedStyle,
 	themeFile,
 } from "../lib/custom_theme";
+import { expandStyleRefs, seedPalette, seedStyle } from "../lib/theme_seeds";
 import { DEFAULT_PREFS, PALETTE_TOKENS } from "../lib/themes";
 
 /** A palette that clears AAA, so a test only has to break the pair it names. */

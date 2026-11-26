@@ -1,10 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import {
-	EMPTY_CUSTOM,
-	seedPalette,
-	seedStyle,
-	type ThemeState,
-} from "../lib/custom_theme";
+import { EMPTY_CUSTOM, type ThemeState } from "../lib/custom_theme";
+import { seedPalette, seedStyle } from "../lib/theme_seeds";
 import {
 	copyPalette,
 	copyStyle,

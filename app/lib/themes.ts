@@ -1,30 +1,16 @@
 /**
- * Theme types, storage guards, and the plain-JS boot script. The catalog lives
- * in theme_catalog.ts and is re-exported here so existing imports keep working.
+ * Types, storage guards, and the plain-JS boot script. Labels and token names
+ * are small enough for every route; the CSS token blocks live elsewhere.
  */
 import {
 	ACCENT_HUES,
-	ACCENT_TOKENS,
-	FOCUS_RING_TOKENS,
 	PALETTE_TOKENS,
-	ROOT_SCHEME_TOKENS,
-	ROOT_STYLE_TOKENS,
-	SCHEMES,
+	SCHEME_META,
+	STYLE_META,
 	STYLE_TOKENS,
-	STYLES,
-	XP_DARK_TOKENS,
-} from "./theme_catalog";
+} from "./theme_meta";
 
-export {
-	ACCENT_HUES,
-	ACCENT_TOKENS,
-	PALETTE_TOKENS,
-	ROOT_SCHEME_TOKENS,
-	ROOT_STYLE_TOKENS,
-	SCHEMES,
-	STYLE_TOKENS,
-	STYLES,
-};
+export { ACCENT_HUES, PALETTE_TOKENS, STYLE_TOKENS };
 
 export type AccentHue = (typeof ACCENT_HUES)[number];
 export type Accent =
@@ -78,7 +64,6 @@ export type Style = {
 	id: StyleId;
 	label: string;
 	blurb: string;
-	tokens: Record<string, string>;
 };
 
 export type ColorScheme = {
@@ -86,8 +71,10 @@ export type ColorScheme = {
 	label: string;
 	mode: Mode;
 	blurb: string;
-	tokens: Record<string, string>;
 };
+
+export const SCHEMES: readonly ColorScheme[] = SCHEME_META;
+export const STYLES: readonly Style[] = STYLE_META;
 
 export const DARK_SCHEMES: readonly ColorScheme[] = SCHEMES.filter(
 	(scheme) => scheme.mode === "dark",
@@ -371,31 +358,3 @@ export const themeBootScript = `
 		}
 	})();
 `;
-
-/** Attribute-scoped custom properties emitted by app/theme_plugin.ts. */
-export function themeTokenBlocks(): {
-	selector: string;
-	declarations: Record<string, string>;
-}[] {
-	return [
-		{
-			selector: ':root, [data-scheme="mocha"]',
-			declarations: ROOT_SCHEME_TOKENS,
-		},
-		{ selector: ":root, [data-style]", declarations: ROOT_STYLE_TOKENS },
-		...SCHEMES.filter((scheme) => scheme.id !== "mocha").map((scheme) => ({
-			selector: `[data-scheme="${scheme.id}"]`,
-			declarations: scheme.tokens,
-		})),
-		...ACCENT_HUES.map((hue) => ({
-			selector: `[data-accent="${hue}"]`,
-			declarations: ACCENT_TOKENS[hue],
-		})),
-		...STYLES.map((style) => ({
-			selector: `[data-style="${style.id}"]`,
-			declarations: style.tokens,
-		})),
-		{ selector: '.dark[data-style="xp"]', declarations: XP_DARK_TOKENS },
-		{ selector: ":root", declarations: FOCUS_RING_TOKENS },
-	];
-}

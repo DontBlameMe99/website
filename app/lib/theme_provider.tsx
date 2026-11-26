@@ -87,7 +87,7 @@ type ThemeUpdate = (
 
 type PendingThemeUpdate = {
 	run: (actions: SeededThemeActions | null) => void;
-	needsSeeds: boolean;
+	needsSeeds: (current: ThemeState) => boolean;
 };
 
 let seededActions: SeededThemeActions | null = null;
@@ -306,46 +306,52 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	 * The update reads the newest state, not this render's: the header calls it
 	 * from the view transition's async callback.
 	 */
-	const commit = useCallback((update: ThemeUpdate, needsSeeds = false) => {
-		if (seededActions && pending.current.length) {
-			for (const entry of pending.current.splice(0)) entry.run(seededActions);
-		}
-
-		const run = (actions: SeededThemeActions | null) => {
-			const next = update(latest.current, actions);
-			// A rejected or unchanged update must not repaint or write storage.
-			if (next === latest.current) return;
-			latest.current = next;
-			apply(next);
-			writeState(next);
-			setState(next);
-		};
-
-		if (
-			!seededActions &&
-			(needsSeeds || (pending.current.length && seedPromise))
-		) {
-			pending.current.push({ run, needsSeeds });
-			void loadSeededActions()
-				.then((actions) => {
-					if (!active.current) return;
-					for (const entry of pending.current.splice(0)) entry.run(actions);
-				})
-				.catch(() => {
-					if (!active.current) return;
-					for (const entry of pending.current.splice(0)) {
-						if (!entry.needsSeeds) entry.run(null);
-					}
-				});
-			return;
-		}
-		if (!seededActions && pending.current.length) {
-			for (const entry of pending.current.splice(0)) {
-				if (!entry.needsSeeds) entry.run(null);
+	const commit = useCallback(
+		(
+			update: ThemeUpdate,
+			needsSeeds: (current: ThemeState) => boolean = () => false,
+		) => {
+			if (seededActions && pending.current.length) {
+				for (const entry of pending.current.splice(0)) entry.run(seededActions);
 			}
-		}
-		run(seededActions);
-	}, []);
+
+			const run = (actions: SeededThemeActions | null) => {
+				const next = update(latest.current, actions);
+				// A rejected or unchanged update must not repaint or write storage.
+				if (next === latest.current) return;
+				latest.current = next;
+				apply(next);
+				writeState(next);
+				setState(next);
+			};
+
+			if (
+				!seededActions &&
+				(needsSeeds(latest.current) || (pending.current.length && seedPromise))
+			) {
+				pending.current.push({ run, needsSeeds });
+				void loadSeededActions()
+					.then((actions) => {
+						if (!active.current) return;
+						for (const entry of pending.current.splice(0)) entry.run(actions);
+					})
+					.catch(() => {
+						if (!active.current) return;
+						for (const entry of pending.current.splice(0)) {
+							if (!entry.needsSeeds(latest.current)) entry.run(null);
+						}
+					});
+				return;
+			}
+			if (!seededActions && pending.current.length) {
+				for (const entry of pending.current.splice(0)) {
+					if (!entry.needsSeeds(latest.current)) entry.run(null);
+				}
+			}
+			run(seededActions);
+		},
+		[],
+	);
 
 	const value = useMemo<ThemeContextValue>(() => {
 		const { prefs, custom } = state;
@@ -355,43 +361,43 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 			scheme: schemeForMode(prefs.mode, prefs.darkScheme, prefs.lightScheme),
 			custom,
 			setMode: (mode) => commit((current) => setMode(current, mode)),
-			setStyle: (style) => {
-				const needsSeeds = style === "custom" && !latest.current.custom.style;
+			setStyle: (style) =>
 				commit(
 					(current, actions) =>
 						style === "custom"
-							? needsSeeds
-								? (actions as SeededThemeActions).setStyle(current)
-								: setSavedStyle(current)
+							? current.custom.style
+								? setSavedStyle(current)
+								: (actions as SeededThemeActions).setStyle(current)
 							: setBuiltinStyle(current, style),
-					needsSeeds,
-				);
-			},
-			setScheme: (scheme, slot) => {
-				const mode = slot ?? latest.current.prefs.mode;
-				const needsSeeds = scheme === "custom" && !latest.current.custom[mode];
+					(current) => style === "custom" && !current.custom.style,
+				),
+			setScheme: (scheme, slot) =>
 				commit(
-					(current, actions) =>
-						scheme === "custom"
-							? needsSeeds
-								? (actions as SeededThemeActions).setScheme(current, mode)
-								: setSavedScheme(current, mode)
-							: setBuiltinScheme(current, scheme, slot),
-					needsSeeds,
-				);
-			},
+					(current, actions) => {
+						if (scheme !== "custom")
+							return setBuiltinScheme(current, scheme, slot);
+						const mode = slot ?? current.prefs.mode;
+						return current.custom[mode]
+							? setSavedScheme(current, mode)
+							: (actions as SeededThemeActions).setScheme(current, slot);
+					},
+					(current) => {
+						if (scheme !== "custom") return false;
+						return !current.custom[slot ?? current.prefs.mode];
+					},
+				),
 			setAccent: (accent) => commit((current) => setAccent(current, accent)),
 			copyPalette: (mode, from) =>
 				commit(
 					(current, actions) =>
 						(actions as SeededThemeActions).copyPalette(current, mode, from),
-					true,
+					() => true,
 				),
 			copyStyle: (from) =>
 				commit(
 					(current, actions) =>
 						(actions as SeededThemeActions).copyStyle(current, from),
-					true,
+					() => true,
 				),
 			setPaletteToken: (mode, token, hex) =>
 				commit((current) => setPaletteToken(current, mode, token, hex)),

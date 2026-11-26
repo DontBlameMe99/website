@@ -40,9 +40,10 @@ describe("post registry", () => {
 		}
 	});
 
-	test("word counts come from the article body", () => {
-		for (const { body } of loaded) {
-			expect(countBodyWords(body.default)).toBeGreaterThan(200);
+	test("stored word counts match the article bodies", () => {
+		for (const { meta, body } of loaded) {
+			expect(meta.meta.words).toBeGreaterThan(200);
+			expect(meta.meta.words).toBe(countBodyWords(body.default));
 		}
 	});
 

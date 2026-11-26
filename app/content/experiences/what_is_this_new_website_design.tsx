@@ -185,9 +185,9 @@ export function NoteGraphFigure() {
 					<motion.span
 						key={active ?? "idle"}
 						className="inline-flex items-center gap-2"
-						initial={{ opacity: 0, y: 4 }}
-						animate={{ opacity: 1, y: 0 }}
-						exit={{ opacity: 0, y: -4 }}
+						initial={reduced ? { opacity: 0 } : { opacity: 0, y: 4 }}
+						animate={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
+						exit={reduced ? { opacity: 0 } : { opacity: 0, y: -4 }}
 						transition={{ duration: 0.14 }}
 					>
 						{active === null ? (

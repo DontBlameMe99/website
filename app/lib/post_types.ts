@@ -3,6 +3,7 @@ export type PostMeta = {
 	date: string;
 	tags: string[];
 	minutes: number;
+	words: number;
 };
 
 export type Section = {

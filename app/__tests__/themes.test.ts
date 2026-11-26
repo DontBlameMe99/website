@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { SCHEME_TOKENS, themeTokenBlocks } from "../lib/theme_catalog";
 import {
 	ACCENT_HUES,
 	DEFAULT_PREFS,
@@ -12,7 +13,6 @@ import {
 	STYLE_VALUE_MAX,
 	STYLES,
 	themeBootScript,
-	themeTokenBlocks,
 	withScheme,
 } from "../lib/themes";
 
@@ -177,11 +177,9 @@ describe("themeTokenBlocks", () => {
 
 	test("keeps Mocha's declarations and one accent declaration per hue", () => {
 		const blocks = themeTokenBlocks();
-		const mocha = SCHEMES.find((scheme) => scheme.id === "mocha");
-		expect(blocks[0].declarations).toEqual(mocha?.tokens);
-		expect(Object.keys(blocks[0].declarations)).toEqual(
-			Object.keys(mocha?.tokens ?? {}),
-		);
+		const mocha = SCHEME_TOKENS.mocha;
+		expect(blocks[0].declarations).toEqual(mocha);
+		expect(Object.keys(blocks[0].declarations)).toEqual(Object.keys(mocha));
 		expect(
 			blocks
 				.filter((block) => block.selector.startsWith("[data-accent"))

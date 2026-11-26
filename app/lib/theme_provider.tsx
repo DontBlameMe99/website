@@ -18,16 +18,16 @@ import {
 	writeCustomTheme,
 } from "~/lib/custom_theme";
 import {
-	copyPalette,
-	copyStyle,
 	resetCustom,
 	setAccent,
+	setBuiltinScheme,
+	setBuiltinStyle,
 	setMode,
 	setPaletteToken,
-	setScheme,
-	setStyle,
+	setSavedScheme,
+	setSavedStyle,
 	setStyleToken,
-} from "~/lib/theme_update";
+} from "~/lib/theme_update_core";
 import {
 	type Accent,
 	accentToStored,
@@ -72,6 +72,43 @@ type ThemeContextValue = ThemePrefs & {
 	importTheme: (text: string) => string | null;
 };
 
+/** Seeded transitions, installed by theme_update.ts when its chunk arrives. */
+type SeededThemeActions = {
+	setStyle: (state: ThemeState) => ThemeState;
+	setScheme: (state: ThemeState, slot?: Mode) => ThemeState;
+	copyPalette: (state: ThemeState, mode: Mode, from: SchemeId) => ThemeState;
+	copyStyle: (state: ThemeState, from: StyleId) => ThemeState;
+};
+
+type ThemeUpdate = (
+	current: ThemeState,
+	actions: SeededThemeActions | null,
+) => ThemeState;
+
+type PendingThemeUpdate = {
+	run: (actions: SeededThemeActions | null) => void;
+	needsSeeds: (current: ThemeState) => boolean;
+};
+
+let seededActions: SeededThemeActions | null = null;
+let seedPromise: Promise<SeededThemeActions> | null = null;
+
+const loadSeededActions = (): Promise<SeededThemeActions> => {
+	if (seededActions) return Promise.resolve(seededActions);
+	if (!seedPromise) {
+		seedPromise = import("~/lib/theme_update")
+			.then((module) => {
+				seededActions = module.seededActions;
+				seedPromise = null;
+				return seededActions;
+			})
+			.catch((error: unknown) => {
+				seedPromise = null;
+				throw error;
+			});
+	}
+	return seedPromise;
+};
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 const systemMode = (): Mode =>
@@ -227,6 +264,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		custom: EMPTY_CUSTOM,
 	});
 	const latest = useRef(state);
+	const active = useRef(true);
+	const pending = useRef<PendingThemeUpdate[]>([]);
 
 	useEffect(() => {
 		// The boot script has already painted the saved theme, so adopting it here
@@ -255,20 +294,64 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		else apply(next);
 	}, []);
 
+	useEffect(() => {
+		active.current = true;
+		return () => {
+			active.current = false;
+		};
+	}, []);
+
 	/**
 	 * Applies and persists in one step, so a view transition sees the new paint.
 	 * The update reads the newest state, not this render's: the header calls it
 	 * from the view transition's async callback.
 	 */
-	const commit = useCallback((update: (current: ThemeState) => ThemeState) => {
-		const next = update(latest.current);
-		// A rejected or unchanged update must not repaint or write storage.
-		if (next === latest.current) return;
-		latest.current = next;
-		apply(next);
-		writeState(next);
-		setState(next);
-	}, []);
+	const commit = useCallback(
+		(
+			update: ThemeUpdate,
+			needsSeeds: (current: ThemeState) => boolean = () => false,
+		) => {
+			if (seededActions && pending.current.length) {
+				for (const entry of pending.current.splice(0)) entry.run(seededActions);
+			}
+
+			const run = (actions: SeededThemeActions | null) => {
+				const next = update(latest.current, actions);
+				// A rejected or unchanged update must not repaint or write storage.
+				if (next === latest.current) return;
+				latest.current = next;
+				apply(next);
+				writeState(next);
+				setState(next);
+			};
+
+			if (
+				!seededActions &&
+				(needsSeeds(latest.current) || (pending.current.length && seedPromise))
+			) {
+				pending.current.push({ run, needsSeeds });
+				void loadSeededActions()
+					.then((actions) => {
+						if (!active.current) return;
+						for (const entry of pending.current.splice(0)) entry.run(actions);
+					})
+					.catch(() => {
+						if (!active.current) return;
+						for (const entry of pending.current.splice(0)) {
+							if (!entry.needsSeeds(latest.current)) entry.run(null);
+						}
+					});
+				return;
+			}
+			if (!seededActions && pending.current.length) {
+				for (const entry of pending.current.splice(0)) {
+					if (!entry.needsSeeds(latest.current)) entry.run(null);
+				}
+			}
+			run(seededActions);
+		},
+		[],
+	);
 
 	const value = useMemo<ThemeContextValue>(() => {
 		const { prefs, custom } = state;
@@ -278,13 +361,44 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 			scheme: schemeForMode(prefs.mode, prefs.darkScheme, prefs.lightScheme),
 			custom,
 			setMode: (mode) => commit((current) => setMode(current, mode)),
-			setStyle: (style) => commit((current) => setStyle(current, style)),
+			setStyle: (style) =>
+				commit(
+					(current, actions) =>
+						style === "custom"
+							? current.custom.style
+								? setSavedStyle(current)
+								: (actions as SeededThemeActions).setStyle(current)
+							: setBuiltinStyle(current, style),
+					(current) => style === "custom" && !current.custom.style,
+				),
 			setScheme: (scheme, slot) =>
-				commit((current) => setScheme(current, scheme, slot)),
+				commit(
+					(current, actions) => {
+						if (scheme !== "custom")
+							return setBuiltinScheme(current, scheme, slot);
+						const mode = slot ?? current.prefs.mode;
+						return current.custom[mode]
+							? setSavedScheme(current, mode)
+							: (actions as SeededThemeActions).setScheme(current, slot);
+					},
+					(current) => {
+						if (scheme !== "custom") return false;
+						return !current.custom[slot ?? current.prefs.mode];
+					},
+				),
 			setAccent: (accent) => commit((current) => setAccent(current, accent)),
 			copyPalette: (mode, from) =>
-				commit((current) => copyPalette(current, mode, from)),
-			copyStyle: (from) => commit((current) => copyStyle(current, from)),
+				commit(
+					(current, actions) =>
+						(actions as SeededThemeActions).copyPalette(current, mode, from),
+					() => true,
+				),
+			copyStyle: (from) =>
+				commit(
+					(current, actions) =>
+						(actions as SeededThemeActions).copyStyle(current, from),
+					() => true,
+				),
 			setPaletteToken: (mode, token, hex) =>
 				commit((current) => setPaletteToken(current, mode, token, hex)),
 			setStyleToken: (token, value) =>

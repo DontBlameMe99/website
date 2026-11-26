@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { SCHEME_TOKENS } from "../lib/theme_catalog";
 import { ACCENT_HUES, PALETTE_TOKENS, SCHEMES } from "../lib/themes";
 
 /**
@@ -65,7 +66,7 @@ const declarations = new Map(
 	SCHEMES.map((scheme) => [
 		scheme.id,
 		Object.fromEntries(
-			Object.entries(scheme.tokens)
+			Object.entries(SCHEME_TOKENS[scheme.id])
 				.filter(([name]) => name.startsWith("--"))
 				.map(([name, value]) => [name.slice(2), value]),
 		),

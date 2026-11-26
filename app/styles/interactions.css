@@ -153,6 +153,52 @@
 	animation-delay: 90ms;
 }
 
+/* One-shot entrances for the small list and TOC changes. A class keeps the
+   animation runtime out of pages that only need a fade. */
+@keyframes count-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.count-in {
+	animation: count-in var(--motion-quick) ease-out both;
+}
+
+@keyframes list-in {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.list-in {
+	animation: list-in 180ms ease-out both;
+}
+
+@keyframes toc-marker-in {
+	from {
+		opacity: 0;
+		transform: scaleY(0.4);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.toc-marker {
+	animation: toc-marker-in var(--motion-hover) ease-out both;
+	transform-origin: center;
+}
+
 /* The two theme glyphs have no inline state before hydration, so the class the
    boot script already set decides which one shows. */
 .theme-moon {
@@ -410,7 +456,10 @@ html.theme-switching .theme-sun {
 
 	/* The end state is already on screen, so the steps must not wait out
 	   their delays. */
-	.hero-step {
+	.hero-step,
+	.count-in,
+	.list-in,
+	.toc-marker {
 		animation: none !important;
 	}
 

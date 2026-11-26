@@ -5,4 +5,5 @@ export const meta = {
 	date: "2025-11-12",
 	tags: ["backups", "privacy", "linux"],
 	minutes: 5,
+	words: 1456,
 } satisfies PostMeta;

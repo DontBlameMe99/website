@@ -315,7 +315,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 			setState(next);
 		};
 
-		if (!seededActions && (needsSeeds || pending.current.length)) {
+		if (
+			!seededActions &&
+			(needsSeeds || (pending.current.length && seedPromise))
+		) {
 			pending.current.push(run);
 			void loadSeededActions()
 				.then((actions) => {
@@ -324,9 +327,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 						applyUpdate(actions);
 				})
 				.catch(() => {
-					// The next theme action retries and replays this FIFO in order.
+					// A catalog-independent action can recover on the next commit.
 				});
 			return;
+		}
+		if (!seededActions && pending.current.length) {
+			// The seed load failed. A later built-in action supersedes stale edits.
+			pending.current.length = 0;
 		}
 		run(seededActions);
 	}, []);

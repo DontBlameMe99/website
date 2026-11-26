@@ -47,7 +47,7 @@ import {
 	type ThemePrefs,
 } from "~/lib/themes";
 
-export { themeBootScript } from "~/lib/themes";
+export { fontPreloadScript, themeBootScript } from "~/lib/themes";
 
 type ThemeContextValue = ThemePrefs & {
 	/** The scheme the current mode resolves to. */

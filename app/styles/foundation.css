@@ -53,7 +53,7 @@
 	font-display: swap;
 }
 
-/* The futuristic style uses this coarse pixel face for display type only. */
+/* Available to custom styles even though no built-in style selects it. */
 @font-face {
 	font-family: "Pixelify Sans";
 	src: url("/fonts/pixelify-sans/PixelifySans-Variable.woff2") format("woff2");

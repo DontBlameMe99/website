@@ -10,16 +10,24 @@ import {
 import {
 	type CustomTheme,
 	EMPTY_CUSTOM,
-	isCssValue,
 	readCustomTheme,
 	readThemeFile,
 	resolveSelection,
-	seedPalette,
-	seedStyle,
 	type ThemeState,
 	themeFile,
 	writeCustomTheme,
 } from "~/lib/custom_theme";
+import {
+	copyPalette,
+	copyStyle,
+	resetCustom,
+	setAccent,
+	setMode,
+	setPaletteToken,
+	setScheme,
+	setStyle,
+	setStyleToken,
+} from "~/lib/theme_update";
 import {
 	type Accent,
 	accentToStored,
@@ -37,7 +45,6 @@ import {
 	type StyleId,
 	schemeForMode,
 	type ThemePrefs,
-	withScheme,
 } from "~/lib/themes";
 
 export { themeBootScript } from "~/lib/themes";
@@ -211,16 +218,6 @@ const writeTokens = (tokens: Record<string, string> | null) => {
 		root.style.setProperty(`--${token}`, value);
 };
 
-/** The built-in a slot starts from: its own choice, or the default. */
-const seedSource = (prefs: ThemePrefs, mode: Mode): SchemeId => {
-	const choice = mode === "dark" ? prefs.darkScheme : prefs.lightScheme;
-	if (choice !== "custom") return choice;
-	return mode === "dark" ? DEFAULT_PREFS.darkScheme : DEFAULT_PREFS.lightScheme;
-};
-
-const styleSource = (prefs: ThemePrefs): StyleId =>
-	prefs.style === "custom" ? DEFAULT_PREFS.style : prefs.style;
-
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	// Start from the defaults so the first client render matches the prerendered
 	// one. The boot script has already painted the saved theme; the effect below
@@ -280,90 +277,19 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 			...prefs,
 			scheme: schemeForMode(prefs.mode, prefs.darkScheme, prefs.lightScheme),
 			custom,
-			setMode: (mode) =>
-				commit((current) => ({
-					...current,
-					prefs: { ...current.prefs, mode },
-				})),
-			setStyle: (style) =>
-				commit((current) => {
-					if (style !== "custom")
-						return { ...current, prefs: { ...current.prefs, style } };
-					const tokens =
-						current.custom.style ?? seedStyle(styleSource(current.prefs));
-					return {
-						prefs: { ...current.prefs, style },
-						custom: { ...current.custom, style: tokens },
-					};
-				}),
+			setMode: (mode) => commit((current) => setMode(current, mode)),
+			setStyle: (style) => commit((current) => setStyle(current, style)),
 			setScheme: (scheme, slot) =>
-				commit((current) => {
-					const prefs = withScheme(current.prefs, scheme, slot);
-					if (scheme !== "custom") return { ...current, prefs };
-
-					// The first pick starts from the palette in use for that mode.
-					const mode = slot ?? current.prefs.mode;
-					const palette =
-						current.custom[mode] ??
-						seedPalette(seedSource(current.prefs, mode));
-					if (!palette) return current;
-					return {
-						prefs,
-						custom: { ...current.custom, [mode]: palette },
-					};
-				}),
-			setAccent: (accent) =>
-				commit((current) => ({
-					...current,
-					prefs: { ...current.prefs, accent },
-				})),
+				commit((current) => setScheme(current, scheme, slot)),
+			setAccent: (accent) => commit((current) => setAccent(current, accent)),
 			copyPalette: (mode, from) =>
-				commit((current) => {
-					const palette = seedPalette(from);
-					if (!palette) return current;
-					return {
-						...current,
-						custom: { ...current.custom, [mode]: palette },
-					};
-				}),
-			copyStyle: (from) =>
-				commit((current) => ({
-					...current,
-					custom: { ...current.custom, style: seedStyle(from) },
-				})),
+				commit((current) => copyPalette(current, mode, from)),
+			copyStyle: (from) => commit((current) => copyStyle(current, from)),
 			setPaletteToken: (mode, token, hex) =>
-				commit((current) => {
-					const palette = current.custom[mode];
-					if (!palette) return current;
-					return {
-						...current,
-						custom: {
-							...current.custom,
-							[mode]: { ...palette, [token]: hex },
-						},
-					};
-				}),
+				commit((current) => setPaletteToken(current, mode, token, hex)),
 			setStyleToken: (token, value) =>
-				commit((current) => {
-					const style = { ...current.custom.style };
-					// Store what was typed, spaces included: a value is often several
-					// parts, and trimming each keystroke eats the joins.
-					if (!value.trim()) delete style[token];
-					else if (isCssValue(value)) style[token] = value;
-					else return current;
-					return { ...current, custom: { ...current.custom, style } };
-				}),
-			resetCustom: () =>
-				commit((current) => ({
-					prefs: {
-						...current.prefs,
-						darkScheme: DEFAULT_PREFS.darkScheme,
-						lightScheme: DEFAULT_PREFS.lightScheme,
-						style: DEFAULT_PREFS.style,
-						accent: DEFAULT_PREFS.accent,
-					},
-					custom: EMPTY_CUSTOM,
-				})),
+				commit((current) => setStyleToken(current, token, value)),
+			resetCustom: () => commit(resetCustom),
 			exportTheme: () => themeFile(latest.current),
 			importTheme: (text) => {
 				const result = readThemeFile(text);

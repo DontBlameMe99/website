@@ -1,0 +1,476 @@
+/* --- prose --------------------------------------------------------------- */
+
+.prose-dbm {
+	max-width: 66ch;
+	font-size: 1rem;
+	line-height: 1.75;
+	color: var(--subtext1);
+	counter-reset: section;
+}
+
+.prose-dbm > * + * {
+	margin-top: 1.15em;
+}
+
+.prose-dbm h2 {
+	margin-top: 3.25em;
+	padding-top: 1em;
+	border-top: var(--bw) var(--line-style) var(--edge);
+	border-radius: 0;
+	font-size: clamp(1.375rem, 2vw + 0.5rem, 1.625rem);
+	color: var(--text);
+	counter-increment: section;
+}
+
+.prose-dbm h2::before {
+	content: counter(section, decimal-leading-zero);
+	display: flex;
+	width: max-content;
+	margin-bottom: 0.7em;
+	border: var(--bw) var(--line-style) var(--edge);
+	background: var(--accent-surface);
+	padding: 4px 0.45em;
+	font-size: 0.6875rem;
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: 0.1em;
+	color: var(--on-accent);
+	box-shadow: var(--shadow-hard-sm);
+	font-variant-numeric: tabular-nums;
+}
+
+.prose-dbm h3 {
+	margin-top: 2.1em;
+	font-size: 1.125rem;
+	color: var(--text);
+}
+
+.prose-dbm h4 {
+	margin-top: 1.9em;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--overlay2);
+}
+
+.prose-dbm h5 {
+	margin-top: 1.6em;
+	font-size: 0.9375rem;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	color: var(--text);
+}
+
+.prose-dbm h5 + *,
+.prose-dbm h2 + *,
+.prose-dbm h3 + *,
+.prose-dbm h4 + * {
+	margin-top: 0.7em;
+}
+
+/* Inline links get a highlighter wipe on hover. */
+.prose-dbm a {
+	color: var(--text);
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 3px;
+	text-decoration-color: var(--accent-surface);
+	box-decoration-break: clone;
+	padding-block: 2px;
+	transition:
+		background-color var(--motion-quick) ease,
+		color var(--motion-quick) ease;
+}
+
+.prose-dbm a:hover {
+	background: var(--accent-surface);
+	color: var(--on-accent);
+	text-decoration-color: var(--on-accent);
+}
+
+/* This link sits on a callout tint. Its hover wash would fight the text ink. */
+.prose-dbm a.callout-link,
+.prose-dbm a.callout-link:hover {
+	background: transparent;
+	color: var(--text);
+	text-decoration-color: currentColor;
+}
+
+.prose-dbm sup a.footnote-anchor,
+.prose-dbm sup a.footnote-anchor:hover {
+	background: transparent;
+	color: var(--text);
+	text-decoration-color: currentColor;
+}
+
+/* An image link is only as wide as the image: no full-measure highlight, no
+   underline, and the shadow hugs the frame. */
+.prose-dbm figure > a {
+	display: inline-block;
+	text-decoration: none;
+}
+
+.prose-dbm figure > a:hover,
+.prose-dbm figure > a:focus-visible {
+	background: transparent;
+	color: inherit;
+	text-decoration: none;
+}
+
+.prose-dbm figure > a:hover img,
+.prose-dbm figure > a:focus-visible img {
+	outline: var(--bw) solid var(--accent-surface);
+	outline-offset: 3px;
+}
+
+.prose-dbm strong {
+	color: var(--text);
+	font-weight: 700;
+}
+
+.prose-dbm em {
+	color: var(--subtext0);
+}
+
+.prose-dbm ul,
+.prose-dbm ol {
+	padding-left: 1.5em;
+	display: flex;
+	flex-direction: column;
+	gap: 0.35em;
+}
+
+.prose-dbm ul {
+	list-style: none;
+}
+
+.prose-dbm ul > li {
+	position: relative;
+}
+
+.prose-dbm ul > li::before {
+	content: "■";
+	position: absolute;
+	left: -1.25em;
+	font-size: 0.6em;
+	line-height: 2.4;
+	color: var(--accent-surface);
+}
+
+.prose-dbm ol {
+	list-style: decimal;
+}
+
+.prose-dbm ol > li::marker {
+	color: var(--accent-surface);
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+}
+
+.prose-dbm blockquote {
+	border: var(--bw) var(--line-style) var(--edge);
+	border-left-width: var(--bw-heavy);
+	/* No wash: a style that already tints its page (Material) would stack the
+	   two and drop the quoted ink under AAA. The heavy accent rule carries it. */
+	padding: 0.9em 1.1em;
+	color: var(--subtext1);
+}
+
+.prose-dbm code {
+	font-size: 0.86em;
+	/* A raised well, but only partway off the page: a full surface0 run puts
+	   the ink under AAA in palettes whose text sits near the floor. */
+	background: color-mix(in srgb, var(--surface0) 55%, var(--base));
+	border: 1px var(--line-style) var(--edge);
+	color: var(--text);
+	padding: 4px 0.35em;
+	/* A glyph that abuts the border puts a core pixel on the edge's antialiased
+	   halo, which is a percent or two of ink over the page: enough to take a
+	   comma, at the AAA floor, under it. */
+	margin-inline: 0.2em;
+	overflow-wrap: anywhere;
+}
+
+.prose-dbm pre {
+	background: var(--mantle);
+	padding: 1rem 1.1rem;
+	overflow-x: auto;
+	font-size: 0.8125rem;
+	line-height: 1.65;
+}
+
+/* A code block is a panel with a language bar, not a bare pre. */
+.prose-dbm .code-block {
+	margin: 1.75em 0;
+	border: var(--bw) var(--line-style) var(--edge);
+	background: var(--mantle);
+	box-shadow: var(--shadow-hard-sm);
+}
+
+.prose-dbm .code-block__bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	border-bottom: var(--bw) var(--line-style) var(--edge);
+	border-radius: 0;
+	padding: 0.4rem 0.7rem;
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--subtext0);
+}
+
+.prose-dbm .code-block__copy {
+	border: 1px solid var(--control-edge);
+	min-height: 2rem;
+	padding: 0.25rem 0.5rem;
+	font: inherit;
+	letter-spacing: inherit;
+	color: var(--subtext0);
+	cursor: pointer;
+	transition:
+		color var(--motion-quick),
+		background-color var(--motion-quick);
+}
+
+.prose-dbm .code-block__copy:hover {
+	/* Partway off the bar, not a full surface0 well: the label sits at the AAA
+	   floor in the palettes whose bar is closest to their ink. */
+	background: color-mix(in srgb, var(--surface0) 45%, var(--mantle));
+	color: var(--text);
+}
+
+.prose-dbm .code-block__copy[data-copied] {
+	border-color: var(--green);
+	color: var(--green);
+}
+
+/* The hover fill is the chip tone, where green is too dim for 11px text in
+   every palette. The border still carries the copied state. */
+.prose-dbm .code-block__copy[data-copied]:hover {
+	color: var(--text);
+}
+
+.prose-dbm .code-block pre {
+	margin: 0;
+	border: 0;
+	box-shadow: none;
+	background: transparent;
+	/* The block is already a well, so its bar is a hairline in the block's own
+	   ink, not the style's full-size bar. Only the size and the finish drop:
+	   the corner stays the style's own. */
+	--scrollbar-size: 6px;
+	--scrollbar-thumb: var(--surface2);
+	--scrollbar-thumb-image: none;
+	--scrollbar-thumb-line: 0;
+	--scrollbar-thumb-shadow: none;
+	--scrollbar-track: transparent;
+	--scrollbar-track-shadow: none;
+}
+
+.tok-comment {
+	color: var(--overlay1);
+	font-style: italic;
+}
+.tok-string {
+	color: var(--green);
+}
+.tok-keyword {
+	color: var(--mauve);
+	font-weight: 700;
+}
+.tok-number {
+	color: var(--peach);
+}
+.tok-command {
+	color: var(--blue);
+}
+
+.prose-dbm pre code {
+	background: transparent;
+	border: 0;
+	padding: 0;
+	margin-inline: 0;
+	color: var(--subtext1);
+	font-size: inherit;
+	overflow-wrap: normal;
+}
+
+.prose-dbm hr {
+	border: 0;
+	border-top: var(--bw) var(--line-style) var(--edge);
+	border-radius: 0;
+}
+
+/* Images never exceed the measure or the viewport, and always take a line of
+   their own so no text sits beside them, even inside a paragraph. */
+.prose-dbm img {
+	display: block;
+	width: auto;
+	max-width: 100%;
+	height: auto;
+	max-height: 70vh;
+	background: var(--surface0);
+	border: var(--bw) var(--line-style) var(--edge);
+	box-shadow: var(--shadow-hard);
+}
+
+/* A block image inside text splits the paragraph, so it needs its own air. */
+.prose-dbm p img,
+.prose-dbm li img {
+	margin: 1em 0;
+}
+
+.prose-dbm figure {
+	margin: 2.25em 0;
+}
+
+.prose-dbm figcaption {
+	margin-top: 0.6em;
+	font-size: 0.75rem;
+	line-height: 1.5;
+	color: var(--overlay1);
+}
+
+.prose-dbm .table-wrap {
+	margin: 1.75em 0;
+	overflow-x: auto;
+	border: var(--bw) var(--line-style) var(--edge);
+	box-shadow: var(--shadow-hard-sm);
+}
+
+.prose-dbm table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.875rem;
+}
+
+.prose-dbm th,
+.prose-dbm td {
+	border: 1px var(--line-style) var(--edge);
+	padding: 0.5em 0.7em;
+	text-align: left;
+}
+
+.prose-dbm th {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	background: color-mix(in srgb, var(--surface0) 55%, var(--base));
+	color: var(--text);
+}
+
+.prose-dbm tbody tr {
+	transition: background-color var(--motion-quick) ease;
+}
+
+.prose-dbm tbody tr:hover {
+	/* A row highlight is a state layer, so it moves off the surface instead of
+	   over it: an accent wash stacks on a tinted style page and takes a cell
+	   under AAA, while a light step up (or down, on dark) only adds contrast. */
+	background: light-dark(rgb(255 255 255 / 0.25), rgb(0 0 0 / 0.22));
+}
+
+/* A heading anchor that only shows up on hover or focus, with the gutter it
+   needs so a title that fills its line never runs under it. */
+.heading-anchor {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	height: 1.5rem;
+	width: 1.5rem;
+	align-items: center;
+	justify-content: center;
+	color: var(--accent-surface);
+	font-size: 0.8em;
+	font-weight: 800;
+	text-decoration: none;
+	opacity: 0;
+	transition: opacity var(--motion-quick) ease;
+}
+
+.group\/heading:hover .heading-anchor,
+.heading-anchor:focus-visible {
+	opacity: 1;
+}
+
+/* An h2 box also holds the number badge, so centering on the box puts the
+   anchor level with the badge. Pin it to the title's line instead. */
+.prose-dbm h2 .heading-anchor {
+	top: auto;
+	bottom: 0;
+	transform: none;
+}
+
+.prose-dbm h2,
+.prose-dbm h3,
+.prose-dbm h4 {
+	padding-right: 1.5rem;
+}
+
+/* No hover on touch: a visible-but-empty anchor just invites stray taps. */
+@media (hover: none) {
+	.heading-anchor {
+		display: none;
+	}
+}
+
+/* ADE cycles accent hues without hiding ink behind a gradient fill. Mixing each
+   hue into --text keeps the letters AAA on every palette. */
+.ade-rainbow {
+	display: inline-flex;
+}
+
+.ade-rainbow > span {
+	animation: ade-rainbow-cycle 3s steps(1, end) infinite;
+}
+
+.ade-rainbow > span:nth-child(2) {
+	animation-delay: -1s;
+}
+
+.ade-rainbow > span:nth-child(3) {
+	animation-delay: -2s;
+}
+
+@keyframes ade-rainbow-cycle {
+	0%,
+	100% {
+		color: color-mix(in srgb, var(--text) 45%, var(--pink));
+	}
+	12.5% {
+		color: color-mix(in srgb, var(--text) 45%, var(--red));
+	}
+	25% {
+		color: color-mix(in srgb, var(--text) 45%, var(--peach));
+	}
+	37.5% {
+		color: color-mix(in srgb, var(--text) 45%, var(--yellow));
+	}
+	50% {
+		color: color-mix(in srgb, var(--text) 45%, var(--green));
+	}
+	62.5% {
+		color: color-mix(in srgb, var(--text) 45%, var(--teal));
+	}
+	75% {
+		color: color-mix(in srgb, var(--text) 45%, var(--blue));
+	}
+	87.5% {
+		color: color-mix(in srgb, var(--text) 45%, var(--lavender));
+	}
+}
+
+@utility scrollbar-none {
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}

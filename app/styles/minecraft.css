@@ -1,0 +1,873 @@
+/* --- Minecraft chrome ------------------------------------------------------
+   The dirt is the desktop. Header, footer, controls and card frames stay on
+   fixed GUI chrome, while every window body keeps the active palette. The
+   layout is a grid of inventory slots with hard, integer-pixel state changes. */
+html[data-style="minecraft"] body {
+	background-size: 64px 64px;
+	background-position: 0 0;
+	background-repeat: repeat;
+	background-attachment: fixed;
+	image-rendering: pixelated;
+}
+
+html[data-style="minecraft"] img:not(:where([data-style]:not(:root) *)),
+[data-style="minecraft"]:not(:root) img {
+	image-rendering: auto;
+}
+
+html[data-style="minecraft"] {
+	scroll-padding-top: 13rem;
+}
+
+@media (min-width: 40rem) {
+	html[data-style="minecraft"] {
+		scroll-padding-top: 6.5rem;
+	}
+}
+
+/* A framed hotbar across the top. The brand is the equipped slot; the four
+   destinations are quick slots, and the reading bar is the selection track. */
+html[data-style="minecraft"] header.nb-chrome {
+	max-width: 1180px;
+	margin: 16px auto 0;
+	border: 4px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	background-image: repeating-linear-gradient(
+		0deg,
+		transparent 0 3px,
+		color-mix(in srgb, var(--mc-light) 35%, transparent) 3px 4px
+	);
+	color: var(--mc-ink);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark),
+		6px 6px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
+}
+
+html[data-style="minecraft"] header.nb-chrome > div:not(.relative) {
+	gap: 12px;
+	min-height: 64px;
+	padding: 8px 12px;
+}
+
+html[data-style="minecraft"] header.nb-chrome > div > a:first-child {
+	padding: 6px 10px;
+	border: 2px solid var(--mc-deep);
+	background-color: var(--mc-press);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-dark),
+		inset -2px -2px 0 var(--mc-light);
+	color: var(--mc-ink);
+	font-size: 13px;
+	letter-spacing: 0;
+	text-decoration: none;
+	transition: none;
+}
+
+html[data-style="minecraft"] header.nb-chrome > div > a:first-child:hover {
+	background-color: var(--mc-hover);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark);
+	color: var(--mc-ink);
+}
+
+html[data-style="minecraft"] header.nb-chrome img {
+	width: 28px;
+	height: 28px;
+	border: 2px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	box-shadow: inset 1px 1px 0 var(--mc-light);
+	image-rendering: pixelated;
+}
+
+html[data-style="minecraft"] header.nb-chrome .nb-button {
+	width: 40px;
+	height: 40px;
+	min-width: 40px;
+	padding: 0;
+	justify-content: center;
+}
+
+html[data-style="minecraft"] header.nb-chrome nav {
+	gap: 4px;
+}
+
+html[data-style="minecraft"] header.nb-chrome nav a {
+	min-width: 60px;
+	justify-content: center;
+	padding: 8px 10px;
+	border: 2px solid var(--mc-deep);
+	background-color: var(--mc-press);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-dark),
+		inset -2px -2px 0 var(--mc-light);
+	color: var(--mc-ink);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: none;
+}
+
+html[data-style="minecraft"] header.nb-chrome nav a:hover {
+	background-color: var(--mc-hover);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark),
+		3px 3px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
+	color: var(--mc-ink);
+}
+
+html[data-style="minecraft"] header.nb-chrome nav a[aria-current="page"] {
+	background-color: var(--mc-gui);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark);
+}
+
+html[data-style="minecraft"] header.nb-chrome nav a[aria-current="page"]:hover {
+	transform: none;
+	background-color: var(--mc-hover);
+}
+
+html[data-style="minecraft"] header.nb-chrome > .relative {
+	height: 12px;
+	border: 2px solid var(--mc-deep);
+	border-top: 0;
+	background-color: var(--mc-dark);
+	box-shadow: inset 0 2px 0 var(--mc-ink);
+}
+
+html[data-style="minecraft"] header.nb-chrome > .relative .bg-accent {
+	background-color: var(--accent-surface);
+	background-image: none;
+	box-shadow:
+		inset 0 2px 0 color-mix(in srgb, var(--mc-light) 60%, transparent),
+		inset 0 -2px 0 color-mix(in srgb, var(--mc-dark) 60%, transparent);
+}
+
+html[data-style="minecraft"] header.nb-chrome > .relative::after {
+	content: "";
+	position: absolute;
+	inset: 0 2px 2px;
+	z-index: 2;
+	background-image: repeating-linear-gradient(
+		90deg,
+		transparent 0 12px,
+		color-mix(in srgb, var(--mc-deep) 65%, transparent) 12px 14px
+	);
+	pointer-events: none;
+}
+
+/* The outer frame is chrome; the inner surface is a palette window with a
+   flat palette field. Texture stays on chrome and item tiles, not under text. */
+html[data-style="minecraft"] main {
+	max-width: 1180px;
+	margin: 16px auto 0;
+	padding: 8px;
+	border: 4px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	background-image: repeating-linear-gradient(
+		0deg,
+		transparent 0 3px,
+		color-mix(in srgb, var(--mc-light) 30%, transparent) 3px 4px
+	);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark),
+		8px 8px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
+}
+
+html[data-style="minecraft"] main > div {
+	min-height: 420px;
+	padding: 20px;
+	border: 2px solid var(--mc-deep);
+	background-color: var(--base);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-dark),
+		inset -2px -2px 0 var(--mc-light);
+}
+
+@media (min-width: 40rem) {
+	html[data-style="minecraft"] main > div {
+		padding: 28px;
+	}
+}
+
+html[data-style="minecraft"] footer.nb-line-t {
+	max-width: 1180px;
+	margin: 32px auto 48px;
+	border: 4px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	color: var(--mc-ink);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark),
+		6px 6px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
+}
+
+html[data-style="minecraft"] footer > div {
+	padding: 20px;
+}
+
+html[data-style="minecraft"] footer :is(p, span, a, .text-label) {
+	color: var(--mc-ink);
+}
+
+html[data-style="minecraft"] footer a {
+	text-decoration-color: currentColor;
+}
+
+html[data-style="minecraft"] footer a:not(.nb-chip):hover {
+	background-color: var(--mc-hover);
+	color: var(--mc-ink);
+	text-decoration-color: currentColor;
+}
+
+/* These rules reach page controls and a Minecraft preview on /theme, but no
+   other style's preview. The nested scope guard keeps nine styles independent. */
+html[data-style="minecraft"]
+:is(.nb-panel, .nb-button, .nb-chip, .nb-input):not(
+	:where([data-style]:not(:root) *)
+),
+[data-style="minecraft"]:not(:root)
+	:is(.nb-panel, .nb-button, .nb-chip, .nb-input) {
+	border-radius: 0;
+}
+
+html[data-style="minecraft"]
+	main
+	button.nb-panel:not(:where([data-style]:not(:root) *)) {
+	overflow: clip;
+}
+
+html[data-style="minecraft"]
+	:is(.nb-button:not(.nb-accent), .nb-chip:not(.nb-accent), .nb-input):not(
+		:where([data-style]:not(:root) *)
+	),
+[data-style="minecraft"]:not(:root)
+	:is(.nb-button:not(.nb-accent), .nb-chip:not(.nb-accent), .nb-input) {
+	color: var(--mc-ink);
+}
+
+html[data-style="minecraft"]
+	.nb-button:not(.nb-accent):not(:where([data-style]:not(:root) *)),
+[data-style="minecraft"]:not(:root) .nb-button:not(.nb-accent) {
+	padding: 8px 12px;
+	border: 3px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	background-image: none;
+	font-size: 12px;
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark),
+		4px 4px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
+	transition:
+		transform 90ms steps(1, end),
+		box-shadow 90ms steps(1, end),
+		background-color 90ms steps(1, end);
+}
+
+html[data-style="minecraft"]
+	.nb-button:not(.nb-accent):not(:where([data-style]:not(:root) *)):hover,
+[data-style="minecraft"]:not(:root) .nb-button:not(.nb-accent):hover {
+	background-color: var(--mc-hover);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark),
+		6px 6px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
+}
+
+html[data-style="minecraft"]
+	.nb-button:not(.nb-accent):not(:where([data-style]:not(:root) *)):active,
+[data-style="minecraft"]:not(:root) .nb-button:not(.nb-accent):active {
+	transform: translate(2px, 2px);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-dark),
+		inset -2px -2px 0 var(--mc-light);
+}
+
+html[data-style="minecraft"]
+	.nb-button.nb-accent:not(:where([data-style]:not(:root) *)),
+[data-style="minecraft"]:not(:root) .nb-button.nb-accent {
+	padding: 8px 12px;
+	border-color: var(--mc-deep);
+	font-size: 12px;
+	box-shadow: 4px 4px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
+	transition:
+		transform 90ms steps(1, end),
+		box-shadow 90ms steps(1, end);
+}
+
+html[data-style="minecraft"]
+	.nb-button.nb-accent:not(:where([data-style]:not(:root) *)):hover,
+[data-style="minecraft"]:not(:root) .nb-button.nb-accent:hover {
+	box-shadow: 6px 6px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
+}
+
+html[data-style="minecraft"]
+	.nb-button.nb-accent:not(:where([data-style]:not(:root) *)):active,
+[data-style="minecraft"]:not(:root) .nb-button.nb-accent:active {
+	transform: translate(2px, 2px);
+	box-shadow: none;
+}
+
+html[data-style="minecraft"]
+	.nb-chip:not(.nb-accent):not(:where([data-style]:not(:root) *)),
+[data-style="minecraft"]:not(:root) .nb-chip:not(.nb-accent) {
+	padding: 4px 8px;
+	border: 2px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	background-image: none;
+	font-size: 12px;
+	font-weight: 700;
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark);
+	transition: none;
+}
+
+html[data-style="minecraft"]
+	.nb-chip:not(.nb-accent):not(:where([data-style]:not(:root) *)):hover,
+[data-style="minecraft"]:not(:root) .nb-chip:not(.nb-accent):hover {
+	background-color: var(--mc-hover);
+	color: var(--mc-ink);
+}
+
+html[data-style="minecraft"]
+	.nb-chip[aria-pressed="true"]:not(.nb-accent):not(
+		:where([data-style]:not(:root) *)
+	),
+[data-style="minecraft"]:not(:root)
+	.nb-chip[aria-pressed="true"]:not(.nb-accent) {
+	transform: translate(1px, 1px);
+	background-color: var(--mc-press);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-dark),
+		inset -2px -2px 0 var(--mc-light);
+}
+
+html[data-style="minecraft"]
+	.nb-chip.nb-accent:not(:where([data-style]:not(:root) *)),
+[data-style="minecraft"]:not(:root) .nb-chip.nb-accent {
+	padding: 4px 8px;
+	border: 2px solid var(--mc-deep);
+	font-size: 12px;
+	font-weight: 700;
+	box-shadow: 3px 3px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
+}
+
+html[data-style="minecraft"] .nb-input:not(:where([data-style]:not(:root) *)),
+[data-style="minecraft"]:not(:root) .nb-input {
+	padding: 8px 10px;
+	border: 2px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	background-image: none;
+	color: var(--mc-ink);
+	font-size: 12px;
+}
+
+html[data-style="minecraft"]
+	:is(input, textarea):not(:where([data-style]:not(:root) *))::placeholder {
+	color: var(--mc-ink);
+}
+
+html[data-style="minecraft"]
+	:is(.search-field, .search-field :is(input, button, svg)) {
+	color: var(--mc-ink);
+}
+
+html[data-style="minecraft"]
+	input[type="color"]:not(:where([data-style]:not(:root) *)),
+[data-style="minecraft"]:not(:root) input[type="color"] {
+	padding: 4px;
+	border: 2px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark);
+}
+
+/* A masthead is an opened container: nameplate, item badge, then the page's
+   own content on the palette surface. */
+html[data-style="minecraft"] .page-window {
+	position: relative;
+	margin-bottom: 32px;
+	padding: 0 0 24px;
+	border: 4px solid var(--mc-deep);
+	background-color: var(--panel-surface);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark),
+		6px 6px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
+}
+
+html[data-style="minecraft"] .page-window::after {
+	content: "";
+	position: absolute;
+	inset: 6px;
+	border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+	pointer-events: none;
+}
+
+html[data-style="minecraft"] .page-window > div:first-child {
+	min-height: 40px;
+	padding: 6px 10px;
+	border-bottom: 4px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	color: var(--mc-ink);
+}
+
+html[data-style="minecraft"]
+	.page-window
+	> div:first-child
+	:is(.text-meta, time) {
+	color: var(--mc-ink);
+}
+
+html[data-style="minecraft"] .page-window h1,
+html[data-style="minecraft"] .page-window p,
+html[data-style="minecraft"] .page-window > div:not(:first-child) {
+	margin-inline: 20px;
+}
+
+html[data-style="minecraft"] .page-window h1 {
+	margin-top: 28px;
+	font-size: clamp(28px, 3.4vw, 44px);
+	line-height: 1.1;
+	text-transform: uppercase;
+}
+
+html[data-style="minecraft"] .page-window p {
+	margin-top: 24px;
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+@media (min-width: 40rem) {
+	html[data-style="minecraft"] .page-window h1,
+	html[data-style="minecraft"] .page-window p,
+	html[data-style="minecraft"] .page-window > div:not(:first-child) {
+		margin-inline: 28px;
+	}
+}
+
+@media (max-width: 31.99rem) {
+	html[data-style="minecraft"] .page-window h1 {
+		font-size: clamp(16px, 5.5vw, 28px);
+	}
+
+	html[data-style="minecraft"] header.nb-chrome nav {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 4px;
+	}
+
+	html[data-style="minecraft"] header.nb-chrome nav a {
+		padding-inline: 4px;
+	}
+
+	html[data-style="minecraft"]
+		main
+		label:has(input[type="color"]):not(:where([data-style]:not(:root) *)) {
+		min-height: 111px;
+	}
+}
+
+html[data-style="minecraft"] :is(h1, h2, h3, h4, h5) {
+	letter-spacing: 0;
+	line-height: 1.15;
+}
+
+html[data-style="minecraft"] .text-display {
+	font-size: clamp(32px, 6vw, 76px);
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: 0;
+	text-transform: uppercase;
+}
+
+html[data-style="minecraft"] .text-page-title {
+	font-size: clamp(28px, 3.4vw, 44px);
+	font-weight: 700;
+	line-height: 1.1;
+	letter-spacing: 0;
+}
+
+html[data-style="minecraft"] .text-label {
+	font-size: 12px;
+	letter-spacing: 0.06em;
+	line-height: 1.4;
+}
+
+html[data-style="minecraft"] .nav-link::after {
+	content: none;
+}
+
+/* Home: the intro sits in an info well and the writing list becomes a column
+   of flat inventory rows. */
+html[data-style="minecraft"] main:has(.hero-step) .hero-step-3 {
+	max-width: 68ch;
+	padding: 12px 16px;
+	border: 2px solid var(--mc-deep);
+	background-color: var(--mantle);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-dark),
+		inset -2px -2px 0 var(--mc-light);
+	color: var(--text);
+}
+
+html[data-style="minecraft"] main ul > li.nb-line-b {
+	border-bottom: 2px solid var(--mc-deep);
+}
+
+html[data-style="minecraft"] main ul > li.nb-line-b > a.group {
+	padding: 16px 12px;
+	border-left: 4px solid transparent;
+	transition: none;
+}
+
+html[data-style="minecraft"] main ul > li.nb-line-b > a.group:hover {
+	border-left-color: var(--accent-surface);
+	background-color: var(--mantle);
+}
+
+/* Cards are item slots. Blog, post navigation and their kin get a 44px icon
+   tile; project cards already carry an icon and keep their own. */
+html[data-style="minecraft"]
+	main
+	:is(
+		ul > li > a.nb-panel:not(.nb-spot),
+		nav[aria-label="More posts"] > a.nb-panel
+	) {
+	position: relative;
+	min-height: 112px;
+	padding: 16px 16px 16px 72px;
+}
+
+html[data-style="minecraft"]
+	main
+	:is(
+		ul > li > a.nb-panel:not(.nb-spot),
+		nav[aria-label="More posts"] > a.nb-panel
+	)
+	h2 {
+	overflow-wrap: anywhere;
+}
+
+html[data-style="minecraft"]
+	main
+	:is(
+		ul > li > a.nb-panel:not(.nb-spot),
+		nav[aria-label="More posts"] > a.nb-panel
+	)::before {
+	content: "";
+	position: absolute;
+	left: 12px;
+	top: 16px;
+	width: 44px;
+	height: 44px;
+	border: 3px solid var(--mc-deep);
+	background-color: var(--mantle);
+	background-image:
+		linear-gradient(
+			90deg,
+			transparent 0 17px,
+			var(--accent-surface) 17px 25px,
+			transparent 25px
+		),
+		linear-gradient(
+			transparent 0 17px,
+			var(--accent-surface) 17px 25px,
+			transparent 25px
+		);
+	box-shadow:
+		inset 3px 3px 0 var(--mc-dark),
+		inset -3px -3px 0 var(--mc-light);
+}
+
+html[data-style="minecraft"] main ul > li > a.nb-panel.nb-spot {
+	padding: 16px;
+}
+
+html[data-style="minecraft"]
+	main
+	ul
+	> li
+	> a.nb-panel.nb-spot
+	.size-10.nb-line {
+	width: 48px;
+	height: 48px;
+	border: 3px solid var(--mc-deep);
+}
+
+@media (max-width: 31.99rem) {
+	html[data-style="minecraft"]
+		main
+		:is(
+			ul > li > a.nb-panel:not(.nb-spot),
+			nav[aria-label="More posts"] > a.nb-panel
+		) {
+		padding: 16px;
+	}
+
+	html[data-style="minecraft"]
+		main
+		:is(
+			ul > li > a.nb-panel:not(.nb-spot),
+			nav[aria-label="More posts"] > a.nb-panel
+		)::before {
+		display: none;
+	}
+}
+
+html[data-style="minecraft"] .nb-lift {
+	transition:
+		transform 90ms steps(1, end),
+		box-shadow 90ms steps(1, end),
+		background-color 90ms steps(1, end),
+		border-color 90ms steps(1, end);
+}
+
+html[data-style="minecraft"] .nb-lift:hover {
+	border-color: var(--accent-surface);
+	box-shadow: var(--shadow-hard-lg);
+}
+
+html[data-style="minecraft"] .nb-lift:active {
+	transform: translate(2px, 2px);
+	box-shadow: var(--shadow-hard-sm);
+}
+
+/* Blog tools: a sunken search field, pressed filter slots and a count readout. */
+html[data-style="minecraft"] main:has(.search-field) [aria-live="polite"] {
+	min-width: 72px;
+	padding: 6px 8px;
+	border: 2px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-dark),
+		inset -2px -2px 0 var(--mc-light);
+	color: var(--mc-ink);
+	text-align: right;
+}
+
+html[data-style="minecraft"]
+	main
+	button:not(.nb-button):not(.nb-chip):not(.nb-panel):not(
+		.code-block__copy
+	):not([aria-label="Clear filter"]):not(:where([data-style]:not(:root) *)) {
+	padding: 6px 10px;
+	border: 2px solid var(--mc-deep);
+	background-color: transparent;
+	font-size: 12px;
+	font-weight: 700;
+	transition: none;
+}
+
+html[data-style="minecraft"]
+	main
+	label:has(input[type="color"]):not(:where([data-style]:not(:root) *)) {
+	padding: 6px 10px;
+	border: 2px solid var(--mc-deep);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark);
+	background-color: transparent;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+/* Prose keeps the scheme's ink and reads like an item description panel. */
+html[data-style="minecraft"] .prose-dbm {
+	max-width: 68ch;
+	font-size: 14px;
+	line-height: 1.7;
+}
+
+html[data-style="minecraft"] .prose-dbm h2 {
+	border-top: 3px solid var(--mc-deep);
+	font-size: 24px;
+	text-transform: uppercase;
+}
+
+html[data-style="minecraft"] .prose-dbm h2::before {
+	border: 3px solid var(--mc-deep);
+	background: var(--accent-surface);
+	box-shadow:
+		inset 2px 2px 0 color-mix(in srgb, var(--mc-light) 50%, transparent),
+		inset -2px -2px 0 color-mix(in srgb, var(--mc-dark) 60%, transparent);
+	font-family: var(--font-sans);
+	font-size: 12px;
+}
+
+html[data-style="minecraft"] .prose-dbm h3 {
+	font-size: 18px;
+	text-transform: uppercase;
+}
+
+html[data-style="minecraft"] .prose-dbm h4 {
+	font-size: 12px;
+}
+
+html[data-style="minecraft"] .prose-dbm a {
+	text-decoration-thickness: 2px;
+	transition: none;
+}
+
+html[data-style="minecraft"] .prose-dbm ul > li::before {
+	content: "";
+	top: 0.65em;
+	left: -1.2em;
+	width: 6px;
+	height: 6px;
+	line-height: 1;
+}
+
+html[data-style="minecraft"] .prose-dbm blockquote {
+	padding: 16px 18px;
+	border-left-width: 8px;
+	background-color: var(--mantle);
+}
+
+html[data-style="minecraft"] .prose-dbm code {
+	border: 2px solid var(--mc-deep);
+	background: var(--mantle);
+	box-shadow:
+		inset 1px 1px 0 var(--mc-dark),
+		inset -1px -1px 0 var(--mc-light);
+	color: var(--text);
+}
+
+/* The code block is already a framed well; only inline code gets this frame. */
+html[data-style="minecraft"] .prose-dbm pre code {
+	border: 0;
+	background: transparent;
+	box-shadow: none;
+	padding: 0;
+}
+
+html[data-style="minecraft"] .prose-dbm .code-block {
+	border: 3px solid var(--mc-deep);
+	background: var(--mantle);
+	box-shadow:
+		inset 3px 3px 0 var(--mc-dark),
+		inset -3px -3px 0 var(--mc-light),
+		5px 5px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
+}
+
+html[data-style="minecraft"] .prose-dbm .code-block__bar {
+	padding: 8px 10px;
+	border-bottom: 3px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	background-image: none;
+	color: var(--mc-ink);
+	font-size: 12px;
+}
+
+html[data-style="minecraft"] .prose-dbm .code-block__copy {
+	min-height: 28px;
+	padding: 4px 8px;
+	border: 2px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark);
+	color: var(--mc-ink);
+	transition: none;
+}
+
+html[data-style="minecraft"] .prose-dbm .code-block__copy:hover {
+	background-color: var(--mc-hover);
+	color: var(--mc-ink);
+}
+
+html[data-style="minecraft"] .prose-dbm .code-block__copy[data-copied] {
+	border-color: var(--green);
+	color: var(--mc-ink);
+}
+
+html[data-style="minecraft"] .prose-dbm .code-block__copy[data-copied]:hover {
+	color: var(--mc-ink);
+}
+
+html[data-style="minecraft"] .prose-dbm img {
+	border: 3px solid var(--mc-deep);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark),
+		5px 5px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
+}
+
+html[data-style="minecraft"] .prose-dbm figcaption {
+	padding: 6px 8px;
+	border: 2px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	color: var(--mc-ink);
+	font-size: 12px;
+}
+
+html[data-style="minecraft"] .prose-dbm .table-wrap {
+	border: 3px solid var(--mc-deep);
+	box-shadow: 5px 5px 0 color-mix(in srgb, var(--mc-ink) 45%, transparent);
+}
+
+html[data-style="minecraft"] .prose-dbm th,
+html[data-style="minecraft"] .prose-dbm td {
+	border: 1px solid var(--mc-deep);
+}
+
+html[data-style="minecraft"] .prose-dbm th {
+	background: var(--mc-gui);
+	color: var(--mc-ink);
+}
+
+html[data-style="minecraft"] .prose-dbm tbody tr:hover {
+	background: light-dark(
+		color-mix(in srgb, var(--mc-light) 25%, var(--base)),
+		color-mix(in srgb, var(--mc-ink) 22%, var(--base))
+	);
+}
+
+html[data-style="minecraft"] .prose-dbm hr {
+	border-top: 3px solid var(--mc-deep);
+}
+
+html[data-style="minecraft"] details.nb-panel > summary {
+	padding: 8px 10px;
+	border: 2px solid var(--mc-deep);
+	background-color: var(--mc-gui);
+	box-shadow:
+		inset 2px 2px 0 var(--mc-light),
+		inset -2px -2px 0 var(--mc-dark);
+	color: var(--mc-ink);
+	font-weight: 700;
+}
+
+html[data-style="minecraft"] nav[aria-label="On this page"] ul > li {
+	border-bottom: 2px solid var(--mc-deep);
+}
+
+html[data-style="minecraft"] :focus-visible {
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 3px;
+}
+
+html[data-style="minecraft"]
+	:is(
+		header.nb-chrome,
+		footer,
+		.nb-button,
+		.nb-chip,
+		.nb-input,
+		.search-field
+	):focus-visible {
+	outline-color: var(--mc-deep);
+}
+
+html[data-style="minecraft"] .search-field:has(input:focus-visible) {
+	outline: 3px solid var(--mc-deep);
+	outline-offset: 3px;
+}

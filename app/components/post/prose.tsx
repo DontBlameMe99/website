@@ -1,4 +1,3 @@
-import { Link } from "react-router";
 import { cn } from "~/lib/utils";
 
 /** The one wrapper every post body uses, so prose styles stay in one place. */
@@ -77,5 +76,3 @@ export function PostImage({
 		</figure>
 	);
 }
-
-export { Link };

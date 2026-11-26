@@ -13,3 +13,5 @@ export const postSlugs = [
 	"becoming_private_online",
 	"backups_you_only_want_them_once_you_need_them",
 ] as const;
+
+export type PostSlug = (typeof postSlugs)[number];

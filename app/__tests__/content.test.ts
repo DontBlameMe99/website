@@ -6,6 +6,7 @@ import { postEntries } from "../content/posts";
 import { postSlugs } from "../content/posts/slugs";
 import { slugify } from "../lib/slug";
 import { countBodyWords } from "../lib/word_count";
+import routes from "../routes";
 
 const dir = join(import.meta.dir, "../content/posts");
 const routeDir = join(import.meta.dir, "../routes/blog/posts");
@@ -65,6 +66,22 @@ describe("post registry", () => {
 
 	test("the pretender list and the registry agree", () => {
 		expect([...postSlugs].sort()).toEqual(Object.keys(postEntries).sort());
+	});
+
+	test("the route config registers every slug", () => {
+		const postRoutes = routes.filter(
+			(entry) =>
+				"path" in entry &&
+				typeof entry.path === "string" &&
+				entry.path.startsWith("blog/"),
+		);
+		expect(postRoutes.map((entry) => entry.path)).toEqual(
+			postSlugs.map((slug) => `blog/${slug}`),
+		);
+		expect(postRoutes.map((entry) => entry.file)).toEqual(
+			postSlugs.map((slug) => `routes/blog/posts/${slug}.tsx`),
+		);
+		expect(routes.at(-1)?.path).toBe("*");
 	});
 
 	test("every post has a body and its own route", () => {

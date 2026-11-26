@@ -1,6 +1,5 @@
-import { Rss } from "lucide-react";
 import { Link } from "react-router";
-import { socialIcon } from "~/components/shared/icons";
+import { SocialChip } from "~/components/shared/icons";
 import { SOCIALS } from "~/lib/site";
 
 export function SiteFooter() {
@@ -10,31 +9,23 @@ export function SiteFooter() {
 				<p className="text-label text-subtext0">Elsewhere</p>
 				<ul className="mt-4 flex flex-wrap gap-2">
 					<li>
-						<a
+						<SocialChip
+							icon="rss"
 							href="/rss.xml"
+							label="RSS"
 							className="nb-chip transition-colors hover:bg-accent hover:text-on-accent"
-						>
-							<Rss className="icon-tilt size-3.5 shrink-0" />
-							RSS
-						</a>
+						/>
 					</li>
-					{SOCIALS.map((social) => {
-						const Icon = socialIcon(social.icon);
-						const mail = social.href.startsWith("mailto:");
-						return (
-							<li key={social.label}>
-								<a
-									href={social.href}
-									target={mail ? undefined : "_blank"}
-									rel={mail ? undefined : "noopener noreferrer"}
-									className="nb-chip group transition-colors hover:bg-accent hover:text-on-accent"
-								>
-									<Icon className="icon-tilt size-3.5 shrink-0" />
-									{social.label}
-								</a>
-							</li>
-						);
-					})}
+					{SOCIALS.map((social) => (
+						<li key={social.label}>
+							<SocialChip
+								icon={social.icon}
+								href={social.href}
+								label={social.label}
+								className="nb-chip group transition-colors hover:bg-accent hover:text-on-accent"
+							/>
+						</li>
+					))}
 				</ul>
 
 				<div className="mt-10 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">

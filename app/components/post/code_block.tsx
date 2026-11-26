@@ -1,4 +1,4 @@
-import { CopyStateIcon, useCopy } from "~/components/ui/copy_state";
+import { CopyControl } from "~/components/ui/copy_state";
 
 type Kind = "plain" | "comment" | "string" | "keyword" | "number" | "command";
 
@@ -69,28 +69,18 @@ export function CodeBlock({ lang, code }: { lang: string; code: string }) {
 	const key = LANGUAGE_ALIASES[lang] ?? lang;
 	const spec = LANGUAGES[key];
 	const body = code.replace(/^\n/, "").replace(/\n\s*$/, "");
-	const { copied, failed, copy } = useCopy();
 
 	return (
 		<div className="code-block not-prose">
 			<div className="code-block__bar">
 				<span>{spec?.label ?? lang}</span>
-				<button
-					type="button"
+				<CopyControl
+					value={body}
 					className="code-block__copy inline-flex items-center gap-1"
-					data-copied={copied ? "" : undefined}
-					onClick={() => copy(body)}
-				>
-					<CopyStateIcon copied={copied} />
-					{copied ? "Copied" : failed ? "Copy failed" : "Copy"}
-				</button>
-				<span role="status" className="sr-only">
-					{copied
-						? "Code copied to the clipboard"
-						: failed
-							? "Could not copy. Select the code instead."
-							: ""}
-				</span>
+					copiedMessage="Code copied to the clipboard"
+					failedMessage="Could not copy. Select the code instead."
+					dataCopied
+				/>
 			</div>
 			{/* biome-ignore lint/a11y/noNoninteractiveTabindex: long lines scroll */}
 			<pre tabIndex={0}>

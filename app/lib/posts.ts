@@ -1,28 +1,30 @@
 import { postEntries } from "~/content/posts";
+import { type PostSlug, postSlugs } from "~/content/posts/slugs";
 import type { PostMeta } from "./post_types";
 
 export type Post = PostMeta & {
-	slug: string;
+	slug: PostSlug;
 	order: number;
 };
 
-export const posts: Post[] = Object.entries(postEntries)
-	.map(([slug, entry]) => ({
-		...entry.meta,
-		slug,
-		order: Date.parse(entry.meta.date) || 0,
-	}))
+export const posts: Post[] = postSlugs
+	.map((slug) => {
+		const { meta } = postEntries[slug];
+		return {
+			...meta,
+			slug,
+			order: Date.parse(meta.date) || 0,
+		};
+	})
 	.sort((a, b) => b.order - a.order);
-
-export const postSlugs = posts.map((post) => post.slug);
 
 const bySlug = new Map(posts.map((post) => [post.slug, post]));
 
-export function getPost(slug: string): Post | undefined {
+export function getPost(slug: PostSlug): Post | undefined {
 	return bySlug.get(slug);
 }
 
-export function neighbours(slug: string): { previous?: Post; next?: Post } {
+export function neighbours(slug: PostSlug): { previous?: Post; next?: Post } {
 	const index = posts.findIndex((post) => post.slug === slug);
 	return {
 		previous: index >= 0 ? posts[index + 1] : undefined,
@@ -47,9 +49,4 @@ export function formatDate(date: string): string {
 	});
 	dateFormats.set(date, formatted);
 	return formatted;
-}
-
-export function randomSlug(except?: string): string {
-	const pool = postSlugs.filter((slug) => slug !== except);
-	return pool[Math.floor(Math.random() * pool.length)] ?? postSlugs[0];
 }

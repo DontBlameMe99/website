@@ -1,0 +1,374 @@
+/* --- themes ---------------------------------------------------------------
+
+   Two independent axes ride on <html>:
+
+   data-scheme  the palette (Mocha, Latte, ...): the raw colors, shared by every
+                style. Scoped to the attribute, not to html, so the theme page
+                can preview a scheme inside any card.
+   data-style   everything else a UI style owns: border weight and style, edge
+                color, corner radius, lift, shadows, backdrop blur, the fill of
+                every surface, and the shape of the scrollbar. Also attribute
+                scoped, for the same reason.
+
+   Token blocks come from `app/lib/themes.ts` through `@plugin`. Each scheme
+   and style entry carries its own values, so adding a theme is one catalog
+   entry and Tailwind emits its attribute-scoped custom properties at build
+   time.
+
+   An element that scopes data-scheme must scope data-style too. A token like
+   --panel-surface is a resolved value once inherited, so without the style
+   attribute a preview would keep the page's fill under another palette.
+
+   A style that needs more than a token (a gradient, a glossy pseudo-element, a
+   title bar) still adds plain rules scoped to its attribute. Those rules stay
+   unlayered so they win over utility classes, which is why components must
+   never paint their own fill on an nb-* surface. */
+
+[data-style="futuristic"],
+[data-style="futuristic"]
+	:is(
+		body,
+		.nb-page,
+		.nb-panel,
+		.nb-well,
+		.nb-fill,
+		.nb-button,
+		.nb-chip,
+		.nb-input
+	) {
+	background-size:
+		100% 6px,
+		24px 24px;
+}
+
+[data-style="futuristic"].nb-panel,
+[data-style="futuristic"].nb-well,
+[data-style="futuristic"] .nb-panel,
+[data-style="futuristic"] .nb-well {
+	background-repeat: no-repeat, repeat;
+}
+
+[data-style="futuristic"] .nb-button {
+	background-size:
+		100% 3px,
+		12px 12px;
+	background-repeat: no-repeat, repeat;
+}
+
+/* The header is the instrument's top rail: dither, a calibrated edge, and a
+   row of major and minor ticks. */
+[data-style="futuristic"] header.nb-chrome {
+	background-color: var(--page-surface);
+	background-image: var(--fut-mesh);
+	background-size: 4px 4px;
+	box-shadow:
+		inset 0 -1px 0 var(--fut-frame),
+		inset 0 1px 0 var(--fut-line);
+}
+
+/* The mark keeps its original slot and gains a framed instrument socket. */
+[data-style="futuristic"] header.nb-chrome > div > a:first-child {
+	position: relative;
+}
+
+[data-style="futuristic"] header.nb-chrome > div > a:first-child::before {
+	content: "";
+	width: 1.5rem;
+	height: 1.5rem;
+	flex: none;
+	background-color: var(--accent-surface);
+	-webkit-mask: url("/images/logo-dither.svg") center / contain no-repeat;
+	mask: url("/images/logo-dither.svg") center / contain no-repeat;
+}
+
+[data-style="futuristic"] header.nb-chrome > div > a:first-child img {
+	display: none;
+}
+
+@media (min-width: 40rem) {
+	[data-style="futuristic"] header.nb-chrome > div > a:first-child::before {
+		width: 1.75rem;
+		height: 1.75rem;
+	}
+}
+
+[data-style="futuristic"] header.nb-chrome nav a {
+	font-family: var(--font-mono);
+	font-size: 0.6875rem;
+	letter-spacing: 0.14em;
+	padding: 0.35rem 0.5rem;
+	transition: background-color var(--motion-hover) ease;
+}
+
+[data-style="futuristic"] header.nb-chrome nav a[aria-current="page"] {
+	color: var(--text);
+	box-shadow: inset 0 -2px 0 var(--accent-surface);
+	text-decoration-color: var(--accent-surface);
+}
+
+[data-style="futuristic"] .nav-link::after {
+	background: var(--accent-surface);
+	height: 1px;
+	left: 0.5rem;
+	right: 0.5rem;
+	bottom: 0.3rem;
+}
+
+/* Reading progress is a segmented ruler with a bright leading mark. */
+[data-style="futuristic"] header.nb-chrome > .relative {
+	height: 4px;
+	background: var(--fut-ticks), var(--page-surface);
+}
+
+[data-style="futuristic"] header.nb-chrome > .relative .bg-accent {
+	/* The shared bar scales this element to reveal progress. A scaled background
+	   would stretch the tick pitch, so clip a full-width fixed pattern instead. */
+	transform: none !important;
+	clip-path: inset(0 calc((1 - var(--progress, 0)) * 100%) 0 0);
+	background-color: var(--accent-surface);
+	background-image: repeating-linear-gradient(
+		90deg,
+		transparent 0 4px,
+		color-mix(in srgb, var(--on-accent) 45%, var(--accent-surface)) 4px 5px,
+		transparent 5px 10px
+	);
+}
+
+/* The masthead is a framed readout with a calibrated rule under its index. */
+[data-style="futuristic"] .page-window {
+	position: relative;
+	isolation: isolate;
+	box-shadow:
+		inset 0 0 0 1px color-mix(in srgb, var(--accent-surface) 16%, transparent),
+		var(--shadow-hard);
+}
+
+[data-style="futuristic"] .page-window > div:first-child {
+	position: relative;
+	padding-bottom: 0.85rem;
+	border-bottom: var(--bw) solid var(--fut-line);
+}
+
+[data-style="futuristic"] .page-window > div:first-child::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -1px;
+	width: 5rem;
+	height: 1px;
+	background: var(--accent-surface);
+}
+
+[data-style="futuristic"]
+	:is(.text-label, .text-meta, .nb-chip, time, .prose-dbm figcaption) {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums lining-nums;
+}
+
+[data-style="futuristic"] :is(.text-label, .text-meta) {
+	letter-spacing: 0.16em;
+}
+
+[data-style="futuristic"]
+	:is(.text-display, .text-page-title, .prose-dbm :is(h2, h3)) {
+	font-family: var(--fut-display);
+	font-weight: 800;
+	letter-spacing: -0.045em;
+	line-height: 1.02;
+}
+
+[data-style="futuristic"] .text-display {
+	font-size: clamp(2rem, 8vw, 5.5rem);
+	text-transform: uppercase;
+	letter-spacing: -0.055em;
+}
+
+[data-style="futuristic"] .text-lead {
+	padding-left: 1rem;
+	border-left: var(--bw-heavy) solid var(--fut-frame);
+}
+
+[data-style="futuristic"] .text-label.nb-line-b {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+}
+
+[data-style="futuristic"] .text-label.nb-line-b::before {
+	content: "";
+	width: 6px;
+	height: 6px;
+	flex: none;
+	background: var(--accent-surface);
+	box-shadow: 0 0 0 1px var(--fut-frame);
+}
+
+/* Data cards are squared panels with corner brackets and one sweep on hover. */
+[data-style="futuristic"]
+:not(
+	[data-style="futuristic"] [data-style]:not([data-style="futuristic"]) *
+).nb-panel {
+	position: relative;
+	isolation: isolate;
+}
+
+[data-style="futuristic"]
+	:not(
+		[data-style="futuristic"] [data-style]:not([data-style="futuristic"]) *
+	).nb-panel.nb-lift:not(.nb-spot) {
+	overflow: hidden;
+}
+
+[data-style="futuristic"]
+	:not(
+		[data-style="futuristic"] [data-style]:not([data-style="futuristic"]) *
+	).nb-panel::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background:
+		linear-gradient(var(--fut-frame), var(--fut-frame)) left top / 12px 1px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) left top / 1px 12px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) right top / 12px 1px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) right top / 1px 12px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) left bottom / 12px 1px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) left bottom / 1px 12px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) right bottom / 12px 1px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) right bottom / 1px 12px
+		no-repeat;
+	opacity: 0.85;
+	pointer-events: none;
+}
+
+[data-style="futuristic"]
+	:not(
+		[data-style="futuristic"] [data-style]:not([data-style="futuristic"]) *
+	).nb-panel.nb-lift:not(.nb-spot)::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background: linear-gradient(
+		100deg,
+		transparent 38%,
+		var(--fut-scan) 50%,
+		transparent 62%
+	);
+	transform: translateX(-110%);
+	transition: transform 520ms ease-out;
+	pointer-events: none;
+}
+
+[data-style="futuristic"]
+	:not(
+		[data-style="futuristic"] [data-style]:not([data-style="futuristic"]) *
+	).nb-spot::after {
+	display: block;
+	z-index: -1;
+	--spot-color: color-mix(in srgb, var(--accent-surface) 6%, transparent);
+}
+
+/* The sweep is a transform transition, so it needs no keyframes. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+	[data-style="futuristic"]
+		:not(
+			[data-style="futuristic"] [data-style]:not([data-style="futuristic"]) *
+		).nb-panel.nb-lift:not(.nb-spot):is(:hover, :focus-visible)::after {
+		transform: translateX(110%);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-style="futuristic"]
+		:not(
+			[data-style="futuristic"] [data-style]:not([data-style="futuristic"]) *
+		).nb-panel.nb-lift::after {
+		display: none;
+	}
+}
+
+/* Reading rows behave like selected channels on a console. */
+[data-style="futuristic"] li.nb-line-b > a.group {
+	position: relative;
+	margin-inline: -0.5rem;
+	padding-inline: 0.5rem;
+	transition:
+		background-color var(--motion-quick) ease,
+		box-shadow var(--motion-quick) ease;
+}
+
+[data-style="futuristic"] li.nb-line-b > a.group:hover,
+[data-style="futuristic"] li.nb-line-b > a.group:focus-visible {
+	background: color-mix(in srgb, var(--accent-surface) 5%, transparent);
+	box-shadow: inset 2px 0 var(--accent-surface);
+}
+
+[data-style="futuristic"] .nb-chip:not(.nb-accent):hover {
+	border-color: var(--accent-surface);
+}
+
+/* Prose heads carry a framed index; figures and code blocks are data panels. */
+[data-style="futuristic"] .prose-dbm h2::before {
+	display: inline-flex;
+	margin: 0 0.75em 0 0;
+	vertical-align: middle;
+	border: var(--bw) solid var(--fut-frame);
+	background: transparent;
+	color: var(--accent-surface);
+	padding: 4px 0.45em;
+}
+
+[data-style="futuristic"] .prose-dbm figure {
+	position: relative;
+}
+
+[data-style="futuristic"] .prose-dbm figure::before {
+	content: "";
+	position: absolute;
+	inset: -6px;
+	background:
+		linear-gradient(var(--fut-frame), var(--fut-frame)) left top / 14px 1px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) left top / 1px 14px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) right bottom / 14px 1px
+		no-repeat,
+		linear-gradient(var(--fut-frame), var(--fut-frame)) right bottom / 1px 14px
+		no-repeat;
+	pointer-events: none;
+}
+
+[data-style="futuristic"] .prose-dbm figcaption {
+	font-family: var(--font-mono);
+	letter-spacing: 0.08em;
+}
+
+[data-style="futuristic"] .prose-dbm .code-block__bar {
+	border-bottom-color: var(--fut-frame);
+	background:
+		linear-gradient(var(--fut-line), var(--fut-line)) left top / 100% 1px
+		no-repeat;
+}
+
+[data-style="futuristic"] footer.nb-line-t {
+	position: relative;
+	border-top-color: var(--fut-frame);
+}
+
+[data-style="futuristic"] footer.nb-line-t::before {
+	content: "";
+	position: absolute;
+	top: -1px;
+	left: 0;
+	width: 6rem;
+	height: 1px;
+	background: var(--accent-surface);
+}

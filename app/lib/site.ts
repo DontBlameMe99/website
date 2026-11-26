@@ -93,18 +93,3 @@ export const NAV = [
 	{ label: "Contact", to: "/contact" },
 	{ label: "Theme", to: "/theme" },
 ] as const;
-
-export const TOPICS = [
-	"privacy",
-	"linux",
-	"nixos",
-	"typst",
-	"neovim",
-	"obsidian",
-	"keyboards",
-	"colemak",
-	"self-hosting",
-	"psychology",
-	"open source",
-	"backups",
-];

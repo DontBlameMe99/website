@@ -4,6 +4,7 @@ import {
 	CodeXml,
 	GitFork,
 	Mail,
+	Rss,
 	Smartphone,
 	SquareTerminal,
 } from "lucide-react";
@@ -57,10 +58,37 @@ const SOCIAL_ICONS: Record<string, Icon> = {
 	matrix: MatrixIcon,
 	twitch: TwitchIcon,
 	mail: Mail,
+	rss: Rss,
 };
 
 export function socialIcon(name: string): Icon {
 	return SOCIAL_ICONS[name] ?? CodeXml;
+}
+
+export function SocialChip({
+	icon,
+	href,
+	label,
+	className,
+}: {
+	icon: string;
+	href: string;
+	label: string;
+	className: string;
+}) {
+	const Icon = socialIcon(icon);
+	const external = href.startsWith("http");
+	return (
+		<a
+			href={href}
+			target={external ? "_blank" : undefined}
+			rel={external ? "noopener noreferrer" : undefined}
+			className={className}
+		>
+			<Icon className="icon-tilt size-3.5 shrink-0" />
+			{label}
+		</a>
+	);
 }
 
 const PROJECT_ICONS: Record<string, Icon> = {

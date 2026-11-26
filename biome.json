@@ -38,7 +38,7 @@
 			}
 		},
 		{
-			"includes": ["app/app.css"],
+			"includes": ["app/app.css", "app/styles/**/*.css"],
 			"linter": {
 				"rules": {
 					"complexity": {

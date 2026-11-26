@@ -234,6 +234,8 @@ export function Tabs({
 			<div
 				id={`${id}-panel`}
 				role="tabpanel"
+				// biome-ignore lint/a11y/noNoninteractiveTabindex: text-only panel needs a keyboard stop
+				tabIndex={0}
 				aria-labelledby={`${id}-${current?.id}`}
 				className="p-3 text-xs text-subtext0 sm:p-4"
 			>

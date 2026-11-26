@@ -3,19 +3,20 @@ import { MotionConfig, motion } from "motion/react";
 import { type ReactElement, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router";
 import { SectionLabel } from "~/components/layout/page_header";
+import type { PostSlug } from "~/content/posts/slugs";
 import { useActiveHeading } from "~/hooks/use_active_heading";
 import type { Section } from "~/lib/post_types";
 import { formatDate, getPost, neighbours } from "~/lib/posts";
-import { countBodyWords } from "~/lib/word_count";
 import { seo } from "~/lib/seo";
 import { cn } from "~/lib/utils";
+import { countBodyWords } from "~/lib/word_count";
 import { NotFound } from "~/routes/__404/not_found";
 
 /* One level of nesting, scaled so narrow screens keep room for the label. */
 const TOC_INDENT_STEP = "clamp(0.75rem, 2vw, 1.25rem)";
 
 /** Route meta for one post. Called by the post's own route module. */
-export function postMeta(slug: string) {
+export function postMeta(slug: PostSlug) {
 	const post = getPost(slug);
 	const tags = seo({
 		title: post?.title ?? "Not found",
@@ -76,7 +77,7 @@ function Toc({
 	className,
 	onNavigate,
 }: {
-	sections: { id: string; text: string; level: number }[];
+	sections: Section[];
 	active: string | null;
 	markerId: string;
 	className?: string;
@@ -151,7 +152,7 @@ export function PostPage({
 	sections,
 	Body,
 }: {
-	slug: string;
+	slug: PostSlug;
 	sections: Section[];
 	Body: () => ReactElement;
 }) {

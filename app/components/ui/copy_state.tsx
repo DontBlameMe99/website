@@ -7,11 +7,15 @@ type Status = "idle" | "copied" | "failed";
 export function useCopy(reset = 1500) {
 	const [status, setStatus] = useState<Status>("idle");
 	const timer = useRef<number | undefined>(undefined);
+	const attempt = useRef(0);
 
 	useEffect(() => () => window.clearTimeout(timer.current), []);
 
 	const copy = useCallback(
 		async (text: string) => {
+			const current = ++attempt.current;
+			window.clearTimeout(timer.current);
+			timer.current = undefined;
 			let next: Status;
 			try {
 				await navigator.clipboard.writeText(text);
@@ -19,8 +23,8 @@ export function useCopy(reset = 1500) {
 			} catch {
 				next = "failed";
 			}
+			if (current !== attempt.current) return;
 			setStatus(next);
-			window.clearTimeout(timer.current);
 			timer.current = window.setTimeout(() => setStatus("idle"), reset);
 		},
 		[reset],
@@ -48,5 +52,40 @@ export function CopyStateIcon({ copied }: { copied: boolean }) {
 				<Check className="size-full" />
 			</span>
 		</span>
+	);
+}
+
+export function CopyControl({
+	value,
+	className,
+	copiedMessage,
+	failedMessage,
+	reset = 1500,
+	dataCopied = false,
+}: {
+	value: string;
+	className: string;
+	copiedMessage: string;
+	failedMessage: string;
+	reset?: number;
+	dataCopied?: boolean;
+}) {
+	const { copied, failed, copy } = useCopy(reset);
+
+	return (
+		<>
+			<button
+				type="button"
+				className={className}
+				data-copied={dataCopied && copied ? "" : undefined}
+				onClick={() => copy(value)}
+			>
+				<CopyStateIcon copied={copied} />
+				{copied ? "Copied" : failed ? "Copy failed" : "Copy"}
+			</button>
+			<span role="status" className="sr-only">
+				{copied ? copiedMessage : failed ? failedMessage : ""}
+			</span>
+		</>
 	);
 }

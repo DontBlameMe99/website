@@ -18,21 +18,24 @@ import {
 
 import { cn } from "~/lib/utils";
 
-type Field = {
-	token: string;
+type Field<T extends string> = {
+	token: T;
 	label: string;
 	group: string;
 };
 
-const byGroup = (fields: readonly Field[]) => {
-	const groups: { name: string; fields: Field[] }[] = [];
+const groupFields = <T extends string>(fields: readonly Field<T>[]) => {
+	const groups = new Map<string, Field<T>[]>();
 	for (const field of fields) {
-		const group = groups.find((item) => item.name === field.group);
-		if (group) group.fields.push(field);
-		else groups.push({ name: field.group, fields: [field] });
+		const group = groups.get(field.group);
+		if (group) group.push(field);
+		else groups.set(field.group, [field]);
 	}
-	return groups;
+	return [...groups].map(([name, members]) => ({ name, fields: members }));
 };
+
+const PALETTE_FIELDS = groupFields(PALETTE_GROUPS);
+const STYLE_FIELDS = groupFields(STYLE_GROUPS);
 
 function GroupLabel({ children }: { children: React.ReactNode }) {
 	return (
@@ -242,7 +245,7 @@ export function CustomPaletteEditor({ mode }: { mode: Mode }) {
 				</div>
 			</div>
 
-			{byGroup(PALETTE_GROUPS).map((group) => (
+			{PALETTE_FIELDS.map((group) => (
 				<div key={group.name} className="mt-6">
 					<GroupLabel>{group.name}</GroupLabel>
 					<div className="mt-3 grid grid-cols-3 gap-x-3 gap-y-4 sm:grid-cols-6 lg:grid-cols-8">
@@ -305,7 +308,7 @@ export function CustomStyleEditor() {
 				</div>
 			</div>
 
-			{byGroup(STYLE_GROUPS).map((group) => (
+			{STYLE_FIELDS.map((group) => (
 				<div key={group.name} className="mt-6">
 					<GroupLabel>{group.name}</GroupLabel>
 					<div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -31,15 +31,6 @@ export const meta = () =>
 			"Pick the interface style, the colorscheme used in dark and light, and the accent color, or build your own palette and style.",
 	});
 
-const SWATCHES = [
-	"bg-crust",
-	"bg-base",
-	"bg-surface0",
-	"bg-surface1",
-	"bg-accent",
-	"bg-text",
-] as const;
-
 /** One second rule marks the chosen card in every group on this page. */
 const ACTIVE = "outline outline-2 outline-accent";
 
@@ -319,22 +310,34 @@ function StyleOption({ option }: { option: Style }) {
 				wipeFrom(event.currentTarget, () => setStyle(option.id));
 			}}
 			preview={
-				<span
-					{...accentScope(accent)}
-					data-style={option.id}
-					data-scheme={scheme}
-					aria-hidden="true"
-					className="nb-well flex h-28 flex-col justify-between gap-2 p-3"
-				>
-					<span className="nb-panel flex items-center justify-between gap-2 p-2">
-						<span className="text-[11px] font-bold text-text">Panel</span>
-						<span className="nb-chip nb-accent">Chip</span>
+				active ? (
+					<span
+						{...accentScope(accent)}
+						data-style={option.id}
+						data-scheme={scheme}
+						aria-hidden="true"
+						className="nb-well flex h-28 flex-col justify-between gap-2 p-3"
+					>
+						<span className="nb-panel flex items-center justify-between gap-2 p-2">
+							<span className="text-[11px] font-bold text-text">Panel</span>
+							<span className="nb-chip nb-accent">Chip</span>
+						</span>
+						<span className="flex items-center gap-2">
+							<span className="nb-button px-2 py-1 text-[11px]">Button</span>
+							<span className="text-[11px] text-subtext0">Body text</span>
+						</span>
 					</span>
-					<span className="flex items-center gap-2">
-						<span className="nb-button px-2 py-1 text-[11px]">Button</span>
-						<span className="text-[11px] text-subtext0">Body text</span>
+				) : (
+					<span
+						{...accentScope(accent)}
+						data-style={option.id}
+						data-scheme={scheme}
+						aria-hidden="true"
+						className="nb-well flex h-28 items-center p-3"
+					>
+						<span className="theme-swatches nb-line w-full" />
 					</span>
-				</span>
+				)
 			}
 			label={option.label}
 			blurb={option.blurb}
@@ -367,13 +370,7 @@ function PaletteOption({
 			}
 			dataScheme={option.id}
 			dataStyle={style}
-			preview={
-				<span aria-hidden="true" className="nb-line flex">
-					{SWATCHES.map((tone) => (
-						<span key={tone} className={cn("h-3 flex-1", tone)} />
-					))}
-				</span>
-			}
+			preview={<span aria-hidden="true" className="theme-swatches nb-line" />}
 			label={option.label}
 			blurb={option.blurb}
 		/>
@@ -433,16 +430,6 @@ function CustomPaletteCard({
 	const palette = custom[mode];
 
 	const accentFill = accent.kind === "hue" ? palette?.[accent.hue] : accent.hex;
-	const tones: { key: string; color: string | undefined }[] = palette
-		? [
-				{ key: "crust", color: palette.crust },
-				{ key: "base", color: palette.base },
-				{ key: "surface0", color: palette.surface0 },
-				{ key: "surface1", color: palette.surface1 },
-				{ key: "accent", color: accentFill },
-				{ key: "text", color: palette.text },
-			]
-		: [];
 
 	return (
 		<ChoiceCard
@@ -455,16 +442,19 @@ function CustomPaletteCard({
 			preview={
 				<span
 					aria-hidden="true"
-					className={cn("nb-line flex", !palette && "border-dashed")}
-				>
-					{tones.map((tone) => (
-						<span
-							key={tone.key}
-							className="h-3 flex-1"
-							style={{ backgroundColor: tone.color }}
-						/>
-					))}
-				</span>
+					className={cn(
+						"theme-swatches nb-line",
+						!palette && "is-empty border-dashed",
+					)}
+					style={
+						palette
+							? ({
+									...tokenStyle(palette),
+									"--swatch-accent": accentFill,
+								} as React.CSSProperties)
+							: undefined
+					}
+				/>
 			}
 			label="Custom"
 			blurb={
@@ -491,22 +481,34 @@ function CustomStyleCard({ selected }: { selected: boolean }) {
 				wipeFrom(event.currentTarget, () => setStyle("custom"));
 			}}
 			preview={
-				<span
-					{...scope}
-					data-style="custom"
-					style={{ ...customPreview(mode, custom, lives), ...scope.style }}
-					aria-hidden="true"
-					className="nb-well flex h-28 flex-col justify-between gap-2 p-3"
-				>
-					<span className="nb-panel flex items-center justify-between gap-2 p-2">
-						<span className="text-[11px] font-bold text-text">Panel</span>
-						<span className="nb-chip nb-accent">Chip</span>
+				selected ? (
+					<span
+						{...scope}
+						data-style="custom"
+						style={{ ...customPreview(mode, custom, lives), ...scope.style }}
+						aria-hidden="true"
+						className="nb-well flex h-28 flex-col justify-between gap-2 p-3"
+					>
+						<span className="nb-panel flex items-center justify-between gap-2 p-2">
+							<span className="text-[11px] font-bold text-text">Panel</span>
+							<span className="nb-chip nb-accent">Chip</span>
+						</span>
+						<span className="flex items-center gap-2">
+							<span className="nb-button px-2 py-1 text-[11px]">Button</span>
+							<span className="text-[11px] text-subtext0">Body text</span>
+						</span>
 					</span>
-					<span className="flex items-center gap-2">
-						<span className="nb-button px-2 py-1 text-[11px]">Button</span>
-						<span className="text-[11px] text-subtext0">Body text</span>
+				) : (
+					<span
+						{...scope}
+						data-style="custom"
+						style={{ ...customPreview(mode, custom, lives), ...scope.style }}
+						aria-hidden="true"
+						className="nb-well flex h-28 items-center p-3"
+					>
+						<span className="theme-swatches nb-line w-full" />
 					</span>
-				</span>
+				)
 			}
 			label="Custom"
 			blurb={

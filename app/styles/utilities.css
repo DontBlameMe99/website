@@ -221,3 +221,24 @@
 .search-field:has(input:focus-visible) input:focus-visible {
 	outline: none;
 }
+
+/* Six tones in one paint, so a row of previews does not need six nodes each. */
+@utility theme-swatches {
+	display: block;
+	width: 100%;
+	height: calc(0.75rem + 2 * var(--bw));
+	background-image: linear-gradient(
+		to right,
+		var(--crust) 0 16.6667%,
+		var(--base) 16.6667% 33.3333%,
+		var(--surface0) 33.3333% 50%,
+		var(--surface1) 50% 66.6667%,
+		var(--swatch-accent, var(--accent-surface)) 66.6667% 83.3333%,
+		var(--text) 83.3333% 100%
+	);
+}
+
+.theme-swatches.is-empty {
+	height: calc(2 * var(--bw));
+	background-image: none;
+}

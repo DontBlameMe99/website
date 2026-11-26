@@ -24,6 +24,8 @@ import {
 	setBuiltinStyle,
 	setMode,
 	setPaletteToken,
+	setSavedScheme,
+	setSavedStyle,
 	setStyleToken,
 } from "~/lib/theme_update_core";
 import {
@@ -353,22 +355,31 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 			scheme: schemeForMode(prefs.mode, prefs.darkScheme, prefs.lightScheme),
 			custom,
 			setMode: (mode) => commit((current) => setMode(current, mode)),
-			setStyle: (style) =>
+			setStyle: (style) => {
+				const needsSeeds = style === "custom" && !latest.current.custom.style;
 				commit(
 					(current, actions) =>
 						style === "custom"
-							? (actions as SeededThemeActions).setStyle(current)
+							? needsSeeds
+								? (actions as SeededThemeActions).setStyle(current)
+								: setSavedStyle(current)
 							: setBuiltinStyle(current, style),
-					style === "custom",
-				),
-			setScheme: (scheme, slot) =>
+					needsSeeds,
+				);
+			},
+			setScheme: (scheme, slot) => {
+				const mode = slot ?? latest.current.prefs.mode;
+				const needsSeeds = scheme === "custom" && !latest.current.custom[mode];
 				commit(
 					(current, actions) =>
 						scheme === "custom"
-							? (actions as SeededThemeActions).setScheme(current, slot)
+							? needsSeeds
+								? (actions as SeededThemeActions).setScheme(current, mode)
+								: setSavedScheme(current, mode)
 							: setBuiltinScheme(current, scheme, slot),
-					scheme === "custom",
-				),
+					needsSeeds,
+				);
+			},
 			setAccent: (accent) => commit((current) => setAccent(current, accent)),
 			copyPalette: (mode, from) =>
 				commit(

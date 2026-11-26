@@ -14,6 +14,7 @@ import {
 	setStyleToken,
 	styleSource,
 } from "../lib/theme_update";
+import { setSavedScheme, setSavedStyle } from "../lib/theme_update_core";
 import { DEFAULT_PREFS, PALETTE_TOKENS, type ThemePrefs } from "../lib/themes";
 
 const palette = (overrides: Record<string, string> = {}) => {
@@ -47,6 +48,22 @@ describe("seed sources", () => {
 });
 
 describe("preference changes", () => {
+	test("saved custom tokens can be selected without catalog seeds", () => {
+		const ownStyle = { bw: "3px" };
+		const ownPalette = palette({ base: "#abcdef" });
+		const base = state({
+			prefs: { ...DEFAULT_PREFS, style: "flat" },
+			custom: { ...EMPTY_CUSTOM, style: ownStyle, light: ownPalette },
+		});
+		const styled = setSavedStyle(base);
+		expect(styled.prefs.style).toBe("custom");
+		expect(styled.custom.style).toBe(ownStyle);
+		const shaded = setSavedScheme(styled, "light");
+		expect(shaded.prefs.lightScheme).toBe("custom");
+		expect(shaded.custom.light).toBe(ownPalette);
+		expect(setSavedStyle(state())).toEqual(state());
+		expect(setSavedScheme(state(), "dark")).toEqual(state());
+	});
 	test("mode and accent leave custom tokens alone", () => {
 		const base = state({
 			custom: { ...EMPTY_CUSTOM, style: { bw: "3px" } },

@@ -41,6 +41,9 @@ export const setBuiltinStyle = (
 	prefs: { ...state.prefs, style },
 });
 
+export const setSavedStyle = (state: ThemeState): ThemeState =>
+	state.custom.style ? setBuiltinStyle(state, "custom") : state;
+
 export const setBuiltinScheme = (
 	state: ThemeState,
 	scheme: SchemeChoice,
@@ -49,6 +52,9 @@ export const setBuiltinScheme = (
 	...state,
 	prefs: withScheme(state.prefs, scheme, slot),
 });
+
+export const setSavedScheme = (state: ThemeState, mode: Mode): ThemeState =>
+	state.custom[mode] ? setBuiltinScheme(state, "custom", mode) : state;
 
 export const setAccent = (state: ThemeState, accent: Accent): ThemeState => ({
 	...state,

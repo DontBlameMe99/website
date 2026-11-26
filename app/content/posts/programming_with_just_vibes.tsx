@@ -241,6 +241,7 @@ export default function Post() {
 			<p>This would look something like this:</p>
 			<PostImage
 				src="/posts/programming_with_just_vibes/vscode_agent_sidebar.png"
+				avifSrcSet="/posts/programming_with_just_vibes/vscode_agent_sidebar-640.avif 640w, /posts/programming_with_just_vibes/vscode_agent_sidebar-960.avif 960w, /posts/programming_with_just_vibes/vscode_agent_sidebar-1440.avif 1440w"
 				alt="Image of a VSCode agent sidebar"
 				width={1440}
 				height={900}
@@ -506,6 +507,7 @@ export default function Post() {
 			<p>That's right, you end up with something like this:</p>
 			<PostImage
 				src="/posts/programming_with_just_vibes/pi_open_multiple_times.webp"
+				avifSrcSet="/posts/programming_with_just_vibes/pi_open_multiple_times-640.avif 640w, /posts/programming_with_just_vibes/pi_open_multiple_times-960.avif 960w, /posts/programming_with_just_vibes/pi_open_multiple_times-1600.avif 1600w"
 				alt="PI coding agent being open multiple times at once"
 				width={1600}
 				height={1046}

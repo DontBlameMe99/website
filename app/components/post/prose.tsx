@@ -40,21 +40,35 @@ export function PostHeading({
 }
 
 /**
- * Post images are lazy, decodable, and can be opened on their own. The alt text
- * carries the meaning. The caption repeats it for sighted readers, so it is
- * hidden from screen readers to avoid announcing the same sentence twice.
+ * Post images are lazy, decodable, and can be opened on their own. AVIF sources
+ * use the original upload as a fallback, so the link always opens full size.
+ * The alt text carries the meaning. The caption repeats it for sighted readers,
+ * so it is hidden from screen readers to avoid announcing the same sentence twice.
  */
 export function PostImage({
 	src,
+	avifSrcSet,
 	alt,
 	width,
 	height,
 }: {
 	src: string;
+	avifSrcSet?: string;
 	alt: string;
 	width: number;
 	height: number;
 }) {
+	const image = (
+		<img
+			src={src}
+			alt={alt}
+			width={width}
+			height={height}
+			loading="lazy"
+			decoding="async"
+		/>
+	);
+
 	return (
 		<figure>
 			<a
@@ -63,14 +77,18 @@ export function PostImage({
 				rel="noreferrer"
 				aria-label={alt ? `Open full size: ${alt}` : "Open full size"}
 			>
-				<img
-					src={src}
-					alt={alt}
-					width={width}
-					height={height}
-					loading="lazy"
-					decoding="async"
-				/>
+				{avifSrcSet ? (
+					<picture>
+						<source
+							srcSet={avifSrcSet}
+							sizes="(max-width: 768px) calc(100vw - 64px), 700px"
+							type="image/avif"
+						/>
+						{image}
+					</picture>
+				) : (
+					image
+				)}
 			</a>
 			{alt ? <figcaption aria-hidden="true">{alt}</figcaption> : null}
 		</figure>

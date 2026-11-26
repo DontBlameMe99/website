@@ -355,6 +355,7 @@ export default function Post() {
 			</p>
 			<PostImage
 				src="/posts/i_found_a_better_alternative_to_logseq/Pasted%20image%2020251017031703.webp"
+				avifSrcSet="/posts/i_found_a_better_alternative_to_logseq/Pasted%20image%2020251017031703-500.avif 500w"
 				width={500}
 				height={291}
 				alt={
@@ -364,6 +365,7 @@ export default function Post() {
 			<p>And here is my new Obsidian graph:</p>
 			<PostImage
 				src="/posts/i_found_a_better_alternative_to_logseq/Pasted%20image%2020251017031716.webp"
+				avifSrcSet="/posts/i_found_a_better_alternative_to_logseq/Pasted%20image%2020251017031716-500.avif 500w"
 				width={500}
 				height={368}
 				alt={"The same notes in Obsidian: fewer links, three loose clusters"}

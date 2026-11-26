@@ -125,4 +125,26 @@ describe("post sources", () => {
 			expect(file.size).toBeGreaterThan(0);
 		}
 	});
+
+	test("responsive AVIF candidates point at files that exist", () => {
+		const candidates = bodyFiles
+			.map((file) => readFileSync(join(dir, file), "utf8"))
+			.flatMap((source) =>
+				[...source.matchAll(/avifSrcSet="([^"]+)"/g)].flatMap((match) =>
+					match[1].split(",").map((entry) => {
+						const [url, descriptor] = entry.trim().split(/\s+/);
+						return { url, descriptor };
+					}),
+				),
+			);
+		expect(candidates.length).toBeGreaterThan(0);
+		for (const { url, descriptor } of candidates) {
+			expect(descriptor).toMatch(/^\d+w$/);
+			expect(url).toMatch(/\.avif$/);
+			const file = Bun.file(
+				join(import.meta.dir, "../..", "public", decodeURIComponent(url)),
+			);
+			expect(file.size).toBeGreaterThan(0);
+		}
+	});
 });

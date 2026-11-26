@@ -83,6 +83,11 @@ type ThemeUpdate = (
 	actions: SeededThemeActions | null,
 ) => ThemeState;
 
+type PendingThemeUpdate = {
+	run: (actions: SeededThemeActions | null) => void;
+	needsSeeds: boolean;
+};
+
 let seededActions: SeededThemeActions | null = null;
 let seedPromise: Promise<SeededThemeActions> | null = null;
 
@@ -258,7 +263,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	});
 	const latest = useRef(state);
 	const active = useRef(true);
-	const pending = useRef<Array<(actions: SeededThemeActions) => void>>([]);
+	const pending = useRef<PendingThemeUpdate[]>([]);
 
 	useEffect(() => {
 		// The boot script has already painted the saved theme, so adopting it here
@@ -301,8 +306,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	 */
 	const commit = useCallback((update: ThemeUpdate, needsSeeds = false) => {
 		if (seededActions && pending.current.length) {
-			for (const applyUpdate of pending.current.splice(0))
-				applyUpdate(seededActions);
+			for (const entry of pending.current.splice(0)) entry.run(seededActions);
 		}
 
 		const run = (actions: SeededThemeActions | null) => {
@@ -319,21 +323,24 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 			!seededActions &&
 			(needsSeeds || (pending.current.length && seedPromise))
 		) {
-			pending.current.push(run);
+			pending.current.push({ run, needsSeeds });
 			void loadSeededActions()
 				.then((actions) => {
 					if (!active.current) return;
-					for (const applyUpdate of pending.current.splice(0))
-						applyUpdate(actions);
+					for (const entry of pending.current.splice(0)) entry.run(actions);
 				})
 				.catch(() => {
-					// A catalog-independent action can recover on the next commit.
+					if (!active.current) return;
+					for (const entry of pending.current.splice(0)) {
+						if (!entry.needsSeeds) entry.run(null);
+					}
 				});
 			return;
 		}
 		if (!seededActions && pending.current.length) {
-			// The seed load failed. A later built-in action supersedes stale edits.
-			pending.current.length = 0;
+			for (const entry of pending.current.splice(0)) {
+				if (!entry.needsSeeds) entry.run(null);
+			}
 		}
 		run(seededActions);
 	}, []);

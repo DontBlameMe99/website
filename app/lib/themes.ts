@@ -230,12 +230,34 @@ export function resolvePrefs(
 }
 
 /**
+ * Montserrat is the default sans. XP, MS-DOS, and Minecraft start on another
+ * face, so their first visit can skip this transfer. Custom styles keep it:
+ * they may override --font-sans back to Montserrat.
+ */
+export const fontPreloadScript = `
+	(function () {
+		var style;
+		try { style = localStorage.getItem(${JSON.stringify(STORAGE_KEYS.style)}); } catch (e) {}
+		if (${JSON.stringify(["xp", "msdos", "minecraft"])}.indexOf(style) !== -1) return;
+		var link = document.createElement('link');
+		link.rel = 'preload';
+		link.as = 'font';
+		link.type = 'font/woff2';
+		link.href = ${JSON.stringify("/fonts/montserrat/Montserrat-Variable.woff2")};
+		link.crossOrigin = 'anonymous';
+		document.head.appendChild(link);
+	})();
+`;
+
+/**
  * Runs before hydration so the first paint already has the right shape,
  * palette, and accent. Duplicates resolvePrefs and the custom-token validation
  * in plain JS on purpose: it may not import a module, and a flash of the wrong
  * theme is worse than one short copy.
  */
-export const themeBootScript = `
+export const themeBootScript =
+	fontPreloadScript +
+	`
 	(function () {
 		var ids = {
 			style: ${JSON.stringify(STYLES.map((style) => style.id))},

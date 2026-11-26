@@ -42,13 +42,6 @@ export const links = () => [
 		title: `${SITE.name} posts`,
 		href: "/atom.xml",
 	},
-	{
-		rel: "preload",
-		href: "/fonts/montserrat/Montserrat-Variable.woff2",
-		as: "font",
-		type: "font/woff2",
-		crossOrigin: "anonymous",
-	},
 ];
 
 const Analytics = lazy(() =>

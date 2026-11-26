@@ -53,15 +53,6 @@
 	font-display: swap;
 }
 
-/* The futuristic style uses this coarse pixel face for display type only. */
-@font-face {
-	font-family: "Pixelify Sans";
-	src: url("/fonts/pixelify-sans/PixelifySans-Variable.woff2") format("woff2");
-	font-weight: 400 700;
-	font-style: normal;
-	font-display: swap;
-}
-
 @theme inline {
 	--font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 	--font-mono: "JetBrains Mono NF", ui-monospace, monospace;

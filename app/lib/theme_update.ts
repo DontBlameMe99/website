@@ -4,7 +4,6 @@
  * registers the seeded transitions so its public actions stay synchronous.
  */
 import type { ThemeState } from "~/lib/custom_theme";
-import { registerSeededThemeActions } from "~/lib/theme_provider";
 import { seedPalette, seedStyle } from "~/lib/theme_seeds";
 import {
 	seedSource,
@@ -75,9 +74,10 @@ export const copyStyle = (state: ThemeState, from: StyleId): ThemeState => ({
 	custom: { ...state.custom, style: seedStyle(from) },
 });
 
-registerSeededThemeActions({
-	setStyle: (state) => setStyle(state, "custom"),
-	setScheme: (state, slot) => setScheme(state, "custom", slot),
+export const seededActions = {
+	setStyle: (state: ThemeState) => setStyle(state, "custom"),
+	setScheme: (state: ThemeState, slot?: Mode) =>
+		setScheme(state, "custom", slot),
 	copyPalette,
 	copyStyle,
-});
+};

@@ -78,21 +78,30 @@ type SeededThemeActions = {
 	copyStyle: (state: ThemeState, from: StyleId) => ThemeState;
 };
 
+type ThemeUpdate = (
+	current: ThemeState,
+	actions: SeededThemeActions | null,
+) => ThemeState;
+
 let seededActions: SeededThemeActions | null = null;
-let loadingSeeds = false;
-const waitingForSeeds: Array<(actions: SeededThemeActions) => void> = [];
+let seedPromise: Promise<SeededThemeActions> | null = null;
 
-export function registerSeededThemeActions(actions: SeededThemeActions) {
-	seededActions = actions;
-	for (const run of waitingForSeeds.splice(0)) run(actions);
-}
-
-const loadSeededActions = () => {
-	if (seededActions || loadingSeeds) return;
-	loadingSeeds = true;
-	void import("~/lib/theme_update");
+const loadSeededActions = (): Promise<SeededThemeActions> => {
+	if (seededActions) return Promise.resolve(seededActions);
+	if (!seedPromise) {
+		seedPromise = import("~/lib/theme_update")
+			.then((module) => {
+				seededActions = module.seededActions;
+				seedPromise = null;
+				return seededActions;
+			})
+			.catch((error: unknown) => {
+				seedPromise = null;
+				throw error;
+			});
+	}
+	return seedPromise;
 };
-
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 const systemMode = (): Mode =>
@@ -249,6 +258,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	});
 	const latest = useRef(state);
 	const active = useRef(true);
+	const pending = useRef<Array<(actions: SeededThemeActions) => void>>([]);
 
 	useEffect(() => {
 		// The boot script has already painted the saved theme, so adopting it here
@@ -278,8 +288,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	}, []);
 
 	useEffect(() => {
+		active.current = true;
 		return () => {
 			active.current = false;
+			pending.current.length = 0;
 		};
 	}, []);
 
@@ -288,29 +300,32 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	 * The update reads the newest state, not this render's: the header calls it
 	 * from the view transition's async callback.
 	 */
-	const commit = useCallback((update: (current: ThemeState) => ThemeState) => {
-		const next = update(latest.current);
-		// A rejected or unchanged update must not repaint or write storage.
-		if (next === latest.current) return;
-		latest.current = next;
-		apply(next);
-		writeState(next);
-		setState(next);
-	}, []);
+	const commit = useCallback((update: ThemeUpdate, needsSeeds = false) => {
+		const run = (actions: SeededThemeActions | null) => {
+			const next = update(latest.current, actions);
+			// A rejected or unchanged update must not repaint or write storage.
+			if (next === latest.current) return;
+			latest.current = next;
+			apply(next);
+			writeState(next);
+			setState(next);
+		};
 
-	const runSeeded = useCallback(
-		(run: (actions: SeededThemeActions) => void) => {
-			if (seededActions) {
-				run(seededActions);
-				return;
-			}
-			loadSeededActions();
-			waitingForSeeds.push((actions) => {
-				if (active.current) run(actions);
-			});
-		},
-		[],
-	);
+		if (!seededActions && (needsSeeds || pending.current.length)) {
+			pending.current.push(run);
+			void loadSeededActions()
+				.then((actions) => {
+					if (!active.current) return;
+					for (const applyUpdate of pending.current.splice(0))
+						applyUpdate(actions);
+				})
+				.catch(() => {
+					// The next theme action retries and replays this FIFO in order.
+				});
+			return;
+		}
+		run(seededActions);
+	}, []);
 
 	const value = useMemo<ThemeContextValue>(() => {
 		const { prefs, custom } = state;
@@ -321,23 +336,33 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 			custom,
 			setMode: (mode) => commit((current) => setMode(current, mode)),
 			setStyle: (style) =>
-				style === "custom"
-					? runSeeded((actions) => commit(actions.setStyle))
-					: commit((current) => setBuiltinStyle(current, style)),
+				commit(
+					(current, actions) =>
+						style === "custom"
+							? (actions as SeededThemeActions).setStyle(current)
+							: setBuiltinStyle(current, style),
+					style === "custom",
+				),
 			setScheme: (scheme, slot) =>
-				scheme === "custom"
-					? runSeeded((actions) =>
-							commit((current) => actions.setScheme(current, slot)),
-						)
-					: commit((current) => setBuiltinScheme(current, scheme, slot)),
+				commit(
+					(current, actions) =>
+						scheme === "custom"
+							? (actions as SeededThemeActions).setScheme(current, slot)
+							: setBuiltinScheme(current, scheme, slot),
+					scheme === "custom",
+				),
 			setAccent: (accent) => commit((current) => setAccent(current, accent)),
 			copyPalette: (mode, from) =>
-				runSeeded((actions) =>
-					commit((current) => actions.copyPalette(current, mode, from)),
+				commit(
+					(current, actions) =>
+						(actions as SeededThemeActions).copyPalette(current, mode, from),
+					true,
 				),
 			copyStyle: (from) =>
-				runSeeded((actions) =>
-					commit((current) => actions.copyStyle(current, from)),
+				commit(
+					(current, actions) =>
+						(actions as SeededThemeActions).copyStyle(current, from),
+					true,
 				),
 			setPaletteToken: (mode, token, hex) =>
 				commit((current) => setPaletteToken(current, mode, token, hex)),
@@ -352,7 +377,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 				return null;
 			},
 		};
-	}, [state, commit, runSeeded]);
+	}, [state, commit]);
 
 	return (
 		<ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

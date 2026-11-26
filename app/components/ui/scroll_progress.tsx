@@ -1,16 +1,25 @@
 import { useEffect, useRef } from "react";
+import { cn } from "~/lib/utils";
+
+function supportsScrollTimeline() {
+	return (
+		typeof CSS !== "undefined" &&
+		CSS.supports("animation-timeline: scroll()") &&
+		CSS.supports("animation-range: 0 100%")
+	);
+}
 
 /**
- * Reading progress: a single hairline. It is written straight to the DOM so it
- * cannot lag behind a route change the way a spring can, and a page that fits
- * the viewport reports zero instead of the empty-range 100%.
+ * Reading progress: a single hairline. CSS drives it from the root scroll
+ * timeline when the browser supports scroll-driven animations. Older browsers
+ * get the same values through a rAF-throttled listener.
  */
 export function ScrollProgress({ className }: { className?: string }) {
 	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const element = ref.current;
-		if (!element) return;
+		if (!element || supportsScrollTimeline()) return;
 
 		let frame = 0;
 		const update = () => {
@@ -44,8 +53,7 @@ export function ScrollProgress({ className }: { className?: string }) {
 		<div
 			ref={ref}
 			aria-hidden="true"
-			className={className}
-			style={{ transform: "scaleX(0)", transformOrigin: "0% 50%" }}
+			className={cn("scroll-progress", className)}
 		/>
 	);
 }

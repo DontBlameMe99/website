@@ -379,6 +379,10 @@
 	color: #000;
 }
 
+[data-style="xp"] nav[aria-label="On this page"] .toc-marker {
+	display: none;
+}
+
 [data-style="xp"] [aria-label="On this page"] a[aria-current="true"] {
 	background-color: color-mix(
 		in srgb,
@@ -387,6 +391,7 @@
 	);
 	background-image: var(--xp-selected);
 	box-shadow: var(--xp-raised);
+	padding-left: 0.5rem;
 	color: var(--xp-title-ink);
 	text-decoration: none;
 }

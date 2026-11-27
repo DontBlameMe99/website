@@ -17,7 +17,7 @@
     },
     {
       "name": "Cleanup",
-      "command": "rm -rf .tmp node_modules build .react-router",
+      "command": "command rm -rf .tmp node_modules build .react-router",
       "icon": "play",
       "runOnWorktreeCreate": false,
       "runOnSettle": true
